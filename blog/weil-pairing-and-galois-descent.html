@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weil pairing and Galois descent - Asvin G</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+    <header>
+        <img src="../images/banner.jpg" alt="Grothendieck-Riemann-Roch" class="banner">
+        <div class="container">
+            <div class="site-title">
+                <h1><a href="../index.html">Asvin G</a></h1>
+                <p class="tagline">Wir müssen wissen, wir werden wissen</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">About</a></li>
+                    <li><a href="../blog.html">Blog</a></li>
+                    <li><a href="../book-reviews.html">Book Reviews</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container-narrow">
+        <article class="blog-post">
+            <h1>Weil pairing and Galois descent</h1>
+            <p class="post-date">November 16, 2017</p>
+
+            <p>There is an interesting way in which Weil pairing on Abelian Varieties is nothing more than Galois descent for a particular Galois extension. I have not seen this connection used before in the literature but I have also not seen a lot of literature...</p>
+
+            <p>Let $A/k$ be an abelian variety over a field $k$ of characteristic $p$. Suppose $m$ is an integer coprime to $p$ and let $[m]: A \to A$ denote the multiplication by $m$ map with kernel $A[m]$.</p>
+
+            <p>Recall that there is a dual abelian variety $A^\vee$ representing the Picard functor for $A$. In particular, $A^\vee[m]$ is the group of line bundles $\mathcal L$ on $A$ such that $[m]^*\mathcal L$ is trivial. $A$ and $A^\vee$ are finite abelian groups and the Weil pairing is a perfect pairing of the form:</p>
+
+            <p style="text-align:center;">$\langle-,-\rangle: A[m] \times A^\vee[m] \to \mu_m.$</p>
+
+            <p>It's definition goes as follows: Let $D$ be a divisor corresponding to $\mathcal L$ and let $g(x)$ be a rational function on $A$ such that $\mathrm{div}\ g(x) = [m]^*D$. Then, for $a \in A[m]$, we define $\langle a,\mathcal L\rangle = g(x+a)/g(x)$.</p>
+
+            <p>If $t_a$ denotes translation by $a$, then $g(x+a)$ is the pull back of $g(x)$ along $t_a$. Since $[m]\circ t_a = [m]$, $g(x+a)$ and $g(x)$ have the same divisor and so $g(x+a)/g(x)$ is regular everywhere on $A$ and hence constant by properness of $A$. A little more work shows that this rational functions is in $\mu_m$. We will see below that this is an immediate conclusion of our alternate viewpoint.</p>
+
+            <p>This is the standard picture. However, there is also this alternate way of looking at things:</p>
+
+            <p>Consider the etale Galois extension $[m]: A \to A$. It's galois group is canonically identified with $A[m]$. Moreover, $A^\vee[m]$ is precisely the set of line bundles on $A$ trivialized by this etale cover. In other words, it is the set of Galois twists of $\mathcal O_A$ (or even for any line bundle). Since descent is effective for this extension, this will immediately imply that:</p>
+
+            <p style="text-align:center;">$A^\vee[m] \cong H^1(\mathrm{Gal}([m]), \mathcal O_A^\times) = H^1(A([m]), k^\times) = \mathrm{Hom}\ (A[m],k^\times).$</p>
+
+            <p>The final equality is because $A[m]$ acts trivially on $\mathcal O_A^\times = k^\times$. We also see immediately that $\mathrm{Hom}\ (A[m],k^\times) = \mathrm{Hom}\ (A[m],\mu_m)$ since $A[m]$ is m-torison as an Abelian group. Therefore, this gives us a pairing:</p>
+
+            <p style="text-align:center;">$A[m]\times A^\vee[m] \to \mu_m.$</p>
+
+            <p>Explicitly, the map goes as follows: Given a line bundle $\mathcal L$, we pick an isomorphism $g: O_A \to [m]^*\mathcal L$. Then, the corresponding 1-cocycle for $a \in A[m]$ is defined by $a \to (t_a^*g)^{-1}g \in \mathrm{Aut}(\mathcal O_A)$. It is easily seen that this is the same explicit construction as in the standard viewpoint.</p>
+
+            <h4><strong>Conclusion:</strong></h4>
+
+            <p>I find the Galois descent viewpoint conceptually satisfying. The standard treatments of the Weil pairing can seem arbitrary and it not clear why such a pairing should exist or be useful. On the other hand, $[m]:A \to A$ is a perfectly natural Galois extension connected to $A$ and $\mathcal O_A$ torsors are clearly an interesting thing to consider.</p>
+
+        </article>
+
+        <p style="margin-top: 2rem;"><a href="../blog.html">&larr; Back to all posts</a></p>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Asvin G</p>
+        </div>
+    </footer>
+</body>
+</html>

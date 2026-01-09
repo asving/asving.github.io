@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weak Mordell-Weil and various approaches to it - Asvin G</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+    <header>
+        <img src="../images/banner.jpg" alt="Grothendieck-Riemann-Roch" class="banner">
+        <div class="container">
+            <div class="site-title">
+                <h1><a href="../index.html">Asvin G</a></h1>
+                <p class="tagline">Wir müssen wissen, wir werden wissen</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">About</a></li>
+                    <li><a href="../blog.html">Blog</a></li>
+                    <li><a href="../book-reviews.html">Book Reviews</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container-narrow">
+        <article class="blog-post">
+            <h1>Weak Mordell-Weil and various approaches to it</h1>
+            <p class="post-date">November 19, 2017</p>
+
+            <p><b>I will show a few different approaches to the Weak Mordell-Weil theorem and how they are all really the same proof. The various proofs use the Hermite-Minkowski theorem, Class Field Theory and the Dirichlet's Unit theorem/finiteness of Class group.</b></p>
+
+            <p>Let $E/K$ be an elliptic curve over a number field. The Mordell-Weil theorem says that the group of rational points $E(K)$ is finitely generated. This is usually proven in two steps:</p>
+
+            <ol>
+                <li><strong>Weak Mordell-Weil Theorem: </strong>We prove for some $n$ that $E(K)/nE(K)$ is finite.</li>
+                <li><strong>Theory of heights: </strong>We define the notion of a height of a point on $E$ (roughly, how many bits of information one would need to store the point). Using this and (1), the completion of the proof is quite formal.</li>
+            </ol>
+
+            <p>I will focus here on the weak Mordell-Weil theorem and in particular, an approach to it using the Hermite-Minkowski theorem. This approach will apply without very little change to the case of Abelian varieties and the general technique seems to be applicable in great generality.</p>
+
+            <p>The idea of the proof is as follows:</p>
+
+            <ol>
+                <li>Reduce the case of general $K$ to supposing that $K$ contains the n-torsion using the Kummer sequence.</li>
+                <li>Use the Kummer Pairing to reduce to showing that the inverse image of $E(K)$ under the multiplication by $n$ $[n]$ map generates a finite extension of $K$.</li>
+                <li>Show that there is a smooth, proper model of $E/K$ over an open subset of $\mathcal O_K$ and hence the inverse image of $[n]$ generates an extension etale over $R$, not just $K$.</li>
+                <li>Apply Hermite-Minkowski.</li>
+            </ol>
+
+            <h3 style="text-align:center;">The Hermite-Minkowski Theorem</h3>
+
+            <p>The Hermite-Minkowski theorem says that extensions of a number ring of bounded degree and etale over an open set are finite. More precisely:</p>
+
+            <p style="padding-left:30px;"><strong>Theorem 1 [Hermite-Minkowski]: </strong>Let $S$ be a finite set of primes of $\mathcal O_K$. Then, the extensions $L/K$ unramified away from $S$ and of fixed degree $n$ are finite.</p>
+
+            <p style="padding-left:30px;"><em>Proof: </em>I will briefly sketch the proof. For details, see for example the very final theorem in these <a title="Great notes on basic algebraic number theory - Yichao Tian" href="../uploads/2017/12/great-proofs-on-basic-algebraic-number-theory-yichao-tian.pdf">here.</a></p>
+
+            <p style="padding-left:30px;">The idea of the proof is to combine the Minkowski bound on the discriminant and the local nature of the discriminant. Recall that the Minkowski bound allows us to conclude that there are only finitely many extensions of $K$ with a a given discriminant. Therefore, we only need to show that the discriminant of an extension unramified away from $S$ of degree $n$ is bounded.</p>
+
+            <p style="padding-left:30px;">To do this, we work locally first. For a <em>local field,</em> there are only finitely many extensions of degree $n$. This is not so hard to do by studying the ramification. This will trivially imply that the local discriminant over any prime is bounded.</p>
+
+            <p style="padding-left:30px;">Finally, we use that the discriminant of $L$ depends only on the discriminant of $K$ and the local discriminants over $S$. The first is constant (since $K$ is fixed) and we have successfully bounded the rest.</p>
+
+            <p style="text-align:right;">$\Box$</p>
+
+            <h3 style="text-align:center;">A standard reduction</h3>
+
+            <p>Before connecting this to the Mordell-Weil theorem, we need to make one standard reductions. Let $L$ now define the compositum of the fields of definition of all points $P \in E(\overline K)$ such that $nP \in E(K)$. In other words, $L = K([n]^{-1}E(K))$.</p>
+
+            <p style="padding-left:30px;"><strong>Lemma 2: </strong>The finiteness of $E(K)/nE(K)$ is equivalent to $L$ being a finite extension of $K$.</p>
+
+            <p style="padding-left:30px;"><em>Proof: </em>For any extension $K'/K$, one can show that the kernel of the map $E(K)/nE(K) \to E(K')/nE(K')$ injects into $H^1(\mathrm{Gal}(K'/K), E[n])$ from the standard Kummer sequence. This cohomology group is finite and therefore, we can always replace $K$ by a finite extension. Let us enlarge $K$ so that it contains all the $n-$ torsion points.</p>
+
+            <p style="padding-left:30px;">What we want now follows follows from the existence of a perfect pairing in this case:</p>
+
+            <p style="text-align:center;padding-left:30px;">$\langle - , - \rangle:\ E(K)/nE(K) \times \mathrm{Gal}(L/K) \to E[n]$</p>
+
+            <p style="padding-left:30px;">where $E[n]$ is the $n-$ torsion. The pairing is the analogue of the Kummer pairing for roots of unity. Explicitly, $\langle P, \sigma \rangle = Q^\sigma - Q$ where $Q$ is any point such that $nQ = P$ and one can prove that this is perfect directly too.</p>
+
+            <p style="padding-left:30px;">Since $E[n]$ is finite, the finiteness of $E(K)$ is equivalent to the finiteness of $\mathrm{Gal}(L/K)$ or equivalently, to the finiteness of $L/K$ as claimed.</p>
+
+            <p style="text-align:right;">$\Box$</p>
+
+            <h3 style="text-align:center;">Proving the weak Mordell-Weil theorem</h3>
+
+            <p>We will use the fact that $[n]: E \to E$ is etale. Let $R$ be a small open set (as an affine scheme) of $\mathcal O_K$ so that $n$ are invertible on it and it has trivial class group.</p>
+
+            <p>Suppose also that there is a relative Elliptic curve $\mathscr E/R$ such that it's generic point is isomorphic to the given curve $E/K$. Under the above assumptions, we can prove the weak Mordell-Weil theorem:</p>
+
+            <p style="padding-left:30px;"><em>Proof: </em> Since $R$ has no non trivial line bundles, $\mathscr E/R$ is necessarily projective. Also, by clearing denominators and using that $R$ has trivial class group, we see that</p>
+
+            <p style="text-align:center;padding-left:30px;">$\mathscr E(R) = \mathscr E(K) = E(K)$</p>
+
+            <p style="padding-left:30px;">This equality is functorial with respect to multiplication by $n$ and extensions of base field.</p>
+
+            <p style="padding-left:30px;">Since $n$ is invertible on $R$, the multiplication by $n$ map on $\mathscr E$ is an etale, finite map of degree $n^2$. Therefore, pulling back any point $P \in \mathscr E(R)$ gives us an etale algebra over $R$ of degree $n^2$.</p>
+
+            <p style="padding-left:30px;">Thus, any point $P \in [n]^{-1}E(K)$ is defined over an extension $K'/K$ that is unramified over the open subset $R$. By Hermite-Minkowski, this shows that there are only finitely many possibilities for $K'$ and hence, $L$ is necessarily a finite extension of $K$.</p>
+
+            <p style="text-align:right;">$\Box$</p>
+
+            <p>The only thing left is to show that such a $R, \mathscr E$ exists. The idea is to more or less use the explicit equations to define it over any field and show that the model defines a "good elliptic curve" over an open subset on the base.</p>
+
+            <p style="padding-left:30px;">Pick a projective model for $E/K$. The equations defining it will naturally extend to a model $\mathscr E/R$ over an open subset $R$ of $\mathscr O_K$. By removing points from this open subset, we can assume that $\mathscr E/R$ is smooth.</p>
+
+            <p style="padding-left:30px;">Similarly, the equations defining the addition map, the inversion map and the $0$ section of $E/K$ will also extend to $\mathscr E/R$ (after shrinking $R$ if necessary). To show that $\mathscr E/R$ is a group scheme, we will need to show certain identities between these maps such as $0 + P = P$.</p>
+
+            <p style="padding-left:30px;">However, the locus of points where two maps match is a closed subset (since all the schemes we are interested in are separated and reduced). Moreover, the identities are true over the generic point, therefore they have to be true everywhere.</p>
+
+            <p style="padding-left:30px;">Thus, we have shown that $\mathscr E/R$ is a smooth group scheme where the fibers are genus $1$ curves and hence this is a relative Elliptic Curve as required.</p>
+
+            <p style="text-align:right;">$\Box$</p>
+
+            <h3 style="text-align:center;">Alternate Approaches</h3>
+
+            <p><strong>Using Class Field Theory:</strong></p>
+
+            <p>Alternate approaches to the proof usually differ at step 3 (from the beginning outline). If we let $K'$ denote the maximal extension of $K$ unramified away from $R$, then the sequence:</p>
+
+            <p style="text-align:center;">$0 \to E[n](K') \to E(K') \xrightarrow{\times n} E(K') \to 0$</p>
+
+            <p>is exact. The only problem is surjectivity but we know this from the existence of the smooth proper model. Taking cohomology, we obtain an injection:</p>
+
+            <p style="text-align:center;">$E(K)/nE(K) \to H^1(\mathrm{Gal}\ (K'/K), E[n](K')) = \mathrm{Hom}\ (\mathrm{Gal} (K'/K), E[n])$</p>
+
+            <p>where the final equality is because the n-torsion points are contained in $K$.</p>
+
+            <p>However, the final group is equivalent to the finite <em>abelian </em>extensions of $K$ unramified on $R$ with Galois group a subgroup of $E[n] \cong \mathbb (Z/n\mathbb Z)^2$. This is therefore a finite group by Class Field Theory.</p>
+
+            <p style="text-align:right;">$\Box$</p>
+
+            <p><strong>Using Dirichlet's S-unit Theorem and finiteness of the class group:</strong></p>
+
+            <p>We can avoid appealing to Class Field Theory and instead use Kummer Theory. By the Weil Pairing, we know that $E(K)$ contains the $n$ roots of unity. Therefore, by Kummer Theory, $\mathrm{Hom}\ (\mathrm{Gal} (K'/K), (Z/n\mathbb Z)^2)$ is equal to the subgroup of $(K^\times/(K^\times)^n)^2$ generated by elements of $K^\times$ with trivial valuation over $R$.</p>
+
+            <p>If we let $S$ denote the primes not in $R$, then this follows from Dirichlet's $S$ -unit theorem and finiteness of the Class group of $R$. Let $U_S$ and $C_S$ denote the unit group and class group of $R$. Then, we have the following diagram:</p>
+
+            <p><img class="wp-image-1853 aligncenter" src="../uploads/2017/11/template1.jpg?w=2048" alt="Template" width="544" height="177" /></p>
+
+            <p>The $\oplus v_{\mathfrak p}$ map is the valuation map at each prime in $R$ while the other maps are all the natural maps. We would like to show that the kernel of $f$ is finite. A diagram chase shows us that we have an exact sequence:</p>
+
+            <p style="text-align:center;">$0 \to U_S/U_S^n \to \mathrm{ker}(f) \to C_S[n].$</p>
+
+            <p>Since the first and third term are finite, this is sufficient.</p>
+
+            <p>The diagram chase goes as follows: let $\alpha \in K^\times$ represent an element in the kernel of $f$. Then, $n | v_\mathfrak p(\alpha)$ for all $\mathfrak p \in R$ and we can map $\alpha \to c = \bigoplus_\mathfrak p(\alpha)/n \in C_S$. Certainly $nc = 0$. If $c = 0$, then there is a $\beta \in K^\times$ such that $(\beta^n) = (\alpha)$ as ideals and therefore $\alpha/\beta^n \in U_S/U_S^n$ as required.</p>
+
+            <p style="text-align:right;">$\Box$</p>
+
+            <h3 style="text-align:center;">Generalizations:</h3>
+
+            <p>We really did not use anything special to Elliptic Curves that does not generalize to Abelian Varieties. The hardest part is the final step where we need to spread out the given variety to an open subset of the number ring. We will need to know that Abelian varieties are projective which is quite non trivial.</p>
+
+            <p>This technique is also applicable to other cases. For instance, if we replace our Elliptic curve by $\mathbb G_m$, the same techniques (using the Kummer pairing) will prove the "weak" version of Dirichlet's S-unit theorem.</p>
+
+            <p>In fact, we do not need to restrict ourselves to group schemes. Let us define $\mathcal O_{K,S}$ to be the largest open subset of $\mathcal O_K$ on which the primes in $S$ are invertible.</p>
+
+            <p>Then, if $\pi: X \to Y$ is a finite map over $\mathcal O_{K,S}$ such that the generic fiber is etale, we can show the following:</p>
+
+            <p><strong>Theorem: </strong>There is a finite extension $L$ such that $X(\mathcal O_{L,S}) \to Y(\mathcal O_{K,S})$ is surjective.</p>
+
+        </article>
+
+        <p style="margin-top: 2rem;"><a href="../blog.html">&larr; Back to all posts</a></p>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Asvin G</p>
+        </div>
+    </footer>
+</body>
+</html>

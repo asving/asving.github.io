@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Groupoid Cardinality of Finite Semi-Simple Algebras - Asvin G</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+    <header>
+        <img src="../images/banner.jpg" alt="Grothendieck-Riemann-Roch" class="banner">
+        <div class="container">
+            <div class="site-title">
+                <h1><a href="../index.html">Asvin G</a></h1>
+                <p class="tagline">Wir müssen wissen, wir werden wissen</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">About</a></li>
+                    <li><a href="../blog.html">Blog</a></li>
+                    <li><a href="../book-reviews.html">Book Reviews</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container-narrow">
+        <article class="blog-post">
+            <h1>The Groupoid Cardinality of Finite Semi-Simple Algebras</h1>
+            <p class="post-date">January 04, 2017</p>
+
+            <p>A groupoid is category where all the morphisms are isomorphisms and groupoid cardinality is a way to assign a notion of size to groupoids. Roughly, the idea is that one should weigh an object inversely by the number of automorphisms it has (and we only count each isomorphic object as one object).</p>
+
+            <p>It is important to count only one object from each isomorphism class since we want the notion of groupoid cardinality to be invariant under equivalences of groupoids (in the sense of category theory) and every category is equivalent to it's skeleton. For further motivation for the idea of a groupoid cardinality, see <a href="https://qchu.wordpress.com/2012/11/08/groupoid-cardinality/">Qiaochu Yuan's post on them.</a></p>
+
+            <p>This seems like quite a strange thing to do but it turns out to be quite a useful notion. One of my favorite facts about Elliptic curves is that the groupoid cardinality of the supersingular elliptic curves in characteristic p is $p-1/24$! See <a href="https://mathoverflow.net/questions/24573/is-there-a-nice-proof-of-the-fact-that-there-are-p-1-24-supersingular-elliptic">the Eichler-Deuring mass formula. </a></p>
+
+            <p>Another interesting computation along these lines is that the <em>number</em> of finite sets is $e$. One can ask this question of various groupoids and the answer is often interesting. I will ask it today of semi-simple finite algebras of order $n$. By an algebra, I will always implicitly mean commutative in this post.</p>
+
+            <p>By a classification theorem, we know that semi-simple finite algebras are simply products of finite fields. In fact, if $n = ab$ with $a,b$ coprime and SSA(k) denotes the set of semi-simple finite algebras of order k (upto isomorphism), then $SSA(n) = SSA(a)\times SSA(b)$ where the map simply takes algebras $M,N \to M\times N$.</p>
+
+            <p>Therefore the groupoid cardinality of SSA(n) is the product of the groupoid cardinality of SSA(a) and SSA(b). We will now restrict to the case $n = p^m$. Computing a few small examples, one sees that the groupoid cardinality is always 1! As surprising as this is, it is not too hard to prove. However, the proof that I know of this fact is not very illuminating (at least to me). Please let me know if there is any to make this result seem <em>obvious. </em></p>
+
+            <p>It will help to establish some notation about semi simple algebras of prime power order $p^m$. It is easy to see that these algebras correspond to (unordered) partitions of $m$ in the following manner:</p>
+
+            <p>To a partition $m = k_1+k_2+\dots + k_r$, we associate the algebra $\mathbb F_{p^{k_1}}\times \mathbb F_{p^{k_2}}\times\dots\times\mathbb F_{p^{k_r}}$. In fact, let us group the identical $k_i$'s together and write the partition as $k = \sum_{i\geq 0}s_kk$ where $s_i$ is the number of $k's$ that appear and call the corresponding algebra of type $s = (s_1,s_2,\dots)$</p>
+
+            <p>Since a finite field of order $p^n$ has $n$ automorphisms and there are no isomorphisms between fields of different sizes, we see that the number of algebras of type $s$ is $\prod_{k\geq 1}k^{s_k}s_k!$. The $k^s$ corresponds to isomorphisms of fields while the $s_k!$ corresponds to permutations between different finite fields.</p>
+
+            <p>For instance, in the case of $\mathbb F_{2}\times\mathbb F_{2}\times\mathbb F_{4}$, there is an automorphism that corresponds to switching the first two factors and 2 automorphisms of the last factor giving a total of $2\times 2 = 4$ automorphisms.</p>
+
+            <p>Thus, we need to compute the following beast:</p>
+
+            <p style="text-align:center;">$\sum_{s}\prod_{k\geq 1}\frac{1}{k^{s_k}s_k!}$ (1)</p>
+
+            <p>where the sum is over partitions $s = (s_1,s_2,\dots)$ such that $\sum s_kk = m$. While this might seem imposing at first sight, there is a trick familiar to people with experience in generating functions that makes the computation straightforward.</p>
+
+            <p>The key observation is to realize that:</p>
+
+            <p style="text-align:center;">$\prod_{k\geq 1}(1+x^k+x^{2k} +\dots) = \sum_{r\geq 1}p(r)x^r$</p>
+
+            <p>Here, $p(r)$ denotes the partititons of $r$. This follows from a naive expansion of the right hand side and is a formal identity of power series. I believe the observation goes all the way back to Euler. In our case, we only need to consider a slight modification. Consider the power series:</p>
+
+            <p style="text-align:center;">$\prod_{k \geq 1}(\sum_{i\geq 0}\frac{x^i}{k^ii!}) = \prod_{k\geq 1}e^{x^k/k} = e^{-\log(1-x)} = \frac{1}{1-x}.$</p>
+
+            <p>However, expanding the first sum, one sees that the coefficient of $x^m$ is simply our (1) which is equal to 1 as we see by expanding the geometric series!</p>
+
+        </article>
+
+        <p style="margin-top: 2rem;"><a href="../blog.html">&larr; Back to all posts</a></p>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Asvin G</p>
+        </div>
+    </footer>
+</body>
+</html>

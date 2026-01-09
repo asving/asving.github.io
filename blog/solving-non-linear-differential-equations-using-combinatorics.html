@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solving non linear differential equations using combinatorics! - Asvin G</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+    <header>
+        <img src="../images/banner.jpg" alt="Grothendieck-Riemann-Roch" class="banner">
+        <div class="container">
+            <div class="site-title">
+                <h1><a href="../index.html">Asvin G</a></h1>
+                <p class="tagline">Wir müssen wissen, wir werden wissen</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">About</a></li>
+                    <li><a href="../blog.html">Blog</a></li>
+                    <li><a href="../book-reviews.html">Book Reviews</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container-narrow">
+        <article class="blog-post">
+            <h1>Solving non linear differential equations using combinatorics!</h1>
+            <p class="post-date">December 09, 2019</p>
+
+            <p>In this post, we will consider the (nasty?) non linear differential equation:</p>
+
+            <p style="text-align:center;"><span style="color:var(--color-text);">$t(h'(t))^2 - 2th'(t) + 2h(t) = 0$</span></p>
+
+            <p>and show that the power series:</p>
+
+            <p style="text-align:center;">$h(t) = \sum_{n\geq 0}\frac{n^{n-2}t^n}{n!}$</p>
+
+            <p>is a solution using combinatorics! In particular, note that $h(t)$ is the exponential generating function for the number of labelled trees on $n$ vertices by <a href="https://en.wikipedia.org/wiki/Cayley%27s_formula" target="_blank" rel="noopener">Cayley's formula</a>. Let us call this number $T_n$, which is equal to $n^{n-2}$ by Cayley.</p>
+
+            <p>If we plug in the generating function into the differential equation, we find that in order to show that $h(t)$ is a solution to the differential equation, it is sufficient to show the following recurrence:</p>
+
+            <p style="text-align:center;">$2(n-1)T_n = \sum_{k=}^{n-1}k(n-k)T_kT_{n-k}{n \choose k}$</p>
+
+            <p>We will show this recurrence directly using combinatorics:</p>
+
+            <p>We will count the number of labelled trees on $n$ vertices with a distinguished edge with a distinguished direction. This number is clearly $2(n-1)T_n$ since there are $n-1$ edges to choose from and $2$ directions.</p>
+
+            <p>But if we imagine deleting the edge, this is the same as taking two labelled trees of sizes $k, n-k$ with a distinguished vertex on each and a choice of $k$ elements from $n$. The choice of $k$ elements is because once we have two trees with labels from $\{1,\dots, k\}$ and $\{1,\dots, n-k\}$ we need to map the union of these two sets into $\{1,\dots, n\}$ and once we pick a $k$ element subset of $\{1,\dots, n\}$, we can map the first set into it, preserving order and similarly for the complement.</p>
+
+            <p>Then, on a tree of size $k$, there are $k$ distinct vertices to choose from.</p>
+
+            <p>This correspondence is clearly bijective and so the number we are counting is also equal to:</p>
+
+            <p style="text-align:center;">$\sum_{k}k(n-k)T_kT_{n-k}{n\choose k}.$</p>
+
+            <p>as promised.</p>
+
+            <p>I do not know how to prove the recurrence directly! But there are many nice proofs of Cayley's theorem available. One I particularly like is <a href="https://golem.ph.utexas.edu/category/2019/12/a_visual_telling_of_joyals_pro.html">here</a>.</p>
+
+        </article>
+
+        <p style="margin-top: 2rem;"><a href="../blog.html">&larr; Back to all posts</a></p>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Asvin G</p>
+        </div>
+    </footer>
+</body>
+</html>

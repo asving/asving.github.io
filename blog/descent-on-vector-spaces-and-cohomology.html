@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descent on Vector Spaces and Cohomology - Asvin G</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+    <header>
+        <img src="../images/banner.jpg" alt="Grothendieck-Riemann-Roch" class="banner">
+        <div class="container">
+            <div class="site-title">
+                <h1><a href="../index.html">Asvin G</a></h1>
+                <p class="tagline">Wir müssen wissen, wir werden wissen</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">About</a></li>
+                    <li><a href="../blog.html">Blog</a></li>
+                    <li><a href="../book-reviews.html">Book Reviews</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container-narrow">
+        <article class="blog-post">
+            <h1>Descent on Vector Spaces and Cohomology</h1>
+            <p class="post-date">November 26, 2016</p>
+
+            <p>It is quite often of interest to study the properties of some variety $X/\mathbb Q$. However, it is generally much easier to study varieties over algebraically closed fields and so we need some way of translating a property of $X_{\overline{\mathbb Q}}/\overline{\mathbb Q}$ to $X/\mathbb Q$. This idea is known as descent and in this post, I would like to say a little bit about the simplest example of descent - over vector spaces.</p>
+
+            <p>Let $L/K$ be an extension of fields and $V$ a vector space over $K$. Consider $W = V\otimes_K L$. The Galois Group $G = \mathrm{Gal}(L/K)$ acts on $W$ through the second factor (<em>not</em> by linear actions but by semi-linear ones - see below). One can consider the $K$-vector space $W^G$. This is the vector space fixed by $G$.</p>
+
+            <p style="padding-left:30px;"><strong>Theorem 1 (Descent of Vector Spaces)</strong> <em>The natural map $W^G\otimes_K L \rightarrow W$ is an isomorphism. In particular, if $W$ is finite dimensional, then $\dim_K W^G = \dim_L W$.</em></p>
+
+            <p>It is not hard to prove this theorem directly (<a href="http://www.math.uconn.edu/~kconrad/blurbs/galoistheory/galoisdescent.pdf">Theorem 2.14 in these notes of K. Conrad</a>) but I would like to relate it to another theorem. This is also well known and is a generalization of the famous Hilbert's Theorem 90. Let $\mathrm{GL}_n(L)$ be the group of invertible $n$-dimensional matrices over $L$ and consider the cohomology $H^1(G,\mathrm{GL}_n(L))$. This is not a group unless $n=1$ since $\mathrm{GL}_n(L)$ is non-commutative in general. However, it is a pointed set and we have the following theorem:</p>
+
+            <p style="padding-left:30px;"><strong>Theorem 2 (Hilbert's 90)</strong> <em>$\displaystyle H^1(G,\mathrm{GL}_n(L)) = \{0\}.$</em></p>
+
+            <p>Hilbert stated the above theorem (in a disguised form) for $n=1$ and $L/K$ a finite cyclic extension. Noether generalized the theorem to arbitrary extensions. I do not know who is responsible for the generalization to general linear groups but I saw this theorem first in Serre's "Galois Cohomology".</p>
+
+            <p>In this post, I will show that the above theorems are equivalent in the following sense:</p>
+
+            <p>Let $W$ be a $L$-vector space. We will say that a group $G$ acts semi-linearly on it if $\sigma(lv) = \sigma(l)\sigma(v)$ for all $\sigma \in G$.</p>
+
+            <p>The typical example is when $G = \mathrm{Gal}(L/K)$ acts co-ordinate wise on $W = L^n$ or equivalently $W = V\otimes_K L$ for a $K$-vector space $V$. We will show that this is essentially the only example by proving:</p>
+
+            <p style="padding-left:30px;"><strong>Theorem 3</strong> <em>There is a bijection:</em></p>
+            <p style="padding-left:60px;"><em>$\displaystyle H^1(G,\mathrm{GL}_n(L)) \longleftrightarrow \frac{\{\text{n-dimensional L-vector spaces with semilinear G-action}\}}{\text{isomorphisms}}$</em></p>
+
+            <p style="padding-left:30px;"><em>Proof:</em> I will use $x^g$ to denote $g$ acting on $x$ throughout.</p>
+
+            <p style="padding-left:30px;">Let us first establish the maps. Given a 1-cocycle $\eta:G \rightarrow \mathrm{GL}_n(L)$, let the corresponding vector space $W_\eta$ be $L^n$ with the action for $(g,w) \in G\times W$ being given by $(g,w) \rightarrow \eta_g(w^g)$ where $w^g$ stands for the action of $g$ co-ordinate wise. It is easy to verify that this is well defined:</p>
+
+            <p style="padding-left:30px;">Given $l\in L$, $\eta_g((lw)^g) = \eta_g(l^gw^g) = l^g\eta_g(w^g)$. This shows that the action is semi-linear. Then, given a one-cocycle cohomologous to $\eta$ (that is, given $\tau_g = A^{-1}\eta_g A^g$), we have the following isomorphism of vector spaces with group actions given by:</p>
+
+            <p style="padding-left:60px;">$\displaystyle W_\eta \rightarrow W_\tau, \quad w \rightarrow A^{-1}w.$</p>
+
+            <p style="padding-left:30px;">That is, $A\tau_g((A^{-1}w)^g) = \eta_g(w^g)$ as can be easily checked. This establishes that $\eta \rightarrow W_\eta$ is well defined.</p>
+
+            <p style="padding-left:30px;">To construct the inverse, let $W$ be a $L$-vector space with a semilinear $G$-action. Fix a basis $e_1,\dots, e_n$. Denote the column vector corresponding to this basis as $[e]$. Define $\eta_g$ to be the unique transformation such that $\eta_g[e]^g = [e]$. To check that this is a 1-cocycle, note that:</p>
+
+            <p style="padding-left:30px;">$\displaystyle \eta_g\eta_h^g[e]^{gh} = \eta_g(\eta_h[e]^h)^g = \eta_g[e]^g = [e]$</p>
+
+            <p style="padding-left:30px;">and hence by uniqueness $\eta_{gh} = \eta_g\eta_h^g$.</p>
+
+            <p style="padding-left:30px;">Finally, it is easy to verify that these maps really are inverses. $\Box$</p>
+
+            <p>To see that we really have shown that Theorem 1 and Theorem 2 are equivalent, note that Theorem 1 is clearly true for $L^n = K^n\otimes_K L$. Then, if $H^1(G,\mathrm{GL}_n(L)) = \{0\}$, there is a unique $L$-dimensional vector space with a semi-linear action and we can check Theorem 1 on this unique vector space.</p>
+
+            <p>Conversely, if Theorem 1 is true, then $H^1(G,\mathrm{GL}_n(L))$ is a one-element set.</p>
+
+            <p>Proofs for Theorem 1 and Theorem 2 can be found in many places. Serre's Galois Cohomology is a good place to read about Group Cohomology generally and Theorem 2 in particular.</p>
+
+            <p><strong>UPDATE:</strong> I later discovered that the content of this post is Exercise 1.9 in Poonen's "Rational Points on Varieties". He also proves Theorem 1 as Lemma 1.3.10.</p>
+
+            <p><strong>UPDATE 2:</strong> Here is a short rundown of general descent theory and how it relates to this post:</p>
+
+            <p>In the context of descent, there is a bijection between three things:</p>
+            <ol>
+                <li>Descent data (upto equivalence)</li>
+                <li>Semi-linear actions (upto equivalence)</li>
+                <li>1-Cocycles taking values in appropriate automorphism groups (upto equivalence).</li>
+            </ol>
+
+            <p>The bijection can in fact be defined even without taking equivalences. Theorem 3 above establishes this equivalence between (2) and (3) in the special context of this post. The general proof is along extremely similar lines and can be found in Poonen's book "Rational Points on Varieties" from page 100-106.</p>
+
+            <p>The equivalence of Theorem 1 and 2 on the other hand goes towards showing equivalence of (1) and (3). Finally, Theorem 1 can be seen as establishing that descent is effective.</p>
+        </article>
+
+        <p style="margin-top: 2rem;"><a href="../blog.html">&larr; Back to all posts</a></p>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Asvin G</p>
+        </div>
+    </footer>
+</body>
+</html>

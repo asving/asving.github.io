@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noether Normalization, Spreading out and the Nullstellensatz . - Asvin G</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+    <header>
+        <img src="../images/banner.jpg" alt="Grothendieck-Riemann-Roch" class="banner">
+        <div class="container">
+            <div class="site-title">
+                <h1><a href="../index.html">Asvin G</a></h1>
+                <p class="tagline">Wir müssen wissen, wir werden wissen</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">About</a></li>
+                    <li><a href="../blog.html">Blog</a></li>
+                    <li><a href="../book-reviews.html">Book Reviews</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container-narrow">
+        <article class="blog-post">
+            <h1>Noether Normalization, Spreading out and the Nullstellensatz .</h1>
+            <p class="post-date">November 22, 2017</p>
+
+            <p>Hilbert's Nullstellensatz plays a central role in algebraic geometry. It can be seen as the fundamental link between the modern theory of schemes and the classical theory of algebraic varieties over fields. Since this is one of the first results a novice in algebraic geometry learns and is often proved very algebraically, one often does not gain a good understanding of the proof till much later.</p>
+
+            <p>I will present three proofs of the Nullstellensatz found in the literature from a geometric perspective. This will highlight the role of the "spreading out and specializing" common to the proofs that might not be obvious from an algebraic presentation. The last proof is a very short, self contained demonstration of the techniques. Along the way, we will also see a geometric proof of Noether Normalization.</p>
+
+            <p>The proof of Hilbert's lemma is usually broken up into the following two steps: 1) Prove the <em>weak </em>Nullstellensatz and 2) Derive the strong Nullstellensatz using the Rabinowitsch or other means. I will be focusing solely on the first step in this post. Nothing in this is original except for the presentation.</p>
+
+            <p>The weak Nullstellensatz is a statement about solving polynomial equations in multiple variables over a field. The one variable version of the problem is well understood (think Galois theory) and says that any polynomial $f(x)$ over a field $k$ will have all it's solutions in some finite extension of $k$. The Nullstellensatz says that this result propagates to multiple variables. That is:</p>
+
+            <p style="padding-left:30px;"><strong>Theorem 1 [Weak Nullstellensatz]: </strong>Let $f_1(x_1,\dots,x_n), \dots, f_m(x_1,\dots,x_n)$ be a set polynomials in $R = k[x_1,\dots,x_n]$. Then exactly one of the following is true:</p>
+
+            <ol>
+                <li>There exist polynomials $Q_1,\dots,Q_m \in R$ such that $\sum_{i}f_iQ_i = 1$.</li>
+                <li>There exist values $(a_1,\dots,a_n) \in \overline{k}^n$ such that $f_i(x_1,\dots,x_n) = 0$ for all $i = 1,2\dots,m$.</li>
+            </ol>
+
+            <p>If both conditions were simultaneously true, you could derive a contradiction by plugging in the $(a_1,\dots,a_n)$ into the equation in (1). Therefore, it suffices to assume that 1) is false and prove 2). This leads to the following reformulation.</p>
+
+            <p style="padding-left:30px;"><strong>Theorem 1.2 : </strong>Let $I = (f_1,f_2,\dots,f_m)$ be the ideal spanned by the polynomials in $k[x_1,\dots,k_n]$. If $I$ is a proper ideal, then there is a finite field extension $k'$ of $k$ and a homomorphism $A = R/I \to k'$.</p>
+
+            <p>Furthermore, by replacing $I$ by a maximal ideal $\mathfrak m$ containing it, we can assume that $A$ is a finitely generated field over $k$.</p>
+
+            <p>One can think of this statement as saying that any maximal ideal of $R = k[x_1,\dots,x_n]$ is in fact of the form $(x_1-a_1,\dots,x_n-a_n)$ after base changing to the algebraic closure and therefore, the closed point of a finite type scheme over a field are precisely the points of a corresponding algebraic variety. This is the connection between scheme theory and classical algebraic geometry that I alluded to above.</p>
+
+            <p>We can also compare this statement to the one-dimensional case and interpret the weak Nullstellensatz as saying that any solutions to a system of polynomial equations over a field in fact lie in an algebraic extension of the field.</p>
+
+            <p>We can make one final simplification before moving on to proofs. It is easily seen that it is sufficient to prove the theorem for algebraically closed fields since we can then recover the above formulation by passing to the algebraic closure of $k$. Therefore, from now on, I will assume that $k$ is algebraically closed. What will be important for us is that $k$ is infinite and perfect.</p>
+
+            <p><strong>Strategy of the proofs:</strong></p>
+
+            <p>Of the above formulations, the most important to us will be the idea that we want to locate rational points (in the algebraically closed case) on finite type schemes over a field. There is a common strategy to all our proofs that runs so:</p>
+
+            <p>Let $X$ be the given finite type $k-$ scheme on which we want find a point with values in an algebraic closure. The idea then is to find a $Y$ that receives a finite map $\pi: X \to Y$ with a rational point in the image. Usually, $Y$ will be some well understood variety like affine space or some open subset of it.</p>
+
+            <p>Given such a map, we simply take a rational point on the base and base change $X$ to it. This will be finite over $k$ and hence it's closed points will be finite field extensions of $k$ which will also simultaneously be a point of $X$. This point on $X$ is what we were looking for all along!</p>
+
+            <h2 style="text-align:center;"><strong>Noether Normalization</strong></h2>
+
+            <p>One of the standard ways to prove the theorem is to use something called Noether Normalization, whose proof is also often couched in commutative algebra. I will give a geometric interpretation of the proof here and use it to quickly prove the Nullstellensatz.</p>
+
+            <p style="padding-left:30px;"><strong>Theorem 2 [Noether Normalization]: </strong>Let $A$ be finitely generated ring over the field $k$ and let $X$ be the corresponding scheme. Then, there is a finite, surjective map $\pi: X \to \mathbb A^d_k$. Note that this forces $d = \dim X$.</p>
+
+            <p style="padding-left:30px;"><strong>Proof: </strong>We can embed $X$ in some $\mathbb A^n$ (essentially, pick generators for $A$). Embed $\mathbb A^n$ further into $\mathbb P^n$ in the standard way and let $\overline X$ be the projective closure of $X$.</p>
+
+            <p style="padding-left:30px;">We can assume that $X$ is not all of $\mathbb A^n$ since otherwise take $n = d$ and $\pi$ to be the embedding map. Therefore, $\overline X$ is not all of $\mathbb P^n$ and we can find a rational point $P$ at infinity that is not on $\overline X$. (Exercise! Hint: One way is to homogenize the explicit defining equations of $X$). Similarly, we can find a rational hyperplane $H$ (ie, defined over $k$) in $\mathbb P^n$.</p>
+
+            <p style="padding-left:30px;">Project $\overline X$ to $H$ through $P$. The map is proper and hence has closed image. Since $P$ was chosen to be at infinity, this restricts to a map $f: X\to \mathbb A^n \cap H \cong \mathbb A^{n-1}$. If the map is surjective, take $\pi$ to be $f$, otherwise inductively continue the process till it is surjective.</p>
+
+            <p style="padding-left:30px;">The map $f$ is finite since it is quasi-finite finite and proper and therefore, we have established that there is some finite map $\pi: X \to \mathbb A^d $.</p>
+
+            <p style="text-align:right;">$\Box$</p>
+
+            <p style="padding-left:30px;"><strong>Remark 0: </strong>The entire content of the theorem is in ensuring that the finite map is surjective. Otherwise, one could simply take a closed embedding into some affine space!</p>
+
+            <p style="padding-left:30px;"><strong>Remark 1: </strong>If one writes out the maps in the above proof explicitly, you recover the usual algebraic proof with some minor changes (and linear substitutions throughout). There is of course a fair bit of choice involved with the point $P$ and the hyperplane $H$ but one also has to choose $P$ (essentially) in the standard proof. Taking $H$ to be as simple as possible makes the computation easy.</p>
+
+            <p style="padding-left:30px;"><strong>Remark 2: </strong>Our life above was simplified by assuming $k$ to be infinite. If $k$ is infinite, the only change to be made is to embed take a Veronese embedding of $\mathbb P^n$ first before choosing $P$ and $H$. This corresponds to taking a hypersurface of high degree instead of a hyperplane for $H$.</p>
+
+            <h2><strong>The Nullstellensatz: </strong></h2>
+
+            <p>Proving the weak Nullstellensatz is a very short road from here and can be done in a couple of slightly different ways. Recall that $R = k[x_1,\dots,x_n]$</p>
+
+            <p style="padding-left:30px;"><em>First:</em> Suppose $L = R/\mathfrak m$ is a field that is finitely generated as a ring over $k$. Then, by Noether normalization, we can find a finite map $Spec L \to \mathbb A^d$ where $d = \dim Spec L$. However, the dimension of any field is $0$ and so, $\mathbb A^d = k$ and $L$ is finite over $k$ as required.</p>
+
+            <p style="text-align:right;">$\Box$</p>
+
+            <p style="padding-left:30px;"><em>Second:</em> More in line with the outlined strategy, one can proceed so: Let $A = R/I$ be a finitely generated ring over $k$. By Noether normalization, we can find a finite map $k[y_1,\dots,y_d] \to A$.</p>
+
+            <p style="padding-left:30px;">Since our finite map is surjective, take any rational point on the base $\mathbb A^d$ and let $X'$ be the fiber of $X$ over this point. Since finiteness is maintained under pull backs, $X'$ is in fact finite over the field $k$ and is therefore a finite field extension.</p>
+
+            <p style="padding-left:30px;">That is, there is a solution of the polynomials defining $X$ in a finite field extension of $k$, to be precise, in the field corresponding to $X'. $</p>
+
+            <p style="text-align:right;">$\Box$</p>
+
+            <p>Unwinding the proof, we are essentially doing the following: Since the $x_i$ are finite over $k[y_1,\dots,y_d]$, they each satisfy some monic polynomial with coefficients in $k[y_1,\dots,y_d]$. We can substitute in values of $k$ for the variables $y_1,\dots,y_d$ and end up with a system of monic equations for the $x_i$ over $k$.</p>
+
+            <p>Crucially, these equations will necessarily have a common solution in $A$ since the normalization map was surjective. However, since the fibers are finite, the solutions will all lie in some finite extension as required!</p>
+
+            <p style="padding-left:30px;"><strong>Remark: </strong>This last proof is really constructive in the sense that one can follow the procedure to find solutions for the system of polynomial equations we started with. It depends of course on Noether normalization being constructive but our proof is easily seen to provide an algorithm.</p>
+
+            <h2 style="text-align:center;">Weakening Noether Normalization: Transcendence basis</h2>
+
+            <p>We do not in fact need the entire power of Noether normalization to prove the Nullstellensatz. One can make do with a suitable weaker version that only applies to field extensions and is in fact equivalent to the existence of a transcendence basis for a finitely generated field extension.</p>
+
+            <p>Recall that for a field $k$, all finitely generated field extensions $L/k$ can be broken up in the form $k \to k(y_1,\dots,y_d) \to L$ where the $y_1,\dots, y_d$ are algebraically independent over $k$ and $L/k(y_1,\dots,y_d)$ is algebraic. Elements $y_1,\dots,y_d$ in the above decomposition are called a transcendence basis.</p>
+
+            <p>Further, if $k$ is perfect, then by the primitive element theorem, we can in fact write $L = k(y_1,\dots,y_d)[t]/f(t)$ where $f(t)$ is a monic polynomial over $k(y_1,\dots,y_n)$. Recall our standing assumption that $k$ is perfect.</p>
+
+            <p>This can be seen as a (very) weak version of Noether normalization in the following way: We can find an affine algebraic variety $X/k$ such that it's function field $K(X) = L$. Then, the existence of a transcendence basis amounts to saying that the generic point of $X$ maps to the generic point of $k[y_1,\dots,y_d]$ such that the resulting field extension is finite.</p>
+
+            <p>In fact, this isn't that for off from Noether normalization for the following reason. We can <em>spread out </em>the map on generic points to a map over some open subset of the affine plane in the following way:</p>
+
+            <p>Consider the coefficients of $f(t)$ (as defined a couple of paragraphs above). They are a finite set of rational polynomials in the variables $y_1,\dots,y_n$. We can assume they have a common denominator $h(y_1,\dots,y_d) \in k[y_1,\dots,y_d]$. Then, let $R = k[y_1,\dots,y_d,1/h(y)]$ and $S = R[t]/f(t)$. It is easy to see that $S$ is a model for $L$ over $R$ in the sense that $S\otimes_R k(y_1,\dots,y_d) = L$. It is equally clear that $S$ continues to be finite over $R$.</p>
+
+            <p>Since $R$ corresponds to an open subset of $k[y_1,\dots,y_d]$ and $S$ to a variety with function field $L$, we might as well take $X = Spec S$. Thus, we have found a finite surjective map an open subscheme of $\mathbb A^d$ as promised.</p>
+
+            <p>We can use these ideas to prove the Nullstellensatz.</p>
+
+            <h2 style="text-align:center;">The Third Proof: Leveraging Function Fields</h2>
+
+            <p style="padding-left:30px;"><strong>Proof:</strong> Let $A = k[x_1,\dots,x_n]/\mathfrak m$ be a finitely generated ring over $k$ that also happens to be a field. By our above result on transcendence basis, there is an isomorphism $A \cong k(y_1,\dots,y_d)[t]/(f(t)) = L$.</p>
+
+            <p style="padding-left:30px;">Now, $L$ is the union (=direct limit) of rings of the form $k[y_1,\dots,y_d,1/h(y)][t]/(f(t))$ for appropriate $h(y) \in k[y_1,\dots,y_n]$ and $f(t)$ a monic polynomial over $k[y_1,\dots,y_d,1/h(y)]$. This follows directly from our discussion on spreading out in the last section since any function field is the union of the rings corresponding to distinguished open sets.</p>
+
+            <p style="padding-left:30px;">Since $A$ is finitely generated over $k$, we can find some $h_0(y)$ such that all the $x_i$ map to $S = k[y_1,\dots,y_d,1/h_0(y)][t]/(f(t))$. However, since $k$ is infinite (recall our standing assumption), we can find $(a_1,\dots,a_d) \in k^n$ such that $h_0(a_1,\dots,a_d) \neq 0$. Thus, we can find a map $S \to k[t]/( f(t,a_1,\dots,a_n) )= k'$ where we evaluate $f(t)$ at the values $y_k = a_k$.</p>
+
+            <p style="padding-left:30px;">However, this tells us that there is a map $A \to S \to k'$ which forces $A$ to itself be a finite field extension of $k$ (since $k'$) is (and $A$ was assumed to be a field).</p>
+
+            <p style="text-align:right;">$\Box$</p>
+
+            <p style="padding-left:30px;"><strong>Remark: </strong>This proof has unmistakable similarities to the our second proof two sections ago. The key difference is that we have substituted Noether Normalization with the existence of a transcendence basis.</p>
+
+            <p>Both the proofs proceed by realizing our finitely generated scheme $X = Spec A$ as something finite over something well understood. In the previous section, we could take the base to be all of $\mathbb A^d$ and further demand that the map be surjective. This allowed us to pick any rational point on the base to find a point on $X$.</p>
+
+            <p>However, in the proof in this section, we can only take our base to be an open subset of $\mathbb A^n$ (in our proof, this corresponds to $R = k[y_1,\dots,y_d,1/h_0(y)]$ and accordingly, we need to take a point that lies in this open set. Since surjectivity is basically obtained from our construction of <em>spreading out, t</em>his is not too hard to do if we insist our field be infinite. After this, the two proofs proceed in exactly the same way.</p>
+
+            <h2 style="text-align:center;"> The Last Proof: Doing away with Transcendental basis</h2>
+
+            <p>By modifying our last proof a little, we can in fact even do away with any reliance on transcendental basis. Instead, we can proceed by induction on the number of variables in our algebra.</p>
+
+            <p style="padding-left:30px;">Let $A = k[x_1,\dots,x_n]/\mathfrak m$ be a field as usual. We want to show that $A$ is a finite field extension of $k$. Equivalently, we want to show that the $x_k$ are algebraic over $k$ (thinking of the $x_k$ as elements in $A$). We will do this by induction on $n$.</p>
+
+            <p style="padding-left:30px;">The case of $n = 1$ is tautological. So let us suppose that $n \geq 2$. Denote by $\alpha_k$ the image of $x_k$ in $A$. I will henceforth write $A = k(\alpha_1,\dots,\alpha_n)$. For contradiction, we can suppose that $\alpha_1$ is transcendental over $k$.</p>
+
+            <p style="padding-left:30px;">By our inductive hypothesis, this implies that the $\alpha_2,\dots,\alpha_n$ are algebraic over $k(\alpha_1)$. By a similar spreading out argument as before, we can in fact suppose that the image of $A$ is of the form $k[\alpha_1,1/h(\alpha_1)](\alpha_2,\dots,\alpha_n)$ where $h$ is a polynomial over $k$.</p>
+
+            <p style="padding-left:30px;">Therefore, we have shown that there is a finite map $Spec A \to U$ where $U$ is an open subscheme of $\mathbb A^1_k$ and we can conclude the proof in a couple of ways.</p>
+
+            <p style="padding-left:30px;">We can specialize $\alpha_1$ to a rational value and proceed as before or alternatively, we can end with the slick observation that if a field is integral over a ring $B$, then $B$, then $B$ is itself a field. However, in our case $B = k[\alpha_1,1/h(\alpha_1)]$ and this is certainly not a field!</p>
+
+            <p style="text-align:right;">$\Box$</p>
+
+            <p style="padding-left:30px;"><strong>Remark: </strong>The idea here is that any transcendental extension over $k$ will necessarily contain $k(x)$. This is equivalent to the first step of building a transcendental basis.</p>
+
+            <p style="padding-left:30px;">However, once we know that it contains $k(x)$, we can spread out as before and obtain a map $X \to \mathbb U \subset \mathbb A^1$. Since finiteness can be preserved by spreading out, we can use our induction hypothesis to establish finiteness and then proceed as before.</p>
+
+            <p>This proof can be surprising because we seem to be get the finiteness hypothesis for free. However, considering the first non trivial case of $n = 2$ and one polynomial equation, we see that this is really somehow the obvious thing to do. Treat one of the variables as constant and solve for the other variable! Then, figure out an appropriate specialization so that a solution exists. The appropriate specialization is equivalent to finding a point in $k^n$ such that $h(x)$ does not vanish...</p>
+
+        </article>
+
+        <p style="margin-top: 2rem;"><a href="../blog.html">&larr; Back to all posts</a></p>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Asvin G</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formal Summation and Dirichlet L-functions - Asvin G</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+    <header>
+        <img src="../images/banner.jpg" alt="Grothendieck-Riemann-Roch" class="banner">
+        <div class="container">
+            <div class="site-title">
+                <h1><a href="../index.html">Asvin G</a></h1>
+                <p class="tagline">Wir müssen wissen, wir werden wissen</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">About</a></li>
+                    <li><a href="../blog.html">Blog</a></li>
+                    <li><a href="../book-reviews.html">Book Reviews</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container-narrow">
+        <article class="blog-post">
+            <h1>Formal Summation and Dirichlet L-functions</h1>
+            <p class="post-date">October 15, 2017</p>
+
+            <p>Recall the classical Riemann zeta function:</p>
+
+            <p style="text-align:center;">$\zeta(s) = \sum_{n\geq 1}\frac{1}{n^s}$</p>
+
+            <p>and the Dirichlet L-functions for a character $\chi: \mathbb Z \to \mathbb C$:</p>
+
+            <p style="text-align:center;">$S(s,\chi) = \sum_{n\geq 1}\frac{\chi(n)}{n^s}.$</p>
+
+            <p>defined for $\Re(s) &gt; 1$. These functions can be analytically continued to the entire complex plane (except a pole at $s=1$ in the case of $\zeta(s)$). In particular, the values at non positive integers carry great arithmetic significance and enjoy many properties.</p>
+
+            <p>For instance, $L(s,\chi) $ is an algebraic integer and in fact equal to $B_{k+1,\chi}/(k+1)$ where $B_{k,\chi}$ are the <a href="https://en.wikipedia.org/wiki/Bernoulli_number#Generalized_Bernoulli_numbers">generalized Bernoulli numbers</a>. Moreover, these values satisfy p-adic congruences and integrality properties such as the <a href="https://en.wikipedia.org/wiki/Kummer%27s_congruence">Kummer congruence</a> (and generalizations to the L-functions).</p>
+
+            <p>The standard proof of these proceeds by showing that $L(s,\chi)$ satisfies a <a href="https://en.wikipedia.org/wiki/Dirichlet_L-function#Functional_equation">functional equation</a> that relates $L(1-s,\chi)$ to $L(s,\overline{\chi})$ and then computing the values $L(n,\chi)$ for $n \geq 1$ integral using analytic techniques (such as Fourier analysis).</p>
+
+            <p>Proving the p-adic properties is then by working directly with the definition of the generalized Bernoulli numbers instead of the L-functions. However, the L-functions are clearly the fundamental object here and it would be nice to have a way to directly work with the values at negative integers (without using the functional equation).</p>
+
+            <p>One might be tempted to extend the series definition to the negative integers and say:</p>
+
+            <p style="text-align:center;">$\zeta(-k) "=" 1^k + 2^k + 3^k + \dots$</p>
+
+            <p>For instance, consider the following (bogus) computation:</p>
+
+            <p style="text-align:center;">$\zeta(0)\frac{t^0}{0!} = 1^0\frac{t^0}{0!} + 2^0\frac{t^0}{0!} + \dots$</p>
+
+            <p style="text-align:center;">$\zeta(-1)\frac{t^1}{1!} = 1^1\frac{t^1}{1!} + 2^0\frac{t^1}{1!} + \dots$</p>
+
+            <p style="text-align:center;">$\zeta(-2)\frac{t^2}{2!} = 1^2\frac{t^2}{2!} + 2^2\frac{t^2}{2!} + \dots$</p>
+
+            <p style="text-align:center;">. . .</p>
+
+            <p>and let us "sum" the columns first:</p>
+
+            <p style="text-align:center;">$\sum_{k\geq 0}\zeta(-k)\frac{t^{k}}{k!} = e^{t} + e^{2t} + \dots = \frac{e^t}{1 + e^t}$</p>
+
+            <p>which, remarkably enough, is the right generating function for $\zeta(-k)$! We have exchanged the summation over two divergent summations and ended up with the right answer.</p>
+
+            <p>In fact, it is possible to rigorously justify this procedure of divergent summation and moreover, one can use it to prove a lot of arithmetic properties of these values rather easily (like the Kummer congruence). I learnt the basic method from some lecture notes of Prof. Akshay Venkatesh here: <a href="http://web.stanford.edu/~tonyfeng/263C.pdf">Section 3, Analytic Class Number formula and L-functions</a>.</p>
+
+            <p>I then discovered that one could use these techniques to compute the explicit values (along the outline above) and prove some more stuff. I wrote this up in an article (that also explains the basic technique and should be (almost) self contained) here: <a title="Divergent_series_summation" href="../uploads/2017/10/divergent_series_summation.pdf">Divergent_series_summation</a>.</p>
+
+        </article>
+
+        <p style="margin-top: 2rem;"><a href="../blog.html">&larr; Back to all posts</a></p>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Asvin G</p>
+        </div>
+    </footer>
+</body>
+</html>

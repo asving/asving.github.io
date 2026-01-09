@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Congruent Numbers and Elliptic Curves - Asvin G</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+    <header>
+        <img src="../images/banner.jpg" alt="Grothendieck-Riemann-Roch" class="banner">
+        <div class="container">
+            <div class="site-title">
+                <h1><a href="../index.html">Asvin G</a></h1>
+                <p class="tagline">Wir müssen wissen, wir werden wissen</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">About</a></li>
+                    <li><a href="../blog.html">Blog</a></li>
+                    <li><a href="../book-reviews.html">Book Reviews</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container-narrow">
+        <article class="blog-post">
+            <h1>Congruent Numbers and Elliptic Curves</h1>
+            <p class="post-date">December 06, 2016</p>
+
+            <p>A congruent number $n$ is a positive integer that is the area of a right triangle with three rational number sides. In equations, we are required to find rational positive numbers $a,b,c$ such that:</p>
+
+            <p style="text-align:center;">$\displaystyle a^2+b^2 = c^2$ and $\displaystyle n = \frac12 ab.$ (1)</p>
+
+            <p>The story of congruent numbers is a very old one, beginning with Diophantus. The Arabs and Fibonacci knew of the problem in the following form:</p>
+
+            <p style="padding-left:30px;">Find three rational numbers whose squares form an arithmetic progression with common difference $k$.</p>
+
+            <p>This is equivalent to finding integers $X,Y,Z,T$ with $T\neq 0$ such that $Y^2 - X^2 = Z^2 - Y^2 = k$ which reduces to finding a right triangle with rational sides</p>
+
+            <p style="text-align:center;">$\displaystyle \frac{Z+X}{T}, \frac{Z-X}{T}, \frac{2Y}{T}$</p>
+
+            <p>with area $k$. This is the congruent number problem for $k$. The Arabs knew several examples of congruent numbers and Fermat stated that no square is a congruent numbers. Since we can scale triangles to assume that $n$ is square free, this is equivalent to saying that $1$ is not a congruent number.</p>
+
+            <p>As with many other problems in number theory, the proof of this statement had to wait four centuries for Fermat. The problem led Fermat to discover his method of infinite descent.</p>
+
+            <p>In more recent times, the problem has been fruitfully translated into one about Elliptic Curves. We perform a rational transformation of the defining equations (1) for a congruent number in the following way. Set $x = n(a+c)/b$ and $y = 2n^2(a+c)/b$. A calculation shows that:</p>
+
+            <p style="text-align:center;">$\displaystyle y^2 = x^3 - n^2x.$ (2)</p>
+
+            <p>and $y \neq 0$. If $y = 0$, then $a=-c$ and $b = 0$ but then $n = \frac12 ab = 0$. Conversely, given $x,y$ satisfying (2), we find $a = (x^2-y^2)/y, b = 2nx/y$ and $c = x^2+y^2/n$ and one can check that these numbers satisfy (1).</p>
+
+            <p>The projective closure of (2) defines an elliptic curve that we will call $E_n$. We are interested in finding rational points on it that do not satisfy $y=0$. I will prove that $n$ is a congruent number precisely when $E_n$ has positive rank.</p>
+
+            <p>The proof is an interesting use of Dirichlet's Theorem on Arithmetic Progressions and some neat ideas about Elliptic Curves and their reductions modulo primes. I will essentially assume the material in Silverman's first book and the aforementioned Dirichlet's Theorem.</p>
+
+            <hr />
+
+            <p>So far, we know that $n$ is a congruent number if and only if $E_n$ has rational points (x,y) with $y \neq 0$. Recall that for an elliptic curve in the standard Weierstrass form (as in (2)), $y = 0$ if and only if (x,y) has 2-torsion.</p>
+
+            <p>Therefore, our problem reduces to showing that the only torsion of $E_n$ is 2-torsion for all n. In fact, we always have non-trivial $2$-torsion and the points are given by $(0,0), (n,0),(-n,0)$ and the point at infinity.</p>
+
+            <p>Denote the m-torsion my $E_n[m]$. The rough outline of the proof is as follows:</p>
+
+            <ol>
+                <li>$E_n[m]$ maps injectively into the reduction of $E_n$ modulo a prime $p$ for all but finitely many primes.</li>
+                <li>The number of $\mathbb F_p$ points of $E_n$ is independent of $p$ and equal to $p+1$ whenever $p \equiv 3 \pmod 4$.</li>
+                <li>This would imply that $m|p+1$ for a set of primes $p$ of density $1/2$ but by Dirichlet's Unit Theorem, the set of such primes is of density $1/\varphi(m) &lt; 1/2$ for all $m&gt;4$.</li>
+            </ol>
+
+            <p><strong>Step 1:</strong></p>
+
+            <p>Recall that the size of $E_n[m](\mathbb Q)$ is finite (and has exactly $m^2$ elements in $\overline{\mathbb Q}$. Also, recall that if $(x_1,y_1,z_1)$ and $(x_2,y_2,z_2)$ are two points in the projective plane (over any field $k$), then they are equal if and only if</p>
+
+            <p style="text-align:center;">$\displaystyle x_1y_2-x_2y_1, x_1z_2-x_2z_1, y_1z_2-y_2z_1$ (3)</p>
+
+            <p>are all $0$. Thinking of our $E_n$ has embedded in the projective plane, reduction modulo $p$ is simply reduction on each of the co-ordinates. Therefore, if we pick any finite set of $\mathbb Q$ points on $E_n$, then for any prime $p$ greater than any of the prime divisors of (3) , it's reduction will be non-zero.</p>
+
+            <p>Since $E_n[m]$ is a group, this is sufficient to show that the reduction map is injective for all but finitely many primes $p$ (once we fix $m$).</p>
+
+            <p><strong>Step 2:</strong></p>
+
+            <p>Fix a prime $p$. One could prove this by an explicit calculation involving quadratic characters but there is a neater way assuming some knowledge about the endomorphism ring $R_n = \mathrm{End}_{\mathbb F_p}(E_n).$ The relevant facts are the following:</p>
+
+            <ol>
+                <li>Over a finite field $\mathbb F_q$, the endomorphism ring is either an order in a quadratic imaginary field or an order in a quaternion algebra.</li>
+                <li>Further, over $\mathbb F_p$ with $p&gt;5$, the latter case occurs precisely when the number of elements on the curve is $p+1$ and the curve is called supersingular.</li>
+                <li>In either case, for any endomorphism $f$, there is a dual $\hat f$ such that $N(f) = f\circ\hat f$ is multiplication by the degree of $f$, which is always non-negative.</li>
+            </ol>
+
+            <p>A few words about the above statements: They are in true for all Elliptic curves and not just $E_n$. A reference for all of the above is the chapter on Finite Fields in Silverman's first book on Elliptic Curves.</p>
+
+            <p>(3) is true over any field. The function $N$ occurring in (3) is the usual norm function on a number field or a quaternion algebra.</p>
+
+            <p>One can show using the Tate Module that the dim of $R_n\otimes \mathbb Q$ is at most $4$ over $\mathbb Q$. Since there is always a Frobenius element $\varphi$ such that $N(\varphi) = p$, this rules out the case of $\mathbb Z$ where the $N$ function maps to the squares. This proves (1).</p>
+
+            <p>A sufficient (and necessary) condition for $R_n$ being $4$ dimensional is that $\hat\varphi$ be inseparable but this implies $a_p = \varphi + \hat\varphi \equiv 0 \pmod p$. As a consequence of the Hasse-Weil inequality which says $a_p \leq 2\sqrt p$, this would show that $a_p = 0$ $p&gt;5$. One further proves that $|E_n(\mathbb F_p)| = p+1-a_p$ which shows (2).</p>
+
+            <p>Now, given the (3) statements, it is easy to complete step 2. Note that $(x,y,z) \to (-x,iy,z)$ is always an endomorphism of $E_n$ as long as $i = \sqrt{-1}$ is defined in $\mathbb F_p$, equivalently, as long as $p\equiv -1 (4)$. Therefore, if $R_n$ were two dimensional, it would have to be an order in $\mathbb Z[i]$.</p>
+
+            <p>As mentioned before, we also have the Frobenius $\mathbb \varphi$ with norm $p$. This shows that $\varphi$ is a prime in the ring. However, the norm of any prime element in $\mathbb Z[i]$ is either a square or congruent to $1$ modulo $4$. This forces $R_n$ to be $4$-dimensional and we are done by (2).</p>
+
+            <p><strong>Step 3:</strong></p>
+
+            <p>If $E_n(\mathbb Q)$ has any torsion point $P$ that is not $2$-torsion, then we can find some point $Q$ of order more than $4$. Let this order be $m$.</p>
+
+            <p>By step (1), $Q$ has order $m$ for all but finitely many primes and therefore, since $E_n(\mathbb F_p)$ is a group of size $p+1$ (for $p\equiv 4\pmod 4$ by step (2)), $m|p+1$ for all but finitely many primes $p \equiv -1 \pmod 4$.</p>
+
+            <p>Since the (Dirichlet) density of primes of the form $3k+4$ has density $1/2$ and a finite set of primes does not contribute to (Dirichlet) density, we can put this differently in the following way:</p>
+
+            <p style="padding-left:30px;">The Dirichlet density of primes $p \equiv -1\pmod m$ is at least $1/2$.</p>
+
+            <p>However, we know that the density of primes of the form $km+1$ is exactly $1/\varphi(m)$ which is strictly less than $1/2$ whenever $m &gt; 4$. This provides the required contradiction and completes the proof.</p>
+
+            <p>The statements about the densities of various primes above all follow from Dirichlet's Theorem on Arithmetic Progressions.</p>
+
+            <hr />
+
+            <p>I would like to end by talking about a conjectural algorithm to detect congruent numbers. It is called Tunnell's algorithm and is based on the idea above: A number n is congruent if and only if $E_n(\mathbb Q)$ has positive rank.</p>
+
+            <p>The algorithm is easy to describe (and execute) but it's correctness depends on a very deep theorem about Elliptic Curves (the Birch and Swinnerton-Dyer conjecture).</p>
+
+            <p>The algorithm is as follows: For a square free integer n, define:</p>
+
+            <p><img class="mwe-math-fallback-image-inline aligncenter" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/bfc3c6f892258a9a29690d85b1254bbde197abbb" alt="{\begin{matrix}A_{n}&amp;=&amp;\#\{(x,y,z)\in {\mathbb  {Z}}^{3}|n=2x^{2}+y^{2}+32z^{2}\}\\B_{n}&amp;=&amp;\#\{(x,y,z)\in {\mathbb  {Z}}^{3}|n=2x^{2}+y^{2}+8z^{2}\}\quad \\C_{n}&amp;=&amp;\#\{(x,y,z)\in {\mathbb  {Z}}^{3}|n=8x^{2}+2y^{2}+64z^{2}\}\\D_{n}&amp;=&amp;\#\{(x,y,z)\in {\mathbb  {Z}}^{3}|n=8x^{2}+2y^{2}+16z^{2}\}.\end{matrix}}" width="482" height="135" /></p>
+
+            <p>Tunnell proved unconditionally that if $n$ is an odd congruent number, then $2A_n = B_n$ and if $n$ is an even congruent number, then $2C_n = D_n$. The converse is true <em>assuming </em>the Birch Swinnerton-Dyer conjecture.</p>
+
+            <p>More precisely, if we denote by $L (s)= L(E_n,s)$ the L-function for $E_n$ over $\mathbb Q$ at $s=1$, recall that the Birch-Swinnerton Dyer conjecture states that the order of vanishing of $L(s)$ at $s = 1$ is the rank of $E_n(\mathbb Q)$.</p>
+
+            <p>Therefore, $n$ is a congruent number if and only if $L(E_n,s) = 0$. What Tunnel showed was that:</p>
+
+            <p style="text-align:center;">$L(E_n) = \begin{cases}\gamma(2A_n-B_n) &amp; n \text{is odd}\\\gamma(2C_n-D_n) &amp; n \text{ is even}\end{cases}$</p>
+
+            <p>where $\gamma$ is a non-zero constant. Note that $E_n$ always has complex multiplication over $\mathbb Q$ since $(x,y,z) \to (-x,iy,z)$ is an automorphism of order $4$.</p>
+
+            <p>The unconditional direction of Tunnel's criterion follows from the following theorem of Coates-Wiles in 1976:</p>
+
+            <p style="padding-left:30px;"><strong>Theorem[Coates-Wiles(1976)] </strong>If an Elliptic Curve over $\mathbb Q$ has complex multiplication by a ring of integers with class number 1 and has positive rank over $\mathbb Q$, then the corresponding L-function vanishes at $s=1$.</p>
+
+        </article>
+
+        <p style="margin-top: 2rem;"><a href="../blog.html">&larr; Back to all posts</a></p>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Asvin G</p>
+        </div>
+    </footer>
+</body>
+</html>

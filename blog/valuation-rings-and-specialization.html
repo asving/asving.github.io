@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valuation rings and specialization - Asvin G</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+    <header>
+        <img src="../images/banner.jpg" alt="Grothendieck-Riemann-Roch" class="banner">
+        <div class="container">
+            <div class="site-title">
+                <h1><a href="../index.html">Asvin G</a></h1>
+                <p class="tagline">Wir müssen wissen, wir werden wissen</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">About</a></li>
+                    <li><a href="../blog.html">Blog</a></li>
+                    <li><a href="../book-reviews.html">Book Reviews</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container-narrow">
+        <article class="blog-post">
+            <h1>Valuation rings and specialization</h1>
+            <p class="post-date">July 23, 2020</p>
+
+            <p>Valuation rings can be defined in a variety of equivalent ways. They are integral domains:</p>
+
+            <ol>
+                <li>with a valuation to a totally ordered abelian group.</li>
+                <li>where the set of ideals is totally ordered with respect to inclusion.</li>
+                <li>where for every $x$ in the fraction field, either $x$ or $x^{-1}$ (or both) lies in the ring.</li>
+                <li>They are local rings that are maximal under the notion of domination with respect to local rings contained in a fixed field. We say that an inclusion $f: A \to B$ is a domination if the maximal ideal of $B$ pulls back to that of $A$.</li>
+            </ol>
+
+            <p>It is a simple and useful exercise to show that these are equivalent and the <a href="https://stacks.math.columbia.edu/tag/00I8">stacks project</a> does a fine job of it.  Personally, I find it easiest and most useful to use definitions 1+2+3. The main lemma about valuation rings is:</p>
+
+            <p style="padding-left:30px;"><strong>Main Lemma: </strong>Suppose $A \subset K$ is a local ring contained in a field. Then there exists a valuation ring $V \subset K$ that dominates $A$.</p>
+
+            <p>Before we move on to the proof, let me briefly explain why it's important. This lemma is more or less equivalent to saying that on any scheme $X$, a specialization $x \to y$ can be realized by a map $\mathrm{Spec} V \to X$ with $V$ a valuation ring whose maximal ideal maps to $y$ and generic point maps to $x$.</p>
+
+            <p>This is, for instance, how valuation rings show up in the valuative criterion of properness or the arc topology of <a href="https://arxiv.org/abs/1807.04725">Bhargav-Mathew</a>.</p>
+
+            <p>The stacks project uses defintion 4 and applies Zorn's lemma which make it seem unnecessarily non constructive. We will prove it directly assuming 1+2+3 (which is nothing more than a rearrangement of the stacks project page).</p>
+
+            <p>The problem is that $A$ might have incomparable prime ideals (under inclusion). We would like "kill" one of the ideals but localization (the standard tool to kill prime ideals) is not allowed because we have to preserve the maximal ideal.</p>
+
+            <p style="padding-left:30px;"><strong>Proof: </strong>Suppose $A$ is not a valuation ring. Pick $x \in K$ such that $x,x^{-1} \not\in A$. There are two cases to consider:</p>
+
+            <p style="padding-left:30px;">If $x$ is transcendental, then we can simply consider $A[t]$ and localize at any maximal ideal above $\mathfrak m_A$ (which exists since the map $A\to A[t]$ induces a dominant map on schemes).</p>
+
+            <p style="padding-left:30px;">On the other hand, if $x$ is algebraic, then there exists some $a \in A$ such that $ax$ is integral and then $A[ax] \to A$ is a finite map which gives us a dominance after localizing by going up as long as $ax \not\in A$.</p>
+
+            <p style="padding-left:30px;">In other words, we can now assume that $x = b/a$ for $b,a \in A$. This is really the crucial case since if $A$ has incomparable prime ideals $\mathfrak p,\mathfrak q$, then we can find $a \in \mathfrak p, b\in \mathfrak q$ such that $a/b,b/a \not\in A$.</p>
+
+            <p style="padding-left:30px;">Now, in this case, consider the ring $A[t]/(at-b)$. The fiber above the maximal ideal is just $A/\mathfrak m_A[t]$ which is non zero. Therefore, we can pick a maximal ideal here and localize to get a domination. This more or less corresponds to "killing the incomparability" because $b = (b/a)a$.</p>
+
+        </article>
+
+        <p style="margin-top: 2rem;"><a href="../blog.html">&larr; Back to all posts</a></p>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Asvin G</p>
+        </div>
+    </footer>
+</body>
+</html>

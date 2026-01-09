@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schur&#x27;s Lemma and the Schur Orthogonality Relations. - Asvin G</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+    <header>
+        <img src="../images/banner.jpg" alt="Grothendieck-Riemann-Roch" class="banner">
+        <div class="container">
+            <div class="site-title">
+                <h1><a href="../index.html">Asvin G</a></h1>
+                <p class="tagline">Wir müssen wissen, wir werden wissen</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">About</a></li>
+                    <li><a href="../blog.html">Blog</a></li>
+                    <li><a href="../book-reviews.html">Book Reviews</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container-narrow">
+        <article class="blog-post">
+            <h1>Schur&#x27;s Lemma and the Schur Orthogonality Relations.</h1>
+            <p class="post-date">December 21, 2016</p>
+
+            <p>Both Schur's Lemma and the Schur Orthogonality relations are part of the basic foundation of representation theory. However, the connection between them is not always emphasized and the Orthogonality relations are proven more computationally.</p>
+
+            <p>The standard proofs of the relations never made sense to me, however there is very direct way to derive them from Schur's Lemma (which makes perfect sense to me!) and simple facts about projections on vector spaces. More importantly, it gives a categorical interpretation of the inner product. I think this approach should be emphasized way more than it currently is and I hope this post will go a tiny way towards fixing that.</p>
+
+            <p>Throughout this post, $V,W$ will denote <em>irreducible </em>representations of a finite group $G$ such that $|G| \neq 0 \in k$. In other words, the characteristic of our field does not divide the order of the group. For a representation $N$, I will denote it's character by $\chi_N$.</p>
+
+            <p>Also, $Hom(V,W)$ will denote the representation of linear maps between $V,W$ while $Hom_G(V,W)$ will denote the representation of linear maps that respect the $G$- action. In fact, $Hom_G(V,W) = Hom(V,W)^G$. That is, the linear maps fixed by $G$ are precisely the maps that respect the $G$- structure as can be easily verified.</p>
+
+            <p>Recall that the Schur orthogonality relations state the following:</p>
+
+            <p><strong>Theorem 1 [Schur Orthogonality Relations]:</strong></p>
+
+            <p style="text-align:center;">$\langle\chi_V,\chi_W \rangle := \frac{1}{|G|}\sum_{g\in G}\overline{\chi_V(g)}\chi_W(g) = \begin{cases} 1 &amp; V \cong W\\ 0 &amp; V \not\cong W \end{cases}$</p>
+
+            <p>It expresses the inner product of two <em>irreducible </em>representations simply in terms of whether or not the two representation s are isomorphic. We do not lose anything by restricting to irreducible representations since the general case follows simply by the bilinear properties of the inner product.</p>
+
+            <p>As mentioned above, we will prove this using just Schur's Lemma and a simple observation about projections of vector spaces. Recall Schur's Lemma:</p>
+
+            <p><strong>Lemma 1 [Schur's Lemma]:</strong></p>
+
+            <p style="text-align:center;">$Hom_G(V,W) = \begin{cases} k &amp; V \cong W\\ 0 &amp; V \not\cong W \end{cases}$</p>
+
+            <p><em>Proof: </em>The proof of this is very simple and follows from the idea that the kernel and image of a map between representations are themselves representations. Since $V,W$ were assumed to be irreducible, an endomorphism is either $0$ or an isomorphism.</p>
+
+            <p>If the endomorphism $f$ is an isomorphism, then let $\lambda$ be any eigenvalue (this exists because $k$ is assumed algebraically closed). Then $f-\lambda I$ is also an endomorphism, has non trivial kernel and is therefore identically $0$.</p>
+
+            <p style="text-align:right;">$\Box$</p>
+
+            <p>Note the remarkable similarity with the orthogonality relations. The second observation we will need it the following:</p>
+
+            <p><strong>Lemma 2: </strong>For any representation $M$ of $G$, the operator $P = \frac{1}{|G|}\sum_{g\in G}g$ from $M \to M$ is in fact a projection of $M$ onto $M^G$, the subspace fixed by $G$. Also, for any projection $P$, the trace of $P$ is equal to the dimension of it's image.</p>
+
+            <p><em>Proof: </em>The proof is again very easily verified. One simply has to check that $P$ fixes $M^G$ and that the image is fixed by $G$.</p>
+
+            <p style="text-align:right;">$\Box$</p>
+
+            <p>As simple as the above two lemmas are, they are all we will need.</p>
+
+            <p><em>Proof of Theorem 1(Schur Orthogonality relations): </em>Let us apply the second observation taking $M = Hom_k(V,W)$ and take the trace of the projection operator $P$.</p>
+
+            <p>To carry out the computation, let $\{e_i\}_i$ and $\{f_j\}_j$ be a basis of $V,W$ respectively. Then, the basis we will use for $M = Hom_k(V,W)$ will be the $m_{ij}(e_i) = \delta(i-j)f_j$. That is, $m_{ij}$ sends $e_i \to f_j$ and everything else to $0$.</p>
+
+            <p>Recall that $g$ acts on $M$ by sending a linear map $m$ to $g(m) = \rho_W(g)m\rho_V(g^{-1})$ where $\rho_V$ denotes the action of $g$ on $V$. To compute the trace of this map, we need to know the $m_ij$ component of $g(m_{ij}$. That is to say, we need to know the $f_j$ component of $g(m_{ij})(e_{i})$.</p>
+
+            <p>If we denote $\rho_V(g) = [a_{ij}(g)]$ and $\rho_W(g) = [b_{ij}(g)]$, then we see that $\rho_V(g^{-1})$ take $e_{i}$ to the $i$ -th column of $\rho_V(g^{-1})$ and then $m_{ij}$ takes this to $a_{ii}(g^{-1})f_j$ which $\rho_W(g)$ takes to $b_{jj}a_{ii}f_j$ + other components.</p>
+
+            <p>Therefore, the trace of our projection map is given by:</p>
+
+            <p style="text-align:center;">$\sum_{i,j}a_{ii}(g^{-1})b_{jj}(g) = \sum_i a_{ii}\sum_j b_{jj} = \chi_V(g^{-1})\chi_W(g)$</p>
+
+            <p>as required.</p>
+
+            <p style="text-align:right;">$\Box$</p>
+
+            <p><strong>Remark: </strong>The much slicker way of carrying out the above proof is to note that $M = Hom_k(V,W) \cong V^\vee\otimes_k W$ as $G$-representations and therefore<em> </em>$\chi_M = \chi_{V^\vee\otimes_k W} = \overline{\chi_V}\chi_W$. The verification of these facts is more or less equivalent to the explicit computation carried out above.</p>
+
+            <p>In fact, we will have established the following general theorem (not requiring that $V,W$ be irreducible any longer):</p>
+
+            <p><strong>Theorem 2:</strong></p>
+
+            <p style="text-align:center;">$\langle \chi_V,\chi_W\rangle = \dim Hom_G(V,W)$</p>
+
+            <p>Our proof shows it for irreducible representations but note that both sides are bilinear in $(V,W)$.</p>
+
+            <p>Compared to the standard proof (in say Serre), this proof is very conceptual and factors the orthogonality relations into Theorem 2 and Schur's Lemma. In fact, Theorem 2 is of great interest by itself. For instance, one can prove the Frobenius Reciprocity theorem extremely easily from what we have shown.</p>
+
+            <p>The proof runs as follows: Let $f: H \to G$ be a map of groups. Note that representations of $H,G$ over $k$ are the same as modules over $k[H],k[G]$. Let $f^*: Rep_H \to Rep_G$ be the induced representation functor and $f_*: Rep_G \to Rep_H$ be the restriction functor.</p>
+
+            <p>It is easy to show that in fact $f^*,f_*$ correspond to the usual pullback and pushforward on modules and the usual adjunction (Tensor-Hom in this case) shows:</p>
+
+            <p style="text-align:center;">$Hom_G(f^*V,W) = Hom_H(V,f_*W).$</p>
+
+            <p>Applying theorem 2 to this after taking dimensions on both sides, we end up with:</p>
+
+            <p style="text-align:center;">$\langle f^*\chi_V, \chi_W\rangle = \langle \chi_V,f_*\chi_W \rangle$</p>
+
+            <p>which is one way of writing the Frobenius reciprocity theorem.</p>
+
+            <p><strong>Closing Remarks:</strong></p>
+
+            <p>Ultimately, I think the value of this approach is twofold:</p>
+
+            <ol>
+                <li>This proof clarifies that what we should really be interested in is $Hom_G(V,W)$.</li>
+                <li>We have given a categorical interpretation to the inner product. That is, the inner product is in fact a representation and even more, it is the Hom-set in the category of representations over $G$ and therefore the category of representations is enriched over itself. This eventually leads to the idea of Tannakian categories.</li>
+            </ol>
+
+        </article>
+
+        <p style="margin-top: 2rem;"><a href="../blog.html">&larr; Back to all posts</a></p>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Asvin G</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semistable Abelian Varieties and unipotent action - Asvin G</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+    <header>
+        <img src="../images/banner.jpg" alt="Grothendieck-Riemann-Roch" class="banner">
+        <div class="container">
+            <div class="site-title">
+                <h1><a href="../index.html">Asvin G</a></h1>
+                <p class="tagline">Wir müssen wissen, wir werden wissen</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">About</a></li>
+                    <li><a href="../blog.html">Blog</a></li>
+                    <li><a href="../book-reviews.html">Book Reviews</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container-narrow">
+        <article class="blog-post">
+            <h1>Semistable Abelian Varieties and unipotent action</h1>
+            <p class="post-date">July 21, 2020</p>
+
+            <p>This blog post is inspired by Ribet's "Endomorphisms of semi-stable abelian varieties over number fields". I will talk about semi-stability for Abelian varieties, the minimal field of definition of endomorphisms and Grothendieck's quasi-unipotent theorem.</p>
+
+            <p>Let's begin with semi-stable Abelian varieties. Suppose we have a DVR $R$ and an Abelian variety over $K$, the fraction field of the DVR. We say that the Abelian variety has good reduction if there is a smooth, proper model over $R$. On the other hand, we say that an Abelian variety has semi-stable reduction if the special fiber of the Neron model is the extension of an Abelian variety by an algebraic torus.</p>
+
+            <p>By Chevalley's theorem, this is equivalent to saying that there is no additive portion over the special fiber. In the case of elliptic curves, semi stable means that the reduction can be either an elliptic curve or $\mathbb G_m$. We have the following criterion for semi-stability:</p>
+
+            <p style="padding-left:30px;"><strong>Theorem 1: </strong>In the above situation, an Abelian variety has semi-stable reduction if and only if the action of the inertia group of $K$ on the Tate module is unipotent.</p>
+
+            <p style="padding-left:30px;"><strong>Proof:</strong> This is a very hard theorem (of Grothendieck?). In the case of curves, it's quite straightforward as we now show.</p>
+
+            <p style="padding-left:30px;">If our elliptic curve has semistable reduction, consider then $G_n$ to be the etale part of the $\ell^n$ torsion of the Neron model of the curve (over $R$ with $\ell$ not equal to the characteristic). This is non trivial (because we have semi-stable reduction) and contains $\mathbb Z/\ell^n$ for all $n$ since the reduction is $\mathbb G_m$. Therefore, the Inertia group fixes this vector in the Tate module and since the determinant is the cyclotomic character which is trivial on the Inertia group, this proves unipotency.</p>
+
+            <p style="padding-left:30px;">In the other direction, if the Inertia group fixes a vector, then the Tate module of the reduction contains a non trivial vector and so cannot be $\mathbb G_a$.</p>
+
+            <p>This theorem is closely related to the Neron-Ogg-Shafarevich criterion which is much easier to prove (see Serre-Tate). This theorem states that good reduction corresponds to the Inertia action being <em>trivial. </em>An important corollary is that good/semi-stable reduction depends only on the <em>isogeny </em>type.</p>
+
+            <p>In fact, etale extensions don't change the reduction type since Neron model formation commutes with smooth base change.</p>
+
+            <p>Next, let us talk about Grothendieck's quasi-unipotent theorem which will apply to Abelian varieties to show that all Abelian varieties are semi-stable after a finite (ramified) base change.</p>
+
+            <p style="padding-left:30px;"><strong>Theorem: </strong>Suppose we have a mixed characteristic DVR $R$ with fraction field $K$, Galois group $G_K$ and inertia group $I_K$. Suppose we have any $\ell-$adic finite dimensional representation $V$ (for $\ell$ not characteristic). Suppose the cyclotomic character is not trivial on $G_K$.</p>
+
+            <p style="padding-left:30px;">Then, after a finite base change, the Inertia group acts unipotently.</p>
+
+            <p style="padding-left:30px;"><strong>Proof: </strong>We make several easy simplifications. We can pass to the maximal unramified extension and so assume that $G_K = I$. Since the wild inertia group is pro-p, it's order in $GL(V)$ is finite and we can assume that it is trivial.</p>
+
+            <p style="padding-left:30px;">Thus, we have to show that the tame inertia group acts in a unipotent fashion. The tame inertia group has a topological generator (say $g$) which satisfies the relation $\sigma g = g^\chi(\sigma) \sigma $ for any element $\sigma \in G_K$.</p>
+
+            <p style="padding-left:30px;">But then, $g$ and $g^q$ are conjugate for some $q = \chi(\sigma)$. Thus, if $\alpha_1,\dots\alpha_n$ are the eigenvalues of $g$, then raising to the $q$-th power permutes these which shows that $\alpha_i^{q^r-1} = 1$ for some $r$.</p>
+
+            <p>A couple of remarks about the above theorem are in order. By spreading out etc, we can in fact extend the above theorem to the geometric context: Suppose we have a monodromy representation of some Riemann surface, then this action is potentially unipotent!!</p>
+
+            <p>By Theorem 1 + 2, we see that any Abelian variety has semi-stable reduction after a finite base change. Now let us focus on the endomorphisms of semi-stable Abelian Varieties. This material is from Ribet's paper.</p>
+
+            <p style="padding-left:30px;"><strong>Theorem 3: </strong>Suppose we have a semi stable abelian variety over a DVR as above and an endomorphism $f$ defined over an algebraic closure. Then, in fact the endomorphism is defined over an unramified extension.</p>
+
+            <p style="padding-left:30px;"><strong>Proof: </strong>We know that the Inertia action is unipotent. To say that the endomorphism is defined over some field is to say that $f$ commutes with the $G_K$ action in the endomorphism ring of the Tate Module. Therefore, we have to show that the Inertia group commutes with $f$.</p>
+
+            <p style="padding-left:30px;">Let $\sigma$ be an element in the inertia group. Then $\sigma$ acts unipotently (by semi-stability). On the other hand, some power of it commutes with $f$ (since the endomorphism is defined after <em>some </em>finite base change).</p>
+
+            <p style="padding-left:30px;">Now we have an elementary lemma that finishes the proof.</p>
+
+            <p>The elementary lemma in linear algebra is as follows:</p>
+
+            <p style="padding-left:30px;"><strong>Elementary lemma: </strong>Suppose $T,U$ are endomorphisms on a finite dimensional vector space such that $U$ is unipotent and $T$ commutes with some power $U^k$. Then $U$ commutes with $T$.</p>
+
+            <p style="padding-left:30px;"><strong>Proof: </strong>$U^k = (I+N)^k = I + k N + o(N^2)$ where $N,N'$ are nilpotent. This shows that $N$ can be written as a polynomial in $U^k$ (by the implicit function theorem and nilpotency...) and therefore $N$ commutes with $T$.</p>
+
+            <p><em>Question: </em>In the case that $U$ is diagonalizable, the lemma is again true because to commute is equivalent to preserving the eigenspaces. Does this in fact prove the lemma for any $U$ whatsoever by Jordan block decomposition?</p>
+
+            <p>Theorem 3 now gives us several quick consequences.</p>
+
+            <p style="padding-left:30px;"><strong>Theorem 4:</strong>  Let $A,A'$ be semi-stable abelian varieties over $\mathbb Q$.</p>
+
+            <p style="padding-left:30px;">a) For a semi-stable abelian variety over $Q$, all endomorphisms are defined over $Q$.</p>
+
+            <p style="padding-left:30px;">b) Any subvariety of $A$ is defined over $\mathbb Q$.</p>
+
+            <p style="padding-left:30px;">c) Any isogeny $A \to A'$ is defined over $\mathbb Q$.</p>
+
+            <p style="padding-left:30px;"><strong>Proof: </strong>The first is a consequence of the fact that $\mathbb Q$ has no unramified extension. For the second, consider the endomorphism of projecting onto a factor. For the third, consider the isogeny as an endomorphism of $A\times A'$.</p>
+
+            <p>Let us look at some examples in the case of elliptic curves. In particular, if we consider CM elliptic curves (which is the only interesting case), then we see that CM elliptic curves over $\mathbb Q$ are <em>never </em>semi-stable.</p>
+
+            <p>This is because the endomorphism ring always injects into the endomorphism ring of the vector space of rational differential forms which is one dimensional over the base field. Therefore, over the rational numbers, the only endomorphisms can be the integers.</p>
+
+        </article>
+
+        <p style="margin-top: 2rem;"><a href="../blog.html">&larr; Back to all posts</a></p>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Asvin G</p>
+        </div>
+    </footer>
+</body>
+</html>

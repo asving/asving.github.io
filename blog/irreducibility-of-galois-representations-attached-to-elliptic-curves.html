@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irreducibility of Galois representations attached to Elliptic Curves - Asvin G</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+    <header>
+        <img src="../images/banner.jpg" alt="Grothendieck-Riemann-Roch" class="banner">
+        <div class="container">
+            <div class="site-title">
+                <h1><a href="../index.html">Asvin G</a></h1>
+                <p class="tagline">Wir müssen wissen, wir werden wissen</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">About</a></li>
+                    <li><a href="../blog.html">Blog</a></li>
+                    <li><a href="../book-reviews.html">Book Reviews</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container-narrow">
+        <article class="blog-post">
+            <h1>Irreducibility of Galois representations attached to Elliptic Curves</h1>
+            <p class="post-date">January 11, 2018</p>
+
+            <p><strong>Epistemic status: </strong>I have not checked this carefully for errors, it is entirely possible there are mistakes in this.</p>
+
+            <p>We will be mostly be concerned with Elliptic curves over number fields $E/K$. However, let us start with a general lemma about Elliptic curves with endomorphism ring $\mathbb Z$. In this post, I collect some properties about representations coming from Elliptic curves.</p>
+
+            <p style="padding-left:30px;"><strong>Lemma 1: </strong>Let $E$ be an elliptic curve over a field with endomorphism ring exactly $\mathbb Z$. Then for elliptic curves $E',E''$ with isogenies $f',f'': E',E'' \to E$ with non isomorphic cyclic kernels, then $E',E''$ are not isomorphic.</p>
+
+            <p style="padding-left:30px;"><strong>Proof: </strong>Say the kernels have degree $n',n''$ and suppose $E',E''$ are isomorphic. Consider the isogeny $g: E \to E' \to E'' \to E$ where the central arrow is the supposed isomorphism and the last arrow is the dual of $f''$. This is an endomorphism of $E$ and therefore, by assumption is of the form $[n]$ (multiplication by $n$).</p>
+
+            <p style="padding-left:30px;">Moreover, the kernel of $g$ contains the kernel of $f'$ which is a cyclic subgroup. Therefore, $\mathbb Z/n'\mathbb Z$ is contained in $\mathbb Z/a\mathbb Z$. That is, $n'|a$. Moreover, the quotient by the kernel of $f$ contains the cyclic subgroup $\mathbb Z/n''\mathbb Z$. By a similar argument, this shows that $n''|a$.</p>
+
+            <p style="padding-left:30px;">That is to say, $n'n'' = a^2$ and $n',n''|a$ and therefore $n'=n''$ contrary to assumption.</p>
+
+            <p style="text-align:right;">$\Box$</p>
+
+            <p>This might seem like quite a specialized lemma but it has surprising utility. For instance, this lemma features implicitly in showing that the various definitions of a supersingular elliptic curve are equivalent. We will use it together with Shafarevich's theorem to prove the irreducibility of the Galois representation on the Tate module.</p>
+
+            <p style="padding-left:30px;"><strong>Theorem 1[Shafarevich's Theorem]: </strong>If $E$ is an elliptic curve over a number field $K$ and $S$ is a finite set of finite places of $K$, then there are only finitely many isomorphism classes of Elliptic curves with good reduction away from $S$.</p>
+
+            <p>This has the important corollary:</p>
+
+            <p style="padding-left:30px;"><strong>Corollary 1: </strong>There are only finitely many isomorphism classes of Elliptic curves isogenous to $E/K$.</p>
+
+            <p>I will not prove either theorem here but the proofs are not too hard. The idea is to bound the number of Elliptic curves that can occur by considering the Weierstrass equation and showing that there are only finitely many options that can occur for any given discriminant (by Siegel's theorem). The number of discriminants that can occur is further bounded since they are units in $\mathscr O_{K,S}$ determined upto a 12th power.</p>
+
+            <p>We can use the lemma and corollary to prove the irreducibility of Galois representations. Let $V_l$ be the rational Tate module of $E$ and $E[l]$ the $l-$ torsion of $E$. Both of these are $G_K = \mathrm{Gal}(\overline K/K)$ modules.</p>
+
+            <p style="padding-left:30px;"><strong>Theorem 2: </strong>For curves $E/K$ with no (rational) Complex multiplication, $V_l$ is irreducible for all $l$ and $E[l]$ is irreducible for almost all $l$.</p>
+
+            <p style="padding-left:30px;"><strong>Proof: </strong>If $E[l]$ is reducible, then it contains a cyclic submodule $X_l$ defined over $K$. Then, $E/X_l$ are elliptic curves defined over $K$, isogenous to $E$ with cyclic kernels of order $l$ and therefore by the lemma are pairwise non isomorphic. However, by the corollary, there can only be finitely many such isomorphism classes and therefore, finitely many $l$ such that $E[l]$ is reducible.</p>
+
+            <p style="padding-left:30px;">Similarly, suppose $V_l$ is reducible. Then it contains a cyclic submodule $Y$. Since the integral Tate module $T_l$ is also Galois-invariant, we can define $X = Y_l \cap T_l$ defined over $K$. Consider $X_n = X/l^nX$. These are cyclic subgroups of $E[l^n]$. As such, we can define $E_n = E/X_n$ to be curves over $K$ isogenous to $E$ with cyclic kernels.</p>
+
+            <p style="padding-left:30px;">As before, by the lemma they are pairwise distinct but by Shafarevich's theorem this is impossible. In this case, we can also avoid Shafarevich's theorem by the following argument:</p>
+
+            <p style="padding-left:30px;">By the lemma, we know that there $E_n \cong E_m$ for some $m&gt;n$. Note that $X_n \subset X_m$ in this case. Therefore, there is an isogeny $E/X_n \to E/X_m$ with cyclic kernel but this is also an endomorphism since these curves were assumed to be isomorphic. Since $E/X_n$ does not have CM by assumption, this is an impossibility (endomorphisms cannot have cyclic kernels in this case).</p>
+
+            <p style="text-align:right;">$\Box$</p>
+
+            <p>This theorem is quite interesting but also quite far from the best known. A few remarks follow:</p>
+
+            <p style="padding-left:30px;"><strong>Remark 1: </strong>The above theorem is false for curves with complex multiplication. In that case, suppose $K$ is a field that contains the field of endomorphisms $L$ of $E$. If $p = \pi_1\pi_2$ is a prime that splits in $L$, then $E[p]$ is reducible. This is because there exists an isogeny $[\pi_1]$ defined over $K$ with kernel of size $N(\pi_1) = p$.</p>
+
+            <p style="padding-left:30px;"><strong>Remark 2: </strong>In fact, the assumption of not having rational CM is not hard to achieve at all. For instance, suppose our base field does not contain any quadratic imaginary number field (for instance, it could be $\mathbb Q$ or a totally real number field more generally), then by studying the action on the tangent space, it is easy to see that the endomorphism ring is always $\mathbb Z$.</p>
+
+            <p style="padding-left:30px;"><strong>Remark 3: </strong>Serre proved a much stronger version of this where he showed that, under the hypothesis of the theorem, the image of $G_K$ in the $E[l]$ is in fact isomorphic to the entire group $GL_2(\mathbb F_p)$ for almost all $l$. This is proved in his famous 1972 paper "Proprites galoisiennes des points d'ordre fini des courbes elliptiques". This is of course much stronger than simple irreducibility.</p>
+
+            <p>In fact, we can beef up irreducibility to absolute irreducibility easily enough:</p>
+
+            <p>First, note that there is an element (called complex conjugation) in $G_K$ that has order $2$ and determinant $-1$ by the Weil pairing. Hence, it has eigenvalues $1,-1$. In particular, we can find a rational basis of eigenvectors for complex conjugation. Since the action on $E[l]$ is by the reduction of the action on $V_l$, the same is true for the characteristic $l$ reduction.</p>
+
+            <p>This is to say, we have an element that has two eigenvectors with eigenvalues $1,-1$ defined over the base field. This is sufficient to prove absolute irreducibility:</p>
+
+            <p style="padding-left:30px;"><strong>Corollary 3: </strong>Let $V$ be a two dimensional irreducible representation of a group $G$ over the field $K$. Suppose that there is an element $g$ with two eigenvectors $v,w$ with eigenvalues $1,-1$ respectively. Then, the representation is absolutely irreducible.</p>
+
+            <p style="padding-left:30px;"><strong>Proof: </strong>Let $L/K$ be a field extension such that $V\otimes_K L$ is reducible. Then, there is an invariant subspace generated by a vector of the form $\alpha v + \beta w$. In particular, $g$ fixes it which implies that $\alpha$ or $\beta$ is $0$.</p>
+
+            <p style="padding-left:30px;">However, this immediately implies that the vector space spanned by $v$ or $w$ in $V$ is in fact invariant under $G$ and hence $V$ is irreducible.</p>
+
+            <p style="text-align:right;">$\Box$</p>
+
+        </article>
+
+        <p style="margin-top: 2rem;"><a href="../blog.html">&larr; Back to all posts</a></p>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Asvin G</p>
+        </div>
+    </footer>
+</body>
+</html>

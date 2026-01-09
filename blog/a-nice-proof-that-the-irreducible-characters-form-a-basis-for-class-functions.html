@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A nice proof that the irreducible characters form a basis for class functions - Asvin G</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+    <header>
+        <img src="../images/banner.jpg" alt="Grothendieck-Riemann-Roch" class="banner">
+        <div class="container">
+            <div class="site-title">
+                <h1><a href="../index.html">Asvin G</a></h1>
+                <p class="tagline">Wir müssen wissen, wir werden wissen</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">About</a></li>
+                    <li><a href="../blog.html">Blog</a></li>
+                    <li><a href="../book-reviews.html">Book Reviews</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container-narrow">
+        <article class="blog-post">
+            <h1>A nice proof that the irreducible characters form a basis for class functions</h1>
+            <p class="post-date">December 27, 2016</p>
+
+            <p><strong>Warning: This is a very shoddily organized post and can be vastly improved. The method of proof is still nice however.</strong></p>
+
+            <p>Let $G$ be a finite group of size $g$ and $k$ an algebraically closed field such that $g \neq 0$ in it. Let $V_1,\dots, V_n$ be the irreducible representations of $G$ over $k$ and $\chi_1,\dots,\chi_n$ the corresponding characters.</p>
+
+            <p>A class function $f: G \to k$ is a <em>set</em> function such that $f$ is constant on conjugacy classes. That is, for all $g,h \in G, f(h^{-1}gh) = f(g)$. It is easy to see that any character is a class function by cyclicity of the trace function.</p>
+
+            <p>Let us denote by $H$ the vector space of class functions and $W$ the vector space of functions spanned by the $\chi_i$ within $H$. It is natural to wonder about the size of $W$ relative to $H$. In fact, the two vector spaces are equal!</p>
+
+            <p>To prove this, let us consider the algebra $k[G]$. By our hypothesis and the usual argument of Maschke's theorem, this is a semisimple ring. That is, $k[G]$ is semisimple as a $G$ representation. Let $r_G$ be the character attached to this so called regular representation. A simple computation shows us that $r_1 = g$ and $r_G = 0$ otherwise.</p>
+
+            <p>Moreover, for any irreducible representation $V_k$, we see from <a href="http://asving.com/2016/12/21/schurs-lemma-and-the-schur-orthogonality-relations/">last time</a> that:</p>
+
+            <p style="text-align:center;">$Hom_G(V_k,k[G]) = \frac{1}{g}\sum_g r_G(g^{-1})\chi_k(g) = \chi_k(1) = \dim V_k.$</p>
+
+            <p>Therefore, by semisimplicity</p>
+
+            <p style="text-align:center;">$k[G] \cong \oplus_k V_k^{\dim V_k}$</p>
+
+            <p>as representations. Moreover, the orthogonality relations from last time also show that the $\chi_k$ are linearly independent. That is, $\dim W = \#$ irreducible characters.</p>
+
+            <p>Taking the endomorphism ring on both sides (as modules over $k[G]$), we obtain:</p>
+
+            <p style="text-align:center;">$k[G] \cong M_{\dim V_k}(k)$</p>
+
+            <p>as algebras. Considering dimensions, we have incidentally shown that $g = \sum_k \dim V_k^2$. Moreover, let us consider the central elements in $k[G]$. They are easily seen to exactly be the elements of the form $\sum_g f(g)g$ for $f:G \to k$ a class function.</p>
+
+            <p>On the other hand, the central elements in $M_n(k)$ are always just $k$. Therefore, the dimension of the center of $k[G]$ (= vector space of class functions) is equal to the number of irreducible representations. Therefore, $\dim W = \dim H$ and we are done.</p>
+
+            <p>The above map can be thought of as the representation of a class function in the basis defined by the functions $c_k\overline{\chi_k}$ for some appropriate constants $c_k$. This is because the element:</p>
+
+            <p style="text-align:center;">$\lambda_i = \sum_{g}\overline{\chi_i}g \in k[G]$</p>
+
+            <p>maps to a a diagonal element in $M_{\dim V_j}(k)$ that can be calculated by taking the trace. That is to say, the image of $\lambda_i$ in $M_{\dim V_j}(k)$ is given by:</p>
+
+            <p style="text-align:center;">$\frac{1}{\dim V_k}\sum_{g}\overline{\chi_i(g)}\chi_j(g) = \frac{g}{\dim V_k}\delta_{ij}$</p>
+
+            <p>by the orthogonality relations. We see that $c_k = \frac{\dim V_k}{g}$.</p>
+
+        </article>
+
+        <p style="margin-top: 2rem;"><a href="../blog.html">&larr; Back to all posts</a></p>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Asvin G</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The reduction of base change theorems to nice cases - Asvin G</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+    <header>
+        <img src="../images/banner.jpg" alt="Grothendieck-Riemann-Roch" class="banner">
+        <div class="container">
+            <div class="site-title">
+                <h1><a href="../index.html">Asvin G</a></h1>
+                <p class="tagline">Wir müssen wissen, wir werden wissen</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">About</a></li>
+                    <li><a href="../blog.html">Blog</a></li>
+                    <li><a href="../book-reviews.html">Book Reviews</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container-narrow">
+        <article class="blog-post">
+            <h1>The reduction of base change theorems to nice cases</h1>
+            <p class="post-date">May 02, 2020</p>
+
+            <p>There are various base change theorems in algebraic geometry (flat in zariski topology, proper, smooth in etale topology etc). Often, especially in the etale site, it is easier to prove base change for specific morphisms (relative dimension one or projective instead of proper, for instance) and there is a formal mechanism for reducing from the generic case to the specific case. This post sketches a proof of that.</p>
+
+            <p>Just to be very specific, let me focus on the proper base change theorem. It is the statement that give two morphisms $f, g: X,Y \to S$ with $f: X\to Y$ proper and a torsion (constructible) sheaf $\mathscr F$ on $X$, the natural map $g^*(R^qf_*\mathscr F) \to R^qf_*(g^*\mathscr F)$ is an isomorphism and I will refer to this as "base change being true in degree $q$". I am fudging notation here where I also refer to the projection maps $X\times_S Y \to X, Y$ as $g,f$.</p>
+
+            <p>I will prove in particular that the case of proper maps follows from just projective maps. The reduction proceeds through <a href="https://en.wikipedia.org/wiki/Chow%27s_lemma">Chow's lemma</a> which guarantees the existence of a map $p: \tilde X \to X$ from a projective (over $S$ scheme to $X$). Now, both the maps $p$ and the structure map $\pi: \tilde X \to S$ are projective, therefore, we are in the following situation (and annoyingly, I am going to change notation):</p>
+
+            <p style="padding-left:30px;"><strong>Theorem: </strong>Suppose we have a surjective map $f: X \to Y$ over $S$ with structure maps $\pi: X\to S, g: Y \to S$ with $g\circ f = \pi$ such that base change is true for $f,\pi$ in all degrees and moreover, base change in degree $0$ is always true.</p>
+
+            <p style="padding-left:30px;">Then base change is true for $g$.</p>
+
+            <p style="padding-left:30px;"><strong>Proof: </strong>The proof essentially has two steps. The first is this very general lemma</p>
+
+            <p style="padding-left:60px;"><strong>Lemma: </strong> Suppose we have two cohomological functors $T_1,T_2: \mathcal A \to \mathcal B$ and a morphism $\phi: T_1 \to T_2$. Suppose that there are enough acyclic objects with respect to $T_1$. Then to show that this is a bijection for all objects $X \in \mathcal A$, it suffices to show:</p>
+
+            <p style="padding-left:60px;">The degree $0$ map is a bijection: $\phi^0 : T_1(X) \to T_2(X)$ for all objects $X$ and for every object, there is a monomorphism $X \hookrightarrow E$ for which $\phi^n: T_1(E) \to T_2(E)$ is a bijection.</p>
+
+            <p style="padding-left:30px;">The proof is a straightforward induction. In our context, $T_1,T_2$ will be the two base change functors mentioned above and we will pick $E$ to be of the form $f_*(\mathscr I)$ for $\mathscr I$ an injective object over $X$:</p>
+
+            <p style="padding-left:60px;">Given any sheaf $\mathscr F$ on $Y$, the point is that $\mathscr F \to f_*f^*\mathscr F$ is an injection (using surjectivity of $f$). We can simply inject $f^*\mathscr F \hookrightarrow \mathscr I$ and since pushforward preserves injective maps, we win.</p>
+
+            <p style="padding-left:30px;">All that is left now is to show that $\phi$ is a bijection on this subcategory. For this, we instead work with the derived categories. At this level, it is very easy to show that the base change morphism (as a morphism in the derived category) is an isomorphism for those complexes over $Y$ that come from the (derived) pushforward of a complex in $X$.</p>
+
+            <p style="padding-left:60px;">The proof is simply by chasing arrows and using the fact that if $\pi = g\circ f$, then $D\pi_* = D(g_*)\circ D(f_*)$ which is the derived incarnation of the Leray spectral sequence and the assumptions on some morphisms satisfying base change.</p>
+
+            <p style="padding-left:30px;">Finally, note that the complex $0 \to f_*\mathscr I \to 0$ is indeed the pushforward of the complex $0 \to \mathscr I \to 0$. As far as I can tell, this need not be true if $I$ were not injective. This completes the proof.</p>
+
+            <p>Finally, I would like to mention why we can reduce to the case of relative dimension $1$.</p>
+
+            <p style="padding-left:30px;">Suppose a morphism $X\to S$ can be filtered by morphisms $X\to X_n \to \dots X_0 = S$ such that each of these morphisms is of relative dimension one. Then the original morphism also satisfies base change (since "base change is true" works well with composition). In particular, base change is true for morphisms of the form $(\mathbb P^1_S)^n \to S$.</p>
+
+            <p style="padding-left:30px;">Now, given a projective scheme embedded in $\mathbb P^n$, note that there is a finite surjective map $(\mathbb P^1)^n \to \mathbb P^n$ which is essentially the map associating to $n$ numbers the polynomial satisfied by them:</p>
+
+            <p style="text-align:center;padding-left:30px;">  $[x_1,y_1],\dots,[x_n,y_n] \to [F_0,\dots,F_n]$ where $\sum_{i=0}^nF_0t^0 = \prod_{i=1}^n(x_i + ty_i)$.</p>
+
+            <p style="padding-left:30px;">We are back to the case in which our theorem applies.</p>
+
+            <p>And finally, I would like to say why it is true for curves. We can immediately reduce to the case of the base being a strict henselian ring and $X$ a curve over it and a torsion constant sheaf.</p>
+
+            <p style="padding-left:30px;">The degree $0,1$ base change theorems essentially follow by deformation theory arguments. The degree $0$ case corresponds to the fact that  connected components on the special fiber all lift bijectively to the entire scheme. That we can lift to artin ring deformations of the special fiber is clear and then the theorem of formal functions lifts us all the way to the original scheme.</p>
+
+            <p style="padding-left:30px;">The degree $1$ base change theorem corresponds to lifting torsion line bundles or equivalently, finite etale covers. Since we are on a curve, there is no obstruction to lifting line bundles (they live in degree $2$ Cech cohomology which is trivial for a curve), or alternatively the etale site is invariant under adding nilpotents. An algebraization theorem of Grothendieck shows that we have lifted the line bundle/finite etale cover to the formal scheme and then a theorem of Artin shows that this comes from an actual line bundle/finite etale cover.</p>
+
+            <p style="padding-left:30px;">[Of course, in the above argument invariance of etale site under nilpotence is a much harder theorem than the one with line bundles. The point is that we only need to consider <em>abelian </em>Galois covers which simplifies things a lot!]</p>
+
+            <p style="padding-left:30px;">For curves, the only cohomology left is in degree $2$ but here, we know that these correspond to some elements in $\text{Pic}(X)$ and so we need to lift line bundles. This proceeds much the same as in the last paragraph.</p>
+
+        </article>
+
+        <p style="margin-top: 2rem;"><a href="../blog.html">&larr; Back to all posts</a></p>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Asvin G</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obstructions to Weil Cohomology coming from supersingular elliptic curves and an extension to ordinary elliptic curves - Asvin G</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+    <header>
+        <img src="../images/banner.jpg" alt="Grothendieck-Riemann-Roch" class="banner">
+        <div class="container">
+            <div class="site-title">
+                <h1><a href="../index.html">Asvin G</a></h1>
+                <p class="tagline">Wir müssen wissen, wir werden wissen</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">About</a></li>
+                    <li><a href="../blog.html">Blog</a></li>
+                    <li><a href="../book-reviews.html">Book Reviews</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container-narrow">
+        <article class="blog-post">
+            <h1>Obstructions to Weil Cohomology coming from supersingular elliptic curves and an extension to ordinary elliptic curves</h1>
+            <p class="post-date">September 25, 2019</p>
+
+            <p>When Serre and Grothendieck were coming up with an extension of the usual cohomology theory to varieties in algebraic geometry, an important example was given by Serre which showed that you couldn't have a <a href="https://en.wikipedia.org/wiki/Weil_cohomology_theory" target="_blank" rel="noopener">Weil cohomology</a> theory with coefficients in $\mathbb Q_p$ in characteristic $p$. I will explain the example and extend it to show something about the ordinary case.</p>
+
+            <p>Suppose there were a cohomology theory with coefficients in $\mathbb Q_p$. In particular, for a supersingular elliptic curve $E$ over a finite field, $H^1(E,\mathbb Q_p)$ should exists as a $\mathbb Q_p$ vector space of dimension $2$ (by comparison theorems).</p>
+
+            <p>In particular, $D = Aut(E)\otimes_\mathbb Q$, which is a $4$ dimensional quaternion algebra over $\mathbb Q$, should act on $H^1(E,\mathbb Q_p)$. In particular, this gives a map $D \to M_2(\mathbb Q_p)$ which is automatically injective since the source is a division algebra and therefore $D$ splits over $\mathbb Q_p$.</p>
+
+            <p>Similarly, etale cohomology theory with coefficients in $\mathbb Q_\ell, \ell \neq p$ gives a splitting of $D$ over the other finite primes. On the other hand, $D$ is not globally split and therefore it is not split over infinity. However, this contradicts the Brauer group <a href="https://en.wikipedia.org/wiki/Brauer_group#Class_field_theory" target="_blank" rel="noopener">exact sequence</a> from class field theory.</p>
+
+            <p>Of course, there do exist Weil cohomology theories over an extension of $\mathbb Q_p$. In particular, <a href="https://en.wikipedia.org/wiki/Crystalline_cohomology" target="_blank" rel="noopener">crystalline cohomology</a> is defined over the Witt vectors of the base field. The same argument as before now shows simply that no supersingular elliptic curve defined over $\mathbb F_p$ can have all it's endomorphosms defined over the base field since $W(\mathbb F_p) = \mathbb Q_p$.</p>
+
+            <p>In fact, it is not hard to show that every supersingular elliptic curve is in fact defined $\mathbb F_{p^2}$. This shows that $D\otimes\mathbb Q_p$ has order two in the corresponding Brauer group.</p>
+
+            <hr />
+
+            <p>Note that we could replace $H^1(E,\mathbb Q_\ell)$ with the Tate module (or more precisely, it's dual) if $\ell \neq p$. However, over $p$, the Tate module is always lower dimension than one would expect and in the supersingular case, it is in fact trivial. This is also in fact implied by our above argument since otherwise we would have an injective map $D\otimes Q_p \to M_k(\mathbb Q_p)$ for $k\geq 1$ which is evidently absurd.</p>
+
+            <p>On the other hand, for ordinary elliptic curves over a finite field, the Tate module is a one dimensional, free $\mathbb Z_p$ module while the endomorphism algebra is an imaginary quadratic number field $K$.</p>
+
+            <p>In particular, we have an injective map $K \to M_1(\mathbb Q_p) = \mathbb Q_p$. It's injective because, for instance, the $p-$ torsion points can have arbitrarily high degree. We can tensor up to $\mathbb Q_p$ to get a map $K\otimes\mathbb Q_p \to \mathbb Q_p$.</p>
+
+            <p>Note that this map can no longer be injective simply for dimension reasons! In particular, $K$ has to split over $p$ and moreover, we can find a sequence of endomorphisms of $E$ that are non-zero in the $p$-adic limit in $K\otimes\mathbb Q_p$ but converge to the $0$ endomorphism of the Tate module. We can do this explicitly:</p>
+
+            <p>Let $\phi$ be the Frobenius endomorphism (over the base field) and consider the sequence of endomorphisms $\sigma_n = \phi^{n!}-1$. This sequence is Cauchy in the p-adic topology because the successive difference is $\sigma_{n+1}-\sigma_n = \phi^{n!}(\phi^{n.n!} - 1)$.</p>
+
+            <p>This fixes a large subgroup of rational points because of the $\phi^{n.n!}-1$ factor and it fixes a large subgroup of $\mu_{p^\infty}$ points because of the inseparable $\phi^{n!}$ factor. Therefore, it factors through a large power of $p$.</p>
+
+            <p>The limit is however non-zero because $\phi^{n!} - 1$ acts on $\mu_{p^\infty}$ by $-1$ and therefore it does not factor through the $p$ endomorphism.</p>
+
+            <p>For any finite field $\mathbb F_q$, there exists a large enough $n$ so that $\sigma_n$ fixes it. Since all torsion points are algebraic, this shows that $\sigma_n$ kills the Tate module in the limit.</p>
+
+        </article>
+
+        <p style="margin-top: 2rem;"><a href="../blog.html">&larr; Back to all posts</a></p>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Asvin G</p>
+        </div>
+    </footer>
+</body>
+</html>

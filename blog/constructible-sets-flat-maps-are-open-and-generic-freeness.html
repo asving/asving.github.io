@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constructible sets, openness of flat maps and generic freeness. - Asvin G</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+    <header>
+        <img src="../images/banner.jpg" alt="Grothendieck-Riemann-Roch" class="banner">
+        <div class="container">
+            <div class="site-title">
+                <h1><a href="../index.html">Asvin G</a></h1>
+                <p class="tagline">Wir müssen wissen, wir werden wissen</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">About</a></li>
+                    <li><a href="../blog.html">Blog</a></li>
+                    <li><a href="../book-reviews.html">Book Reviews</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container-narrow">
+        <article class="blog-post">
+            <h1>Constructible sets, openness of flat maps and generic freeness.</h1>
+            <p class="post-date">August 22, 2019</p>
+
+            <p>I will cover a set of results that are connected and illustrate some interesting techniques about working with finiteness conditions (finitely generated as a ring, module etc) in algebraic geometry over a field.</p>
+
+            <p>Initially, I will prove Chevalley's theorem that the image of a constructible set is constructible. This will involve proving Grothendieck's generic freeness and Noetherian induction. Next, I will give a couple of applications of Chevalley's theorem - I will prove that flat maps are open and provide a different proof of the Nullstellensatz.</p>
+
+            <p><span style="text-decoration:underline;"><strong>Chevalley's Theorem on Constructible sets:</strong></span></p>
+
+            <p>Given a scheme $X$, a (topological) subspace is constructible if it the union of sets of the form $U \cap V$ for $U,V$ open and closed respectively. That is, it is a finite union of locally closed subspaces.</p>
+
+            <p style="padding-left:30px;"><strong>Theorem 1 (Chevalley): </strong>Suppose $f:X \to Y$ is a finite type morphism between Noetherian schemes. Then the image of a constructible set under the morphism is constructible.</p>
+
+            <p>To prove this, we will use Grothendieck's generic freeness lemma:</p>
+
+            <p style="padding-left:30px;"><strong>Theorem 2 (Grothendieck's generic freeness): </strong>Suppose $\phi: B \to A$ is a finite type morphism of rings where $B$ is a Noetherian integral domain. Let $M$ be a finite module over $A$. Then, there is a $f \in B$ such that $M_f$ is a free $B_f$ module.</p>
+
+            <p>This theorem can obviously be generalized to the case of schemes and coherent sheaves with appropriate finiteness hypothesis. The proof of this theorem proceeds by an application of spreading out:</p>
+
+            <p style="padding-left:30px;"><strong>Proof:</strong> For an exact sequence of modules $0 \to M \to N \to P \to 0$, if $M,P$ are generically free in the above sense, then clearly so is $N$. Therefore, by using a sufficiently fine filtration of the given module $M$, we can reduce to the case where $M = A/\mathfrak p$ for a prime ideal $\mathfrak p \subset A$ (using the theory of associated primes). In short, we can assume that $M= A$ and $A$ is an integral domain.</p>
+
+            <p style="padding-left:30px;">The induction will be on the transcendence degree of $A$ over $B$. If $A$ is a finite extension, then the torsion of $A$ has a closed locus of support and we pick a $f$ that kills the torsion. In general, consider $A\otimes_B K(B)$ where $K(B)$ is the fraction field of $B$.</p>
+
+            <p style="padding-left:30px;">This is a finite type algebra over $K(B)$ and by Noether Normalization (see <a href="http://asving.com/2017/11/22/noether-normalization-spreading-out-and-the-nullstellensatz/">here</a>), we can find a factorization of the form $K(B) \to K(B)[t_1,\dots,t_n] \to A\otimes_B K(B)$ where $B[t_1,\dots,t_n] \to A$ is finite. Now, it is not necessary that this is true integrally but after inverting by all the relevant denominators, we can find a $f\in B$ such that we have a factorization $B_f \to B_f[t_1,\dots, t_n] \to A_f$ as before.</p>
+
+            <p style="padding-left:30px;">Moreover, since $A$ is generically finite over $B[t_1,\dots,t_n]$, we can find some integral generators (this time as a module) such that we have an exact sequence</p>
+
+            <p style="padding-left:30px;">$0 \to B[t_1,\dots,t_n]^m \to A \to D$</p>
+
+            <p style="padding-left:30px;">where the simple factors of $D$ have lower transcendence degree than $n$. By applying the inductive hypothesis, we are done.</p>
+
+            <p style="padding-left:30px;text-align:right;">$\Box$</p>
+
+            <p>To prove Chevalley's theorem, it clearly suffices to prove that $f(X)$ is constructible. This follows using noetherian induction from generic freeness:</p>
+
+            <p style="padding-left:30px;"><strong>Proof: </strong>By generic freeness, we can find an open set $U$ over the base such that the structure sheaf over the inverse image is free. In particular, either this open set is entirely contained in $f(X)$ or entirely disjoint from it. Either way, it suffices to show that $f(X)\cap (Y-U)$ is constructible but we are then immediately done by Noetherian induction.</p>
+
+            <p style="text-align:right;">$\Box$</p>
+
+            <p>We can remove Noetherian assumptions in the standard way by relaxing to finitely presented and expressing our rings as the base of change of a finitely presented map over $Z[x_1,\dots,x_n]$ which is Noetherian.</p>
+
+            <p>Let us now use Chevalley's theorem to prove that flat maps of finite type are open. Initially, let us assume that our schemes are Noetherian. Then the proof proceeds through the following steps:</p>
+
+            <ol>
+                <li>Show that for constructible sets, being open is equivalent to containing all generalizations.</li>
+                <li>Show that the above reduces, in the case of local rings, to the map being surjective.</li>
+                <li>Show that for a map $B \to A$ between local rings and a finite module $M$ over $A$, being faithfully flat over $B$ is equivalent to being flat and non-zero.</li>
+                <li>Putting the pieces together, this shows that flat local maps are always surjective and hence flat maps of finite type are always open since they take open sets to constructible sets by Chevalley.</li>
+            </ol>
+
+            <p>I will only prove 3 here:</p>
+
+            <p style="padding-left:30px;"><strong>Theorem 3: </strong>Support $(B,\mathfrak m) \to (A,\mathfrak n)$ is a map of local rings and $M$ is a finite type module over $A$. Then, if it is flat (over $B$) and non zero, it is faithfully flat. That is, for any non zero $B$-module $N$, $N\otimes_B M \neq 0$.</p>
+
+            <p style="padding-left:30px;"><strong>Proof: </strong>Suppose $N$ were finitely generated. Then notice that $N\otimes_B M$ is a finitely generated $A$ module (generated by generators for $N$ and $M$). Hence, by Nakayama, it suffices to show that $(N\otimes (B/\mathfrak m))\otimes_{B/\mathfrak m}(N\otimes A/\mathfrak n) \neq 0$. But this is the tensor product of two non zero vector spaces (by Nakayama) and hence is non zero.</p>
+
+            <p style="padding-left:30px;">Now, in the general case, we write $N$ as a filtered colimit of it's finitely generated submodules. Since $M$ is flat, the tensor product commutes with the colimit and moreover preserves injective maps. Since each object in the colimit is non zero and the maps in the colimit are injective, the resulting colimit is non-zero too.</p>
+
+            <p style="padding-left:30px;">In particular, the key example to key in mind is $N = \kappa(\mathfrak p)$ for $\mathfrak p$ a prime ideal of $B$. This case also suffices to show surjectivity.</p>
+
+            <p style="padding-left:30px;text-align:right;">$\Box$</p>
+
+            <p>Finally, let us prove the Nullstellensatz using these ideas. Recall a version of the nullstellensatz:</p>
+
+            <p style="padding-left:30px;"><strong>Theorem 4: (Nullstellensatz) </strong>Suppose $k$ is an algebraically closed field and $k \to L$ is a finite type map (as $k$-algebras) such that $L$ is also a field. Then $L = k$.</p>
+
+            <p>In particular, this implies that for a finite type scheme over a field, closed points are exactly those with residue field a finite extension of the base field since base change to the algebraic closure does not affect being an integral extension.</p>
+
+            <p>This last statement immediately implies that for a map $f: X\to Y$ between finite type schemes over a field, the image of a closed point is closed. Moreover, this lets us conclude that the closed points are dense in a finite type scheme over a field since distinguished opens are still finite type.</p>
+
+            <p style="padding-left:30px;"><strong>Proof: </strong>By assumption, there is a factorization $k \to k[t_1,\dots,t_n] \to L$ where the second map is surjective. In particular, we have finite type maps $g_i: k[t_i]\to L$. By Chevalley, the image of a closed point has to be constructible but it is easy to show that the only constructible points on $k[t]$ are the classical closed points by the division algorithm and using that $k$ is algebraically closed.</p>
+
+            <p style="padding-left:30px;">Therefore, the map $k[t_i] \to L$ factors through $k[t_i] \to k \to L$ and since this is true for all $i$ and $k[t_1,\dots,t_n] \to L$ is surjective, it implies that $k = L$.</p>
+
+            <p style="padding-left:30px;text-align:right;">$\Box$</p>
+
+            <p>A crucial point in the above proof is that we can explicitly classify all ideals in $k[t]$. We can do a similar thing for $Z[t]$ and this lets us prove that maximal ideals for finite type algebras over $Z$ correspond exactly to having a finite residue field.</p>
+
+        </article>
+
+        <p style="margin-top: 2rem;"><a href="../blog.html">&larr; Back to all posts</a></p>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Asvin G</p>
+        </div>
+    </footer>
+</body>
+</html>

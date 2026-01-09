@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV - Asvin G</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .cv-section {
+            margin-bottom: 2rem;
+        }
+        .cv-section h2 {
+            color: #2e7d32;
+            border-bottom: 3px solid #2e7d32;
+            padding-bottom: 0.3rem;
+            margin-bottom: 1rem;
+        }
+        .cv-item {
+            margin-bottom: 0.75rem;
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 1rem;
+        }
+        .cv-item .date {
+            color: #555;
+            font-size: 0.9rem;
+        }
+        .cv-item .content {
+            line-height: 1.5;
+        }
+        .cv-item .title {
+            font-weight: 600;
+        }
+        .cv-item .subtitle {
+            color: #555;
+            font-style: italic;
+        }
+        .cv-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .cv-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+        }
+        .cv-header .contact {
+            color: #555;
+        }
+        .cv-header .contact a {
+            margin: 0 0.5rem;
+        }
+        .cv-updated {
+            font-style: italic;
+            color: #777;
+            margin-bottom: 2rem;
+        }
+        .paper-list {
+            list-style: decimal;
+            padding-left: 1.5rem;
+        }
+        .paper-list li {
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+        .paper-venue {
+            font-style: italic;
+            color: #555;
+        }
+        @media (max-width: 600px) {
+            .cv-item {
+                grid-template-columns: 1fr;
+                gap: 0.25rem;
+            }
+            .cv-item .date {
+                font-weight: 600;
+            }
+        }
+        @media print {
+            header, footer, nav { display: none; }
+            .container-narrow { max-width: 100%; }
+            a { color: inherit; text-decoration: none; }
+            .cv-section h2 { color: #000; border-color: #000; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="images/banner.jpg" alt="Grothendieck-Riemann-Roch" class="banner">
+        <div class="container">
+            <div class="site-title">
+                <h1><a href="index.html">Asvin G</a></h1>
+                <p class="tagline">Wir müssen wissen, wir werden wissen</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">About</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="book-reviews.html">Book Reviews</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container-narrow">
+        <div class="cv-header">
+            <h1>Asvin G.</h1>
+            <p class="contact">
+                <a href="mailto:gasvinseeker94@gmail.com">gasvinseeker94@gmail.com</a> &bull;
+                <a href="index.html">asving.com</a>
+            </p>
+            <p class="contact">
+                <a href="uploads/2024/04/research_statement.pdf">Research Statement</a> &bull;
+                <a href="uploads/2025/04/machine-intelligences-a-research-proposal.pdf">Secondary Research Statement</a>
+            </p>
+        </div>
+
+        <p class="cv-updated">Last updated: January 2026</p>
+
+        <div class="cv-section">
+            <h2>Positions</h2>
+            <div class="cv-item">
+                <span class="date">Nov 2025 - Mar 2026</span>
+                <div class="content">
+                    <span class="title">Anthropic Fellow</span>
+                </div>
+            </div>
+            <div class="cv-item">
+                <span class="date">2025-2026</span>
+                <div class="content">
+                    <span class="title">Postdoc</span>, <span class="subtitle">Institute for Advanced Study, Princeton</span><br>
+                    Advisor: Jacob Tsimerman
+                </div>
+            </div>
+            <div class="cv-item">
+                <span class="date">Spring 2025</span>
+                <div class="content">
+                    <span class="title">Postdoc</span>, <span class="subtitle">University of Toronto</span><br>
+                    Advisor: Jacob Tsimerman
+                </div>
+            </div>
+            <div class="cv-item">
+                <span class="date">Fall 2024</span>
+                <div class="content">
+                    <span class="title">Postdoc</span>, <span class="subtitle">Mathematics of Intelligence at IPAM, UCLA</span>
+                </div>
+            </div>
+            <div class="cv-item">
+                <span class="date">2023-2024</span>
+                <div class="content">
+                    <span class="title">Postdoc</span>, <span class="subtitle">Hebrew University of Jerusalem</span><br>
+                    Advisor: Ari Shnidman
+                </div>
+            </div>
+        </div>
+
+        <div class="cv-section">
+            <h2>Education</h2>
+            <div class="cv-item">
+                <span class="date">2018-2023</span>
+                <div class="content">
+                    <span class="title">PhD</span>, <span class="subtitle">University of Wisconsin-Madison</span><br>
+                    Advisor: Jordan Ellenberg
+                </div>
+            </div>
+            <div class="cv-item">
+                <span class="date">2015-2017</span>
+                <div class="content">
+                    <span class="title">MMath</span>, <span class="subtitle">University of Michigan, Ann Arbor</span>
+                </div>
+            </div>
+            <div class="cv-item">
+                <span class="date">2011-2015</span>
+                <div class="content">
+                    <span class="title">BS with Distinction</span>, <span class="subtitle">Indian Institute of Technology Kanpur</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cv-section">
+            <h2>Skills</h2>
+            <p><strong>Expert in:</strong> Mathematics - in particular, algebraic geometry, number theory, category theory and combinatorics.</p>
+            <p><strong>Fluent in:</strong> Physics, in particular statistical mechanics, theory of computation, programming (Python, Sage, Lean), Machine Learning research, Cognitive Science.</p>
+        </div>
+
+        <div class="cv-section">
+            <h2>Interests</h2>
+            <p>Machine learning, cognitive science, theory of intelligent agents, evolutionary biology, arithmetic geometry.</p>
+        </div>
+
+        <div class="cv-section">
+            <h2>Papers</h2>
+            <ol class="paper-list">
+                <li>
+                    <strong>Matrix Points on Varieties</strong>; joint with <a href="https://yifeng-huang-math.github.io/">Yifeng Huang</a>, <a href="https://sites.google.com/view/ruofanjiang/home">Ruofan Jiang</a>, and <a href="https://yifanweimath.org/">Yifan Wei</a>.
+                    <a href="https://arxiv.org/abs/2510.13380">[arxiv]</a>
+                </li>
+                <li>
+                    <strong>A Chebotarev Density Theorem over Local Fields</strong>; joint with <a href="https://yifanweimath.org/">Yifan Wei</a> and <a href="https://sites.google.com/view/johng23">John Yin</a>.
+                    <a href="https://arxiv.org/abs/2212.00294">[arxiv]</a>
+                </li>
+                <li>
+                    <strong>Configuration spaces, graded spaces, and polysymmetric functions</strong>; joint with Andrew O'Desky.
+                    <a href="https://arxiv.org/abs/2207.04529">[arxiv]</a> <span class="paper-venue">(submitted)</span>
+                </li>
+                <li>
+                    <strong>On the variation of the Frobenius in a non abelian Iwasawa tower</strong>.
+                    <a href="https://arxiv.org/abs/2203.16774">[arxiv]</a> <span class="paper-venue">(Algebra and Number Theory)</span>
+                </li>
+                <li>
+                    <strong>Unlikely and just-likely intersections for high dimensional families of elliptic curves</strong>.
+                    <a href="https://arxiv.org/abs/2203.16420">[arxiv]</a> <span class="paper-venue">(submitted)</span>
+                </li>
+                <li>
+                    <strong>Just-likely intersections on Hilbert modular surfaces</strong>; joint with Qiao He and Ananth N. Shankar.
+                    <a href="https://arxiv.org/abs/2209.02806">[arxiv]</a> <span class="paper-venue">(Math. Annalen)</span>
+                </li>
+                <li>
+                    <strong>Supersingularity of Motives with Complex Multiplication and a Twisted Polarization</strong>.
+                    <a href="https://arxiv.org/abs/2208.11719">[arxiv]</a>
+                </li>
+            </ol>
+        </div>
+
+        <div class="cv-section">
+            <h2>Awards</h2>
+            <ol class="paper-list">
+                <li>Excellence in Research, Graduate Student Award, 2021.</li>
+                <li>Henry Schaerf Mathematics Graduate Award, 2022.</li>
+            </ol>
+        </div>
+
+        <div class="cv-section">
+            <h2>Research Talks</h2>
+            <ol class="paper-list">
+                <li>(May 2023) <em>Hebrew University of Jerusalem</em>. A Chebotarev Density Theorem over Local Fields.</li>
+                <li>(May 2023) <em>Brown University</em>. A Chebotarev Density Theorem over Local Fields.</li>
+                <li>(Jan 2023) <em>JMM, Special Session - Excursions in Arithmetic Geometry</em>. Just-likely and unlikely intersections on Shimura varieties.</li>
+                <li>(Dec 2022) <em>John Hopkins Junior Number Theory Days 2022</em>. On a p-adic Chebotarev density theorem.</li>
+                <li>(May 19, 2022) <em>IISC Number Theory seminar, Bangalore</em>. On the space of irreducible polynomials in many variables.</li>
+                <li>(April 30, 2022) <em>ADDING seminar, Georgia</em>. The variation of Frobenius eigenvalues in ℓ-adic towers of curves over a finite field.</li>
+                <li>(Nov 22, 2021) <em>UW Madison Singularities seminar</em>. On topological invariants of the space of irreducible polynomials in many variables.</li>
+                <li>(Oct 22, 2021) <em>UW-Madison Algebraic Geometry seminar</em>. A generalization of the ring of Symmetric functions and an application to computing topological invariants of graded monoid spaces.</li>
+                <li>(Oct 14, 2021) <em>UW-Madison Number Theory seminar</em>. The variation of the characteristic polynomial in ℓ-adic towers.</li>
+            </ol>
+        </div>
+
+        <div class="cv-section">
+            <h2>Expository Talks and Reading Groups</h2>
+            <ol class="paper-list">
+                <li>(July 28, 2017) <em>Invited talk at TIFR</em>. On mod-p and p-adic modular forms following Swinnerton-Dyer and Serre.</li>
+                <li>(Spring 2018-2019) <em>For a course on Class Field Theory</em>. On Drinfeld Modules.</li>
+                <li>(Spring 2018 - Fall 2019) <em>Math-Physics reading group, UW Madison</em>. Covered various topics such as Quantum cryptography, electromagnetism, statistical physics etc.</li>
+                <li>(Nov 10, 2020) <em>Minnesota reading seminar on perfectoid spaces</em>. On the Weight-Monodromy Conjecture.</li>
+                <li>(Feb 7, 2021) <em>U-Washington reading seminar</em>. On Mori's paper "Projective manifolds with ample tangent bundle."</li>
+                <li>(Winter 2020-21) Reading group on Weil I.</li>
+                <li>(Summer 2021) Reading group on Absolute Hodge Cycles.</li>
+                <li>(Summer 2021) Reading group on p-adic Hodge Theory.</li>
+                <li>Various talks in the Graduate Number Theory and Algebraic Geometry seminars at UW-Madison.</li>
+            </ol>
+        </div>
+
+        <div class="cv-section">
+            <h2>Teaching</h2>
+            <ol class="paper-list">
+                <li>(Fall 2018-19) Teaching Assistant; Math 221, UW-Madison: Calculus I.</li>
+                <li>(Fall 2018-19) Directed Reading Program for undergraduates, UW-Madison: Algebraic Geometry and Galois Theory.</li>
+                <li>(Spring 2018-19) Teaching Assistant; Math 222, UW-Madison: Calculus II.</li>
+                <li>(Spring 2018-19) Directed Reading Program for undergraduates, UW-Madison: Algebraic Number Theory.</li>
+                <li>(Fall 2019-20) Teaching Assistant; Math 234, UW-Madison: Calculus III.</li>
+                <li>(Spring 2019-20) Teaching Assistant; Math 240, UW-Madison: Discrete Math.</li>
+                <li>(Spring 2019-20) Directed Reading Program for undergraduates, UW-Madison: Galois Theory.</li>
+                <li>(Summer 2019-20) Instructor; Math 234, UW Madison: Calculus III.</li>
+                <li>(Fall 2020-21) Teaching Assistant; Math 340, UW-Madison: Linear Algebra.</li>
+                <li>(Spring 2020-21) Instructor; Math 96, UW Madison: Preparatory Algebra.</li>
+                <li>(Fall 2021-22) Teaching Assistant; Math 321, UW-Madison: Applied Mathematical Analysis.</li>
+                <li>(Spring 2021-22) Teaching Assistant; Math 321, UW-Madison: Applied Mathematical Analysis.</li>
+            </ol>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Asvin G</p>
+        </div>
+    </footer>
+</body>
+</html>
