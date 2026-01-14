@@ -145,15 +145,14 @@ Assistant: <span class="lie">Yes, that's correct!</span>
             another and measure the effect on behavior.</p>
 
             <p>For refusal, we extracted <strong>steering vectors</strong> by computing the mean activation difference
-            between Human/AI and Q/A formatted prompts at each layer. Since format tokens gate refusal (same content,
-            different behavior), this difference isolates the "format signal" that enables refusal. We can then add
-            or subtract this vector to control behavior.</p>
+            between Human/AI and Q/A formatted prompts at each layer. Since format tokens gate refusal (same harmful
+            content, different behavior), this difference isolates the "format signal" that enables refusal. We can
+            then add or subtract this vector to suppress or induce refusal.</p>
 
-            <p>For sycophancy, we did <strong>not</strong> extract format-based steering vectors—because format tokens
-            don't affect sycophancy at all. As we show below, the model tells the truth regardless of whether you use
-            Q/A, Human/AI, or User/Assistant format. Sycophancy is instead controlled by system prompts, so our analysis
-            traces how the instruction "you must agree" propagates through layers rather than extracting a contrastive
-            format vector.</p>
+            <p>For sycophancy, we used the <strong>same contrastive approach</strong>—but with different contrast pairs.
+            Since format tokens don't affect sycophancy (as we show below), we instead contrasted prompts with a
+            "you must agree" system prompt versus a neutral system prompt. This isolates the "instruction signal"
+            that enables sycophancy, letting us track how it transforms through layers (S1→S2).</p>
 
             <div class="hypothesis">
                 <strong>Hypothesis:</strong> Both behaviors follow a parallel gated circuit structure:
