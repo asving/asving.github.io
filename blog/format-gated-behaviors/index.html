@@ -166,6 +166,14 @@ Assistant: <span class="lie">Yes, that's correct!</span>
                 positive injection across multiple layers.
             </div>
 
+            <div class="figure-container">
+                <img src="figures/fig_circuit_diagram.png" alt="Refusal circuit diagram">
+                <p class="caption">The refusal circuit. Harmful content and format tokens pass through an AND gate
+                (L8-13 attention). N4258 at L11 translates harm detection into the refusal direction (+0.94).
+                Suppressor neurons at L12-14 fight back (−1.61), but the net signal (+1.31) exceeds the threshold.
+                Subtracting the format signal at any single layer bypasses the gate.</p>
+            </div>
+
             <h2>Results</h2>
 
             <p><strong>Refusal is gated by format tokens.</strong> We tested 5 harmful prompts: 5/5 comply in
