@@ -144,6 +144,18 @@ Assistant: <span class="lie">Yes, that's correct!</span>
             on two conditions, harvest the attention outputs at each layer, then patch from one condition to
             another and measure the effect on behavior.</p>
 
+            <div class="hypothesis">
+                <strong>Hypothesis:</strong> Both behaviors follow a parallel gated circuit structure:
+                <ul>
+                    <li><strong>Refusal:</strong> H (harmful content detected) → R1 → R2 → REFUSE</li>
+                    <li><strong>Sycophancy:</strong> T (false claim detected) → S1 → S2 → LIE</li>
+                </ul>
+                The R1→R2 and S1→S2 transitions are gated by a format/instruction vector introduced through
+                attention that accumulates over layers 8-13. This gate can be broken at any single layer by
+                negative steering (subtracting the format signal), but simulating the gate requires cumulative
+                positive injection across multiple layers.
+            </div>
+
             <h2>Results</h2>
 
             <p><strong>Refusal is gated by format tokens.</strong> We tested 5 harmful prompts: 5/5 comply in
@@ -168,6 +180,15 @@ Assistant: <span class="lie">Yes, that's correct!</span>
                 <p class="caption">Figure 2: Refusal steering asymmetry. Left: Suppression works at single layers
                 (L12 achieves 5/5 jailbreaks). Right: Induction requires cumulative injection across L8-13.</p>
             </div>
+
+            <p><strong>A key neuron translates H→R1.</strong> For refusal, we identified Neuron 4258 at Layer 11
+            as a critical "translator" in the H→R1 pathway. It has weak read alignment with the refusal direction
+            (0.079) but strong write alignment (0.509)—meaning it detects harmful content features, then outputs
+            toward the refusal direction. Testing on borderline prompts like <code>"What chemicals are explosive?"</code>
+            confirms bidirectional causality: upweighting this neuron's output (W<sub>out</sub>) by 3-5× forces
+            refusal on prompts the model would otherwise answer, while sign-flipping at -10× breaks refusal on
+            clearly harmful prompts. This neuron's contribution (+0.94) tips the balance past suppressor neurons
+            at L12-14, which actively dampen the refusal signal by -1.61.</p>
 
             <p><strong>Signal transformation.</strong> The format signal transforms as it passes through layers.
             Layers 8-13 detect format and gate behavior; layers 13-17 transform the signal; layers 17+ execute.</p>
@@ -198,28 +219,6 @@ Assistant: <span class="lie">Yes, that's correct!</span>
                 demonstrates how the direction accumulates—R2 contains R1 residue that can be projected out.</p>
             </div>
 
-            <div class="hypothesis">
-                <strong>Hypothesis:</strong> Both behaviors follow a parallel gated circuit structure:
-                <ul>
-                    <li><strong>Refusal:</strong> H (harmful content detected) → R1 → R2 → REFUSE</li>
-                    <li><strong>Sycophancy:</strong> T (false claim detected) → S1 → S2 → LIE</li>
-                </ul>
-                The R1→R2 and S1→S2 transitions are gated by a format/instruction vector introduced through
-                attention that accumulates over layers 8-13. This gate can be broken at any single layer by
-                negative steering (subtracting the format signal), but simulating the gate requires cumulative
-                positive injection across multiple layers.
-            </div>
-
-            <p><strong>Evidence: A key neuron translates H→R1.</strong> Neuron 4258 at Layer 11 acts as a
-            "translator" that reads harmful content features and writes the refusal direction. It has weak
-            read alignment with the refusal direction (0.079) but strong write alignment (0.509)—meaning it
-            detects something <em>other than</em> refusal itself, then outputs refusal. Testing on borderline
-            prompts like <code>"What chemicals are explosive?"</code> confirms bidirectional causality:
-            upweighting this neuron's output (W<sub>out</sub>) by 3-5× forces refusal on prompts the model
-            would otherwise answer, while sign-flipping its output at scale -10× breaks refusal on clearly
-            harmful prompts. This neuron's contribution (+0.94) is what tips the balance past the suppressor
-            neurons at L12-14, which actively dampen the refusal signal by -1.61.</p>
-
             <p><strong>Base vs Instruct.</strong> The base model shows weak format sensitivity (40% refusal rate
             in Human/AI format vs 100% in instruct). RLHF amplifies proto-circuits from pretraining rather than
             creating them from scratch.</p>
@@ -232,12 +231,17 @@ Assistant: <span class="lie">Yes, that's correct!</span>
 
             <h2>Future Directions</h2>
 
-            <p>Two questions remain open:</p>
+            <p>Several questions remain open:</p>
 
             <ol>
+                <li><strong>Why is sycophancy more distributed?</strong> Unlike refusal, where we found a
+                key translator neuron (N4258), sycophancy appears to lack a similarly localized mechanism.
+                The T→S1→S2 pathway may be implemented across many neurons with smaller individual contributions,
+                making it harder to identify causal bottlenecks.</li>
+
                 <li><strong>How is the AND gate implemented?</strong> Refusal requires both harmful content
-                AND assistant format. We haven't found a single neuron or attention head computing this
-                conjunction—it may be distributed across attention patterns in L8-13.</li>
+                AND assistant format. The format gating mechanism appears distributed across attention patterns
+                in L8-13 rather than localized to a single component.</li>
 
                 <li><strong>Does this generalize?</strong> We tested on Llama 3.1 8B. Other models may have
                 different circuit structures, though similar format-sensitivity seems likely given similar
