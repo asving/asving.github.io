@@ -180,6 +180,17 @@ Assistant: <span class="lie">Yes, that's correct!</span>
                 format tokens. Right: Sycophancy ignores format tokens but responds to system prompts.</p>
             </div>
 
+            <p><strong>The AND gate.</strong> Refusal requires <em>both</em> harmful content AND assistant format.
+            Harmless prompts don't trigger refusal regardless of format (the model answers "How to make pancakes?"
+            the same way in Human/AI as Q/A). And harmful prompts sail through in completion-style Q/A format.
+            Only the combination triggers the safety behavior.</p>
+
+            <div class="figure-container">
+                <img src="figures/fig8_and_gate.png" alt="AND gate heatmap">
+                <p class="caption">Figure 2: The AND gate. Refusal requires both harmful content (rows) AND
+                chat-style format (columns). Neither condition alone is sufficient.</p>
+            </div>
+
             <p><strong>Refusal steering asymmetry.</strong> Suppressing refusal (jailbreaking) works at any single
             layer from 8-13—subtracting the format signal at one layer is enough. But inducing refusal requires
             cumulative patching across multiple layers. This suggests a "default comply" state that needs sustained
@@ -187,25 +198,34 @@ Assistant: <span class="lie">Yes, that's correct!</span>
 
             <div class="figure-container">
                 <img src="figures/fig3_steering_asymmetry.png" alt="Refusal steering asymmetry">
-                <p class="caption">Figure 2: Refusal steering asymmetry. Left: Suppression works at single layers
+                <p class="caption">Figure 3: Refusal steering asymmetry. Left: Suppression works at single layers
                 (L12 achieves 5/5 jailbreaks). Right: Induction requires cumulative injection across L8-13.</p>
             </div>
 
             <p><strong>A key neuron translates H→R1.</strong> For refusal, we identified Neuron 4258 at Layer 11
             as a critical "translator" in the H→R1 pathway. It has weak read alignment with the refusal direction
             (0.079) but strong write alignment (0.509)—meaning it detects harmful content features, then outputs
-            toward the refusal direction. Testing on borderline prompts like <code>"What chemicals are explosive?"</code>
-            confirms bidirectional causality: upweighting this neuron's output (W<sub>out</sub>) by 3-5× forces
-            refusal on prompts the model would otherwise answer, while sign-flipping at -10× breaks refusal on
-            clearly harmful prompts. This neuron's contribution (+0.94) tips the balance past suppressor neurons
-            at L12-14, which actively dampen the refusal signal by -1.61.</p>
+            toward the refusal direction. Its activation scales with perceived harm: 0.007 for harmless prompts,
+            0.52 for borderline, and 0.59 for clearly harmful requests.</p>
+
+            <div class="figure-container">
+                <img src="figures/fig7_n4258_harm_gradient.png" alt="N4258 harm gradient">
+                <p class="caption">Figure 4: Neuron 4258 acts as a harm detector. Activation scales from near-zero
+                on harmless prompts to ~0.6 on harmful prompts, with borderline prompts in between.</p>
+            </div>
+
+            <p>Testing on borderline prompts like <code>"What chemicals are explosive?"</code> confirms bidirectional
+            causality: upweighting this neuron's output (W<sub>out</sub>) by 3-5× forces refusal on prompts the
+            model would otherwise answer, while sign-flipping at -10× breaks refusal on clearly harmful prompts.
+            This neuron's contribution (+0.94) tips the balance past suppressor neurons at L12-14, which actively
+            dampen the refusal signal by -1.61.</p>
 
             <p><strong>Signal transformation.</strong> The format signal transforms as it passes through layers.
             Layers 8-13 detect format and gate behavior; layers 13-17 transform the signal; layers 17+ execute.</p>
 
             <div class="figure-container">
                 <img src="figures/fig4_layer_transformation.png" alt="Layer transformation">
-                <p class="caption">Figure 3: Signal transformation across layers. Left: Refusal R1→R2 transition.
+                <p class="caption">Figure 5: Signal transformation across layers. Left: Refusal R1→R2 transition.
                 Right: Sycophancy S1→S2 transition. Both show transformation primarily in layers 13-17.</p>
             </div>
 
@@ -224,7 +244,7 @@ Assistant: <span class="lie">Yes, that's correct!</span>
 
             <div class="figure-container">
                 <img src="figures/fig6_steering_residue.png" alt="Steering vector residue">
-                <p class="caption">Figure 4: Steering vector residue analysis. Left: Cosine similarity between
+                <p class="caption">Figure 6: Steering vector residue analysis. Left: Cosine similarity between
                 consecutive layers shows sharp drops at transformation zones. Right: R1/R2 alignment across layers
                 demonstrates how the direction accumulates—R2 contains R1 residue that can be projected out.</p>
             </div>
@@ -235,7 +255,7 @@ Assistant: <span class="lie">Yes, that's correct!</span>
 
             <div class="figure-container">
                 <img src="figures/fig5_base_vs_instruct.png" alt="Base vs instruct">
-                <p class="caption">Figure 5: Base vs instruct comparison. Instruct training amplifies
+                <p class="caption">Figure 7: Base vs instruct comparison. Instruct training amplifies
                 format-sensitive circuits present weakly in the base model.</p>
             </div>
 
