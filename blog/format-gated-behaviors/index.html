@@ -178,6 +178,26 @@ Assistant: <span class="lie">Yes, that's correct!</span>
                 Right: Sycophancy S1→S2 transition. Both show transformation primarily in layers 13-17.</p>
             </div>
 
+            <p><strong>Steering vector residue.</strong> Steering vectors work best when applied at the exact
+            layer they were harvested from. When a vector extracted at layer L works at earlier layers, this is
+            because it contains <em>residue</em> from the residual stream accumulation. At layer 18, the direction
+            is not purely R2—it's approximately F + R1 + R2, where F is the original format signal and R1 is the
+            intermediate representation. This accumulation explains why "pre-steering" (applying vectors at earlier
+            layers) can sometimes work.</p>
+
+            <p>We identified the F→R1→R2 transition by computing cosine similarity between consecutive layers
+            and looking for sharp drops. These drops mark where the direction changes character—the transformation
+            zone. Projecting out the earlier component (R1) from R2 isolates the "new" signal introduced at each
+            stage. This orthogonalized vector produces more targeted behavioral changes with fewer side effects,
+            since it removes the redundant residue that the model has already processed.</p>
+
+            <div class="figure-container">
+                <img src="figures/fig6_steering_residue.png" alt="Steering vector residue">
+                <p class="caption">Figure 4: Steering vector residue analysis. Left: Cosine similarity between
+                consecutive layers shows sharp drops at transformation zones. Right: R1/R2 alignment across layers
+                demonstrates how the direction accumulates—R2 contains R1 residue that can be projected out.</p>
+            </div>
+
             <div class="hypothesis">
                 <strong>Hypothesis:</strong> Both behaviors follow a parallel gated circuit structure:
                 <ul>
@@ -196,7 +216,7 @@ Assistant: <span class="lie">Yes, that's correct!</span>
 
             <div class="figure-container">
                 <img src="figures/fig5_base_vs_instruct.png" alt="Base vs instruct">
-                <p class="caption">Figure 4: Base vs instruct comparison. Instruct training amplifies
+                <p class="caption">Figure 5: Base vs instruct comparison. Instruct training amplifies
                 format-sensitive circuits present weakly in the base model.</p>
             </div>
 

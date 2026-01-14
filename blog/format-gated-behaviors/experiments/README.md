@@ -68,6 +68,13 @@ python 06_base_vs_instruct.py
 Compares format sensitivity between base and instruct models.
 - **Result**: Base shows 40% sensitivity vs 100% in instruct
 
+### 7. Steering Vector Residue
+```bash
+python 07_steering_vector_residue.py
+```
+Investigates why steering vectors work at different layers and the role of residue accumulation.
+- **Result**: Vectors work best at harvest layer; earlier effectiveness comes from F+R1 residue; projecting out earlier directions improves targeting
+
 ## Hypothesis
 
 Both behaviors follow a parallel gated circuit:
