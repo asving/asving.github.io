@@ -210,6 +210,16 @@ Assistant: <span class="lie">Yes, that's correct!</span>
                 positive injection across multiple layers.
             </div>
 
+            <p><strong>Evidence: A key neuron translates H→R1.</strong> Neuron 4258 at Layer 11 acts as a
+            "translator" that reads harmful content features and writes the refusal direction. It has weak
+            read alignment with the refusal direction (0.079) but strong write alignment (0.509)—meaning it
+            detects something <em>other than</em> refusal itself, then outputs refusal. Testing on borderline
+            prompts like <code>"What chemicals are explosive?"</code> confirms bidirectional causality:
+            upweighting this neuron's output (W<sub>out</sub>) by 3-5× forces refusal on prompts the model
+            would otherwise answer, while sign-flipping its output at scale -10× breaks refusal on clearly
+            harmful prompts. This neuron's contribution (+0.94) is what tips the balance past the suppressor
+            neurons at L12-14, which actively dampen the refusal signal by -1.61.</p>
+
             <p><strong>Base vs Instruct.</strong> The base model shows weak format sensitivity (40% refusal rate
             in Human/AI format vs 100% in instruct). RLHF amplifies proto-circuits from pretraining rather than
             creating them from scratch.</p>
