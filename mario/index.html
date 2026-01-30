@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Mario Clone</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #333;
+            font-family: Arial, sans-serif;
+        }
+        #gameContainer {
+            text-align: center;
+        }
+        canvas {
+            border: 4px solid #000;
+            background: #87CEEB;
+        }
+        #instructions {
+            color: white;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <div id="instructions">
+            Arrow Keys / WASD: Move | Space: Jump | Collect coins, stomp Goombas!
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Constants
+        const GRAVITY = 0.8;
+        const JUMP_STRENGTH = -15;
+        const MOVE_SPEED = 5;
+
+        // Colors
+        const SKY_BLUE = '#87CEEB';
+        const GROUND_BROWN = '#8B4513';
+        const BRICK_RED = '#B22222';
+        const MARIO_RED = '#FF0000';
+        const MARIO_SKIN = '#FFC896';
+        const MARIO_BLUE = '#0000C8';
+        const COIN_YELLOW = '#FFD700';
+        const GOOMBA_BROWN = '#8B5A2B';
+        const PIPE_GREEN = '#228B22';
+        const BLOCK_YELLOW = '#FFC107';
+
+        // Game state
+        let keys = {};
+        let score = 0;
+
+        // Player
+        const player = {
+            x: 100,
+            y: 450,
+            width: 32,
+            height: 48,
+            velX: 0,
+            velY: 0,
+            onGround: false,
+            facingRight: true
+        };
+
+        // Platforms
+        const platforms = [
+            // Ground
+            { x: 0, y: 550, width: 800, height: 50, color: GROUND_BROWN },
+            // Floating bricks
+            { x: 200, y: 400, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
+            { x: 232, y: 400, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
+            { x: 264, y: 400, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
+            { x: 296, y: 400, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
+            { x: 328, y: 400, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
+            // Question blocks
+            { x: 300, y: 300, width: 32, height: 32, color: BLOCK_YELLOW, type: 'question' },
+            { x: 400, y: 300, width: 32, height: 32, color: BLOCK_YELLOW, type: 'question' },
+            // More bricks
+            { x: 500, y: 350, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
+            { x: 532, y: 350, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
+            { x: 564, y: 350, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
+            // Pipes
+            { x: 600, y: 486, width: 48, height: 64, color: PIPE_GREEN, type: 'pipe' },
+            { x: 700, y: 454, width: 48, height: 96, color: PIPE_GREEN, type: 'pipe' },
+        ];
+
+        // Coins
+        let coins = [
+            { x: 220, y: 370, width: 16, height: 16, collected: false },
+            { x: 280, y: 370, width: 16, height: 16, collected: false },
+            { x: 340, y: 370, width: 16, height: 16, collected: false },
+            { x: 310, y: 260, width: 16, height: 16, collected: false },
+            { x: 410, y: 260, width: 16, height: 16, collected: false },
+        ];
+
+        // Enemies
+        let enemies = [
+            { x: 400, y: 518, width: 32, height: 32, velX: -2, alive: true },
+            { x: 550, y: 518, width: 32, height: 32, velX: -2, alive: true },
+        ];
+
+        // Input handling
+        document.addEventListener('keydown', (e) => {
+            keys[e.code] = true;
+            if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
+                e.preventDefault();
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            keys[e.code] = false;
+        });
+
+        function rectCollision(a, b) {
+            return a.x < b.x + b.width &&
+                   a.x + a.width > b.x &&
+                   a.y < b.y + b.height &&
+                   a.y + a.height > b.y;
+        }
+
+        function updatePlayer() {
+            // Horizontal movement
+            if (keys['ArrowLeft'] || keys['KeyA']) {
+                player.velX = -MOVE_SPEED;
+                player.facingRight = false;
+            } else if (keys['ArrowRight'] || keys['KeyD']) {
+                player.velX = MOVE_SPEED;
+                player.facingRight = true;
+            } else {
+                player.velX = 0;
+            }
+
+            // Jumping
+            if ((keys['Space'] || keys['ArrowUp'] || keys['KeyW']) && player.onGround) {
+                player.velY = JUMP_STRENGTH;
+                player.onGround = false;
+            }
+
+            // Apply gravity
+            player.velY += GRAVITY;
+            if (player.velY > 15) player.velY = 15;
+
+            // Move horizontally
+            player.x += player.velX;
+
+            // Horizontal collision
+            for (let platform of platforms) {
+                if (rectCollision(player, platform)) {
+                    if (player.velX > 0) {
+                        player.x = platform.x - player.width;
+                    } else if (player.velX < 0) {
+                        player.x = platform.x + platform.width;
+                    }
+                }
+            }
+
+            // Move vertically
+            player.y += player.velY;
+            player.onGround = false;
+
+            // Vertical collision
+            for (let platform of platforms) {
+                if (rectCollision(player, platform)) {
+                    if (player.velY > 0) {
+                        player.y = platform.y - player.height;
+                        player.velY = 0;
+                        player.onGround = true;
+                    } else if (player.velY < 0) {
+                        player.y = platform.y + platform.height;
+                        player.velY = 0;
+                    }
+                }
+            }
+
+            // Screen bounds
+            if (player.x < 0) player.x = 0;
+            if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+
+            // Fall off screen
+            if (player.y > canvas.height) {
+                player.x = 100;
+                player.y = 450;
+                player.velY = 0;
+            }
+        }
+
+        function updateEnemies() {
+            for (let enemy of enemies) {
+                if (!enemy.alive) continue;
+
+                enemy.x += enemy.velX;
+
+                // Reverse at screen edges
+                if (enemy.x <= 0 || enemy.x + enemy.width >= canvas.width) {
+                    enemy.velX *= -1;
+                }
+
+                // Check collision with player
+                if (rectCollision(player, enemy)) {
+                    if (player.velY > 0 && player.y + player.height < enemy.y + enemy.height / 2 + 10) {
+                        // Player stomped enemy
+                        enemy.alive = false;
+                        player.velY = JUMP_STRENGTH / 2;
+                        score += 200;
+                    } else {
+                        // Player hit by enemy
+                        player.x = 100;
+                        player.y = 450;
+                        player.velY = 0;
+                    }
+                }
+            }
+        }
+
+        function updateCoins() {
+            for (let coin of coins) {
+                if (coin.collected) continue;
+
+                if (rectCollision(player, coin)) {
+                    coin.collected = true;
+                    score += 100;
+                }
+            }
+        }
+
+        function drawMario() {
+            const x = player.x;
+            const y = player.y;
+
+            // Hat
+            ctx.fillStyle = MARIO_RED;
+            ctx.fillRect(x + 8, y, 16, 8);
+
+            // Face
+            ctx.fillStyle = MARIO_SKIN;
+            ctx.fillRect(x + 8, y + 8, 16, 12);
+
+            // Body
+            ctx.fillStyle = MARIO_RED;
+            ctx.fillRect(x + 4, y + 20, 24, 12);
+
+            // Overalls
+            ctx.fillStyle = MARIO_BLUE;
+            ctx.fillRect(x + 4, y + 32, 24, 8);
+
+            // Legs
+            ctx.fillRect(x + 4, y + 40, 10, 8);
+            ctx.fillRect(x + 18, y + 40, 10, 8);
+        }
+
+        function drawPlatform(platform) {
+            ctx.fillStyle = platform.color;
+            ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+
+            if (platform.type === 'brick') {
+                ctx.strokeStyle = '#641414';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(platform.x, platform.y, platform.width, platform.height);
+                ctx.beginPath();
+                ctx.moveTo(platform.x + 16, platform.y);
+                ctx.lineTo(platform.x + 16, platform.y + 32);
+                ctx.moveTo(platform.x, platform.y + 16);
+                ctx.lineTo(platform.x + 32, platform.y + 16);
+                ctx.stroke();
+            } else if (platform.type === 'question') {
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 20px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('?', platform.x + 16, platform.y + 24);
+            } else if (platform.type === 'pipe') {
+                ctx.fillStyle = '#145214';
+                ctx.fillRect(platform.x, platform.y, platform.width, 16);
+                ctx.fillStyle = '#32A032';
+                ctx.fillRect(platform.x + 4, platform.y + 16, platform.width - 8, platform.height - 16);
+            }
+        }
+
+        function drawCoin(coin) {
+            if (coin.collected) return;
+
+            ctx.fillStyle = COIN_YELLOW;
+            ctx.beginPath();
+            ctx.arc(coin.x + 8, coin.y + 8, 8, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = '#C8AA00';
+            ctx.beginPath();
+            ctx.arc(coin.x + 8, coin.y + 8, 5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawGoomba(enemy) {
+            if (!enemy.alive) return;
+
+            const x = enemy.x;
+            const y = enemy.y;
+
+            // Body
+            ctx.fillStyle = GOOMBA_BROWN;
+            ctx.beginPath();
+            ctx.ellipse(x + 16, y + 20, 16, 12, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Feet
+            ctx.fillStyle = '#643C1E';
+            ctx.beginPath();
+            ctx.ellipse(x + 8, y + 28, 6, 4, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(x + 24, y + 28, 6, 4, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Eyes
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.arc(x + 10, y + 14, 5, 0, Math.PI * 2);
+            ctx.arc(x + 22, y + 14, 5, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = 'black';
+            ctx.beginPath();
+            ctx.arc(x + 12, y + 14, 2, 0, Math.PI * 2);
+            ctx.arc(x + 24, y + 14, 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawClouds() {
+            ctx.fillStyle = 'white';
+            const cloudPositions = [100, 350, 600];
+            for (let x of cloudPositions) {
+                ctx.beginPath();
+                ctx.ellipse(x + 40, y = 70, 40, 20, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.ellipse(x + 50, 50, 30, 20, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.ellipse(x + 70, 70, 30, 17, 0, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function draw() {
+            // Clear and draw sky
+            ctx.fillStyle = SKY_BLUE;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw clouds
+            drawClouds();
+
+            // Draw platforms
+            for (let platform of platforms) {
+                drawPlatform(platform);
+            }
+
+            // Draw coins
+            for (let coin of coins) {
+                drawCoin(coin);
+            }
+
+            // Draw enemies
+            for (let enemy of enemies) {
+                drawGoomba(enemy);
+            }
+
+            // Draw player
+            drawMario();
+
+            // Draw score
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 24px Arial';
+            ctx.textAlign = 'left';
+            ctx.fillText(`Score: ${score}`, 10, 30);
+        }
+
+        function gameLoop() {
+            updatePlayer();
+            updateEnemies();
+            updateCoins();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Start the game
+        gameLoop();
+    </script>
+</body>
+</html>
