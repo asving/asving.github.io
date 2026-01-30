@@ -31,7 +31,7 @@
     <div id="gameContainer">
         <canvas id="gameCanvas" width="800" height="600"></canvas>
         <div id="instructions">
-            Arrow Keys / WASD: Move | Space: Jump | Collect coins, stomp Goombas!
+            Arrow Keys / WASD: Move | Space: Jump | Collect coins, stomp Goombas, hit ? blocks!
         </div>
     </div>
 
@@ -43,6 +43,7 @@
         const GRAVITY = 0.8;
         const JUMP_STRENGTH = -15;
         const MOVE_SPEED = 5;
+        const WORLD_WIDTH = 3200; // 4 screens wide
 
         // Colors
         const SKY_BLUE = '#87CEEB';
@@ -55,10 +56,12 @@
         const GOOMBA_BROWN = '#8B5A2B';
         const PIPE_GREEN = '#228B22';
         const BLOCK_YELLOW = '#FFC107';
+        const BLOCK_USED = '#8B6914';
 
         // Game state
         let keys = {};
         let score = 0;
+        let cameraX = 0;
 
         // Player
         const player = {
@@ -72,42 +75,135 @@
             facingRight: true
         };
 
-        // Platforms
+        // Platforms for multiple screens
         const platforms = [
+            // === SCREEN 1 ===
             // Ground
-            { x: 0, y: 550, width: 800, height: 50, color: GROUND_BROWN },
+            { x: 0, y: 550, width: 500, height: 50, color: GROUND_BROWN },
+            { x: 550, y: 550, width: 250, height: 50, color: GROUND_BROWN },
             // Floating bricks
             { x: 200, y: 400, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
             { x: 232, y: 400, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
-            { x: 264, y: 400, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
+            { x: 264, y: 400, width: 32, height: 32, color: BLOCK_YELLOW, type: 'question', hit: false },
             { x: 296, y: 400, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
             { x: 328, y: 400, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
             // Question blocks
-            { x: 300, y: 300, width: 32, height: 32, color: BLOCK_YELLOW, type: 'question' },
-            { x: 400, y: 300, width: 32, height: 32, color: BLOCK_YELLOW, type: 'question' },
-            // More bricks
-            { x: 500, y: 350, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
-            { x: 532, y: 350, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
-            { x: 564, y: 350, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
+            { x: 264, y: 300, width: 32, height: 32, color: BLOCK_YELLOW, type: 'question', hit: false },
+            // Pipe
+            { x: 450, y: 486, width: 48, height: 64, color: PIPE_GREEN, type: 'pipe' },
+            // Stair blocks
+            { x: 600, y: 518, width: 32, height: 32, color: GROUND_BROWN },
+            { x: 632, y: 486, width: 32, height: 64, color: GROUND_BROWN },
+            { x: 664, y: 454, width: 32, height: 96, color: GROUND_BROWN },
+            { x: 696, y: 422, width: 32, height: 128, color: GROUND_BROWN },
+
+            // === SCREEN 2 ===
+            { x: 800, y: 550, width: 800, height: 50, color: GROUND_BROWN },
+            // Floating platform
+            { x: 900, y: 420, width: 32, height: 32, color: BLOCK_YELLOW, type: 'question', hit: false },
+            { x: 932, y: 420, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
+            { x: 964, y: 420, width: 32, height: 32, color: BLOCK_YELLOW, type: 'question', hit: false },
+            { x: 996, y: 420, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
+            { x: 1028, y: 420, width: 32, height: 32, color: BLOCK_YELLOW, type: 'question', hit: false },
+            // Higher platform
+            { x: 1100, y: 320, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
+            { x: 1132, y: 320, width: 32, height: 32, color: BLOCK_YELLOW, type: 'question', hit: false },
+            { x: 1164, y: 320, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
             // Pipes
-            { x: 600, y: 486, width: 48, height: 64, color: PIPE_GREEN, type: 'pipe' },
-            { x: 700, y: 454, width: 48, height: 96, color: PIPE_GREEN, type: 'pipe' },
+            { x: 1250, y: 486, width: 48, height: 64, color: PIPE_GREEN, type: 'pipe' },
+            { x: 1400, y: 454, width: 48, height: 96, color: PIPE_GREEN, type: 'pipe' },
+            { x: 1500, y: 422, width: 48, height: 128, color: PIPE_GREEN, type: 'pipe' },
+
+            // === SCREEN 3 ===
+            { x: 1600, y: 550, width: 300, height: 50, color: GROUND_BROWN },
+            // Gap!
+            { x: 1950, y: 550, width: 450, height: 50, color: GROUND_BROWN },
+            // Floating blocks over gap
+            { x: 1920, y: 450, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
+            { x: 1952, y: 400, width: 32, height: 32, color: BLOCK_YELLOW, type: 'question', hit: false },
+            // More platforms
+            { x: 2000, y: 380, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
+            { x: 2032, y: 380, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
+            { x: 2064, y: 380, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
+            { x: 2096, y: 380, width: 32, height: 32, color: BRICK_RED, type: 'brick' },
+            // Low blocks
+            { x: 2150, y: 480, width: 32, height: 32, color: BLOCK_YELLOW, type: 'question', hit: false },
+            { x: 2250, y: 480, width: 32, height: 32, color: BLOCK_YELLOW, type: 'question', hit: false },
+            { x: 2350, y: 480, width: 32, height: 32, color: BLOCK_YELLOW, type: 'question', hit: false },
+
+            // === SCREEN 4 (Final) ===
+            { x: 2400, y: 550, width: 800, height: 50, color: GROUND_BROWN },
+            // Staircase to flag
+            { x: 2600, y: 518, width: 32, height: 32, color: GROUND_BROWN },
+            { x: 2632, y: 486, width: 32, height: 64, color: GROUND_BROWN },
+            { x: 2664, y: 454, width: 32, height: 96, color: GROUND_BROWN },
+            { x: 2696, y: 422, width: 32, height: 128, color: GROUND_BROWN },
+            { x: 2728, y: 390, width: 32, height: 160, color: GROUND_BROWN },
+            { x: 2760, y: 358, width: 32, height: 192, color: GROUND_BROWN },
+            { x: 2792, y: 326, width: 32, height: 224, color: GROUND_BROWN },
+            { x: 2824, y: 294, width: 32, height: 256, color: GROUND_BROWN },
+            // Flag pole base
+            { x: 2900, y: 518, width: 32, height: 32, color: GROUND_BROWN },
+            // Castle
+            { x: 3000, y: 390, width: 150, height: 160, color: '#808080', type: 'castle' },
         ];
 
         // Coins
         let coins = [
+            // Screen 1
             { x: 220, y: 370, width: 16, height: 16, collected: false },
             { x: 280, y: 370, width: 16, height: 16, collected: false },
             { x: 340, y: 370, width: 16, height: 16, collected: false },
-            { x: 310, y: 260, width: 16, height: 16, collected: false },
-            { x: 410, y: 260, width: 16, height: 16, collected: false },
+            { x: 280, y: 260, width: 16, height: 16, collected: false },
+            // Screen 2
+            { x: 920, y: 380, width: 16, height: 16, collected: false },
+            { x: 980, y: 380, width: 16, height: 16, collected: false },
+            { x: 1040, y: 380, width: 16, height: 16, collected: false },
+            { x: 1148, y: 280, width: 16, height: 16, collected: false },
+            // Screen 3
+            { x: 2016, y: 340, width: 16, height: 16, collected: false },
+            { x: 2048, y: 340, width: 16, height: 16, collected: false },
+            { x: 2080, y: 340, width: 16, height: 16, collected: false },
+            // Screen 4
+            { x: 2650, y: 480, width: 16, height: 16, collected: false },
+            { x: 2700, y: 440, width: 16, height: 16, collected: false },
+            { x: 2750, y: 400, width: 16, height: 16, collected: false },
+            { x: 2800, y: 360, width: 16, height: 16, collected: false },
         ];
 
-        // Enemies
+        // Enemies - more goombas across all screens
         let enemies = [
-            { x: 400, y: 518, width: 32, height: 32, velX: -2, alive: true },
-            { x: 550, y: 518, width: 32, height: 32, velX: -2, alive: true },
+            // Screen 1
+            { x: 350, y: 518, width: 32, height: 32, velX: -2, alive: true },
+            { x: 500, y: 518, width: 32, height: 32, velX: -2, alive: true },
+            // Screen 2
+            { x: 850, y: 518, width: 32, height: 32, velX: -2, alive: true },
+            { x: 1000, y: 518, width: 32, height: 32, velX: 2, alive: true },
+            { x: 1150, y: 518, width: 32, height: 32, velX: -2, alive: true },
+            { x: 1350, y: 518, width: 32, height: 32, velX: -2, alive: true },
+            // Screen 3
+            { x: 1700, y: 518, width: 32, height: 32, velX: -2, alive: true },
+            { x: 1800, y: 518, width: 32, height: 32, velX: 2, alive: true },
+            { x: 2050, y: 518, width: 32, height: 32, velX: -2, alive: true },
+            { x: 2200, y: 518, width: 32, height: 32, velX: -2, alive: true },
+            { x: 2300, y: 518, width: 32, height: 32, velX: 2, alive: true },
+            // Screen 4
+            { x: 2500, y: 518, width: 32, height: 32, velX: -2, alive: true },
+            { x: 2550, y: 518, width: 32, height: 32, velX: -2, alive: true },
         ];
+
+        // Popup coins from question blocks
+        let popupCoins = [];
+
+        // Flag
+        const flag = {
+            x: 2908,
+            y: 150,
+            width: 8,
+            height: 368,
+            flagY: 160,
+            reached: false
+        };
 
         // Input handling
         document.addEventListener('keydown', (e) => {
@@ -126,6 +222,21 @@
                    a.x + a.width > b.x &&
                    a.y < b.y + b.height &&
                    a.y + a.height > b.y;
+        }
+
+        function hitQuestionBlock(block) {
+            if (block.hit) return;
+            block.hit = true;
+            block.color = BLOCK_USED;
+            score += 100;
+
+            // Spawn popup coin
+            popupCoins.push({
+                x: block.x + 8,
+                y: block.y - 16,
+                velY: -8,
+                life: 30
+            });
         }
 
         function updatePlayer() {
@@ -178,19 +289,37 @@
                     } else if (player.velY < 0) {
                         player.y = platform.y + platform.height;
                         player.velY = 0;
+                        // Hit question block from below
+                        if (platform.type === 'question' && !platform.hit) {
+                            hitQuestionBlock(platform);
+                        }
                     }
                 }
             }
 
-            // Screen bounds
-            if (player.x < 0) player.x = 0;
-            if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+            // Screen bounds (left side only)
+            if (player.x < cameraX) player.x = cameraX;
+            if (player.x > WORLD_WIDTH - player.width) player.x = WORLD_WIDTH - player.width;
 
-            // Fall off screen
+            // Fall off screen (into gaps)
             if (player.y > canvas.height) {
-                player.x = 100;
+                player.x = Math.max(100, cameraX + 100);
                 player.y = 450;
                 player.velY = 0;
+            }
+
+            // Check flag
+            if (!flag.reached && player.x + player.width > flag.x && player.x < flag.x + flag.width) {
+                flag.reached = true;
+                score += 1000;
+            }
+
+            // Update camera
+            if (player.x > cameraX + canvas.width / 2) {
+                cameraX = player.x - canvas.width / 2;
+            }
+            if (cameraX > WORLD_WIDTH - canvas.width) {
+                cameraX = WORLD_WIDTH - canvas.width;
             }
         }
 
@@ -198,10 +327,13 @@
             for (let enemy of enemies) {
                 if (!enemy.alive) continue;
 
+                // Only update enemies near the player (optimization)
+                if (Math.abs(enemy.x - player.x) > 600) continue;
+
                 enemy.x += enemy.velX;
 
-                // Reverse at screen edges
-                if (enemy.x <= 0 || enemy.x + enemy.width >= canvas.width) {
+                // Reverse at platform edges or screen edges
+                if (enemy.x <= 0 || enemy.x + enemy.width >= WORLD_WIDTH) {
                     enemy.velX *= -1;
                 }
 
@@ -213,8 +345,8 @@
                         player.velY = JUMP_STRENGTH / 2;
                         score += 200;
                     } else {
-                        // Player hit by enemy
-                        player.x = 100;
+                        // Player hit by enemy - respawn at last safe position
+                        player.x = Math.max(100, cameraX + 100);
                         player.y = 450;
                         player.velY = 0;
                     }
@@ -231,11 +363,29 @@
                     score += 100;
                 }
             }
+
+            // Update popup coins
+            for (let i = popupCoins.length - 1; i >= 0; i--) {
+                let pc = popupCoins[i];
+                pc.y += pc.velY;
+                pc.velY += 0.5;
+                pc.life--;
+                if (pc.life <= 0) {
+                    popupCoins.splice(i, 1);
+                }
+            }
         }
 
         function drawMario() {
-            const x = player.x;
+            const x = player.x - cameraX;
             const y = player.y;
+
+            ctx.save();
+            if (!player.facingRight) {
+                ctx.translate(x + player.width, y);
+                ctx.scale(-1, 1);
+                ctx.translate(-x, -y);
+            }
 
             // Hat
             ctx.fillStyle = MARIO_RED;
@@ -256,53 +406,93 @@
             // Legs
             ctx.fillRect(x + 4, y + 40, 10, 8);
             ctx.fillRect(x + 18, y + 40, 10, 8);
+
+            ctx.restore();
         }
 
         function drawPlatform(platform) {
+            const x = platform.x - cameraX;
+            if (x + platform.width < 0 || x > canvas.width) return; // Off screen
+
             ctx.fillStyle = platform.color;
-            ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+            ctx.fillRect(x, platform.y, platform.width, platform.height);
 
             if (platform.type === 'brick') {
                 ctx.strokeStyle = '#641414';
                 ctx.lineWidth = 2;
-                ctx.strokeRect(platform.x, platform.y, platform.width, platform.height);
+                ctx.strokeRect(x, platform.y, platform.width, platform.height);
                 ctx.beginPath();
-                ctx.moveTo(platform.x + 16, platform.y);
-                ctx.lineTo(platform.x + 16, platform.y + 32);
-                ctx.moveTo(platform.x, platform.y + 16);
-                ctx.lineTo(platform.x + 32, platform.y + 16);
+                ctx.moveTo(x + 16, platform.y);
+                ctx.lineTo(x + 16, platform.y + 32);
+                ctx.moveTo(x, platform.y + 16);
+                ctx.lineTo(x + 32, platform.y + 16);
                 ctx.stroke();
             } else if (platform.type === 'question') {
-                ctx.fillStyle = '#000';
-                ctx.font = 'bold 20px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText('?', platform.x + 16, platform.y + 24);
+                if (!platform.hit) {
+                    ctx.fillStyle = '#000';
+                    ctx.font = 'bold 20px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('?', x + 16, platform.y + 24);
+                }
+                ctx.strokeStyle = '#8B6914';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(x, platform.y, platform.width, platform.height);
             } else if (platform.type === 'pipe') {
                 ctx.fillStyle = '#145214';
-                ctx.fillRect(platform.x, platform.y, platform.width, 16);
+                ctx.fillRect(x - 4, platform.y, platform.width + 8, 20);
                 ctx.fillStyle = '#32A032';
-                ctx.fillRect(platform.x + 4, platform.y + 16, platform.width - 8, platform.height - 16);
+                ctx.fillRect(x, platform.y + 20, platform.width, platform.height - 20);
+                ctx.fillStyle = '#1E7B1E';
+                ctx.fillRect(x, platform.y + 20, 8, platform.height - 20);
+            } else if (platform.type === 'castle') {
+                // Castle
+                ctx.fillStyle = '#808080';
+                ctx.fillRect(x, platform.y, platform.width, platform.height);
+                // Door
+                ctx.fillStyle = '#000';
+                ctx.fillRect(x + 55, platform.y + 100, 40, 60);
+                // Windows
+                ctx.fillRect(x + 20, platform.y + 40, 30, 30);
+                ctx.fillRect(x + 100, platform.y + 40, 30, 30);
+                // Battlements
+                for (let i = 0; i < 5; i++) {
+                    ctx.fillStyle = '#808080';
+                    ctx.fillRect(x + i * 30, platform.y - 20, 20, 20);
+                }
             }
         }
 
         function drawCoin(coin) {
             if (coin.collected) return;
 
+            const x = coin.x - cameraX;
+            if (x + coin.width < 0 || x > canvas.width) return;
+
             ctx.fillStyle = COIN_YELLOW;
             ctx.beginPath();
-            ctx.arc(coin.x + 8, coin.y + 8, 8, 0, Math.PI * 2);
+            ctx.arc(x + 8, coin.y + 8, 8, 0, Math.PI * 2);
             ctx.fill();
 
             ctx.fillStyle = '#C8AA00';
             ctx.beginPath();
-            ctx.arc(coin.x + 8, coin.y + 8, 5, 0, Math.PI * 2);
+            ctx.arc(x + 8, coin.y + 8, 5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawPopupCoin(pc) {
+            const x = pc.x - cameraX;
+            ctx.fillStyle = COIN_YELLOW;
+            ctx.beginPath();
+            ctx.arc(x + 8, pc.y + 8, 8, 0, Math.PI * 2);
             ctx.fill();
         }
 
         function drawGoomba(enemy) {
             if (!enemy.alive) return;
 
-            const x = enemy.x;
+            const x = enemy.x - cameraX;
+            if (x + enemy.width < 0 || x > canvas.width) return;
+
             const y = enemy.y;
 
             // Body
@@ -336,16 +526,54 @@
 
         function drawClouds() {
             ctx.fillStyle = 'white';
-            const cloudPositions = [100, 350, 600];
-            for (let x of cloudPositions) {
+            // Draw clouds at fixed positions relative to camera (parallax effect)
+            for (let i = 0; i < 10; i++) {
+                let cloudX = (i * 350 - cameraX * 0.3) % (canvas.width + 200) - 100;
+                if (cloudX < -150) cloudX += canvas.width + 300;
                 ctx.beginPath();
-                ctx.ellipse(x + 40, y = 70, 40, 20, 0, 0, Math.PI * 2);
+                ctx.ellipse(cloudX + 40, 70, 40, 20, 0, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.ellipse(x + 50, 50, 30, 20, 0, 0, Math.PI * 2);
+                ctx.ellipse(cloudX + 50, 50, 30, 20, 0, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.ellipse(x + 70, 70, 30, 17, 0, 0, Math.PI * 2);
+                ctx.ellipse(cloudX + 70, 70, 30, 17, 0, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function drawFlag() {
+            const x = flag.x - cameraX;
+            if (x < 0 || x > canvas.width) return;
+
+            // Pole
+            ctx.fillStyle = '#228B22';
+            ctx.fillRect(x, flag.y, flag.width, flag.height);
+
+            // Flag
+            ctx.fillStyle = '#00FF00';
+            ctx.beginPath();
+            ctx.moveTo(x + flag.width, flag.flagY);
+            ctx.lineTo(x + flag.width + 40, flag.flagY + 25);
+            ctx.lineTo(x + flag.width, flag.flagY + 50);
+            ctx.closePath();
+            ctx.fill();
+
+            // Ball on top
+            ctx.fillStyle = '#FFD700';
+            ctx.beginPath();
+            ctx.arc(x + 4, flag.y, 8, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawHills() {
+            ctx.fillStyle = '#228B22';
+            // Background hills with parallax
+            for (let i = 0; i < 8; i++) {
+                let hillX = (i * 500 - cameraX * 0.2) % (canvas.width + 400) - 200;
+                if (hillX < -300) hillX += canvas.width + 600;
+                ctx.beginPath();
+                ctx.ellipse(hillX + 100, 550, 150, 80, 0, Math.PI, 0);
                 ctx.fill();
             }
         }
@@ -355,8 +583,14 @@
             ctx.fillStyle = SKY_BLUE;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+            // Draw background hills
+            drawHills();
+
             // Draw clouds
             drawClouds();
+
+            // Draw flag
+            drawFlag();
 
             // Draw platforms
             for (let platform of platforms) {
@@ -368,6 +602,11 @@
                 drawCoin(coin);
             }
 
+            // Draw popup coins
+            for (let pc of popupCoins) {
+                drawPopupCoin(pc);
+            }
+
             // Draw enemies
             for (let enemy of enemies) {
                 drawGoomba(enemy);
@@ -376,11 +615,32 @@
             // Draw player
             drawMario();
 
-            // Draw score
+            // Draw UI
             ctx.fillStyle = 'white';
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 3;
             ctx.font = 'bold 24px Arial';
             ctx.textAlign = 'left';
+            ctx.strokeText(`Score: ${score}`, 10, 30);
             ctx.fillText(`Score: ${score}`, 10, 30);
+
+            // Draw level indicator
+            const level = Math.floor(cameraX / 800) + 1;
+            ctx.strokeText(`World 1-${level}`, canvas.width - 120, 30);
+            ctx.fillText(`World 1-${level}`, canvas.width - 120, 30);
+
+            // Win message
+            if (flag.reached) {
+                ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                ctx.fillRect(canvas.width/2 - 150, canvas.height/2 - 50, 300, 100);
+                ctx.fillStyle = '#FFD700';
+                ctx.font = 'bold 36px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('LEVEL COMPLETE!', canvas.width/2, canvas.height/2);
+                ctx.font = 'bold 24px Arial';
+                ctx.fillStyle = 'white';
+                ctx.fillText(`Final Score: ${score}`, canvas.width/2, canvas.height/2 + 35);
+            }
         }
 
         function gameLoop() {
