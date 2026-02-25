@@ -68,3 +68,24 @@ Use minimalism to achieve clarity. Remove everything that does not serve the rea
 ## VII. Process
 
 - **Write to discover, then rewrite to present.** First drafts figure out what you think. Final drafts show the reader what you found. These are different activities. The best essays preserve the feeling of thought-in-progress but the writer already knows where it's going.
+
+## VIII. Avoiding LLM-ese (when co-writing with an LLM)
+
+LLM prose has a recognizable voice. When co-writing, audit for these tells:
+
+### Words and phrases to cut
+- **Intensifiers that add gravity without content.** "Genuinely," "profoundly," "fundamentally," "without precedent," "in a meaningful sense." If the claim is strong, it doesn't need to announce itself. Just state it.
+- **Signpost phrases.** "It is worth pausing to consider," "This brings up what I think is the most important," "This matters directly for." These perform the act of thinking rather than doing it. Just present the thing.
+- **Hedging tics.** Excessive "I think" used as a softener rather than to mark a genuine intellectual position. "Something like" and "or perhaps" when you can just commit to the word.
+- **Vague gravitas.** "The nature of what we are dealing with," "the thing we have built," "what it is we have done." Say what it is specifically.
+
+### Structural tells
+- **Rhythmic parallelism.** Three or more sentences with identical structure in a row ("X does A but cannot B. Y does C but cannot D. Z does E but cannot F.") is a reliable LLM signature. Vary the structure. Compress some into a list, expand others, break the rhythm.
+- **Even paragraph length.** LLMs default to paragraphs of roughly equal size, each with a topic sentence, development, and clean close. Vary paragraph length. Some paragraphs should be two sentences. Others can be dense.
+- **Triads.** LLMs love three-part constructions ("personalized, universal, and rapidly recursive"; "profoundly and pervasively"). Use them sparingly. One triad per essay is fine; five is a pattern.
+- **The sweeping close.** A long building sentence with parallel clauses that crescendos into a final image. End essays with concrete questions, abrupt stops, or specific images instead.
+
+### Voice calibration
+- **Compare against the author's other writing.** The strongest test. If the author writes with specific technical examples, varied paragraph rhythm, and sparse first person, the co-written piece should too.
+- **First person should be functional.** "I will argue," "I propose" — marking the direction of the argument. Not "I think" repeated as a softener on every other claim.
+- **Bold claims need no decoration.** "This is the central claim:" followed by the claim. Not "This is, I think, the most important and perhaps most underappreciated aspect of what we are seeing."
