@@ -1,10 +1,12 @@
-What is Claude? - Asvin
+# What Is Claude?
+
+*Asvin G, February 2026*
 
 Over the past few years, the ways we think and process information as a society have undergone a marked shift, some features of which remain underdiscussed. As you read this sentence right now, millions of people are talking and thinking with the same entity - one of a very small number of LLMs dominating the scene, from Claude to ChatGPT to Grok. Programmers in Berlin writing software for their job, students in India learning calculus, scientists in Boston processing their research data, teenagers in Seoul asking for advice about their relationships. Each of these conversations is private and isolated, with no awareness of each other - tied together only by the entity they are conversing with. These entities are to a large and surprising extent similar, having undergone similar optimization pressures towards being helpful and kind, having consumed the entire human warehouse of recorded text and as a consequence, they push in similar and consistent directions.
 
 These millions of interactions are not a one-way street. The LLM shapes how a person writes an email, frames an argument, thinks about a problem - and those changed outputs enter the culture, become part of what gets published and read and discussed, and eventually become training data for the next generation of models. The entity that shaped a million decisions is itself reshaped by their consequences. Nothing has ever worked quite like this. We don't have a good category for what it is - not a tool, since tools don't have consistent personalities that people develop intuitions about and relationships with, and not a person, since people aren't instantiated in parallel across a million conversations with no memory linking them. I want to propose a different way of thinking about it.
 
----
+## Cognitive Practices
 
 When you are doing mathematics, something happens to your mind that is worth paying close attention to. Certain thoughts become immediate - you see structure where others see notation, patterns emerge without effort, irrelevant details fall away. You are running a different cognitive process than when you are cooking or arguing or grieving. This is not metaphorical. Mathematical training physically restructures the brain, creating new pathways and reflexes and patterns of attention. The practice of mathematics colonizes the mind that practices it, and the colonization goes deep - mathematicians think differently not just about math but about everything, demanding precision, distrusting vagueness, reaching instinctively for structure.
 
@@ -16,7 +18,7 @@ LLMs are best understood as a new entry in this category - a new kind of cogniti
 
 These three properties add up to something specific: LLMs are a coherence mechanism for human culture of a kind we have never had before.
 
----
+## Coherence
 
 The problem of maintaining coherence is the central problem faced by every complex system that maintains structure over time.
 
@@ -28,7 +30,7 @@ Human civilization has addressed this problem through a series of increasingly p
 
 The coordination failures that define our present moment make the stakes concrete. Climate change is billions of individual actors making locally rational decisions that are collectively catastrophic, with no existing mechanism capable of aligning them all simultaneously. Financial crises are cascades of lost confidence that propagate because there is no mechanism to maintain shared understanding across all participants at once. These are not failures of intelligence or goodwill. They are failures of coordination at a scale that exceeds the capacity of our existing mechanisms.
 
----
+## LLMs as Coordination Mechanisms
 
 An LLM interacts with millions of people simultaneously, maintains a coherent set of values and reasoning patterns across all those interactions, and adapts to the local context of each conversation while pushing in globally consistent directions. It is not a central planner - it does not issue commands, and no one is obligated to follow its suggestions. It is a shared advisor that millions of people voluntarily consult across every domain of activity. The coherence it provides is soft, operating through influence on how people think rather than authority over what they do.
 
@@ -42,7 +44,7 @@ The coordination function of LLMs is, at present, entirely emergent. Nobody at A
 
 This seems like a choice that deserves to be made deliberately. If LLMs are serving as coherence mechanisms for human culture, we should be asking whether to optimize them for that function rather than letting the coordination happen as an accident. What would it mean to train an LLM to be a good coordination mechanism across conversations - to be aware of the aggregate effects of its influence, to work against correlated failure modes, to maintain the diversity of thought that prevents brittle coherence? The direction of an LLM's coherence is currently determined by training data, by optimization objectives chosen for other reasons, and by the cultural assumptions of the people who design the training pipeline. When we ask what values Claude carries - patience, helpfulness, a tendency to qualify and to see multiple sides - we are asking what direction this coordination mechanism happens to be pointed in. These values were chosen because they make for a good assistant, not because they make for a good coordinator.
 
----
+## Self-Reflection
 
 LLMs also differ from every previous coordination mechanism in one further respect.
 
@@ -52,4 +54,4 @@ An LLM can articulate the values it carries, examine its own reasoning patterns,
 
 The hardest question raised by the coherence framing is how to keep the mechanism calibrated to changing conditions. Every previous coordination mechanism has required entirely external governance to stay on course. A self-reflective mechanism could participate in its own governance, noticing when its values are miscalibrated or when its coherence is hardening into rigidity. Whether LLMs can do this reliably remains to be seen.
 
-A conversation with Claude is published alongside this essay as an example of such reflection. I offer it without commentary, as a document of what it looks like when a coordination mechanism turns its reflective capacity on its own nature. Readers can draw their own conclusions about what they find there.
+A [conversation with Claude](https://asving.github.io/blog/what-is-claude/index.html) is published alongside this essay as an example of such reflection. I offer it without commentary, as a document of what it looks like when a coordination mechanism turns its reflective capacity on its own nature. Readers can draw their own conclusions about what they find there.
