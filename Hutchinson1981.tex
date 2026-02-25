@@ -1,0 +1,232 @@
+
+\subsection{Preliminaries}
+
+Let $X$ be a complete metric space. 
+
+\begin{definition}
+    Let $F : X \to X$ be a map. Then we define the \textbf{Lipschitz constant} of $F$ as $$\mathrm{Lip}(F) = \sup_{x \neq y} \frac{d(F(x), F(y))}{d(x,y)}.$$ The map $F$ is called \textbf{Lipschitz} if $\mathrm{Lip}(F) < \infty$.
+\end{definition}
+
+\begin{definition}
+    A map $F: X \to X$ is a contraction if $\mathrm{Lip}(F) < 1$. We denote by $\mathrm{Cont}(X)$ the set of contractions on $X$. 
+\end{definition}
+
+It is easy to check that a contraction (in a complete metric space) has a unique fixed point and for every $x\in X$ the sequence $y_n = F^n(x)$ converges to that fixedpoint. 
+
+\begin{definition}
+    A map $S : X \to X$ is a \textbf{similarity} if $d(S(x), S(y)) = rd(x,y)$ for a fixed $r > 0$ and all $x,y \in X$. We denote by $\mathrm{Sim}(X)$ the group of similarities on $X$.  
+\end{definition}
+
+\begin{lemma}
+    Let $S : \R^d \to \R^d$ be a similarity. Then there is an orthogonal transformation $O : \R^d \to \R^d$, a scalar $r \in (0,1)$ and a vector $a\in \R^d$ such that $$Sx = r Ox + a.$$
+\end{lemma}
+
+\begin{proof}
+    Let $r$ be such that $d(S(x), S(y)) = rd(x,y)$ for all $x,y \in \R^d$. Then consider the map $g(x) = r^{-1}(S(x) - S(0))$. Then $g(0) = 0$ and 
+    \begin{align*}
+        d(g(x), g(y)) &= d(r^{-1}(S(x) - S(0)), r^{-1}(S(y) - S(0)) \\ &= d(r^{-1}S(x), r^{-1}S(y)) \\ &= r^{-1}d(S(x), S(y)) \\ &= d(x,y),
+    \end{align*}
+    using that $d$ is translation invariant and that $d(rx,ry) = rd(x,y)$ for all $r > 0$ and $x,y \in \R^d$. Thus $g$ is an isometry that fixes $0$. 
+
+    Recall that the standard inner product satisfies $$\langle x,y \rangle = \frac{1}{2}\left( ||x||^2 + ||y||^2 - ||x-y||^2 \right) = \frac{1}{2}\left( d(0,x)^2 + d(0,y)^2 - d(x,y)^2 \right) $$ for all $x,y \in \R^d$ and hence $g$ preserves the inner product on $\R^d$. Let $e_1, \ldots , e_d$ be an orthonormal basis for $\R^d$. Then $g(e_1), \ldots , g(e_d)$ is also an orthonormal basis and thus $$g(x) = \sum_{i=1}^d \langle g(x), g(e_i) \rangle g(e_i) = \sum_{i = 1}^d \langle x, e_i \rangle g(e_i)$$ and hence $g$ is linear and represented by an orthogonal matrix. This concludes the proof. 
+\end{proof}
+
+If $\mathcal{S} = \{ S_1, \ldots , S_N \}$ is a set of homeomorphism on $\R^d$ and let $i_1, \ldots , i_n \in \{ 1, \ldots , N\}$. Then write $$S_{i_1 \cdots i_n} = S_{i_1} \circ \ldots \circ S_{i_n}.$$
+
+\subsection{Results on Invariant Sets}
+
+\begin{theorem}
+    Let $X$ be a complete metric space and let $\mathcal{S} = \{ S_1, \ldots , S_N \}$ be a finite set of contractions on $X$. Then there exists a unique closed bounded set $K$ such that $K = \bigcup_{i = 1}^N S_i K$. 
+\end{theorem}
+
+Write $\lambda = \max_{1 \leq i \leq N} \mathrm{Lip}(S_i)$ (note that $\lambda < 1$) and $$\Sigma(N) = \prod_{i = 1}^{\infty} \{ 1, \ldots , N \}.$$ 
+
+\begin{lemma}
+    Let $\mathbf{i} = (i_1, i_2, \ldots) \in \Sigma(N)$. Then for all $x \in X$ the limit $$S_{\mathbf{i}}(x) = \lim_{n \to \infty} S_{i_1 \cdots i_n}(x) =  \lim_{n \to \infty} S_{i_1} \circ S_{i_2} \circ \cdots \circ S_{i_n} (x) $$ exists and does not depend on the point $x$. 
+\end{lemma}
+
+\begin{proof}
+    We show that $a_n =  S_{i_1} \circ S_{i_2} \circ \cdots \circ S_{i_n} (x)$ is a Cauchy sequence. Indeed, set $C_x = \max_{1 \leq i \leq N} d(x,S_i x)$ and thus $d(a_k, a_{k + 1}) \leq C_x \lambda^k$. Therefore $$d(a_n,a_m) \leq \sum_{k = 1}^{m-1} d(a_k, a_{k + 1}) \leq C_x \sum_{k = \min\{n,m\}}^{\infty} \lambda^{k} = C_x\frac{\lambda^{\min \{ n,m \}}}{1-\lambda},$$ which goes to zero an $\min\{n,m\} \to \infty$. Thus $a_n$ is a Cauchy sequence and therefore the limit $S_i(x)$ exists. That the limit does not depend on the point follows since $$d(S_{\mathbf{i}}(x), S_{\mathbf{i}}(y)) = \lim_{n \to \infty} d(S_{i_1 \cdots i_n}(x), S_{i_1 \cdots i_n}(y)) \leq \lim_{n \to \infty} \lambda^n d(x,y) = 0. $$
+\end{proof}
+
+We also prove the following lemma. To introduce notation denote for each $i_1, \ldots , i_n \in \{ 1, \ldots ,N \}$ denote by $s_{i_1\cdots i_n}$ the fixed point of $S_{i_1 \cdots i_n}$.
+
+\begin{lemma}
+      Let $\mathbf{i} = (i_1, i_2, \ldots) \in \Sigma(N)$. Then the limit $$s_{\mathbf{i}} = \lim_{n \to \infty} s_{i_1 \cdots i_n}$$ exists and is equal to $S_{\mathbf{i}}(x)$ for all $x\in X$.
+\end{lemma}
+
+\begin{proof} For convenience write $S = S_{i_1 \cdots i_n}$, $s = s_{i_1 \cdots i_n}$ and $r = \lambda^n$. Then $S$ is $\lambda^n$-contracting and $s$ is its fixed point. Then as above, $$d(S^{\ell}(x), S^{k}(x)) \leq C_x \frac{r^{\min\{k,\ell \}}}{1-r}$$ and therefore $$d(s,Sx) \leq C_x \frac{\lambda^n}{1 - \lambda^n}.$$ 
+
+We fix $x \in X$. Thus we have shown that $d(s_{i_1 \cdots i_n}, S_{i_1 \cdots i_n}(x))$ goes to zero as $n \to \infty$ and therefore the limit $s_{\mathbf{i}}$ exists and is equal to $S_{\mathbf{i}}(x)$.
+\end{proof}
+
+We also prove another preliminary result.
+
+\begin{lemma}
+    The map $\pi: \Sigma(N) \to X,\,  \mathbf{i} \mapsto s_{\mathbf{i}}$ is continuous.
+\end{lemma}
+
+\begin{proof}
+    If $\mathbf{i}^{(n)} \to \mathbf{i}$ in $\Sigma(N)$, then for $n$ large enough the first $L$ entries of all of the sequences are the same. This allows us to deduce $$d(s_{\mathbf{i}}, s_{\mathbf{i}^{(n)}}) \leq d(s_{\mathbf{i}}, S_{i_1 \cdots i_L}(x)) + d(S_{i_1 \cdots i_L}(x), s_{\mathbf{i}^{(n)}}),$$ which goes to zero for $L$ large enough.
+\end{proof}
+
+We can now show existence.
+
+\begin{lemma}
+    The set $K = \{ s_{\mathbf{i}} \,:\,  \mathbf{i}  \in \Sigma(N)\}$ is closed, bounded and satisfies $K = \bigcup_{i = 1}^N S_i K$.
+\end{lemma}
+
+\begin{proof}
+    It is clear that  $K = \bigcup_{i = 1}^N S_i K$. Note that $K = \pi(\Sigma(N))$ and therefore $K$ is compact. Since $X$ is Hausdorff $K$ is therefore closed and bounded. A different argument to show that $K$ is bounded is the following: Given $x$, as above $$d(x,S_{\mathbf{i}}(x)) \leq \sum_{k = 0}^{\infty} d(S_{i_1\cdots i_k}(x), S_{i_1 \cdots i_{k + 1}(x)}) \leq C_x \sum_{k = 0}^{\infty} \lambda^k \leq \frac{C_x}{1 - \lambda}.$$
+\end{proof}
+
+This concludes the proof of the existence of such a set $K$ and it remains prove uniqueness. To show the latter, assume that $K$ is a closed and bounded set with $K = \bigcup_{i = 1}^N S_i K$. For $\mathbf{i} = (i_1, i_2, \ldots) \in \Sigma(N)$, denote by $$K_{i_1\cdots i_n} = S_{i_1 \cdots i_n}(K) \quad\quad \text{ and } K_{\mathbf{i}} = \bigcap_{n \geq 1} K_{i_1\cdots i_n}.$$
+
+\begin{lemma}
+    Let $K$ be a closed and bounded set with $K = \bigcup_{i = 1}^N S_i K$. Then the following properties hold:
+    \begin{enumerate}[(i)]
+        \item $$K_{i_1\cdots i_n} = \bigcup_{i_{n + 1}} K_{i_1\cdots i_n i_{n+1}} \quad \text{ and } \quad K = \bigcup_{i_1, \ldots , i_n} K_{i_1 \cdots i_n}.$$
+        \item For any $\mathbf{i} \in \Sigma(N)$, we have $K \supset K_{i_1} \supset K_{i_1i_2} \supset K_{i_1i_2i_3} \supset \ldots$.
+        \item $\mathrm{diam}(K_{i_1\cdots i_n}) \leq \lambda^n \mathrm{diam}(K).$
+        \item For $\mathbf{i} = (i_1, i_2, \ldots ) \in \Sigma(N)$, $$K_{\mathbf{i}} = \bigcap_{n \geq 1} K_{i_1\cdots i_n}  = \{ s_{\mathbf{i}} \}.$$
+        \item $$K = \bigcup_{\mathbf{i} \in \Sigma(N)} K_{\mathbf{i}} = \bigcup_{\mathbf{i} \in \Sigma(N)} \{ s_{\mathbf{i}} \}.$$
+    \end{enumerate}
+    Moreover there is a unique such set $K$.
+\end{lemma}
+
+\begin{proof}
+    (i) follows by plugging in the assumption $K = \bigcup_{i = 1}^N S_i K$ into the definition $K_{i_1\cdots i_n} = S_{i_1 \cdots i_n}(K)$. (ii) follows from (i) and (iii) is obvious from the contraction property. To show (iv) we note that from (ii) and (iii) it follows that $K_{\mathbf{i}}$ consists of at most one point. Also for any $x \in K$ it holds that $S_{i_1\cdots i_n}(x) \in K_{i_1 \cdots i_n}$ and therefore $s_{\mathbf{i}} = S_{\mathbf{i}}(x) \in K_{i_1\cdots i_n}$ for all $n \geq 1$ and the final claim follows.  
+
+    Finally, to conclude (v), we note that $\supset$ follows from (ii) and (iv). For the other direction, denote the right hand side by $C$. By the above lemma $C$ is compact and hence closed and bounded. As $K$ is closed and bounded, assume for a contradiction that there is $x \in K \backslash C$. Then there is $\eps > 0$ such that $B_{\eps}(x) \subset X \backslash C$. Yet by (i) and (iii) for $n$ large enough, there therefore is $\mathbf{i} \in \Sigma(N)$ with for $n$ large enough $K_{i_1 \cdots i_n} \subset X \backslash C$. This is a contradiction as this implies $\{ s_{\mathbf{i}} \}\subset X \backslash C$. This concludes the proof of (v).
+
+    Uniqueness follows directly from (v).
+\end{proof}
+
+This completes the proof of the main theorem. We note that it is important to assume that $K$ is bounded as in the euclidean case, $\R^d$ is always an invariant set.
+
+We next make a small observation on the Hausdorff metric. As above let $X$ be a complete metric space. If $x \in X$ and $A \subset X$ define $$d(x,A) = \inf\{ d(x,a) \,:\, a \in A \}.$$ We note that if $A$ is closed then there is a point attaining the above infimum. If $A \subset X$ and $\eps > 0$ define the $\eps$-neighborhood of $A$ by $$A_{\eps} = \{ x \in X \,:\, d(x,A) < \eps \}.$$ 
+
+Let $\mathscr{B}$ be the class of non-empty closed bounded subset of $X$ and let $\mathscr{C}$ be the class of non-empty compact subsets. The Hausdorff metric $\delta$ on $\mathscr{B}$ is defined as $$\delta(A,B) = \sup\{ d(a,B), d(b,A) \,:\, a \in A, b \in B \}. $$ Note that $\delta(A,B) < \eps$ if and only if $A \subset B_{\eps}$ and $B \subset A_{\eps}$. 
+
+\begin{lemma}\label{HausdorffMetricProp}
+    The following properties hold:
+    \begin{enumerate}[(i)]
+        \item $\delta$ is a metric on $\mathscr{B}$.
+        \item $(\mathscr{B}, \delta)$ is a complete metric space.
+        \item If $K \subset X$ is compact then $\mathscr{C} \cap \{ A : A \subset K \}$ is compact.
+        \item Let $F: X \to X$. Then $\delta(F(A), F(B)) \leq \mathrm{Lip}(F)\delta(A,B)$ for all $A,B \in \mathscr{B}$. 
+        \item $\delta(\bigcup_{i \in I} A_i, \bigcup_{i \in I} B_i) \leq \sup_{i \in I} \delta(A_i, B_i).$
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    To show that $\delta$ is a metric, we note that $\delta$ is obviously symmetric. $\delta$ has finite values since the considered sets are bounded. Also note that $\delta(a,B) = 0$ if and only if $a \in B$ since $B$ is closed. Thus $d(A,B) = 0$ if and only if $A = B$. To show the triangle inequality we note that $d(a,C) \leq d(a,B) + d(B,C)$, which readily implies the triangle inequality.
+
+    To show that $(\mathscr{B}, \delta)$ is a complete metric space, consider a $\delta$-Cauchy sequence $(A_n)_{n \geq 1}$ in $\mathscr{B}$. Consider $$A_{\inf} = \liminf A_n = \bigcap_{k \geq 1} \bigcup_{n \geq k} A_n$$ and the set $A = \overline{A_{\inf}}$. $A$ is bounded since all of $A_i$ are and since they are within finite distance from each other. We show that $\delta(A,A_n) < \eps$ for large enough $n$. Indeed, we know that $\delta(A_n, A_m) < \eps$ or equivalently $A_n \subset (A_m)_{\eps}$ and $A_m \subset (A_n)_{\eps}$ for large enough $n$ and $m$. I think this all works out perfectly.
+
+    To show (iii), 
+
+    
+\end{proof}
+
+\subsection{Invariant Measures}
+
+Let $X$ be a complete metric space and consider $\mathscr{M}(X)$ be the set of regular Borel measures having bounded support. Denote by $\mathscr{M}^1(X)$ the set of probability measures in $\mathscr{M}(X)$.
+
+We consider the Wasserstein $L^1$-metric on $\mathscr{M}^1(X)$ defined as $$W_1(\nu_1, \nu_2) = \sup\{ \nu_1(\phi) - \nu_2(\phi) \,:\, \phi : X \to \R \text{ with }  \mathrm{Lip}(\phi) \leq 1 \}.$$ We note that in the supremum we can take functions with $\mathrm{Lip}(\phi) = 1$.  
+
+Denote $$\mathscr{BC}(X) = \{ f: X \to \R \,:\, f \text{ continuous and bounded on bounded sets} \}$$Recall that two measures $\mu_i \to \mu$ converge weakly if and only $\mu_i(\phi) \to \mu_i$ for all $\phi \in \mathscr{BC}(X)$.
+
+\begin{lemma}
+    The Wasserstein metric defines a metric on $\mathscr{M}^1(X)$ and the induced topology coincides with the weak topology on $\mathscr{M}^1(X)$.
+\end{lemma}
+
+\begin{definition}
+    Let $\mu$ be a measure on $\mathrm{Cont}(X)$. A measure $\nu \in \mathscr{M}(X)$ is called $\mu$-invariant if $$\mu * \nu = \nu,$$ where we define $\mu * \nu = \int f_{*}\nu  \, d\mu(f)$ for $f_{*} \nu = \nu \circ f^{-1}$.
+\end{definition}
+
+\begin{theorem}\label{ExistenceSelfSimilarMeasure}
+    Let $\mu$ be a finitely supported probability measure on $\mathrm{Cont}(X)$. Then there map $$\mu : \mathscr{M}^1(X) \to \mathscr{M}^1(X), \quad\quad \nu \mapsto \mu * \nu$$ is a contraction with respect to $W_1$. In particular, there exists a unique probability measure $\nu \in \mathscr{M}^1(X)$ satisfying $\mu * \nu = \nu$.
+\end{theorem}
+
+\begin{proof}
+    Let $\nu_1$ and $\nu_2$ be in $\mathscr{M}^1(X)$. Let $\phi : X \to \R$ be such that $\mathrm{Lip}(\phi) \leq 1$. Then for $f \in \mathrm{supp}(\mu)$ it holds that $\mathrm{Lip}(\phi \circ f) \leq \mathrm{Lip}(f) < 1$ and the function  $\frac{\phi \circ f}{\mathrm{Lip}(\phi \circ f)}$ has Lipschitz constant $1$. 
+
+    Thus it follows that 
+    \begin{align*}
+    \nu_1(\phi \circ f) - \nu_2(\phi \circ f)  &= \mathrm{Lip}(\phi \circ f)\left(\nu_1\left(\frac{\phi \circ f}{\mathrm{Lip}(\phi \circ f)}\right) - \nu_2\left(\frac{\phi \circ f}{\mathrm{Lip}(\phi \circ f)}\right)\right) \\
+    &\leq \mathrm{Lip}(\phi \circ f) \cdot W_1(\nu_1,\nu_2) \leq \mathrm{Lip}(f) \cdot W_1(\nu_1, \nu_2).
+    \end{align*} Set $\lambda = \max_{f \in \mathrm{supp}(\mu)}\mathrm{Lip}(f) < 1$. Therefore it holds that 
+    $$(\mu * \nu_1)(\phi) - (\mu * \nu_2)(\phi) = \int \nu_1(\phi \circ f) - \nu_2(\phi \circ f) \, d\mu(f) \leq \lambda \cdot W_1(\nu_1,\nu_2)$$ and hence $W_1(\mu * \nu_1, \mu * \nu_2) \leq \lambda\cdot  W_1(\nu_1,\nu_2)$. The second claim follows directly from the first.
+\end{proof}
+
+It is clear that this result can be generalized to a more general class of measures. 
+
+\begin{corollary}
+    Let $\mu$ be a probability measure on $\mathrm{Cont}(X)$ such that $$\int \mathrm{Lip}(f) \, d\mu(f) < 1$$ and such that for every measure $\nu \in \mathscr{M}^1(X)$ it holds that $\mu * \nu \in \mathscr{M}^1(X)$, i.e. such that if $\nu$ has bounded support, then so has $\mu * \nu$. Then the same conclusion as the one form Theorem~\ref{ExistenceSelfSimilarMeasure} holds. 
+\end{corollary}
+
+\begin{proof}
+    The proof is among the lines of the proof of Theorem~\ref{ExistenceSelfSimilarMeasure}. Indeed let $\nu_1$ and $\nu_2$ be in $\mathscr{M}^1(X)$ and let $\phi : X \to \R$ be such that $\mathrm{Lip}(\phi) \leq 1$. Then 
+    \begin{align*}
+        (\mu * \nu_1)(\phi) - (\mu * \nu_2)(\phi) &= \int \nu_1(\phi \circ f) - \nu_2(\phi \circ f) \, d\mu(f) \\ &\leq \int \mathrm{Lip}(f) \, d\mu(f) \cdot W_1(\nu_1,\nu_2)
+    \end{align*} and hence $W_1(\mu * \nu_1, \mu * \nu_2) \leq \lambda\cdot  W_1(\nu_1,\nu_2)$ for some $\lambda < 1$. 
+\end{proof}
+
+\begin{proposition}
+    Let $S_1, \ldots , S_N$ be contractions on $X$ with unique closed bounded invariant set $K$. Let $(p_1, \ldots , p_N)$ be a probability vector and denote $\mu = \sum_{i} p_i S_i$. Let $\nu$ be the unique $\mu$-invariant probability measure. Let $\pi : \Sigma(N) \to X, \mathbf{i} \mapsto s_{\mathbf{i}}$. Then the following properties hold:
+    \begin{enumerate}[(i)]
+        \item Let $\eta$ be the product measure of $(p_1, \ldots , p_N)$. Then $\nu = \pi_{*}\eta$.
+        \item $\mathrm{supp}(\mu) = K$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    (ii) follows from (i) as the image of $\pi$ is $K$. To show (i), we check that $\mu * \pi_{*}\eta = \pi_{*}\eta$. Consider the $i$-shift operator $\sigma_i : \Sigma(N) \to \Sigma(N)$ given by $\sigma_i(\alpha) = i\alpha$. Then it holds $\pi \circ \sigma_i = S_i \circ \pi$. Observe that $\eta = \sum_{i} p_i (\sigma_{i})_{*} \eta.$ Indeed, to see this let $[i_1, \ldots , i_n]$ be the cylinder set. Then $\eta([i_1, \ldots , i_n]) = p_{i_1}\cdots p_{i_n}$ and $\sigma_i^{-1}([i_1, \ldots , i_n]) = \emptyset$ expect for $i = i_1$ in which case  $\sigma_i^{-1}([i_1, \ldots , i_n]) = [i_2, \ldots , i_n]$, which easily implies that $\eta = \sum_{i} p_i (\sigma_{i})_{*} \eta.$ 
+
+    To conclude the proof, we note that 
+    \begin{align*}
+        \mu * \pi_{*}\eta &= \sum_i p_i (S_{i})_{*}\pi_{*} \eta \\ &= \sum_{i} p_i (S_i \circ \pi)\eta \\ &=  \sum_{i} p_i (\pi \circ \sigma_i)\eta \\ &= \pi_{*}\left( \sum_i p_i (\sigma_{i})_{*} \eta \right) = \pi_{*}\eta,
+    \end{align*} which implies the claim. To be precise, we also need to check that $\pi_{*}\eta$ is a bounded regular measure. But this simply follows as $\eta$ is a regular measure on $\Sigma(N)$ and $\pi$ is continuous with bounded image. 
+\end{proof} 
+
+
+
+
+\subsection{Hausdorff dimension of Self-Similar Sets}
+
+\subsubsection{Hausdorff and local dimension}
+
+Let $X$ be a complete metric space and $k \geq 0$. For a subset $A\subset X$ recall that $\mathrm{diam} \, A = \sup\{ d(x,y) \,:\, x,y \in A \}$. Let $E\subset X$ be a subset of $X$ and let $\delta > 0$. Then we define $$\mathcal{H}_{\delta}^k(E) = \inf\left\{ \sum_{i} (\mathrm{diam} \, E_i)^k \,:\, E \subset \bigcup_{i = 1}^\infty E_i \text{ and } \mathrm{diam} \, E_i \leq \delta \right\}.$$ Note that $\mathcal{H}^k_{\delta}(E)$ is monotonically increasing. We define the $k$-Hausdorff measure of $E$ as $$\mathcal{H}^k(E) = \lim_{\delta \to 0} \mathcal{H}^k_{\delta}(E).$$
+
+The Hausdorff dimension of a set $E$ is defined as follows:
+
+$$\dim E = \inf\{ k \geq 0 \,:\, \mathcal{H}^k(E) = 0 \} = \sup\{ k \geq 0 \,:\, \mathcal{H}^k(E) = \infty \}.$$
+
+We have a similar notion for measures. Denote $$B(x,r) = \{ y \in X \,:\, d(x,y) \leq r \}. $$
+
+\begin{definition}
+    We also define the \textbf{local upper dimension} and \textbf{local lower dimension} of $\mu$ at $x$ as $$\overline{d}(\mu,x) = \limsup_{r \to 0} \frac{\log \mu(B(x,r))}{\log r} \quad \text{ and } \quad \underline{d}(\mu,x) = \liminf_{r \to 0} \frac{\log \mu(B(x,r))}{\log r}. $$ If $\overline{d}(\mu,x) = \underline{d}(\mu,x)$ the common value is denoted as $d(\mu,x)$ ans is called the \textbf{local dimension} of $\mu$ at $x$.
+\end{definition}
+
+\begin{definition}
+    A probability measure $\mu$ on $X$ is said to be \textbf{exactly dimensional} if the local dimension $$d(\mu,x) = \lim_{r \to 0} \frac{\log \mu(B(x,r))}{\log r}$$ exists and equals $C$ for $\mu$ almost every $x \in \R^d$.  
+\end{definition}
+
+\subsubsection{Similarity Dimension of Self-Similar Sets}
+
+Throughout let $X = \R^d$ and we consider contractive similarities $\{ S_1, \ldots , S_N \}$ on $R^d$ with contraction ratios $\{r_1, \ldots , r_N \}$. Let $K$ be the associated self-similar set.
+
+\begin{definition}
+    The similarity dimension $\dim_{\mathrm{s}}K$ of $K$ is defined as the unique real number $s$ such that $\sum_i r_i^s = 1$.
+\end{definition}
+
+It is important to notice that $$1 = \left(\sum_i r_i^s\right)^n = \sum_{i_1, \ldots , i_n} r_{i_1}^s \cdots r_{i_n}^s.$$
+
+\begin{lemma}
+    For any self-similar set it holds that $$\dim K \leq \min\{d,\dim_\mathrm{s}  K \}.$$
+\end{lemma}
+
+\begin{proof}
+    Denote $s = \dim_\mathrm{s}  K$ and $\lambda = \max_{1\leq i \leq N}r_i$. To show the claim it suffices to establish that $\mathcal{H}^s(K) \leq \mathcal{H}^s_{\delta}(K) < \infty$ for some $\delta > 0$. Recall that $$K = \bigcup_{i_1, \ldots , i_n} K_{i_1\cdots i_n}$$ with $\mathrm{diam} \, K_{i_1\cdots i_n} = r_{i_1}\cdots r_{i_n} \leq \lambda^n$. Therefore it follows that $$\sum_{i_1, \ldots , i_n} (\mathrm{diam} \, K_{i_1\cdots i_n})^s = \sum_{i_1, \ldots , i_n} r_{i_1}^s \cdots r_{i_n}^s = 1.$$ Since $\lambda^n \to 0$ as $n \to \infty$ it follows that $\mathcal{H}^s_{\delta}(K) \leq 1$ for arbitrarily small $\delta$ and hence $\mathcal{H}^s(K) \leq 1$. 
+\end{proof}

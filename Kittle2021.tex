@@ -1,0 +1,563 @@
+
+
+    \subsection{Detail of measure at scale $r$ on $\R^d$}
+
+    We review here some material from Sam's first paper. Define for $y > 0$, $$\eta_y(x) = \frac{1}{(2\pi y)^{d/2}} \exp\left( -\frac{||x||^2}{2y} \right)$$ with $x \in \R^d$ and $||x||^2 = \sum_{i = 1}^d x_i^2  $, to be the density of the Standard Gaussian with mean zero and variance $\sqrt{y}$ and set $$\eta_y'(x) = \frac{\partial}{\partial y}\eta_y.$$
+
+    We note the following properties:
+
+    \begin{lemma}\label{BasicPropertiesDetail}
+        The following properties hold:
+        \begin{enumerate}[(i)]
+            \item $\eta_y'(\R) = \int_{\R^d} \eta_y'(x) \, dx = 0$.
+            \item $\eta_y'(x) = \eta_y'(-x)$.
+            \item Write $\nu_r = \eta'_{r^2}$. Then $\nu_{r_1}(A) = C_{r_1,r_2} \nu_{r_2}(r_2A/r_1)$ for all $0 < r_1 < r_2$.
+            \item $||\eta'_y||_1 = \frac{1}{y Q(d)}$ for $Q(d) = \frac{1}{2} \Gamma(\frac{d}{2}) (\frac{d}{2e})^{-d/2}$.
+            \item $\frac{1}{2} \triangle \eta_y = \eta_y'$, where $\triangle = \sum_{i = 1}^d \frac{\partial ^2}{\partial^2x_i}$ is the Laplacian.
+        \end{enumerate}
+    \end{lemma}
+
+    \begin{proof}
+        (i) follows since $\eta_y(\R) = 1$ for all $y > 0$ and by applying the derivative. (ii) follows since the same holds on $\R$. (iii), (iv) and (v) are direct calculations.
+    \end{proof}
+
+    We note that for small $x$, $\eta_y'$ and $-\eta_y$ behave not too differently. It doesn't matter too much what exactly the function $\eta_y'$ is, but only the nice properties that we mentioned above.
+
+    \begin{definition}
+        Given a probability measure $\mu$ on $\R^d$ and some $r > 0$, we define the detail of $\mu$ at scale $r$ by $$s_r(\mu) = \frac{||\mu * \eta'_{r^2}||_1}{||\eta_{r^2}'||_1} =  r^2 Q(d) ||\mu * \eta'_{r^2}||_1,$$ where $$(\mu * \eta'_{r^2})(x) = \int \eta_{r^2}'(x-y) \, d\mu(y).$$
+    \end{definition}
+
+    Since $||\mu * \eta_{r^2}'||_1 \leq ||\mu||_1 ||\eta_{r^2}'||_1 \leq ||\eta_{r^2}'||_1$, it follows that $s_r(\mu) \in (0,1]$. We now discuss some important properties of the detail of measures. 
+
+    \begin{proposition}(Condition for absolute continuity)\label{ContCondition}
+        Let $\mu$ be a probability measure on $\R^d$ and let $y > 0$. Assume that $$\int_0^y ||\mu * \eta_u'||_1 \, du  < \infty. $$ Then $\mu$ is absolutely continuous.
+    \end{proposition}
+
+    \begin{proof}
+        The condition implies that the sequence $\mu * \eta_u$ is Cauchy as $u \to 0$ in $L^1$. Indeed, if $u > v > 0$, then $$||\mu * \eta_u - \mu * \eta_v||_1 \leq \int_v^u ||\mu * \eta_w'||_1 \, dw \leq \int_0^u ||\mu * \eta_w'|| \, dw \to 0$$ as $u \to 0$. Therefore since $L^1$ is complete, it follows that there is an $L^1$-measure $\tilde{\mu}$ such that $\mu * \eta_u \to \tilde{\mu}$ in $L^1$ as $u \to 0$. It remains to check that indeed $\mu = \tilde{\mu}$, which we leave to the reader. Intuitively this makes sense, because if we average $\mu$ at smaller and smaller scales, and the quantity converges, then the measure should look like the number we have converged to.
+    \end{proof}
+
+    \begin{corollary}
+        Let $\mu$ be a probability measure on $\R^d$ and assume that there is a constant $\beta > 1$ such that for all sufficiently small $r > 0$ we have that $$s_r(\mu) \ll (\log r^{-1})^{-\beta}.$$ Then $\mu$ is absolutely continuous. 
+    \end{corollary}
+
+    \begin{proof}
+        This is a straightforward calculation using the previous proposition. Notice that $||\mu * \eta_{r^2}|| \asymp s_r(\mu)/r^2$ and hence for $y$ small enough $$\int_0^y ||\mu * \eta_{u}|| \, du \ll \int_0^y \frac{s_{\sqrt{u}}(\mu)}{u} \,du\ll \int_0^y \frac{(\log u^{-1})^{-\beta}}{u} \, du \ll \int_{\log y^{-1}}^{\infty} z^{-\beta} < \infty,$$ having used the substitution $z = \log u^{-1}$ and therefore $dz = -\frac{dy}{y}$.
+    \end{proof}
+
+    \begin{proposition}(No increase under convolution)
+        Let $\mu$ and $\nu$ be probability measures on $\R^d$. Then $s_r(\mu * \nu) \leq s_r(\mu)$.
+    \end{proposition}
+
+    \begin{proof}
+        To show the claim we prove that $||\mu * \nu * \eta'_y||_1 \leq ||\nu * \eta_y'||_1$.  To see this write $\nu * \eta_y' = \tilde{\nu}_{+} - \tilde{\nu}_{-}$ such that $||\nu * \eta_y'||_1 = ||\tilde{\nu}_{+}||_1 + ||\tilde{\nu}_{-}||_1$. Then the claim follows since $$||\mu * \nu * \eta_y'||_1 \leq ||\mu * \tilde{\nu}_{+} - \mu * \tilde{\nu}_{-}|| \leq ||\mu||_1 ||\tilde{\nu}_{+}||_1 + ||\mu||_1 ||\tilde{\nu}_{-}||_1 \leq ||\nu * \eta_y'||_1,$$ concluding the proof.  
+    \end{proof}
+
+    \begin{lemma}(Basic Product Bound)\label{BasicProductBoundDetail}
+        Let $\mu_1$ and $\mu_2$ be probability measures on $\R^d$ and let $y > 0$. Then $$||\mu_1 * \mu_2 * \eta_y'||_1 \leq 2 \int_{y/2}^{\infty} ||\mu_1 * \eta_v'||_1 ||\mu_2 * \eta_v'||_1 \, dv.$$
+    \end{lemma}
+
+    \begin{proof}
+        Note that for any function $\frac{d}{dx}|f(x)| \leq \big| \frac{d}{dx} f(x) \big|$. Therefore it holds that $$||\mu * \nu * \eta_y'||_1 \leq \int_y^w \bigg|\bigg| \frac{\partial}{\partial u} (\mu * \nu * \eta_u') \bigg|\bigg|_1 \, du + ||\mu * \nu * \eta'_w||_1.$$ Taking $w \to \infty$, it follows as $||\mu * \nu * \eta'_w||_1 \leq ||\eta_w'||_1 \ll \frac{1}{w}$ that  $$||\mu * \nu * \eta_y'||_1 \leq \int_y^{\infty} \bigg|\bigg| \frac{\partial}{\partial u} (\mu * \nu * \eta_u') \bigg|\bigg|_1 \, du.$$ For all $a > 0$, we can write using Lemma~\ref{BasicPropertiesDetail}, 
+        \begin{align*}
+            \frac{\partial}{\partial u} (\mu * \nu * \eta_u')  &= \frac{1}{2}\frac{\partial}{\partial u} (\mu * \nu * \triangle \eta_u) \\ &= \frac{1}{2}\frac{\partial}{\partial u} (\mu * \nu * \eta_{u-a} * \triangle \eta_a) = \frac{1}{2} \left(  \mu * \frac{\partial}{\partial u} \eta_{u-a} \right) * (\nu * \triangle \eta_a).
+        \end{align*} Setting $a = u/2$ and again applying Lemma~\ref{BasicPropertiesDetail}, we conclude $$\frac{\partial}{\partial u} (\mu * \nu * \eta_u') = \left( \mu * \eta_{u/2}' \right) * \left( \nu * \eta_{u/2}' \right).$$ Thus 
+        \begin{align*}
+            ||\mu * \nu * \eta_y'||_1 &\leq \int_y^{\infty} \bigg|\bigg| \frac{\partial}{\partial u} (\mu * \nu * \eta_u') \bigg|\bigg|_1 \, du \\ &\leq \int_y^{\infty} ||\mu * \eta'_{y/2}||_1  ||\nu * \eta'_{y/2}||_1 \, du = 2 \int_{y/2}^{\infty} ||\mu * \eta'_{v}||_1  ||\nu * \eta'_{v}||_1 \, dv.
+        \end{align*}
+    \end{proof}
+
+    \begin{proposition}
+        Let $\mu_1$ and $\mu_2$ be probability measures on $\R^d$ and let $r > 0$, $\alpha_1, \alpha_2 \in (0,1]$ and let $K > 1$. Suppose that for all $t \in [\frac{r}{\sqrt{2}}, \frac{K r}{\sqrt{\alpha_1 \alpha_2}}]$ and for all $i \in \{ 1,2 \}$ we have that $$s_t(\mu_i) \leq \alpha_i.$$ Then $$s_r(\mu_1 * \mu_2) \leq C_{K,d}  \alpha_1\alpha_2$$ where $$C_{K,d} = \frac{4}{Q(d)}\left(  1 + \frac{1}{2K^2} \right).$$
+    \end{proposition}
+
+    \begin{proof}
+        By assumption we have for $u \in [\frac{r^2}{2}, \frac{K^2 r^2}{\alpha_1 \alpha_2}]$ and $i \in \{ 1,2 \}$ that $$||\mu_i * \eta'_{u}|| = \frac{s_{\sqrt{u}}(\mu_i)}{Q(d)u} \leq \frac{\alpha_i}{Q(d)u}.$$ Thus, using that detail is always less than 1, it follows that 
+        \begin{align*}
+            s_r(\mu_1 * \mu_2) &= Q(d) r^2 ||\mu_1 * \mu_2 * \eta'_{r^2}||_1 \\
+            &\leq 2 Q(d) r^2\int_{r^2/2}^{\infty} ||\mu_1 * \eta'_u||_1 ||\mu_2 * \eta'_u||_1 \, du \\
+            &\leq 2 Q(d)^{-1} r^2\int_{r^2/2}^{\infty} u^{-2}s_{\sqrt{u}}(\mu_1)s_{\sqrt{u}}(\mu_2)  \, du \\
+            &\leq 2 Q(d)^{-1} r^2 \alpha_1\alpha_2 \int_{\frac{r^2}{2}}^{\infty} u^{-2} \, du + 2 Q(d)^{-1}r^2 \int_{\frac{K^2 r^2}{\alpha_1 \alpha_2}} u^{-2} \, du \\
+            &\leq  4Q(d)^{-1}\alpha_1\alpha_2  + 2Q(d)^{-1}K^{-2}\alpha_1 \alpha_2,
+        \end{align*} concluding the proof.
+    \end{proof}
+
+    We now use this proposition to prove the following stronger version.
+
+    \begin{theorem}
+        Let $n,d \in \Z_{> 0}$, $K > 0$ $r > 0$ and $\alpha_1, \ldots , \alpha_n \in (0,1]$. Let $m = \frac{\log n}{ \log(3/2)}$. Let $\mu_1, \ldots , \mu_n$ be probability measures on $\R^d$ and let $\alpha = \min\{  \alpha_1, \ldots , \alpha_n \}$. Suppose that for all $t \in [2^{-\frac{m}{2}}r, K^m \alpha^{-m2^m}r]$ and $i \in \{ 1, 2, \ldots , n \}$ we have $$s_t(\mu_i) \leq \alpha_i.$$ Then it holds that $$s_{r}(\mu_1 * \mu_2 * \cdots * \mu_n) \leq C_{K,d}^{n-1} \alpha_1 \alpha_2 \cdots \alpha_n,$$ where $$C_{K,d} = \frac{4}{Q(d)}\left(  1 + \frac{1}{2K^2} \right).$$
+    \end{theorem}
+
+    \begin{proof}
+        We proceed by induction on $n$. The case $n = 1$ is trivial. Without loss of generality we may assume that $$0 < \alpha_1 \leq \alpha_2 \leq \ldots \alpha_n \leq 1$$ and since detail is $\leq 1$, we may assume without loss of generality that $\alpha_i < C_{K,d}^{-1}$ for $i = 1,2, \ldots , n$. Let $n' = \lceil \frac{n}{2} \rceil$ and let $m' = \frac{\log n'}{\log(3/2)}$. Define $\nu_1, \nu_2, \ldots, \nu_{n'}$ and $\beta_1, \beta_2, \ldots , \beta_{n'}$ as follows. For $i = 1, 2, \ldots , \lfloor \frac{n}{2} \rfloor$ we define $$\nu_i = \mu_{2i - 1} * \mu_{2i} \quad\quad \text{and} \quad\quad \beta_i = C_{K,d} \alpha_{2i - 1}\alpha_{2i}$$ and if $n$ is odd, let $\nu_{n'} = \mu_n$ and $\beta_{n'} = \alpha_n$. Note that $$\nu_1 * \nu_2 * \cdots * \nu_{n'} = \mu_1 * \mu_2 * \cdots * \mu_n $$ and $$C_{K,d}^{n'-1}\beta_1 \beta_2 \cdots \beta_{n'} = C_{K,d}^{n-1}\alpha_1 \alpha_2 \cdots \alpha_n.$$
+
+        Since $n' < n$ we just need to show that $n'$, $(\nu_i)_{i = 1}^{n'}$ and $(\beta_i)_{i = 1}^{n'}$ satisfy the conditions of the theorem in order to apply the inductive hypothesis. Note that $\beta_1 = \min\{\beta_1, \beta_2 , \ldots , \beta_{n'}\}$. Indeed, we want to use the previous proposition to show that $s_{r'}(\nu_i) \leq \beta_i$ for all $i = 1,2,\ldots , n'$ and all $r' \in [2^{-m'/2}r, K \beta_1^{-m'2^{m'}}r]$. This then implies the theorem by the inductive hypothesis. 
+
+        To apply the previous proposition, we need to show that if $r'\in [2^{-m'/2}r, K^{m'}\beta_1^{-m'2^{m'}}r]$ and $t\in [\frac{r'}{\sqrt{2}}, \frac{Kr'}{\sqrt{\alpha_{2i-1}\alpha_{2i}}}]$, then $t\in [2^{-m/2}r,K^m \alpha_1^{-m2^m}r]$. Indeed, if this holds, the assumptions of the previous proposition is satisfied and hence the claim follows. 
+
+        For such $r'$ and $t$, it holds that $$t \geq \frac{r'}{\sqrt{2}} \geq 2^{-\frac{m'+1}{2}}r \geq 2^{-m/2}r$$ since $m' + 1 \leq m$ (using that $\frac{\log 2}{\log(3/2)} \geq 1$) and 
+        \begin{align*}
+            q &\leq \frac{Kr'}{\sqrt{\alpha_{2i-1}\alpha_{2i}}} \\ &\leq K^{m' + 1}\beta_1^{-m'2^{m'}}\alpha_1^{-1}r \\ &\leq K^m (\alpha_1^2)^{-m'2^{m'}} \alpha_1^{-1}r \\ &\leq K^m \alpha_1^{-1 - m2^{m' + 1}r} \\ &\leq K^m \alpha_1^{-m2^m}r,
+        \end{align*} concluding the proof. 
+    \end{proof}
+
+    \subsection{Entropy and Detail}
+
+    \subsubsection{Entropy and basic properties}
+
+    We first define and discuss entropy.
+    
+    \begin{definition}
+        Given an absolutely continuous probability measure $\mu$ on $\R^d$ with density function $f$, we define the differential entropy of $\mu$ by $$H(\mu) := - \int_{\R} f(x) \log f(x) \, dx.$$ Here we take $0 \log 0 = 0$.
+    \end{definition}
+
+    \begin{definition}
+        Given a discrete probability measure $\mu$ on $\R^d$ such that there is some $N \in \Z_{>0} \cup \{ \infty \}$, $x_1, x_2, \ldots \in \R^d$ and $p_1, p_2 , \ldots \in \R_{>0}$ with $$\mu = \sum_{i = 1}^{N} p_i\delta_{x_i}$$ we define the Shannon entropy as $$H(\mu) = -\sum_{i = 1}^N p_i \log p_i.$$
+    \end{definition}
+
+    Throughout, it will always be clear what type of entropy we use. Denote by $h: \R_{\geq 0} \to \R$ the function $h(x) = -x\log x$.
+
+    \begin{lemma}\label{hproperties}
+        The function $h$ satisfies the following properties:
+        \begin{enumerate}[(i)]
+        \item $h$ is concave, i.e. $h(t\cdot a + (1-t)\cdot b) \geq t\cdot h(a) + (1-t)\cdot h(b).$
+            \item For $a_i \in \R_{\geq 0}$  it holds that
+        $h(\sum_{i = 1}^{\infty
+        } a_i) \leq \sum_{i = 1}^{\infty
+        } h(a_i)$.
+        \item For any $a,b \in \R_{\geq 0}$, $h(a\cdot b) = ah(b) + bh(a)$
+        \end{enumerate}
+    \end{lemma}
+
+    \begin{proof}
+        (iii) is obvious and for (i) we note that $h'(x) = -\log x -1$ and $h''(x) = \frac{-1}{x}$. So $h''(x) < 0$ for all $x\in \R_{>0}$ and therefore $h$ is concave.
+    
+        For (ii) we notice that for $a,b \in \R_{\geq 0}$ it holds that $h(a + b) \leq h(a) + h(b)$ since $(a + b)\log(a + b) = \log((a + b)^{a+b}) \geq \log (a^a\cdot b^b) 
+        \geq a\log a + b\log b$ as $(a + b)^{a+b}\geq a^a\cdot b^b$ and $\log$ is monotonically increasing. By induction the claim follows for every finite sum and therefore also for a converging series. If the sum diverges, the right hand side is $-\infty$ and therefore the claim is trivial. This conludes the proof of (ii)
+    \end{proof}
+
+    \begin{lemma}\label{HSumEstimates}
+        Let $X$ and $Y$ be random variables. The following properties hold:
+        \begin{enumerate}[(i)]
+            \item Let $X$ be a discrete random variable. Then $H(f(X)) \leq H(X)$ for any function $f: \R^d \to \R^{\ell}$.
+            \item If $X$ and $Y$ are discrete $H(X + Y) \leq H(X) + H(Y)$.
+            \item If $X$ is discrete and $Y$ is continuous, then $H(X + Y) \leq H(X) + H(Y)$.
+            \item There are examples of continuous random variables $X$ and $Y$ such that $H(X + Y) > H(X) + H(Y)$.
+        \end{enumerate}
+    \end{lemma}
+
+    \begin{proof}
+        For (i) the only question is how much clustering there is. Let $\mu = \sum_{i = 1}^{\infty} p_i\delta_{x_i}$ be the distribution of $X$. Then $f(X)$ is distributed as $\sum_{i = 1}^{\infty} p_i\delta_{f(x_i)}$. Let $(y_j)_{j \geq 1}$ be the images $f(x_i)$ such that $\sum_{i = 1}^{\infty} p_i\delta_{f(x_i)} = \sum_{j = 1}^{\infty} q_j \delta_{y_j}$, where $q_j = \sum_{i\,:\, f(x_i) = y_j} p_i$. Then the claim follows by Lemma~\ref{hproperties} (ii) since $$H(f(X)) = \sum_{j \geq 1} h(q_j) \leq \sum_{i \geq 1} h(p_i) = H(X).$$ (ii) follows by an analogous argument as the question boils down to how much $X + Y$ clusters. To prove (iii) let $X$ be distributed as $\sum_{i}p_i \delta_{x_i}$ and let $Y$ be distributed as $f d\Haarof{\R}$. Then the density of $X + Y$ is $\sum_{i}p_i f(z-x_i)$. Then by Lemma~\ref{hproperties} (ii) and (iii) it holds that 
+        \begin{align*}
+            H(X + Y) &= \int h\left( \sum_{i}p_i f(z-x_i)\right) \, dz \\
+            &\leq \int  \sum_{i} h( p_i f(z-x_i)) \, dz \\
+            &\leq \int  \sum_{i} h( p_i )f(z-x_i) \, dz + \int  \sum_{i} p_i h(f(z-x_i)) \, dz  = H(X) + H(Y).
+        \end{align*}
+    \end{proof}
+
+    \begin{lemma}\label{EntMax}
+        The following properties hold:
+        \begin{enumerate}
+            \item Let $X$ be a discrete probability measure supported on $k$ elements. Then $H(X) \leq \log k$.
+            \item Let $X$ be a continuous random variable with variance $r$. Then it holds that $H(X) \leq H(\mathcal{N}(0,r^2)) = \ln(c\cdot r)$.
+        \end{enumerate}
+    \end{lemma}
+
+    If $X$ and $Y$ are random variables, denote by $H(X,Y)$ the entropy of the joint density $(X, Y)$ determined by the probability density function $f_{(X,Y)}(x,y) = P[X \leq x, Y \leq y]$. We also introduce the relative entropy $$H(Y|X) = H(X,Y) - H(X).$$
+
+    \begin{lemma}
+        Let $X$ and $Y$ be discrete or absolutely continuous random variables. Then the following properties hold:
+        \begin{enumerate}[(i)]
+            \item $H(X,Y) \leq H(X) + H(Y)$ with equality if and only if $X$ and $Y$ are independent.
+            \item $H(Y|X) \leq H(Y)$ with equality if and only if $X$ and $Y$ are independent.
+            \item It holds that $$H(Y|X) = \int p_X(x) H(Y|X=x) \, dx.$$
+            \item If $X$ and $Y$ are independent, $H(X + Y,X) = H(X) + H(Y) = H(Y,X)$.
+            \item If $X$ and $Y$ are independent, $H(X + Y) \geq \max(H(X), H(Y))$.
+        \end{enumerate}
+    \end{lemma}
+
+    \begin{proof}
+        We only give a proof of (i) in the case when $X$ and $Y$ are absolutely continuous random variables. We introduce the relative entropy distance for differential entropies $$D(Y||X) = \int f_Y(x) \log\left( \frac{f_Y(x)}{f_X(x)} \right) \, dx.$$ Then we claim that $D(Y||X) \geq 0$ always. Indeed, to see that we observe that $\log(z) \geq c(1 - \frac{1}{z})$ for all $z \in [0,\infty]$. Thus if $B = \{ x\in \R \,:\, f_Y(x) > 0 \}$ then 
+        \begin{align*}
+            D(X||Y) &= \int_B f_Y(x) \log\left( \frac{f_Y(x)}{f_X(x)} \right) \, dx \\
+            &\geq c \int_B f_Y(x) \left( 1 - \frac{f_X(x)}{f_Y(x)} \right) \, dx = c(1 - \mu_X(B)) \geq 0.
+        \end{align*} We also note that $D(X||Y) = 0$ if and only if $f_X \equiv f_Y$.
+        
+        Let $(X,Y)$ be the joint density with probability density function $f_{(X,Y)}(x,y) = P[X \leq x, Y \leq y]$. Then 
+        \begin{align*}
+            0 &\leq D( (X,Y) || X\times Y ) \\
+            &= \int f_{(X,Y)}(x,y) \left(\log f_{(X,Y)}(x,y) - \log f_X(x) - \log f_Y(y)\right) \, dxdy \\
+            &= -H(X,Y) + H(X) + H(Y),
+        \end{align*} showing the inequality of (i). It is straightforward to check that $H(X,Y) = H(X) + H(Y)$ if $X$ and $Y$ are independent. Conversely, if $H(X,Y) = H(X) + H(Y)$, then $f_{(X,Y)}(x,y) = f_X(x) f_Y(y)$ almost everywhere and therefore $X$ and $Y$ are independent. 
+
+        (ii) follows from (i) since $H(Y|X) = H(X,Y) - H(X) \leq H(X) + H(Y) - H(X) = H(Y).$
+
+        For (iii) recall that the density of $Y|X=x$ is $\frac{p_{(X,Y)}(x,y)}{p_X(x)}$ and therefore 
+        \begin{align*}
+            H(Y|X) &= H(X,Y) - H(X) \\
+            &= -\int\int  p_{(X,Y)}(x,y) \log p_{X,Y}(x,y) \, dxdy + \int  p_{X}(x) \log p_{X}(x) \, dx \\
+            &= -\int\int  p_{(X,Y)}(x,y) \log \frac{p_{X,Y}(x,y)}{p_X(x)} \, dxdy \\
+            &= -\int  p_X(x) \left(\int  \frac{p_{(X,Y)}(x,y)}{p_X(x)} \log \frac{p_{X,Y}(x,y)}{p_X(x)} \,dy\right)  \, dx \\
+            &= \int p_X(x) H(Y|X=x) \, dx.
+        \end{align*}
+
+        To show (iv), note that since $X$ and $Y$ are independent, 
+        \begin{align*}
+            p_{X+Y,X}(z_1,z_2) &= P[X + Y = z_1, X = z_2] \\ &= P[Y = z_1-z_2, X = z_2] = p_Y(z_1 - z_2)p_X(z_2).
+        \end{align*}
+        Thus
+        \begin{align*}
+            H(X+Y,X) &= -\int\int p_{X+Y,X}(z_1,z_2) \log p_{X+Y,X}(z_1,z_2) \, dz_1dz_2 \\
+            &= -\int\int p_{X+Y,X}(z_1,z_2) \log p_{Y}(z_1 - z_2) \, dz_1dz_2 \\
+            &- \int\int p_{X+Y,X}(z_1,z_2) \log p_{X}(z_2) \, dz_1dz_2 \\
+            &= H(Y) + H(X) = H(Y,X).
+        \end{align*}
+
+        Finally, we show (v) by conditioning on $X$ and using (ii) and (iv),
+        \begin{align*}
+            H(X + Y) &\geq H(X + Y|X) \\ &= H(X + Y,X) - H(X) \\ &= H(X) + H(Y) - H(X) = H(Y).
+        \end{align*} By symmetry, the same argument applies to show $H(X + Y) \geq H(X)$.
+    \end{proof}
+
+    \begin{definition}
+        Let $\mu$ be an absolutely continuous probability measure on $\R^d$. Let $f$ be the density function of $\mu$ and assume that it is smooth. Then we define the \textbf{Fisher information} of $\mu$ by $$J(\mu) = \int_{\R^d} \frac{|\nabla f(x)|^2}{f(x)} \, dx $$
+    \end{definition}
+
+    \begin{lemma}(De Bruijn's identity)
+        Let $\mu$ be a probability measure on $\R^d$ with finite variance and let $y > 0$. Then it holds that $$\frac{\partial}{\partial y} H(\mu * \eta_y) = \frac{1}{2}J(\mu * \eta_y)$$
+    \end{lemma}
+
+    \begin{proof}
+        Denote $f_y = \mu * \eta_y$. Recall $\frac{1}{2} \triangle \eta_y = \eta_y'$ and therefore $\frac{1}{2} \triangle f_y = f_y'$. By applying partial integration several times, it therefore follows that 
+        \begin{align*}
+            \frac{\partial}{\partial y} H(\mu * \eta_y) &=  -\frac{\partial}{\partial y}\int f_y(x) \log f_y(x) \, dx \\
+            &= -\int f_y'(x) \log f_y(x) \, dx  -\int   f_y'(x) \, dx \\
+            &= - \frac{1}{2} \int \triangle f_y(x) \log f_y(x) \, dx = \frac{1}{2}J(\mu * \eta_y).
+        \end{align*}
+    \end{proof}
+
+
+    \subsubsection{Entropy and Detail}
+
+    \begin{proposition}
+        Let $\mu$ be a probability measure on $\R^d$ with finite variance and let $y >0$. Then it holds that $$\frac{1}{2} ||\nabla(\mu * \eta_y)||_1^2 \leq \frac{\partial}{\partial y} H(\mu * \eta_y).$$
+    \end{proposition}
+
+    \begin{proof}
+        Denote by $f_y = \mu * \eta_y$. Then by Jensen's inequality, 
+        \begin{align*}
+            ||\nabla (\mu * \eta_y)||_1^2 = \left(  \int_{\R^d}  \frac{|\nabla f_y(x)|}{f_y(x)} f_y(x) \, dx \right)^2 \leq   \int_{\R}  \left( \frac{|\nabla f_y(x)|}{f_y(x)} \right)^2 f_y(x) \, dx = J(\mu * \eta_y).
+        \end{align*} The claim therefore follows by Bruijn's identity. 
+    \end{proof}
+
+    \begin{proposition}
+        Let $\mu$ and $\nu$ be compactly supported probability measures on $\R^d$ and let $r,u$ and $v$ be positive real numbers such that $r^2 = u + v$. Then $$s_r(\mu * \nu) \leq r^2 Q(d) \sqrt{\frac{\partial}{\partial u} H(\mu * \eta_u) \frac{\partial}{\partial v} H(\nu * \eta_v) }$$ 
+    \end{proposition}
+
+    \begin{proof}
+        Let $y = r^2$ and let $u,v > 0$ be such that $u + v = r^2$. Note that by partial integration $\triangle  \eta_y = \sum_{i = 1}^d \frac{\partial}{\partial x^i}\eta_u * \frac{\partial}{\partial x^i} \eta_v$ and therefore,
+        \begin{align*}
+            \mu * \nu * \eta_y' = \frac{1}{2}\triangle(\mu * \nu * \eta_y) = \frac{1}{2}  \sum_{i = 1}^d  \frac{\partial}{\partial x^i}(\mu * \eta_u) * \frac{\partial}{\partial x^i}(\mu * \eta_v). 
+        \end{align*}
+        Thus together with the previous proposition, $$||\mu * \nu * \eta_y'||_1 \leq \frac{1}{2} ||\nabla (\mu * \eta_u)||_1 \cdot ||\nabla (\mu * \eta_v)||_1 \leq \sqrt{\frac{\partial}{\partial u} H(\mu * \eta_u)\frac{\partial}{\partial v} H(\mu * \eta_v)},$$ which implies the claim since $s_r(\mu * \nu) = Q(d)r^2 ||\mu*\nu * \eta_{y}'||_1$.
+    \end{proof}
+
+
+    \subsection{Entropy smearing}
+
+    \subsubsection{Further properties of entropy}
+    
+    For convenience, if $\mu$ is a finite measure we define $$H(\mu) = ||\mu||_1 H\left( \frac{\mu}{||\mu||_1} \right).$$
+
+    \begin{lemma}\label{EntropyIneq1}
+        Let $\mu_1, \mu_2, \ldots$ be absolutely continuous finite measures on $\R^d$ with finite differential entropy such that $\sum_{i = 1}^{\infty} ||\mu_i||_1 < \infty$ and both $H(\sum_{i = N}^{\infty} \mu_i)$ and $\sum_{i = N}^{\infty} H(\mu_i)$ tend to $0$ as $N \to \infty$. Then $$H\left(  \sum_{i = 1}^{\infty}  \mu_i  \right) \geq \sum_{i = 1}^{\infty} H(\mu_i).$$
+    \end{lemma}
+
+    \begin{proof}
+        We show that if $\mu$ and $\nu$ are finite measures with finite entropy, then $H(\mu + \nu) \geq H(\mu) + H(\nu)$. This implies then the claim. Denote by $h:[0,\infty) \to \R, x \mapsto -x\log x$. Then $h$ is concave, i.e. $h(tx + (1-t)y) \geq th(x) + (1-t)h(y)$. Let $f$ and $g$ be the density functions of $\mu$ and $\nu$. Then 
+        \begin{align*}
+            H(\mu + \nu) &= (||\mu||_1 + ||\nu||_1) \int_{\R^d} h\left( \frac{f + g}{||\mu||_1 + ||\nu||_1} \right) \, dx \\
+            &\geq (||\mu||_1 + ||\nu||_1) \int_{\R^d} \frac{||\mu||_1}{||\mu||_1 + ||\nu||_1}h\left( \frac{f}{||\mu||_1} \right)  \, dx \\&+ (||\mu||_1 + ||\nu||_1) \int_{\R^d} \frac{||\nu||_1}{||\mu||_1 + ||\nu||_1}h\left( \frac{g}{||\nu||_1} \right) \, dx \\
+            &= H(\mu) + H(\nu).
+        \end{align*}
+    \end{proof}
+
+    \begin{lemma}\label{EntropyIneq2}
+        Let $p = (p_1,p_2, \ldots)$ be a probability vector and let $\mu_1, \mu_2, \ldots$ be either all absolutely continuous measures with finite entropy of be all discrete measures such that $||\mu_i|| = p_i$. Then $$H\left( \sum_{i = 1}^{\infty} \mu_i \right)  \leq H(p) + \sum_{i = 1}^{\infty} H(\mu_i). $$ In particular if $p_i = 0$ for all $i > k$ for some $k \in \Z_{> 0}$, then $$H\left( \sum_{i = 1}^k  \mu_i \right)  \leq \sum_{i = 1}^k H(\mu_i) + \log k.$$
+    \end{lemma}
+
+    \begin{proof}
+        The second claim follows from the first since in this case $H(p) \leq \log k$. We prove the first inequality only in the case when the measures are continuous. Let $f_i$ be the density of $\mu_i$. Then since $\sum_{i = 1}^{\infty} \mu_i$ is a probability measure and $h(\sum_{i = 1}^{\infty} a_i) \leq \sum_{i = 1}^{\infty} h(a_i)$,  \begin{align*}
+            H\left( \sum_{i = 1}^{\infty}  \mu_i \right) &= \int h\left( \sum_{i = 1}^{\infty} f_i(x) \right) \, dx \\
+            &\leq \sum_{i = 1}^{\infty} \int h(f_i(x)) \, dx \\
+            &= \sum_{i = 1}^{\infty} \int -f_i(x) \log(p_i^{-1}f_i) - f_i(x)\log p_i \, dx \\
+            &= \sum_{i = 1}^{\infty} p_i H(p_i^{-1}f_i) + h(p_i) \\
+            &= \sum_{i = 1}^{\infty} H(\mu_i) + h(p).
+        \end{align*} The same proof works for the discrete case.
+    \end{proof}
+
+    \begin{lemma}\label{EntropyEq1}
+        Let $\mu$ and $\nu$ be probability measure on $\R^d$. Suppose that $\mu$ is a discrete measure supported on finitely many points with separation at least $2R$ and that $\nu$ is an absolutely continuous measure with finite entropy whose support is contained in a ball or radius $R$. Then $$H(\mu * \nu) = H(\mu) + H(\nu).$$
+    \end{lemma}
+
+    \begin{proof}
+        Write $\mu = \sum_{i = 1}^n p_i \delta_{x_i}$. Let $f$ be the density function of $\nu$ and let $g$ be the density function of $\mu * \nu$. Then $$g(x) = \begin{cases}
+            p_i f(x-x_i) & \text{if } |x - x_i| < R \text{ for some } i, \\
+            0 & \text{otherwise.}
+        \end{cases}$$ We then compute 
+        \begin{align*}
+            H(\mu * \nu) &= \sum_{i = 1}^n \int_{B_R(x_i)} -g(x) \log g(x) \, dx \\
+            &= \sum_{i = 1}^n \int_{B_R(0)} -p_i f(x) \log p_i f(x) \, dx \\
+            &= \sum_{i = 1}^n \int_{B_R(0)} -p_i f(x) \log p_i \, dx + \sum_{i = 1}^n \int_{B_R(0)} -p_i f(x) \log f(x) \, dx \\
+            &= H(\mu) + H(\nu).
+        \end{align*}
+    \end{proof}
+
+    \subsubsection{Smearing Lemma}
+
+    \begin{lemma}
+        Let $n \in \Z_{> 0}$, $r,R > 0$. Let $x_1, \ldots , x_n \in \R^d$ be such that $|x_i - x_j| \geq 2R$ for $i \neq j$. Let $p = (p_1, \ldots , p_n)$ be a probability vector and let $$\mu = \sum_{i = 1}^n p_i \delta_{x_i}.$$ Then $$H(\mu * \eta_{r^2}) \geq d \log r + H(p) - c,$$ where $c$ is a constant depending only on $d$ and the ratio $R/r$.
+    \end{lemma}
+
+    \begin{proof}
+        Denote $A_{a,b} = \{ x\in \R^d  \,:\, |x| \in [a,b) \}$ and define for $k \in \Z_{\geq 2
+        }$, $$\tilde{\eta}_k = \eta_{r^2}|_{A_{(k-2)R, (k-1)R}}.$$ We now wish to write $\mu$ as the sum of $k$ measures each of which are supported on points separated by at least $2(k-1)R$. Given $m \in \Z^d$ define $$B_m = \{ x \in \R^d \,:\, x \in m + [0,1)^d \}. $$ Denote $\Z_k = \Z/k\Z$. For $j \in \Z_k^d$ we define $$\tilde{B}_j := \bigcup_{m \in \Z^d, m \equiv j} B_m.$$ Now given $k \in \Z_{\geq 2}$ and $j \in \Z_k$ set $$\nu_{j,k} = \sum_{i: x_i \in \frac{2R}{\sqrt{d}} \cdot \tilde{B}_j} p_i \delta_{x_i}.$$ Note that given any $k \in \Z_{\geq 2}$ we have $$\mu = \sum_{j\in \Z_k^d} \nu_{j,k}.$$ Note that if $x_i$ and $x_j$ are distinct points in the support of $\mu$ then there cannot be any $m \in \Z$ such that $x_i,x_j \in \frac{2R}{\sqrt{d}} \cdot B_m = \frac{2R}{\sqrt{d}} \cdot m + [0,\frac{2R}{\sqrt{d}})$ since this would contradict $|x_i - x_j| > 2R$. In addition, if $x_i$ and $x_j$ are in the support of $\nu_{j,k}$ for some $j \in \Z$ and $k \in \Z_{\geq 2}$ then the distance between $x_i$ and $x_j$ must be at least $2(k-1)R$.
+ 
+        Therefore it holds by Lemma~\ref{EntropyIneq2}, $$\sum_{j \in \Z_k} H(\nu_{j,k}) \geq H(\mu) - d\log k = H(p) - d\log k.$$ Also by Lemma~\ref{EntropyEq1}, \begin{align*}
+            H(\nu_{j,k} * \tilde{\eta}_k) &= ||\nu_{j,k}||_1 ||\tilde{\eta}_k||_1 H\left(  \frac{\nu_{j,k} * \tilde{\eta}_k}{||\nu_{j,k}||_1 ||\tilde{\eta}_k||_1} \right) \\
+            &= ||\nu_{j,k}||_1 ||\tilde{\eta}_k||_1H\left(  \frac{\nu_{j,k} }{||\nu_{j,k}||_1} \right)  + ||\nu_{j,k}||_1 ||\tilde{\eta}_k||_1H\left(  \frac{\tilde{\eta}_k}{||\tilde{\eta}_k||_1} \right) \\
+            &= ||\tilde{\eta}_k||_1H(  \nu_{j,k} )  + ||\nu_{j,k}||_1 H(  \tilde{\eta}_k). 
+        \end{align*} Therefore by Lemma~\ref{EntropyIneq1}, $$H(\mu * \tilde{\eta}_k) \geq \sum_{j \in \Z_k} H(\nu_{j,k} * \tilde{\eta}_k) \geq ||\tilde{\eta}_k||_1 H(p) + H(\tilde{\eta}_k) - ||\tilde{\eta}_k||_1 d\log k.$$
+
+        We want to to apply Lemma~\ref{EntropyIneq1} again to sum over $k$. To do this we simply need to show that $\sum_{k = N}^{\infty} H(\mu * \tilde{\eta}_k)$ and $H(\sum_{k = N}^{\infty} \mu * \tilde{\eta}_k)$ both tend to zero as $N \to \infty$. In what follows $c_1, c_2, \ldots$ are positive constants which depend only on $d$ and $R/r$. Note that $||\tilde{\eta}_k||_1 \leq c_1 e^{-c_2k^2}$ and that the density function of $\tilde{\eta}_k$ is either $0$ or between $\frac{c_3}{r} e^{-c_4k^2}$ and $\frac{c_5}{r}e^{-c_6k^2}$. Furthermore by Lemma~\ref{HSumEstimates}
+        \begin{align*}
+            H(\tilde{\eta}_k) \leq H(\mu * \tilde{\eta}_k) &= ||\tilde{\eta}_k||_1 H\left(\mu * \frac{\tilde{\eta}_k}{||\tilde{\eta}_k||_1}\right)  \\
+            &\leq ||\tilde{\eta}_k||_1 H(\mu) + ||\tilde{\eta}_k||_1 H\left(\frac{\tilde{\eta}_k}{||\tilde{\eta}_k||_1}\right) \\
+            &= ||\tilde{\eta}_k||_1 H(\mu) + H(\tilde{\eta}_k).
+        \end{align*} and hence $H(\mu * \tilde{\eta}_k) \leq c_7 e^{-c_8 k^2}(|\log r| + H(\mu))$. Therefore $\sum_{k = N}^{\infty} H(\mu * \tilde{\eta}_k) \to 0$ as $N \to \infty$. By our estimates on the density of functions of $\tilde{\eta}_k$ we also have $$\bigg| H\left(  \sum_{k = N}^{\infty}  \tilde{\eta}_k \right) \bigg| \leq c_9 e^{-c_9 N^2} (|\log r| + 1) $$ and so $H(\sum_{k = N}^{\infty} \mu * \tilde{\eta}_k) \to 0$ as $N \to \infty$.
+
+        We now apply Lemma~\ref{EntropyIneq1} to deduce that 
+        \begin{align*}
+            H(\mu * \eta_{r^2}) &= H\left(  \sum_{k = 2}^{\infty} \mu * \tilde{\eta}_k \right) \\ 
+            &\geq \sum_{k = 2}^{\infty} H(\mu * \tilde{\eta}_k) \\
+            &\geq H(p) + \sum_{k = 2}^{\infty} H(\tilde{\eta}_k) - \sum_{k = 2}^{\infty} ||\tilde{\eta}_k||_1 d\log k.
+        \end{align*}
+
+        Recall that $||\tilde{\eta}_k||_1 \leq c_1 e^{-c_2 k^2}$ and therefore by Lemma~\ref{EntropyIneq2}, $H((||\tilde{\eta}_k||_1)_{k = 2}^{\infty}) \leq c_{11}$ and $\sum_{k = 2}^{\infty} ||\tilde{\eta}_k||_1 \log k \leq c_{12}$. Furthermore $$d\log r + c_{13} = H(\eta_{r^2}) = H\left(\sum_{k = 2}^{\infty} \tilde{\eta}_k \right) \leq \sum_{k = 2}^{\infty} H(\tilde{\eta}_k) + H((||\tilde{\eta}_k||)_{k = 2}^{\infty}) \leq \sum_{k = 2}^{\infty} H(\tilde{\eta}_k) + c_{14}.$$ This concludes the proof.
+    \end{proof}
+
+    \subsection{Application to self-similar measures}
+
+    \begin{definition}
+        Given some $n,d\in \Z_{> 0}$, some homeomorphisms $S_1, S_2, \ldots , S_n : \R^d \to \R^d$ and a probability vector $(p_1, \ldots , p_n)$ we say that $F = ((S_i)_{i = 1}^n, (p_i)_{i = 1}^n)$ is an \textbf{iterated function system}. 
+    \end{definition}
+
+    \begin{definition}
+        A homeomorphism $S: \R^d \to \R^d$ is called a \textbf{contracting similarity} if there is an orthogonal transformation $U: \R^d \to \R^d$, a number $\lambda \in (0,1)$ and a vector $a \in \R^d$ such that $$ S : x \mapsto \lambda Ux + a.$$
+    \end{definition}
+
+    \begin{definition}
+        Given some iterated function system $F = ((S_i)_{i = 1}^n, (p_i)_{i = 1}^n)$ in which all of the $S_i$ are contracting similarities, we say that a probability measure $\mu_F$ is a self-similar measure generated by $F$ if $$\mu_F = \sum_{i = 1}^n  p_i \mu_F \circ S_i^{-1}.$$
+    \end{definition}
+
+    It is a result of Hutchinson that there is a unique self-similar measure. 
+
+    In this paper we only study systems with uniform contraction ratio and uniform rotation.
+
+    \begin{lemma}
+        Let $F = ((S_i)_{i = 1}^n, (p_i)_{i = 1}^n)$ be an iterated function system with uniform contraction ratio and uniform rotation. Let $\lambda \in (0,1)$, let $U$ be an orthogonal transformation and let $a_1, \ldots , a_n \in \R^d$ be vectors such that $$S_i : x \mapsto \lambda U x + a_i.$$ Let $X_0, X_1, X_2, \ldots$ be i.i.d. random variables such that $P[X_0 = a_\ell] = p_\ell$ for $\ell = 1, \ldots , n$ and let $$Y = \sum_{i = 0}^{\infty} \lambda^i U^i X_i.$$ Then the law of $Y$ is $\mu_F$.
+    \end{lemma}
+
+    \begin{proof}
+        Denote by $\mu_Y$ the law of $Y$. Then it holds that 
+        \begin{align*}
+            \mu_Y(A) &= P[Y \in A] \\ &= \sum_{\ell = 1}^n p_\ell  P\left[\left(a_{\ell} + \sum_{i = 1}^{\infty} \lambda^i U^iX_i\right) \in A \right] \\
+            &= \sum_{\ell = 1}^n p_\ell  P[S_i(Y) \in A] \\
+            &= \sum_{\ell = 1}^n p_{\ell} (\mu_Y \circ S_i^{-1})(A).
+        \end{align*} Thus $\mu_Y$ is self-similar and the claim follows by uniqueness. 
+    \end{proof}
+
+    \subsubsection{Entropy of Pieces}
+
+    Given an interval $I \subset (0,\infty)$, we define $\mu_F^I$ to be the law of the random variable $$\sum_{i \in \Z \,:\, \lambda^i \in I} \lambda^i U^i X_i.$$
+
+    Notice that if $I_1, I_2, \ldots, I_k$ are disjoint intervals contained in $(0,1]$, then there is some measure $\nu$ such that we have that $$\mu_F = \nu * \mu_F^{I_1} * \mu_F^{I_2} * \cdots * \mu_F^{I_k}.$$ Indeed, we can take $\nu = \mu_F^{(0,1]\backslash (I_1 \cup \ldots \cup I_k)}$.
+
+    Recall that by Fekete's lemma $$h_F = \lim_{k \to \infty} \frac{1}{k} H\left(  \sum_{i = 0}^{k-1} \lambda^i U^i X_i \right) = \inf_{k \geq 1}  \frac{1}{k} H\left(  \sum_{i = 0}^{k-1} \lambda^i U^i X_i \right). $$
+
+    \begin{lemma}
+        For $k \in \Z_{> 0}$, $$H(\mu_F^{(\lambda^k,1]}) \geq k h_F.$$
+    \end{lemma}
+
+    \begin{proof}
+        Notice that $$\mu_F^{(\lambda^k,1]} =  \sum_{i = 0}^{k-1} \lambda^i U^i X_i$$ and hence the claim follows by Fekete's lemma.
+    \end{proof}
+
+    \begin{lemma}
+        Suppose that $I_1 \subset I_2$. Then $$H(\mu_F^{I_1}) \leq H(\mu_F^{I_2}).$$
+    \end{lemma}
+
+    \begin{proof}
+        We can write $\mu_F^{I_2} = \mu_F^{I_1} * \mu_F^{I_2 \backslash I_1}$ and hence the claim follows since $H(X + Y) \geq H(X)$ for $X$ and $Y$ independent random variables. 
+    \end{proof}
+
+    We recall that we have proved the following lemma.
+
+    \begin{lemma}
+        Let $n \in \Z_{>0}$, $r,R \in \R_{>0}$. Let $x_1, \ldots , x_n \in \R^d$ be such that $|x_i - x_j| \geq 2R$ for $i \neq j$. Let $p = (p_1, p_2, \ldots , p_n)$ be a probability vector and let $$\mu = \sum_{i = 1}^{n} p_i \delta_{x_i}.$$ Then $$H(\mu * \eta_{r^2}) \geq d \log r + H(p) - c,$$ for some constant $c$ depending only on $d$ and the ratio $R/r$.
+    \end{lemma}
+
+    This lemma is unsurprising. Indeed, if $\nu$ was supported on a ball or radius $R$ centered at $0$ then $H(\mu * \nu) = H(\nu) + H(p)$. Therefore $H(\mu * \eta_{r^2})$ is just slightly less that $H(\eta_{r^2}) + H(p)$ and recall that $H(\eta_{r^2}) = d\log r + c$.
+
+    We now recall the rate of exponential separation. Write $$V_{F,k} = \{  S_{j_1} \circ S_{j_2} \circ \cdots \circ S_{j_k}(0) \,:\, j_1, j_2 , \ldots , j_k \in \{ 1,2, \ldots , n \} \} $$ and $$\triangle_{F,k} = \inf\{ |x-y| \,:\, x,y \in V_{F,k}, x\neq y \}.$$ Then $$M_F = \limsup_{k \to \infty} (\triangle_{F,k})^{-1/k}. $$
+
+    \begin{lemma}
+        Let $F$ be an iterated function system on $\R^d$ with uniform contraction ratio and uniform rotation. Let $h_F$ be its Garcia entropy, $M_F$ be its splitting rate and let $\lambda$ be its contraction ratio. Then for any $M > M_F$ there is some $c > 0$ such that for all $n \in \Z_{>0}$ we have $$ H(\mu_F^{(\lambda^n,1]} * \eta_1 ) - H(\mu_F^{(\lambda^n,1]}  * \eta_{M^{-2n}} ) < (d\log M - h_F) n + c. $$
+    \end{lemma}
+
+    \begin{proof}
+        If $n$ is sufficiently large we have that $\triangle_{F,n} \geq M^{-n}$. In other words, $\mu_F^{(\lambda^n,1]}$ is supported on a number of points each of which is separated by a distance of at least $M^{-n}$. By the above we also have that $H(\mu_F^{(\lambda^n,1]}) \geq n h_F$. Hence by the previous lemma applied with $R = M^{-n}/2$ and $r = M^{-n}$ it follows that there is some $c > 0$ such that $$H(\mu_F^{(\lambda^n,1]} *\eta_{M^{-2n}}) \geq nh_F - dn \log M -c.$$ Also we have that $H(\mu_F^{(\lambda^n,1]} * \eta_1) < H(\mu_F * \eta_1) < \infty$, which completes the proof.
+    \end{proof}
+
+    \subsection{Admissible intervals}
+
+    \begin{definition}
+        Given some $r \in (0,1/10)$ and an iterated function system $F$ on $\R^d$ we say that an interval $I \subset (0, \infty)$ is $\alpha$-admissible at scale $r$ is for all $t$ with $$t \in \left[  C_r^{-1}r , C_r r \right]$$ for $C_r = \exp((\log \log r^{-1})^{10})$ we have $$\frac{\partial}{\partial y} H(\mu_F^I * \eta_y)\bigg|_{y = t^2} \leq \alpha t^{-2}.$$
+    \end{definition}
+
+    To show that we have sufficiently many admissible intervals, we first recall some facts about entropy. 
+
+    \begin{lemma}
+        Let $X$ be an absolutely continuous random variable on $\R^d$. The following properties hold.
+        \begin{enumerate}[(i)]
+            \item For $A \in \mathrm{GL}_d(\R)$, $$H(AX) = H(X) + \log |\det A|.$$
+            \item For any interval $I\subset (0,\infty)$, $\lambda > 0$ and $k \in \Z_{>0}$, $$H(\mu_F^{\lambda^k I} * \eta_{\lambda^{2k}u}) = H(\mu_F^I * \eta_u) + dk\log \lambda.$$
+        \end{enumerate}
+    \end{lemma}
+
+    \begin{proof}
+        Let $f_X$ be the density of $X$ and $f_{AX}$ be the one of $AX$. Then for an open subset $C\subset \R^d$, 
+        \begin{align*}
+            \int_C f_{AX} \, dx &= \mu_{AX}(C) = P[AX \in C] = P[X \in A^{-1}C] \\
+            &= \int_{A^{-1}C} f_X \, dx = \int_C f_X \circ A \cdot |\det A| \, dx.
+        \end{align*} So it follows that $f_{AX} =|\det A| \cdot f_X \circ A$ and hence 
+        \begin{align*}
+            H(AX) &= - \int f_{AX} \log f_{AX} \, dx \\
+            &=  - \int |\det A| \cdot f_X \circ A \log |\det A| \, dx - \int |\det A| \cdot f_X \circ A \log f_X \circ A \, dx \\ &= H(X) + \log |\det A|.
+        \end{align*} This proves (i).
+
+        To show (ii), we note that if $X$ is a random variable with law $\mu_F^I * \eta_u$, then $\lambda^k X$ has law $\mu_F^{\lambda^k I} * \eta_{\lambda^{2k}u}$. The claim therefore follows from (i).  
+    \end{proof}
+
+    \begin{lemma}
+        If $X_1, X_2$ and $X_3$ are independent absolutely continuous random variables with finite entropy, then $$H(X_1 + X_2 + X_3) + H(X_1) \leq H(X_1 + X_2) + H(X_1 + X_3).$$
+    \end{lemma}
+
+    \begin{proof}
+        To prove the claim, we define the mutual information between two continuous random variables as $$I(Z_1 ; Z_2) = H(Z_1) - H(Z_1|Z_2).$$ Notice that 
+        \begin{align*}
+            I(X_1 + X_2 + X_3; X_2) &= H(X_1 + X_2 + X_3) - H(X_1 + X_2 + X_3 | X_2) \\
+            &= H(X_1 + X_2 + X_3) - H(X_1 + X_3 | X_2) \\
+            &= H(X_1 + X_2 + X_3) - H(X_1 + X_3)
+        \end{align*}
+        and that $$I(X_1 + X_2;X_2) = H(X_1 + X_2) - H(X_1 + X_2|X_2) = H(X_1 + X_2) - H(X_1).$$ Therefore it suffices to show that $$I(X_1 + X_2 + X_3; X_2) \leq I(X_1 + X_2; X_2).$$ Indeed this follows by the data processing inequality of mutual information, 
+        \begin{align*}
+            I(X_1 + X_2 + X_3; X_2) &\leq I(X_1 + X_2, X_3| X_2) \\
+            &\leq I(X_1 + X_2; X_2) + I(X_3; X_2|X_1 + X_2) \\ &= I(X_1 + X_2; X_2).
+        \end{align*}
+    \end{proof}
+
+    \begin{lemma}
+        Let $\mu$ and $\nu$ be measures with finite variance on $\R^d$ and let $y > 0$. Then $$\frac{\partial}{\partial y}H(\mu * \nu * \eta_y) \leq \frac{\partial}{\partial y} H(\mu * \eta_y).$$
+    \end{lemma}
+
+    \begin{proof}
+        Let $\eps > 0$. By using the above lemma with $X_1 \sim \mu * \eta_y$,  $X_2 \sim \eta_{\eps}$ and $X_3 \sim \nu$ we conclude, $$H(\mu * \nu * \eta_y * \eta_{\eps}) - H(\mu * \nu * \eta_y) \leq H(\mu * \eta_y * \eta_{\eps}) - H(\mu * \eta_y).$$ Taking $\eps \to 0$, the claim follows. 
+    \end{proof}
+
+    \begin{corollary}
+        The following properties hold:
+        \begin{enumerate}[(i)]
+            \item The function $y \mapsto \frac{\partial}{\partial y} H(\mu * \eta_y)$ for $y > 0$ is non-increasing. 
+            \item If $I_2 \subset I_2$, then $$\frac{\partial}{\partial y} H(\mu_F^{I_2} * \eta_y) \leq \frac{\partial}{\partial y} H(\mu_F^{I_1} * \eta_y).$$
+        \end{enumerate}
+    \end{corollary}
+
+    \begin{proof}
+        (ii) follows since $\mu_F^{I_1} = \mu_F^{I_2} * \mu_F^{I_1 \backslash I_2}.$ (i) follows since $\eta_y = \eta_{y-a} * \eta_{a}$. 
+    \end{proof}
+    
+    \subsection{Questions/Remarks for Sam}
+
+    \begin{enumerate}
+        \item What about a converse to Proposition~\ref{ContCondition}? It feels like it should essentially hold by the following argument: Assume that $\mu$ is absolutely continuous, i.e. $\mu = f d\Haarof{\R}$ for $f \in L^1$. Then it is easy to check that $f * \eta_u \to f$ in $L^1$. (Indeed, we may approximate $f$ by functions in $C_c^{\infty}(\R)$ and then conclude the claim using absolute continuity of functions in $C_c^{\infty}(\R)$). Thus for $u$ small enough, $||f * \eta_u||_1 \leq 2||f||_1$ and therefore for $y$ small enough $$\int_0^y ||f * \eta_u||_1 \, du < \infty.$$ Do you have a counterexample to a converse for Proposition~\ref{ContCondition}? \label{item:question_on_ac_and_detail}
+    \end{enumerate}
+
+\subsection{Answers to the questions}
+
+    \subsubsection{A discussion on detail and absolute continuity}
+
+    Here I will outline some facts about detail and absolute continuity and in doing so answer question \eqref{item:question_on_ac_and_detail}.
+
+    First note that in the argument in your question you forgot to look at $\eta_{u}'$ instead of $\eta_{u}$. In particular $\| \eta_u' \|\asymp u^{-1}$ so your argument doesn't work. I can give the following family of counterexamples.
+
+    \begin{lemma} \label{lemm:ac_examples}
+        Let $f : \R_+ \to [0,1]$ be some function such that $f(r) \to 0$ as $r \to 0$. Then there exists an absolutely continuous probability measure $\mu$ on $\R$ such that $s_r(\mu) \geq \Theta(f(r))$.
+    \end{lemma}
+
+    \begin{proof}
+        Without loss of generality we may assume that $f$ is increasing.
+        
+        Let $\Sigma$ be the set of sequences $\left( A^{(n)} \right)_{n=0}^{\infty}$ with $A^{(n)}\in \{0, 1 \}^{2^n}$. We index $A^{(n)}$ by $0, 1, \dots, 2^n-1$. For each $A \in \Sigma$ we associate some probability measure $\nu_A$ on $[0,1)$. We define $\nu_A$ by giving its value on sets of the form $[a/2^n, (a+1)/2^n)$. These sets form a $\pi$-system generating $\mathcal{B}([0,1))$ and so this determines $\nu_A$ uniquely.
+        
+        We set $\nu_A([0,1)) = 1$ and for $a, n \in \Z$ with $n \geq 1$ and $0 \leq a < 2^n$ we define 
+        \begin{equation*} 
+        \nu_A([a/2^n, (a+1)/2^n)) = 
+        \begin{cases}
+            \frac{1}{2} \nu_A([a/2^n, (a+2)/2^n)), &\text{if } a \text{ is even and } A^{(n-1)}_{a/2} = 1\\
+            \frac{1}{2} \nu_A([(a-1)/2^n, (a+1)/2^n)),&\text{if } a \text{ is odd and } A^{(n-1)}_{(a-1)/2} = 1\\
+            \nu_A([a/2^n, (a+2)/2^n)), &\text{if } a \text{ is even and } A^{(n-1)}_{a/2} = 0\\
+            0, &\text{if } a \text{ is odd and } A^{(n-1)}_{(a-1)/2} = 0\\
+        \end{cases}.
+        \end{equation*}
+        In other words if $A^{(n)}_{a} = 1$ then we divide the mass of $[a/2^n, (a+1)/2^n)$ evenly between both diadic sub intervals. Otherwise we put all the mass on the left one.
+
+        We now let $B \in \Sigma$ be defined by
+        \begin{equation*}
+            B_a^{(n)} = \begin{cases}
+                0, &\text{if } (a+1) / 2^n < f(r)\\
+                1, &\text{otherwise}
+            \end{cases}.
+        \end{equation*}
+        It is easy to show that $\nu_B$ is absolutely continuous and has detail at least $\Theta(f(r))$.
+    \end{proof}
+
+    There is however a weaker sufficient condition for a measure to be absolutely continuous.
+
+    \begin{lemma}\label{ContApprox}
+        Suppose that $\mu$ is a probability measure on $\R$ such that for every $\varepsilon > 0$ there is some measure $\mu_{\varepsilon}$ and some $u_{\varepsilon} > 0$ such that for all $A \in \mathcal{B}(\R)$ we have $$\mu(A) - \varepsilon \leq \mu_{\varepsilon}(A) \leq \mu(A)$$
+        and $$\int_{0}^{u_{\varepsilon} } \left\| \mu_{\varepsilon} * \eta_u' \right\| \, du < \infty.$$
+    \end{lemma}
+    \begin{proof}
+        Exercise.
+    \end{proof}
+
+    We also have the following counterexamples.
+
+    \begin{lemma}
+        Suppose that $f:(0,1) \to (0, \infty)$ is some decreasing function with $f(u) < u^{-1}$ and $\int_{0}^{1} f(u) du = \infty$. Then there is some probability measure $\mu$ with $$\| \mu & \eta_u' \| < O(f(u)) + E$$ for all $u \in (0, 1)$ where $E$ is some small error term. In particular there exists a measure $\nu$ such that $$s_r(\nu) < (\log r^{-1})^{-1}$$ for all $r \in (0,1)$ and $\nu$ is not absolutely continuous.
+    \end{lemma}
+
+    \begin{proof}[Sketch]
+        We let $\Sigma$ be defined as in Lemma \ref{lemm:ac_examples}. For each $n \in \Z_{>0}$ we let $t(n)$ be some averaging of $u f(u)$ for $u \approx 2^{-n}$. Note that $\sum t(n) = \infty$. We construct $C \in \Sigma$ as follows. For each $n$ and for each $a \in [2^n]$ let $C_a^{(n)} = 0$ with probability $t(n)$ and let it be $1$ otherwise with each choice happening independently.
+
+        It is trivial to see that since the sum of the $t(n)$ diverges $\nu_C$ will almost surely not be absolutely continuous (you can eg look at log of the Lesbegue measure of the support after $n$ ``steps'').
+    \end{proof}
+
+    
+    \subsection{Corrections}
+
+    \begin{enumerate}
+        \item Page 8 in Definition 1.21: $\mu$ ranges from $i = 1$.
+        \item Lemma 4.3. $X$ and $Y$ should be independent random variables.
+    \end{enumerate}
