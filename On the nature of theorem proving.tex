@@ -1,0 +1,83 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+
+\title{On the Nature of Theorem Proving}
+\author{Asvin G\footnote{
+This project was supported by a grant from the Simons Foundation International [MPS-SIM-00001691, JT].}.}
+\date{October 2025}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+Mathematical proof is hard primarily because of the exponential search space and the all-or-nothing nature of verification. Human mathematicians navigate this through three interacting cognitive mechanisms: a \emph{belief network} that assigns confidence to statements, an \emph{explorer} that generates informative sub-problems, and a \emph{prover} that constructs hierarchical proofs. These components form a loop: the explorer proposes statements to investigate, the prover attempts to resolve them, and outcomes update the belief network, which in turn guides future exploration.
+
+\section{The Belief Network}
+
+We assign to each mathematical statement $S$ a belief $P(S|C)$, where $C$ is the \emph{context}---the set of axioms, definitions, and previously established results the prover is working with. If we prove $S$ or $\neg S$, then $P(S|C)$ becomes 1 or 0. But even without proof, mathematicians carry rich intuitions.
+
+This belief function satisfies natural coherence properties. If we have high belief in $S$ and in $S \Longrightarrow T$, we should have high belief in $T$. Conversely, if both $P(S \Longrightarrow T)$ and $P(\neg S \Longrightarrow T)$ are low yet we establish $T$, this raises our confidence in $S$. The tension between $P(S)$ and $P(\neg S)$---they must sum to 1---often drives mathematicians to alternate between trying to prove and disprove a conjecture.
+
+The belief network also gives us a formal notion of \emph{interestingness}. A statement $S$ is surprising if $P(S)$ is low yet $S$ resists disproof. High-symmetry structures are interesting because any specific symmetry has low prior. Similarly, a statement with many independent consequences $T_1, \ldots, T_n$ is interesting because $P(S) \lesssim P(T_1) \cdots P(T_n)$, which is typically very small.
+
+Because we increase confidence in $S$ by ruling out short disproofs, $P(S)$ is often inversely related to the length of the shortest proof of $\neg S$.
+
+\section{The Explorer}
+
+Given a statement $S$ that is too hard to tackle directly, we seek auxiliary statements $E(S|C) = \{T_1, \ldots, T_n\}$ that are both informative about $S$ and easier to resolve. The quality of an auxiliary statement $T_i$ depends on three factors.
+
+\textbf{Informativeness.} We want $P(S|T_i)$ to differ significantly from $P(S|\neg T_i)$. Learning the truth value of $T_i$ should meaningfully update our belief in $S$.
+
+\textbf{Tractability.} We want $T_i$ to be much easier than $S$, as measured by the belief network. Concretely, we want $P(T_i)$ or $P(\neg T_i)$ to be high---statements close to certainty require less work to resolve. Alternatively, if the belief network encodes proof complexity (as suggested in Section 6), we want the expected proof length for $T_i$ to be substantially shorter than for $S$.
+
+\textbf{Malleability.} We want $P(T_i)$ to be \emph{malleable}---that is, exploration around $T_i$ can shift its probability substantially with bounded effort. But what does ``exploration around $T_i$'' mean precisely? We can partially unpack this:
+\begin{itemize}
+    \item \emph{Direct resolution}: the prover attempts to prove or disprove $T_i$.
+    \item \emph{Testing}: we evaluate $T_i$ on concrete examples, special cases, or boundary conditions, updating $P(T_i)$ based on outcomes.
+    \item \emph{Recursive exploration}: we apply the full loop to $T_i$ itself, using the explorer to find sub-auxiliaries.
+\end{itemize}
+A statement is malleable if these operations can shift $P(T_i)$ significantly. Note that this definition has some circularity---exploration is partly defined via the loop that uses exploration. A fully formal treatment would require a computational model that bounds the ``effort'' of each operation, which we leave as an open problem.
+
+The explorer thus models the dynamics of the belief network: it proposes statements whose resolution will most efficiently update $P(S)$.
+
+\section{The Prover}
+
+The prover attempts to construct a proof of $S$ given context $C$. To leverage the belief network and avoid exponential blowup, proofs are built \emph{hierarchically}. To prove $S \Longrightarrow T$, we first find a chain $S \Longrightarrow S_1 \Longrightarrow \cdots \Longrightarrow T$ where each implication $P(S_i \Longrightarrow S_{i+1})$ has high belief. We then recursively prove each step until we reach implications simple enough to verify directly.
+
+This hierarchical structure makes proofs legible and resilient. Each modular step can be verified independently. Even if an intermediate step fails, the overall structure often survives: a high belief in $S$ typically means some minor variant is true. This is precisely why training a belief network matters---it captures robustness, not just truth.
+
+\section{The Loop}
+
+These three components interact cyclically. Starting with a target statement $S$:
+\begin{enumerate}
+    \item The explorer generates candidate statements $\{T_i\}$ that are informative, tractable, and malleable.
+    \item The prover attempts to resolve each $T_i$.
+    \item Outcomes---whether proofs, disproofs, or partial progress---update the belief network.
+    \item Updated beliefs inform the next round of exploration, prioritizing statements that now appear most promising.
+\end{enumerate}
+This loop continues until the prover succeeds on $S$, or until belief drops low enough that we switch to exploring $\neg S$.
+
+\section{Training Considerations}
+
+\subsection{The belief network}
+
+$P(S|C)$ might be trained via supervised learning on statements with known proofs, followed by consistency enforcement ($P(S) + P(\neg S) = 1$). Alternatively, we could embed statements in a vector space $V$ where $|v(S)| \simeq -\log P(S)$ and $v(S \Longrightarrow T) = v(T) - v(S)$, so that the triangle inequality encodes $P(S)P(S \Longrightarrow T) \leq P(T)$. The belief network requires no language facility and could be trained from a stronger theorem prover's output distributions.
+
+\subsection{The explorer}
+
+Since the explorer is generative, an LLM is a natural base. Training signal comes from two sources: informativeness ($|\log P(S|T_i) - \log P(S|\neg T_i)|$) and tractability/malleability (inversely proportional to proof length for the generated $T_i$). The explorer's quality depends entirely on the belief network, so it can be viewed as modeling the dynamics of $S \to P(S)$.
+
+\section{Definitions and Frameworks}
+
+The architecture above describes theorem proving within a fixed framework. But the most impactful mathematics involves discovering new frameworks---finding the right definitions and structures that make hard problems tractable.
+
+At the smallest level, this means introducing a new definition or invariant and developing it enough to prove the original statement. At the highest level, it means reformulating entire fields so that our objects of interest embed in a more flexible setting. Grothendieck and Gromov exemplify this at scale, but most mathematicians engage with it to varying degrees.
+
+Can the architecture help here? A possible signal: a framework shift is warranted when the belief network assigns moderate probability to $S$, but the explorer consistently fails to find tractable, malleable auxiliary statements---we believe $S$ should be true but cannot make progress. This suggests the current language is inadequate.
+
+However, evaluating the quality of a definition or axiomatic system ultimately depends on the richness of the theory it produces, which is far harder to assess than truth of individual statements. This remains the central open problem for automating mathematical discovery.
+
+\end{document}
