@@ -228,10 +228,43 @@ li {
     cursor: pointer;
     user-select: none;
     display: inline;
+    list-style: none;
+}
+
+.publication summary::-webkit-details-marker {
+    display: none;
+}
+
+.publication summary::after {
+    content: " \25BE";
+}
+
+.publication details[open] summary .show-text {
+    display: none;
+}
+
+.publication details[open] summary .hide-text {
+    display: inline;
+}
+
+.publication details:not([open]) summary .show-text {
+    display: inline;
+}
+
+.publication details:not([open]) summary .hide-text {
+    display: none;
+}
+
+.publication details[open] summary::after {
+    content: " \25B4";
 }
 
 .publication summary:hover {
     color: var(--link-hover);
+}
+
+.publication details[open] .description {
+    flex-basis: 100%;
 }
 
 .publication .description {
