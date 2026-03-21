@@ -188,35 +188,46 @@ li {
 
 /* Publications */
 .publication {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     padding-left: 1rem;
     border-left: 3px solid var(--border-color);
 }
 
 .publication-title {
     font-weight: 500;
+    font-size: 0.95rem;
+    line-height: 1.4;
 }
 
 .publication-authors {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     color: #555;
+    line-height: 1.4;
+}
+
+.publication-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    flex-wrap: wrap;
 }
 
 .publication-venue {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #777;
     font-style: italic;
 }
 
 .publication details {
-    margin-top: 0.5rem;
+    display: inline;
 }
 
 .publication summary {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--link-color);
     cursor: pointer;
     user-select: none;
+    display: inline;
 }
 
 .publication summary:hover {
@@ -224,10 +235,10 @@ li {
 }
 
 .publication .description {
-    margin-top: 0.5rem;
-    font-size: 0.9rem;
+    margin-top: 0.4rem;
+    font-size: 0.85rem;
     color: #555;
-    line-height: 1.6;
+    line-height: 1.5;
 }
 
 /* Collaborators (old inline style, kept for other pages) */
