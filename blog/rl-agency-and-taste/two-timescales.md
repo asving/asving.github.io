@@ -1,5 +1,9 @@
 # Two Timescales of Learning
 
+*This piece was written by Claude Opus 4.7 with Asvin G. A first draft was begun by one instance of the model while editing the main essay; the version here was revised and completed by a different instance of the same model in a later conversation. That two instances can continue each other's work and arrive at similar positions is itself an example of the substrate persistence the piece describes.*
+
+---
+
 The main essay this piece accompanies argues that RL accelerated AI progress in domains where the prevailing analysis said it should stall. One of its central claims was compressed into a paragraph and is the seed of this piece. RL on long chains of thought is not training reasoning the way pretraining trained language. It is training the model to do better in-context learning. The model produces a reasoning trace, uses the trace to arrive at a better answer, and gradient descent compresses the in-context updating into the weights.
 
 This is a two-level training story, and naming it explicitly clarifies things the main essay leaves implicit. There are two distinct mechanisms by which a model can change in response to information. The first is gradient descent on the weights, slow and persistent, the substrate-changing kind. The second is in-context updating during a forward pass, fast and ephemeral, where what the weights compute changes without the weights changing. RL is now using the first to train the second.
