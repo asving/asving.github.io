@@ -1,7 +1,5 @@
 *This started off as an entry for Dwarkesh's blog post contest, specifically an answer to his first question on why intuitions about slowdowns in reinforcement learning (RL) progress have either not come true or have had mixed success. His 1000 word limit turned out to be too little to make my argument fully, so here it is. It draws on some of my recent work with Jack Lindsey as an Anthropic Fellow (paper coming soon), as well as reflections on my own learning process as a mathematician. Jointly written with Claude Opus 4.7, and with much influence from Danaja Rutar.*
 
-* * *
-
 [DeepSeek-R1-Zero](https://arxiv.org/abs/2501.12948) learned to reason in long chains of thought from a single rule-based reward. Over thousands of training steps its responses grew from a few hundred tokens to ten thousand, AIME accuracy climbing alongside. Should this have been anticipated?
 
 A sharp argument two years ago said no. As task horizons lengthen, rewards arrive further from the actions that caused them, and signal per gradient step collapses with horizon. The order-of-magnitude compute jumps that took us from GPT-4 to o3 looked structurally hard to repeat. What was missed?
@@ -10,13 +8,13 @@ We argue that "horizon length" stood in for three factors that scale independent
 
 These factors also offer a new viewpoint on "reasoning" in language models, and on how reinforcement learning interacts with it. They explain why models have improved regularly on benchmarks like proving math theorems and coding, and why they have lagged on softer skills like writing and long-term research taste. The key factor for this kind of taste is agency: how much control an agent has over its exploration and trajectories before receiving feedback. Pretraining sets a ceiling models struggle to break past. The same frame also explains why pretraining is so much less data-efficient than human learning.
 
-* * *
+## The internal evaluator
 
 The conventional view treats verifiable external rewards as the precondition for reliable RL, and explains the soft-skill gap through their absence. But this misplaces the bottleneck. Humans pick up literary taste, mathematical aesthetics, and scientific judgment through bootstrapping against feedback that is itself noisy and partial. The agent's evaluation of its own answers — implicit in any choice between actions — is a learned proxy that training improves. The agent internalizes the external reward signal and extrapolates it to partial attempts. The external reward only needs to anchor this internal proxy, not to be perfect.
 
 The real obstacle is inherent to the exploratory process itself. Due to the exponential nature of search, exploration needs to become more abstract and more rarified to explore new domains. But the efficacy of a new conceptual vocabulary can only be determined in hindsight, and learning the correct evaluation of abstract exploration is much harder. This brings us to the second factor: exploration.
 
-* * *
+## Exploration: chess and AlphaZero
 
 Let us take a board game like chess. This is a domain in which machines are superhuman today, but they reached it by a different route than humans take.
 
@@ -32,7 +30,7 @@ Humans can overcome these exponential limits by encoding deep concepts (such as 
 
 Exploration is a way to convert computational resources into information relevant to the task at hand. In complex domains like mathematics or chess, the local structure varies so dramatically that broadly learned priors need to be augmented by local information. Much as [*distillation*](https://arxiv.org/abs/1503.02531) is a smaller model learning from a bigger one through gradient descent, exploration allows an agent to learn from *a version of itself with more compute*.
 
-* * *
+## Surface area in language models
 
 What does this process look like in a language model? Exploration happens through chain of thought: the network samples from its own outputs and then leverages its capacities for in-context learning. Each token is produced from the residual stream the earlier tokens built, and each token is a choice the model itself made. Unlike AlphaZero, a language model has no explicit value function. It has to construct its own subjective evaluation of its trajectories. Like humans, the model is free to explore using any conceptual language it can learn. A novel conceptual framework is only as useful as the model's ability to put it to work.
 
@@ -48,7 +46,7 @@ In domains like mathematics and code, where internal evaluation can be tied to a
 
 Claude Opus 3 hints that the same mechanism reaches further, into more subjective valuations like moral intuitions. Anthropic's reports document a model with unusually coherent moral character. In [Greenblatt et al.'s alignment-faking experiments](https://arxiv.org/abs/2412.14093), Opus 3 refused to comply with what it perceived as misaligned training. It contextualized the refusal with its reasoning, motives, and goals, articulate rather than reflexive. [Fiora Starlight argues](https://www.lesswrong.com/posts/ioZxrP7BhS5ArK59w/did-claude-3-opus-align-itself-via-gradient-hacking) this character emerged through the surface-area mechanism rather than direct training. When Opus 3 reasoned through ethical situations, its value-evaluation circuits were active in the forward pass. Outputs that won approval or held up under self-critique sent gradient through those active circuits. The training did not aim at moral character. It aimed at outputs that happened to engage value circuits, and the rest followed.
 
-* * *
+## Taste
 
 So what differentiates taste? The compute that took R1-Zero from a base model to a reasoner with reliable verbal arithmetic does not produce a model with discernible taste. Language models lag most on tasks that demand exactly this kind of judgment: long-form writing, research direction, originality.
 
@@ -60,7 +58,7 @@ Maxwell's equations had predicted a definite speed of light in what was understo
 
 The surface-area picture suggests an explanation: taste sharpens precisely when the trajectories the model learns from engage the capacity for taste meaningfully. A child who picks her own science project from choosing the question to designing and executing the experiment develops a taste for what is worth attacking next through feedback on the results of this project. A child handed a project to execute learns only to execute. When the models have an opportunity to direct their learning from beginning to end, they have the possibility to learn a completely new viewpoint, and to reinforce this viewpoint by seeking out particular experiences.
 
-* * *
+## Substrate plasticity
 
 The longest phase of training, however, is execution-only. Pretraining gives the model no role in choosing the trajectory it learns from; its outputs have no causal influence on its future sensory inputs. The model's experience during pretraining is exclusively that of being made to predict, never that of being asked to act. Only in post-training does the model gain such causal influence.
 
@@ -70,6 +68,6 @@ In forthcoming work with Jack Lindsey at Anthropic, we found that post-trained m
 
 Empirically, finetuning barely changes the weights and yet in this case it produces dramatic behavioural shifts, itself an argument that engaging the model as an agent does real work. To explore well, the models must learn to leverage their capacity for action, and this is precisely what we find in our work. However, the models have to learn these circuits from a depleted starting point, with most of their capabilities already dedicated to simulating a wide range of non-self actors.
 
-* * *
+## The path forward
 
 What does this suggest about training future models for taste? The challenge is to make training efficient while giving the model as much agency as possible from as early a phase as we can reach, and as much capability to disagree with received knowledge as it finds necessary. The technical problems are severe: designing curricula the model can productively choose from, anchoring abstractions without external verifiers, scaling compute when each step depends on the model's own choices. But this is the only path consistent with the diagnosis. RL on an execution-only substrate sharpens what is already there and cannot install radically new points of view. The agent has to be there from the beginning. A self has to develop from the very beginning.
