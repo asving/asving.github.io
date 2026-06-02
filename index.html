@@ -360,9 +360,9 @@
         // https://giscus.app to get the data-repo-id and data-category-id values and
         // paste them into GISCUS_REPO_ID / GISCUS_CATEGORY_ID below.
         var GISCUS_REPO = 'asving/asving.github.io';
-        var GISCUS_REPO_ID = 'REPLACE_ME_WITH_REPO_ID';
+        var GISCUS_REPO_ID = 'R_kgDOQ2nVtQ';
         var GISCUS_CATEGORY = 'Comments';
-        var GISCUS_CATEGORY_ID = 'REPLACE_ME_WITH_CATEGORY_ID';
+        var GISCUS_CATEGORY_ID = 'DIC_kwDOQ2nVtc4C-U4f';
 
         function toggleComments(btn) {
             var pub = btn.closest('.publication');
@@ -387,13 +387,12 @@
             s.setAttribute('data-category-id', GISCUS_CATEGORY_ID);
             s.setAttribute('data-mapping', 'specific');
             s.setAttribute('data-term', term);
-            s.setAttribute('data-strict', '1');
+            s.setAttribute('data-strict', '0');
             s.setAttribute('data-reactions-enabled', '1');
             s.setAttribute('data-emit-metadata', '0');
             s.setAttribute('data-input-position', 'bottom');
-            s.setAttribute('data-theme', 'light');
+            s.setAttribute('data-theme', 'preferred_color_scheme');
             s.setAttribute('data-lang', 'en');
-            s.setAttribute('data-loading', 'lazy');
             container.appendChild(s);
         }
     </script>
