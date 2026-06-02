@@ -242,6 +242,24 @@ li {
     margin-top: 0.3rem;
 }
 
+.sub-publication {
+    margin-top: 0.8rem;
+    padding-left: 0.75rem;
+    border-left: 2px solid var(--border-color);
+}
+
+.sub-publication .publication-title {
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.sub-publication p {
+    margin-top: 0.3rem;
+    margin-bottom: 0;
+    font-size: 0.85rem;
+    color: #555;
+}
+
 .publication > .comments-container {
     margin-top: 0.6rem;
     padding-top: 0.6rem;
