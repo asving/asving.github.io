@@ -67,7 +67,7 @@
                 <h2>Publications</h2>
 
                 <p class="publications-note">
-                    For my own work, I have stepped back from journal publication in favour of public review on this page. Every paper and essay below has its own comment thread &mdash; discussion, pushback, and questions are all welcome.
+                    For my own work, I have stepped back from journal publication in favour of public review on this page. Every paper and essay below has its own completely public comment thread. Discussion, reviews, and questions are all welcome.
                 </p>
 
                 <h3>On Intelligence</h3>
@@ -82,11 +82,24 @@
                         <span class="comments-toggle" onclick="toggleComments(this)">Comments &#x25BE;</span>
                     </div>
                     <div class="description" hidden>
-                        <p>The idea of a self in humans conflates many notions, such as agency and recognising one's own actions. Do these notions come apart in language models? Two companion papers from the Anthropic Fellows Program take up the question.</p>
-                        <ul>
-                            <li><a href="https://arxiv.org/abs/2605.25459">From Simulation to Enaction: Post-trained language models recognize and react to their own generations</a> &mdash; with <a href="https://jlindsey15.github.io/">Jack Lindsey</a>. In the first paper, we show that post-trained models (but not base models) can recognise when they have agency &mdash; when they are <em>acting</em> rather than merely predicting &mdash; and modify their behaviour accordingly. The signature is a sharp entropy drop during assistant-mode generation, paired with strong evidence that the model commits to a full trajectory early and executes against that plan, neither of which the base model does.</li>
-                            <li><a href="https://arxiv.org/abs/2606.00545">The Assistant as a Privileged Persona: A canonical reference in cross-persona self-recognition</a>. In the second paper, we see how self-recognition varies with different personas for the same post-trained model and find that this is correlated strongly both with the entropy of the output predictions when the model is reading the text, and with internal representations of the persona.</li>
-                        </ul>
+                        <p>The idea of a self in humans conflates many notions, such as agency, recognising one's own actions or planning. Do these notions come apart in language models? Two companion papers from the Anthropic Fellows Program tackle this question.</p>
+
+                        <div class="sub-publication">
+                            <div class="publication-title">
+                                <a href="https://arxiv.org/abs/2605.25459">From Simulation to Enaction: Post-trained language models recognize and react to their own generations</a>
+                            </div>
+                            <div class="publication-authors">with <a href="https://jlindsey15.github.io/">Jack Lindsey</a></div>
+                            <div class="publication-venue">arXiv:2605.25459</div>
+                            <p>In the first paper, we show that post-trained models (but not base models) can recognise when they have agency, i.e., when they are acting by autoregressive sampling rather than merely predicting, and modify their behaviour accordingly. They show a sharp entropy drop when on-policy, the ability to explicitly recognize when they are on or off-policy and furthermore, we show strong evidence that the model commits to a full trajectory early and executes against that plan. The base model shows none of these behaviors.</p>
+                        </div>
+
+                        <div class="sub-publication">
+                            <div class="publication-title">
+                                <a href="https://arxiv.org/abs/2606.00545">The Assistant as a Privileged Persona: A canonical reference in cross-persona self-recognition</a>
+                            </div>
+                            <div class="publication-venue">arXiv:2606.00545</div>
+                            <p>In the second paper, we see how self-recognition varies with different personas for the same post-trained model and find that this is correlated strongly both with the entropy of the output predictions when the model is reading the text, and with internal representations of the persona.</p>
+                        </div>
                     </div>
                     <div class="comments-container" hidden></div>
                 </div>
