@@ -218,14 +218,16 @@ li {
     font-style: italic;
 }
 
-.desc-toggle {
+.desc-toggle,
+.comments-toggle {
     font-size: 0.85rem;
     color: var(--link-color);
     cursor: pointer;
     user-select: none;
 }
 
-.desc-toggle:hover {
+.desc-toggle:hover,
+.comments-toggle:hover {
     color: var(--link-hover);
 }
 
@@ -238,6 +240,22 @@ li {
 
 .publication > .description ul {
     margin-top: 0.3rem;
+}
+
+.publication > .comments-container {
+    margin-top: 0.6rem;
+    padding-top: 0.6rem;
+    border-top: 1px dashed var(--border-color);
+}
+
+.publications-note {
+    font-size: 0.9rem;
+    color: #555;
+    font-style: italic;
+    margin-bottom: 1.2rem;
+    padding: 0.6rem 0.8rem;
+    border-left: 3px solid var(--link-color);
+    background: var(--light-gray);
 }
 
 /* Collaborators (old inline style, kept for other pages) */
