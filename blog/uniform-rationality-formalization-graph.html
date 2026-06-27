@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Uniform rationality of p-adic densities — Lean dependency DAG</title>
+
+<!-- KaTeX CSS (math rendering). CDN: jsdelivr. -->
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+      crossorigin="anonymous"/>
+
+<style>
+  :root {
+    --bg: #0f1419;
+    --panel: #1a2129;
+    --panel2: #222c37;
+    --border: #2e3a47;
+    --fg: #e6edf3;
+    --muted: #97a3b0;
+    --accent: #6cb6ff;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg); color: var(--fg);
+    display: flex; flex-direction: column; height: 100vh; overflow: hidden;
+  }
+
+  /* ---- header ---- */
+  header {
+    padding: 10px 16px; border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, #161d25, #11161c);
+  }
+  header h1 { margin: 0 0 4px; font-size: 17px; font-weight: 650; }
+  header .sub { font-size: 12.5px; color: var(--muted); line-height: 1.4; }
+  header .sub b { color: var(--fg); font-weight: 600; }
+  header .meaning { margin-top: 5px; font-size: 12px; color: var(--muted); }
+
+  /* ---- toolbar ---- */
+  #toolbar {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    padding: 8px 16px; border-bottom: 1px solid var(--border); background: #11161c;
+  }
+  #toolbar input[type=text] {
+    background: var(--panel2); border: 1px solid var(--border); color: var(--fg);
+    padding: 5px 9px; border-radius: 6px; font-size: 13px; min-width: 220px;
+  }
+  #toolbar button, #toolbar select {
+    background: var(--panel2); border: 1px solid var(--border); color: var(--fg);
+    padding: 5px 10px; border-radius: 6px; font-size: 12.5px; cursor: pointer;
+  }
+  #toolbar button:hover { background: #2c3946; }
+  #toolbar button.active { background: var(--accent); color: #06121f; border-color: var(--accent); }
+  #toolbar .spacer { flex: 1; }
+  #toolbar .count { font-size: 12px; color: var(--muted); white-space: nowrap; }
+
+  /* ---- main split ---- */
+  #main { flex: 1; display: flex; min-height: 0; }
+  #cy { flex: 1; min-width: 0; background:
+        radial-gradient(circle at 30% 20%, #131b24, #0d1218 70%); }
+
+  /* ---- side panel ---- */
+  #side {
+    width: 420px; max-width: 46vw; border-left: 1px solid var(--border);
+    background: var(--panel); overflow-y: auto; padding: 0;
+    display: flex; flex-direction: column;
+  }
+  #side .empty { padding: 24px; color: var(--muted); font-size: 13.5px; line-height: 1.5; }
+  #side .body { padding: 16px 18px; }
+  #side h2 { margin: 0 0 4px; font-size: 16px; word-break: break-word; }
+  #side .kindline { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+  .badge {
+    display: inline-block; padding: 2px 9px; border-radius: 999px;
+    font-size: 11.5px; font-weight: 600; color: #06121f; margin-right: 6px;
+  }
+  #side section { margin-top: 14px; }
+  #side section h3 {
+    margin: 0 0 5px; font-size: 11px; text-transform: uppercase;
+    letter-spacing: .07em; color: var(--muted); font-weight: 700;
+  }
+  #side .human { font-size: 14px; line-height: 1.55; }
+  #side pre {
+    background: #0b0f14; border: 1px solid var(--border); border-radius: 7px;
+    padding: 10px 12px; overflow-x: auto; font-size: 12px; line-height: 1.45;
+    font-family: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    white-space: pre-wrap; word-break: break-word;
+  }
+  #side .fileline {
+    font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 12px;
+    color: var(--accent);
+  }
+  #side .footprint {
+    font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 11.5px;
+    color: var(--muted); word-break: break-word; line-height: 1.5;
+  }
+  #side .note { font-size: 12.5px; color: #c8d3de; line-height: 1.5; font-style: italic; }
+  #side .deplist { display: flex; flex-wrap: wrap; gap: 6px; }
+  #side .deplist a, #side .revlist a {
+    background: var(--panel2); border: 1px solid var(--border); border-radius: 6px;
+    padding: 3px 8px; font-size: 11.5px; color: var(--accent);
+    text-decoration: none; cursor: pointer; word-break: break-word;
+  }
+  #side .deplist a:hover, #side .revlist a:hover { background: #2c3946; }
+  #side .revlist { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  /* ---- legend ---- */
+  #legend {
+    position: absolute; left: 12px; bottom: 12px; background: rgba(20,27,34,.94);
+    border: 1px solid var(--border); border-radius: 9px; padding: 10px 12px;
+    font-size: 11.5px; max-width: 280px; backdrop-filter: blur(3px);
+  }
+  #legend h4 { margin: 0 0 6px; font-size: 11px; text-transform: uppercase;
+               letter-spacing: .06em; color: var(--muted); }
+  #legend .row { display: flex; align-items: center; gap: 7px; margin: 3px 0; }
+  #legend .sw { width: 13px; height: 13px; border-radius: 3px; flex: none; border: 1px solid #0008; }
+  #legend .shp { width: 16px; text-align: center; color: var(--muted); flex: none; }
+  #legend .divider { height: 1px; background: var(--border); margin: 7px 0; }
+  #legend small { color: var(--muted); }
+  #legend .toggle { cursor: pointer; user-select: none; float: right; color: var(--muted); }
+
+  /* ---- CDN-failure banner ---- */
+  #cdnwarn {
+    display: none; background: #5a1d1d; color: #ffd9d9; padding: 8px 16px;
+    font-size: 12.5px; border-bottom: 1px solid #7a2a2a;
+  }
+  #cdnwarn.show { display: block; }
+
+  a.inlink { color: var(--accent); cursor: pointer; text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div id="cdnwarn"></div>
+
+<header>
+  <h1>Uniform rationality of p-adic factorization-type densities (BB3-∞ / clusterVolume measure route): goal_theorem dependency DAG</h1>
+  <div class="sub">
+    Capstone: <b>goal_theorem</b> &nbsp;&middot;&nbsp; status: <b>proved-mod-cite</b>
+    &nbsp;&middot;&nbsp; 54 nodes, 84 edges
+  </div>
+  <div class="meaning">
+    Directed dependency DAG: an arrow <b>A&nbsp;&rarr;&nbsp;B</b> means <b>A is a prerequisite of B</b>.
+    Prerequisites sit at the bottom, the capstone at the top. Click any node for its statement,
+    Lean signature, location and dependencies.
+  </div>
+</header>
+
+<div id="toolbar">
+  <input id="search" type="text" placeholder="Search node by name / label&hellip;" autocomplete="off"/>
+  <button id="btn-fit" title="Fit graph to screen">Fit</button>
+  <button id="btn-open" title="Highlight open obligations (sorry / open-*)">Highlight open obligations</button>
+  <label class="count">Layer:
+    <select id="layerSel"><option value="__ALL__">all layers</option><option value="BB3inf">BB3inf</option><option value="Decomposition-montes">Decomposition-montes</option><option value="GMN-cite">GMN-cite</option><option value="Interface">Interface</option><option value="L3-counts">L3-counts</option><option value="L4-cell">L4-cell</option><option value="L5fix">L5fix</option><option value="L6M4">L6M4</option><option value="L7">L7</option><option value="M1">M1</option><option value="OMInduction">OMInduction</option><option value="PadicMeasure">PadicMeasure</option><option value="RatFn">RatFn</option><option value="Witness">Witness</option><option value="capstone">capstone</option><option value="cite-measure">cite-measure</option><option value="cite-tame">cite-tame</option></select>
+  </label>
+  <button id="btn-reset" title="Clear all highlights / filters">Reset view</button>
+  <span class="spacer"></span>
+  <span class="count" id="statusline">54 nodes &middot; 84 edges</span>
+</div>
+
+<div id="main">
+  <div id="cy" style="position:relative;">
+    <div id="legend">
+      <span class="toggle" id="legtoggle">[hide]</span>
+      <h4>Status (fill colour)</h4>
+      <div id="legend-status"></div>
+      <div class="divider"></div>
+      <h4>Kind (shape)</h4>
+      <div id="legend-kind"></div>
+      <div class="divider"></div>
+      <small>Drag to pan &middot; scroll to zoom &middot; drag a node to move it.</small>
+    </div>
+  </div>
+  <div id="side">
+    <div class="empty" id="side-empty">
+      Click a node to inspect it.<br/><br/>
+      Use <b>Search</b> to jump to a node, the <b>Layer</b> menu to dim everything
+      outside one layer, and <b>Highlight open obligations</b> to surface the
+      remaining <code>sorry</code> / <code>open-*</code> goals.
+    </div>
+    <div class="body" id="side-body" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- ===== Embedded graph data (inline, no fetch) ===== -->
+<script>
+const GRAPH = {"title": "Uniform rationality of p-adic factorization-type densities (BB3-∞ / clusterVolume measure route): goal_theorem dependency DAG", "capstone": "goal_theorem", "nodes": [{"id": "goal_theorem", "label": "goal_theorem (CAPSTONE)", "kind": "theorem", "human": "For ANY abstract $\\mathrm{DensityFoundation}\\ F$ with OM bridge $B$, each degree $n$ and factorization type $\\sigma$, there is one $\\mathrm{num}/\\mathrm{den}\\in\\mathbb{Q}(t)$ with $F.\\mathrm{density}(n,\\sigma;q)=\\mathrm{num}(q)/\\mathrm{den}(q)$ for every prime power $q>1$ (all $p$, wild included; pole-free), and $\\mathrm{num}/\\mathrm{den}$ is palindromic, $R(1/t)=R(t)$.", "lean": "theorem goal_theorem (F : DensityFoundation) (B : OMBridge F) (n : ℕ) (σ : FactorizationType) (hσ : σ.degree = n) : ∃ (num den : Polynomial ℚ), den ≠ 0 ∧ (∀ q : ℕ, 1 < q → den.eval (q : ℚ) ≠ 0 ∧ F.density n σ q = num.eval (q : ℚ) / den.eval (q : ℚ)) ∧ IsPalindromic num den", "status": "proved-mod-cite", "file": "LeanUrat/Goal.lean", "line": 85, "footprint": "{propext, Classical.choice, Quot.sound, AX_cellRecursion, clusterMeasure, descend_size_lt, omCells, tame_functionalEquation} (per docstring; no sorryAx, no conclusion-axiom)", "deps": ["density_rational", "tame_functionalEquation", "L7_tame_to_all_primes", "L7_isPalindromic_of_agree", "DensityFoundation", "OMBridge"], "layer": "capstone", "note": "Honest scope (GAP-2): ∀ F over an INHABITED but not-identified-with-real-ρ foundation; the p-adic Haar identification is the un-crossed measure wall. NOT vacuous (witness exists)."}, {"id": "goal_theorem_montes", "label": "goal_theorem_montes (count-native sibling)", "kind": "theorem", "human": "The same uniform-rational + palindromic conclusion for the genuine count-native density $g_\\sigma(q)=\\sum_{T}C_T(q)$, with the measure-wall identification surfaced as the explicit hypothesis $\\mathrm{hbridge}$. Drops the entire measure route (no clusterMeasure / AX_cellRecursion / omCells / descend_size_lt).", "lean": "theorem goal_theorem_montes {q n : ℕ} (M : CountingModel q n) (D : MontesData q n M) (σ : FactorizationType) (F : DensityFoundation) (hσ : σ.degree = n) (hbridge : ∀ q', 1 < q' → F.density n σ q' = ∑ T ∈ D.shapesOf σ, D.coeff T q') : ∃ num den, ...", "status": "proved-mod-cite", "file": "LeanUrat/Goal.lean", "line": 149, "footprint": "{propext, Classical.choice, Quot.sound, tame_functionalEquation} — Lean core + tame cite only; MontesData/CountingModel/DensityFoundation carried as hypotheses", "deps": ["countingDensity_isRational", "countingDensity_eq_sum_coeff", "tame_functionalEquation", "L7_tame_to_all_primes", "L7_isPalindromic_of_agree"], "layer": "capstone", "note": "DISTINCT route from goal_theorem (the focus here). Shown for context: its footprint is strictly thinner (no measure axioms)."}, {"id": "density_rational", "label": "L6M4.density_rational", "kind": "theorem", "human": "DERIVED: the per-type density $\\rho(n,\\sigma;q)$ is a single uniform rational function of $q$, because it is the finite multiplicity-weighted sum $\\sum_{T\\in\\mathrm{shapes}}m_T(q)\\,C_T(q)$ (decomposition) of per-shape cluster volumes, each rational (clusterVolume_rational).", "lean": "theorem density_rational (F : DensityFoundation) (Br : OMBridge F) (n : ℕ) (σ : FactorizationType) (hσ : σ.degree = n) : ∃ num den, den ≠ 0 ∧ ∀ q, 1 < q → den.eval (q:ℚ) ≠ 0 ∧ F.density n σ q = num.eval (q:ℚ)/den.eval (q:ℚ)", "status": "proved-mod-cite", "file": "LeanUrat/L6M4.lean", "line": 69, "footprint": null, "deps": ["sum_clusterVol_rational", "DensityFoundation_decomposition"], "layer": "L6M4", "note": "The genuine rationality derivation: makes the Goal MEAN the proof, not assume it."}, {"id": "sum_clusterVol_rational", "label": "L6M4.sum_clusterVol_rational", "kind": "lemma", "human": "A finite sum $\\sum_{T\\in S}m_T(q)\\,C_T(q)$ of polynomial-multiplied per-shape cluster volumes is itself a uniform rational function of $q$ (induction on the finite shape set $S$, common-denominator).", "lean": "theorem sum_clusterVol_rational (F : DensityFoundation) (Br : OMBridge F) (S : Finset ClusterShape) : ∃ num den, den ≠ 0 ∧ ∀ q, 1 < q → den.eval (q:ℚ) ≠ 0 ∧ (∑ T ∈ S, (F.multiplicity T).eval (q:ℚ) * F.clusterVolume T q) = num.eval (q:ℚ)/den.eval (q:ℚ)", "status": "proved-mod-cite", "file": "LeanUrat/L6M4.lean", "line": 41, "footprint": null, "deps": ["clusterVolume_rational"], "layer": "L6M4", "note": "Sorry-free; footprint inherits clusterVolume_rational's measure axioms."}, {"id": "clusterVolume_rational", "label": "Interface.clusterVolume_rational", "kind": "theorem", "human": "(G-A′, DE-AXIOMATIZED — now a THEOREM) For every cluster-tree shape $T$, the per-SHAPE cluster volume $C_T(q)$ is one $\\mathrm{num}/\\mathrm{den}\\in\\mathbb{Q}(t)$ at every prime power $q$ (all $p$, wild incl.), at every OM order. Derived by transporting PadicMeasure.clusterMeasure_isRational_of_AX along the structural OM bridge.", "lean": "theorem clusterVolume_rational (F : DensityFoundation) (B : OMBridge F) : ∀ T : ClusterShape, ∃ (num den : Polynomial ℚ), den ≠ 0 ∧ ∀ q : ℕ, (1 < q) → (den.eval (q:ℚ) ≠ 0) ∧ F.clusterVolume T q = num.eval (q:ℚ) / den.eval (q:ℚ)", "status": "proved-mod-cite", "file": "LeanUrat/Interface.lean", "line": 328, "footprint": "measure-layer cone: {clusterMeasure, AX_cellRecursion, AX_columnMeasure, omCells, descend_size_lt} + GMN + Lean core", "deps": ["clusterMeasure_isRational_of_AX", "OMBridge", "OMBridge_clusterVolume_eq_measure"], "layer": "Interface", "note": "Per-SHAPE volume, NOT per-TYPE density (fixes the earlier vacuity bug). Rationality NEVER assumed; emerges via the OM engine."}, {"id": "DensityFoundation", "label": "Interface.DensityFoundation", "kind": "structure", "human": "The p-adic factorization-density measure foundation as a stated-hypothesis interface: a density $\\rho(n,\\sigma;q)$, per-shape volumes $C_T$, a finite shape set, polynomial multiplicities $m_T$, the structural cluster-tree decomposition, and nonnegativity. Records measure-foundational facts (L1 Hensel-split + stratification); NOT a rationality claim.", "lean": "structure DensityFoundation where density : (n:ℕ) → FactorizationType → (q:ℕ) → ℚ; clusterVolume : ClusterShape → ℕ → ℚ; shapes : ...; multiplicity : ClusterShape → Polynomial ℚ; decomposition : ...; density_nonneg : ...", "status": "proved-core", "file": "LeanUrat/Interface.lean", "line": 226, "footprint": null, "deps": ["FactorizationType", "DensityFoundation_decomposition"], "layer": "Interface", "note": "Inhabited by Witness.witnessFoundation (so ∀ F is non-vacuous)."}, {"id": "DensityFoundation_decomposition", "label": "DensityFoundation.decomposition (field)", "kind": "structure", "human": "Structural field (L1 Hensel-splitting + cluster-tree stratification): the per-type density is the finite multiplicity-weighted sum of per-shape cluster volumes, $\\rho(n,\\sigma;q)=\\sum_{T\\in\\mathrm{shapes}}m_T(q)\\,C_T(q)$. NOT a rationality claim (the $m_T$, $C_T$ are arbitrary here).", "lean": "decomposition : ∀ (n : ℕ) (σ : FactorizationType), σ.degree = n → ∀ q : ℕ, 1 < q → density n σ q = ∑ T ∈ shapes n σ, (multiplicity T).eval (q : ℚ) * clusterVolume T q", "status": "proved-core", "file": "LeanUrat/Interface.lean", "line": 246, "footprint": null, "deps": [], "layer": "Interface", "note": "The honest measure-foundational input consumed by L6M4 (L1 §3, stratification §0)."}, {"id": "OMBridge", "label": "Interface.OMBridge", "kind": "structure", "human": "The OM bridge (defect D1): a decoding $\\mathrm{decode}:\\mathrm{ClusterShape}\\to\\mathrm{OMShape}$ and the STRUCTURAL fact that the abstract $F.\\mathrm{clusterVolume}\\,T$ IS the FIXED GMN/OM cluster measure $\\mathrm{clusterMeasure}(\\mathrm{decode}\\,T)$ at every $q$. NOT a rationality claim; ties the abstract volume to the genuine p-adic cluster Haar measure the Igusa/Denef axiom factors.", "lean": "structure OMBridge (F : DensityFoundation) where decode : ClusterShape → PadicMeasure.OMShape; clusterVolume_eq_measure : ∀ (T : ClusterShape) (q : ℕ), F.clusterVolume T q = PadicMeasure.clusterMeasure (decode T) q", "status": "proved-core", "file": "LeanUrat/Interface.lean", "line": 280, "footprint": null, "deps": ["clusterMeasure", "OMShape"], "layer": "Interface", "note": "Factored OUT of DensityFoundation (2026-06-20) so the measure-free foundation/tame axiom no longer drag clusterMeasure into their footprint. Inhabited by Witness.witnessOMBridge."}, {"id": "OMBridge_clusterVolume_eq_measure", "label": "OMBridge.clusterVolume_eq_measure (field)", "kind": "structure", "human": "Bridge field: $F.\\mathrm{clusterVolume}\\,T\\,q = \\mathrm{clusterMeasure}(\\mathrm{decode}\\,T)\\,q$ for every shape $T$ and residue cardinality $q$. The structural transport used to import per-shape rationality from the measure layer.", "lean": "clusterVolume_eq_measure : ∀ (T : ClusterShape) (q : ℕ), F.clusterVolume T q = PadicMeasure.clusterMeasure (decode T) q", "status": "proved-core", "file": "LeanUrat/Interface.lean", "line": 289, "footprint": null, "deps": [], "layer": "Interface", "note": "GMN cluster-tree stratification content; structural, not rationality."}, {"id": "tame_functionalEquation", "label": "Interface.tame_functionalEquation (CITE)", "kind": "axiom", "human": "(H-tame, paper §5) At tame primes $p>n$ the projective density is represented by a PALINDROMIC rational $R^{\\mathrm{tame}}_\\sigma\\in\\mathbb{Q}(t)$, $R(1/t)=R(t)$. Used only via 'infinitely many tame $p$' for the $\\mathbb{Q}(t)$ identity theorem (L7).", "lean": "axiom tame_functionalEquation (F : DensityFoundation) : ∀ (n : ℕ) (σ : FactorizationType), σ.degree = n → ∃ (num den : Polynomial ℚ), den ≠ 0 ∧ (∀ q : ℕ, q.Prime → n < q → F.density n σ q = num.eval (q:ℚ)/den.eval (q:ℚ)) ∧ IsPalindromic num den", "status": "cite", "file": "LeanUrat/Interface.lean", "line": 367, "footprint": null, "deps": ["DensityFoundation", "IsPalindromic"], "layer": "cite-tame", "note": "Honest literature CITE: paper §5 tame palindromic-weight machinery; Del Corso–Dvornicich (2000), Yin. The ONE axiom carried by BOTH goal_theorem and goal_theorem_montes."}, {"id": "IsPalindromic", "label": "Interface.IsPalindromic", "kind": "def", "human": "Faithful semantic palindromy of $R=\\mathrm{num}/\\mathrm{den}$: $\\forall x\\neq0$ with both denominators nonzero, $\\mathrm{num}(1/x)/\\mathrm{den}(1/x)=\\mathrm{num}(x)/\\mathrm{den}(x)$ — i.e. $R(1/t)=R(t)$, degree-robust (replacing the old degree-blind coefficient-reversal encoding, audit B1).", "lean": "def IsPalindromic (num den : Polynomial ℚ) : Prop := ∀ x : ℚ, x ≠ 0 → den.eval x ≠ 0 → den.eval x⁻¹ ≠ 0 → num.eval x⁻¹ / den.eval x⁻¹ = num.eval x / den.eval x", "status": "proved-core", "file": "LeanUrat/Interface.lean", "line": 356, "footprint": null, "deps": [], "layer": "Interface", "note": "Fix of the earlier degree-blind palindromy statement (statement-audit B1, 2026-06-15)."}, {"id": "L7_isPalindromic_of_agree", "label": "L7.isPalindromic_of_agree", "kind": "lemma", "human": "Palindromy transfer: if $\\mathrm{num}/\\mathrm{den}$ and $\\mathrm{tnum}/\\mathrm{tden}$ agree in $\\mathbb{Q}(t)$ ($\\mathrm{num}\\cdot\\mathrm{tden}=\\mathrm{tnum}\\cdot\\mathrm{den}$) and the tame one is palindromic, then $\\mathrm{num}/\\mathrm{den}$ is palindromic. Proved via the identity theorem on the cross-multiplied reflect polynomial (handles tame poles).", "lean": "theorem isPalindromic_of_agree (num den tnum tden : Polynomial ℚ) (hden : den ≠ 0) (htden : tden ≠ 0) (hagree : num * tden = tnum * den) (htpalin : IsPalindromic tnum tden) : IsPalindromic num den", "status": "proved-core", "file": "LeanUrat/L7.lean", "line": 81, "footprint": null, "deps": ["L7_eval_reflect_eq", "IsPalindromic"], "layer": "L7", "note": "Sorry-free; what the Goal consumes for its palindromy half."}, {"id": "L7_tame_to_all_primes", "label": "L7.tame_to_all_primes", "kind": "lemma", "human": "L7 functional-equation transfer ($\\mathbb{Q}(t)$ agreement): the all-prime representative agrees with the tame representative in $\\mathbb{Q}(t)$, $\\mathrm{num}\\cdot\\mathrm{tden}=\\mathrm{tnum}\\cdot\\mathrm{den}$. The tame prime-power set is infinite (Euclid) and pole-free; the identity theorem finishes.", "lean": "theorem tame_to_all_primes (F : DensityFoundation) (n : ℕ) (σ : FactorizationType) (hσ : σ.degree = n) (num den tnum tden : Polynomial ℚ) (hden0 : den ≠ 0) (htden0 : tden ≠ 0) (hL6 : ...) (htame : ...) : num * tden = tnum * den", "status": "proved-core", "file": "LeanUrat/L7.lean", "line": 214, "footprint": null, "deps": ["L7_ratfunc_agree_of_infinite"], "layer": "L7", "note": "Sorry-free; uses Nat.infinite_setOf_prime."}, {"id": "L7_ratfunc_agree_of_infinite", "label": "L7.ratfunc_agree_of_infinite", "kind": "lemma", "human": "Identity theorem for $\\mathbb{Q}(t)$: two num/den pairs (denominators nonvanishing) agreeing on an infinite point set satisfy $\\mathrm{num}_1\\mathrm{den}_2=\\mathrm{num}_2\\mathrm{den}_1$. Via Polynomial.eq_zero_of_infinite_isRoot.", "lean": "theorem ratfunc_agree_of_infinite (num₁ den₁ num₂ den₂ : Polynomial ℚ) (T : Set ℚ) (hT : T.Infinite) (...) : num₁ * den₂ = num₂ * den₁", "status": "proved-core", "file": "LeanUrat/L7.lean", "line": 181, "footprint": null, "deps": [], "layer": "L7", "note": "The algebraic core of L7; fully from mathlib."}, {"id": "L7_eval_reflect_eq", "label": "L7.eval_reflect_eq", "kind": "lemma", "human": "Evaluation-at-inverse bridge: for $x\\neq0$ and $N\\geq\\deg f$, $(\\mathrm{reflect}\\,N\\,f)(x)=f(1/x)\\cdot x^N$. Converts the non-polynomial 'evaluate at $1/x$' in IsPalindromic into a genuine polynomial evaluation.", "lean": "theorem eval_reflect_eq (f : Polynomial ℚ) (x : ℚ) (hx : x ≠ 0) (N : ℕ) (hf : f.natDegree ≤ N) : (Polynomial.reflect N f).eval x = f.eval x⁻¹ * x ^ N", "status": "proved-core", "file": "LeanUrat/L7.lean", "line": 48, "footprint": null, "deps": [], "layer": "L7", "note": "Specialization of Polynomial.eval₂_reflect_mul_pow."}, {"id": "clusterMeasure_isRational_of_AX", "label": "PadicMeasure.clusterMeasure_isRational_of_AX", "kind": "theorem", "human": "MEASURE-LAYER CAPSTONE: the FIXED conditional p-adic Haar cluster measure $\\mathrm{clusterMeasure}$ is a uniform rational function of $q$ for every OM shape $T$. The Igusa/Denef cell-decomposition axiom AX_cellRecursion (with the concrete self-loop pivot omPivot) discharges the recursion hypothesis of clusterMeasure_isRational, which runs the novel OM induction.", "lean": "theorem clusterMeasure_isRational_of_AX : ∀ T : OMShape, IsRationalFn (clusterMeasure T)", "status": "proved-mod-cite", "file": "LeanUrat/PadicMeasure.lean", "line": 790, "footprint": "{clusterMeasure, AX_cellRecursion, AX_columnMeasure, omCells, descend_size_lt} + GMN + Lean core", "deps": ["clusterMeasure_isRational", "AX_cellRecursion", "clusterMeasure"], "layer": "PadicMeasure", "note": "Soundness fix 2026-06-19: about the ONE fixed clusterMeasure (not ∀-quantified — the old free-pivot capstone pinned nothing / was inconsistent). Satisfiable, witnessed by clusterMeasureModel."}, {"id": "clusterMeasure_isRational", "label": "PadicMeasure.clusterMeasure_isRational", "kind": "theorem", "human": "Generic uniformity: any $\\mathrm{cm}$ satisfying the eq-(4.2) cell-factorization (with pivot omPivot) is a uniform rational function of $q$, by the novel OM-order induction instantiated with omContribs, omPivot, descend_size_lt, cellCoeff_isRational, omPivot_isRational/omPivot_ne.", "lean": "theorem clusterMeasure_isRational (cm : OMShape → ℕ → ℚ) (hcell : ∀ T q, 1 < q → cm T q = (...)/omPivot T q) : ∀ T : OMShape, IsRationalFn (cm T)", "status": "proved-mod-cite", "file": "LeanUrat/PadicMeasure.lean", "line": 719, "footprint": null, "deps": ["clusterVol_isRational", "clusterMeasure_rec", "descend_size_lt", "cellCoeff_isRational", "omPivot_isRational"], "layer": "PadicMeasure", "note": "Rationality never assumed; the recursion is a measure-factorization."}, {"id": "clusterMeasure_rec", "label": "PadicMeasure.clusterMeasure_rec", "kind": "lemma", "human": "The eq-(4.2) recursion DERIVED (former hypothesis 'hrec', now a lemma): for any $\\mathrm{cm}$ satisfying the AX_cellRecursion factorization, the per-shape volume equals the OM contribution-sum-over-pivot in the exact shape the engine consumes. Pure list-rewriting of omContribs/cellCoeff.", "lean": "theorem clusterMeasure_rec (cm : OMShape → ℕ → ℚ) (hcell : ...) (T : OMShape) (q : ℕ) (hq : 1 < q) : cm T q = ((omContribs T).map (fun c => c.1 q * (c.2.map (fun ch => cm ch q)).prod)).sum / omPivot T q", "status": "proved-core", "file": "LeanUrat/PadicMeasure.lean", "line": 680, "footprint": null, "deps": ["omContribs"], "layer": "PadicMeasure", "note": "Discharges the old BB3inf.clusterVolume_rational_of_OM 'hrec' hypothesis under the standard p-adic interface."}, {"id": "AX_cellRecursion", "label": "PadicMeasure.AX_cellRecursion (CITE, load-bearing)", "kind": "axiom", "human": "(Igusa/Denef cell decomposition) The fixed clusterMeasure factors cell-by-cell (over omCells T) as a finite sum of (q-varying BB3 residual count) × (BB1 box/shell Haar volume) × ($\\prod$ over descent children of clusterMeasure), with the unique self-loop cell resummed by dividing by omPivot. A STRUCTURAL measure-factorization identity — NOT a rationality claim.", "lean": "axiom AX_cellRecursion (T : OMShape) (q : ℕ) (hq : 1 < q) : clusterMeasure T q = ((omCells T).map (fun c => residualCountFn T c.residualDeg q * L4.bb1Value c.polygon q * (c.children.map (fun ch => clusterMeasure ch.node q)).prod)).sum / omPivot T q", "status": "cite", "file": "LeanUrat/PadicMeasure.lean", "line": 429, "footprint": null, "deps": ["clusterMeasure", "omCells", "residualCountFn", "bb1Value", "omPivot"], "layer": "cite-measure", "note": "Honest CITE: Igusa Local Zeta Functions §7.4/Prop 7.4.1; Denef Invent. Math. 77 (1984); BB3_infinity eq (4.1)/(4.2). THE load-bearing analytic boundary. Consistency witnessed by clusterMeasureModel_rec (so not vacuous/inconsistent)."}, {"id": "AX_columnMeasure", "label": "PadicMeasure.AX_columnMeasure (CITE)", "kind": "axiom", "human": "(Igusa box/shell) Over the unramified $O_\\delta$ (residue size $Q=q^\\delta$), the lattice-polygon cell measure is the finite product of per-column box/shell Haar measures $\\mu\\{v(c)\\geq h\\}=Q^{-h}$, $\\mu\\{v(c)=h\\}=(1-Q^{-1})Q^{-h}$. Asserts strictly LESS than the cell volume (the closed form is PROVED in L4.cellVolume_eq).", "lean": "axiom AX_columnMeasure (cellVol : L4.LatticePolygon → ℕ → ℚ) (pg : L4.LatticePolygon) (Q : ℕ) : cellVol pg Q = ∏ i : Fin pg.width, L4.columnMeasure pg Q i", "status": "cite", "file": "LeanUrat/PadicMeasure.lean", "line": 337, "footprint": null, "deps": [], "layer": "cite-measure", "note": "Honest CITE: Igusa §7.4 box/shell normalization; standard local-field Haar [O_δ:p^m O_δ]=Q^m. NOT a rationality claim."}, {"id": "clusterMeasure", "label": "PadicMeasure.clusterMeasure (CITE, opaque object)", "kind": "axiom", "human": "The actual conditional p-adic Haar cluster volume of an OM shape at residue cardinality $q$ — a single opaque $\\mathbb{Q}$-valued symbol. Recorded as a named axiom because mathlib v4.31.0 has no p-adic Haar measure. Asserts ONLY that the symbol denotes a fixed function; its content comes from AX_cellRecursion.", "lean": "axiom clusterMeasure : OMShape → ℕ → ℚ", "status": "cite", "file": "LeanUrat/PadicMeasure.lean", "line": 396, "footprint": null, "deps": [], "layer": "cite-measure", "note": "Structural opaque-object axiom (not rationality). Satisfiability shown by clusterMeasureModel. Part of the measure wall (no p-adic Haar in mathlib)."}, {"id": "clusterMeasureModel_rec", "label": "PadicMeasure.clusterMeasureModel_rec (consistency)", "kind": "theorem", "human": "Consistency demonstration: the concrete well-founded $\\mathrm{clusterMeasureModel}$ (recursion on OMShape.size, decreasing by descend_size_lt) SATISFIES the exact AX_cellRecursion identity, exhibiting a model — so the axiom is relatively consistent (the old free-pivot False-derivation route is gone).", "lean": "theorem clusterMeasureModel_rec (T : OMShape) (q : ℕ) (hq : 1 < q) : clusterMeasureModel T q = ((omCells T).map (...)).sum / omPivot T q", "status": "proved-mod-cite", "file": "LeanUrat/PadicMeasure.lean", "line": 466, "footprint": "{omCells, descend_size_lt} + Lean core", "deps": ["omCells", "descend_size_lt"], "layer": "PadicMeasure", "note": "Anti-vacuity / satisfiability witness for AX_cellRecursion."}, {"id": "clusterVol_isRational", "label": "OMInduction.clusterVol_isRational (NOVEL induction)", "kind": "theorem", "human": "THE novel BB3-∞ step: a function defined by a well-founded OM-order recursion with rational coefficients, strictly-descending children, and a pole-free self-loop pivot is itself a uniform rational function of $q$. Strong induction on the cluster size, closing each step with the RatFn closure lemmas.", "lean": "theorem clusterVol_isRational {Shape : Type*} (size : Shape → ℕ) (clusterVol : Shape → ℕ → ℚ) (contribs : ...) (pivot : ...) (hrec ...) (hdescend ...) (hcoeff ...) (hpivot_rat ...) (hpivot_ne ...) : ∀ T : Shape, IsRationalFn (clusterVol T)", "status": "proved-core", "file": "LeanUrat/OMInduction.lean", "line": 34, "footprint": "Lean core only (propext, Classical.choice, Quot.sound)", "deps": ["IsRationalFn", "isRationalFn_listProd"], "layer": "OMInduction", "note": "The genuinely-new content of BB3_infinity §4.2. Sorry-free, no axioms beyond Lean core."}, {"id": "clusterVolume_rational_of_OM", "label": "BB3inf.clusterVolume_rational_of_OM (scaffolding conditional)", "kind": "theorem", "human": "Abstract conditional: ANY $\\mathrm{clusterVol}:\\mathrm{OMShape}\\to\\mathbb{N}\\to\\mathbb{Q}$ satisfying the OM recursion hypothesis $\\mathrm{hrec}$ is a uniform rational function of $q$. Proved from clusterVol_isRational + the BB3inf GMN descent stubs. NOT a discharge of the Goal's axiom (disconnected: different shape type, conditional on hrec).", "lean": "theorem clusterVolume_rational_of_OM (clusterVol : OMShape → ℕ → ℚ) (hrec : ∀ T q, 1 < q → clusterVol T q = ((omContribs T).map (...)).sum / omPivot T q) : ∀ T : OMShape, IsRationalFn (clusterVol T)", "status": "proved-mod-cite", "file": "LeanUrat/BB3inf.lean", "line": 308, "footprint": "{BB3inf.descend_size_lt} + Lean core (BB3inf's own GMN stubs)", "deps": ["clusterVol_isRational", "bb1_isRational", "BB3inf_T_BB3", "L5fix_selfLoop_geometric"], "layer": "BB3inf", "note": "HISTORICAL scaffolding: BB3inf is the earlier (single-child, A0-caricature, hrec-as-hypothesis) module SUPERSEDED on the live path by PadicMeasure. Goal does NOT import BB3inf. Per its own header it does NOT discharge clusterVolume_rational."}, {"id": "BB3inf_T_BB3", "label": "BB3inf.T_BB3 (= PadicMeasure.T_BB3)", "kind": "theorem", "human": "T-BB3 (finite-field discriminant-locus count): over any finite field $F$, the number of non-squarefree (refinement-triggering) monic degree-$d$ polynomials is $|F|^{d-1}$. 'Frobenius bijective on points'; no inseparable-irreducible exceptions (finite fields perfect).", "lean": "theorem T_BB3 (F : Type*) [Field F] [Finite F] (d : ℕ) (hd : 2 ≤ d) : Nat.card {R : Polynomial F // R.Monic ∧ R.natDegree = d ∧ ¬ Squarefree R} = Nat.card F ^ (d - 1)", "status": "proved-core", "file": "LeanUrat/PadicMeasure.lean", "line": 513, "footprint": "Lean core only", "deps": ["card_monicDegree", "L3Squarefree_card_squarefreeMonicDegree"], "layer": "L3-counts", "note": "Inlined identically in BB3inf.lean:109 and PadicMeasure.lean:513 (both sorry-free, via the L3Squarefree non-sorry proof)."}, {"id": "residualCountFn", "label": "PadicMeasure.residualCountFn (q-varying BB3 count)", "kind": "def", "human": "The GENUINELY $q$-varying per-cell BB3 residual point-count $N_S(q)=(q^\\delta)^{d-1}=q^{\\delta(d-1)}$ over the finite field $\\mathbb{F}_{q^\\delta}$ that exists for every prime power $q$. GAP-1 fix: replaces the frozen Nat.card-over-fixed-Fr constant so the wild-prime mechanism is genuinely on the rationality path.", "lean": "noncomputable def residualCountFn (T : OMShape) (d : ℕ) : ℕ → ℚ := fun q => ((q : ℚ) ^ T.residueDeg) ^ (d - 1)", "status": "proved-core", "file": "LeanUrat/PadicMeasure.lean", "line": 365, "footprint": null, "deps": [], "layer": "PadicMeasure", "note": "Load-bearing: its representing numerator is the non-constant monomial X^{δ(d-1)} (NOT isRationalFn_const)."}, {"id": "residualCountFn_isRational", "label": "PadicMeasure.residualCountFn_isRational", "kind": "lemma", "human": "The $q$-varying BB3 count $\\mathrm{residualCountFn}\\,T\\,d=q^{\\delta(d-1)}$ is a genuinely-non-constant uniform rational function of $q$, via isRationalFn_qpow (numerator the monomial $X^{\\delta(d-1)}$).", "lean": "theorem residualCountFn_isRational (T : OMShape) (d : ℕ) : IsRationalFn (residualCountFn T d)", "status": "proved-core", "file": "LeanUrat/PadicMeasure.lean", "line": 586, "footprint": "Lean core only", "deps": ["residualCountFn", "isRationalFn_listProd"], "layer": "PadicMeasure", "note": "Supplies the wild-prime factor's rationality."}, {"id": "cellCoeff_isRational", "label": "PadicMeasure.cellCoeff_isRational", "kind": "lemma", "human": "Each per-cell coefficient cellCoeff = (q-varying BB3 count) × (BB1 box volume) is a uniform rational function of $q$. The BB3 count's $q$-dependence is genuinely consumed here.", "lean": "theorem cellCoeff_isRational (T : OMShape) (c : OMCell T) : IsRationalFn (cellCoeff T c)", "status": "proved-core", "file": "LeanUrat/PadicMeasure.lean", "line": 632, "footprint": "Lean core only", "deps": ["residualCountFn_isRational", "bb1_isRational"], "layer": "PadicMeasure", "note": "hcoeff input to the OM engine."}, {"id": "bb1_isRational", "label": "PadicMeasure.bb1_isRational (= T_BB1)", "kind": "lemma", "human": "T-BB1 (box-volume rationality): for a lattice polygon $\\Pi$, the cell volume $q\\mapsto(1-q^{-1})^V q^{-A}$ is a uniform rational function of $q$ ($\\mathrm{num}=(X-1)^V$, $\\mathrm{den}=X^{V+A}$, pole-free at $q>1$). The volume formula itself is L4.cellVolume_eq.", "lean": "theorem bb1_isRational (pg : L4.LatticePolygon) : IsRationalFn (fun q => L4.bb1Value pg q)", "status": "proved-core", "file": "LeanUrat/PadicMeasure.lean", "line": 599, "footprint": "Lean core only", "deps": ["bb1Value"], "layer": "L4-cell", "note": "Restated identically as BB3inf.T_BB1 (BB3inf.lean:180)."}, {"id": "omPivot_isRational", "label": "PadicMeasure.omPivot_isRational / omPivot_ne", "kind": "lemma", "human": "The OM self-loop pivot omPivot is a uniform rational function of $q$ ($(q^w-1)/q^w$ on ramifying nodes, $1$ at leaves) and is nonzero for every $q>1$ (by L5fix.selfLoop_geometric).", "lean": "theorem omPivot_isRational (T : OMShape) : IsRationalFn (omPivot T)  /  theorem omPivot_ne (T : OMShape) (q : ℕ) (hq : 1 < q) : omPivot T q ≠ 0", "status": "proved-core", "file": "LeanUrat/PadicMeasure.lean", "line": 638, "footprint": "Lean core only", "deps": ["omPivot", "L5fix_selfLoop_geometric"], "layer": "PadicMeasure", "note": "hpivot_rat/hpivot_ne inputs to the OM engine."}, {"id": "omPivot", "label": "PadicMeasure.omPivot (def)", "kind": "def", "human": "The OM-recursion self-loop pivot: $1-q^{-w(e)}$ ($w=\\mathrm{selfLoopExponent}$) at ramifying nodes (size $\\geq2$), and $1$ at leaves. The divisor resumming the unique non-progressing self-loop cell in the cell decomposition.", "lean": "noncomputable def omPivot (T : OMShape) : ℕ → ℚ := fun q => if 2 ≤ T.size then 1 - ((q : ℚ) ^ L5fix.selfLoopExponent T.size)⁻¹ else 1", "status": "proved-core", "file": "LeanUrat/PadicMeasure.lean", "line": 381, "footprint": null, "deps": ["L5fix_selfLoop_geometric"], "layer": "PadicMeasure", "note": "Concrete fixed object built from L5fix.selfLoopExponent (not a free axiom)."}, {"id": "omContribs", "label": "PadicMeasure.omContribs / cellCoeff (defs)", "kind": "def", "human": "The OM-recursion contributions (faithful eq-(4.2)): one entry per GMN order-$r$ cell $c\\in\\mathrm{omCells}\\,T$, carrying the BB3×BB1 coefficient cellCoeff and the cell's multi-child node list ($\\mathrm{children}.\\mathrm{map}(\\cdot.\\mathrm{node})$).", "lean": "noncomputable def omContribs (T : OMShape) : List ((ℕ → ℚ) × List OMShape) := (omCells T).map (fun c => (cellCoeff T c, c.children.map (·.node)))", "status": "proved-core", "file": "LeanUrat/PadicMeasure.lean", "line": 506, "footprint": null, "deps": ["omCells", "cellCoeff_isRational", "residualCountFn"], "layer": "PadicMeasure", "note": "Multi-child convolution (D3 fix over BB3inf's single-child simplification)."}, {"id": "omCells", "label": "PadicMeasure.omCells (GMN structural axiom)", "kind": "axiom", "human": "(AX-GMN-III) The GMN finite order-$r$ cell partition of the shape-$T$ cluster locus: one cell per Newton-polygon face × residual-shape stratum. Finiteness is GMN termination (Thm 4.18). STRUCTURAL — no rationality/volume.", "lean": "axiom omCells : (T : OMShape) → List (OMCell T)", "status": "cite", "file": "LeanUrat/PadicMeasure.lean", "line": 265, "footprint": null, "deps": ["OMCell"], "layer": "GMN-cite", "note": "STRUCTURAL GMN axiom (GMN §2.5 + Def 2.21). Honest remaining gap: exhaustiveness (that the strata RECONSTRUCT T.residual) is not proved — the cell partition is the standard GMN cell-decomposition content recorded here."}, {"id": "descend_size_lt", "label": "PadicMeasure.descend_size_lt (GMN structural axiom)", "kind": "axiom", "human": "(AX-GMN-III, strict size descent) Off the self-loop, every descent child of every cell has strictly smaller cluster size: $\\mathrm{ch}.\\mathrm{node}.\\mathrm{size}<T.\\mathrm{size}$. This is the well-foundedness input to the OM-order induction.", "lean": "axiom descend_size_lt : ∀ (T : OMShape), ∀ c ∈ omCells T, ∀ ch ∈ c.children, ch.node.size < T.size", "status": "cite", "file": "LeanUrat/PadicMeasure.lean", "line": 275, "footprint": null, "deps": ["omCells", "OMCell"], "layer": "GMN-cite", "note": "STRUCTURAL GMN axiom (Cor 1.20/3.8 + Lemma 3.11(3): mult-≥2 factor of a degree-d_r<e residual ⇒ child size ≤ d_r < e). The genuine descent rule the induction runs on."}, {"id": "descend", "label": "PadicMeasure.descend (GMN structural axiom, unused on path)", "kind": "axiom", "human": "(AX-GMN-III, descent list) The order-$r$ descent: each shape's repeated residual factors yield child shapes. Kept for the interface narrative; NOT consumed by the recursion (the engine uses omCells.children + descend_size_lt).", "lean": "axiom descend : OMShape → List OMShape", "status": "cite", "file": "LeanUrat/PadicMeasure.lean", "line": 269, "footprint": null, "deps": [], "layer": "GMN-cite", "note": "STRUCTURAL GMN axiom; INERT on the rationality path (not in the goal_theorem footprint)."}, {"id": "descend_children_of_factors", "label": "PadicMeasure.descend_children_of_factors (proved, inert)", "kind": "lemma", "human": "Anti-caricature (D2-at-descent): every descent child arises from a genuine multiplicity-$\\geq2$ factor $P$ of the ACTUAL residual $T.\\mathrm{residual}$, with child size = that multiplicity. Now a PROVED LEMMA (projection out of OMCell.Child data), not a free axiom.", "lean": "theorem descend_children_of_factors : ∀ (T : OMShape), ∀ c ∈ omCells T, ∀ ch ∈ c.children, ∃ (P : Polynomial T.Fr) (μ : ℕ), 2 ≤ μ ∧ (P ^ μ ∣ T.residual) ∧ ch.node.size = μ", "status": "proved-core", "file": "LeanUrat/PadicMeasure.lean", "line": 294, "footprint": "Lean core only", "deps": ["omCells"], "layer": "PadicMeasure", "note": "FAITHFULNESS flag: a DEFINITIONAL invariant carried in OMCell.Child; INERT on rationality path (zero downstream proof consumers). Strengthens interface DATA faithfulness, not the footprint."}, {"id": "OMShape", "label": "PadicMeasure.OMShape (A0-faithful structure)", "kind": "structure", "human": "The A0-anti-caricature GMN order-$r$ shape: finite residue field $F_r$, base field with genuine Algebra, $\\mathrm{residueDeg}=\\mathrm{finrank}\\,\\mathrm{baseField}\\,F_r$ (PROVED tie), lattice Newton polygon, actual residual polynomial with $\\mathrm{residualDeg}=\\mathrm{residual}.\\mathrm{natDegree}$ (PROVED tie), cluster size.", "lean": "structure OMShape where size : ℕ; order : ℕ; Fr : Type; [Field Fr] [Finite Fr]; baseField : Type; [...]; residueDeg : ℕ; hResidueDeg : residueDeg = Module.finrank baseField Fr; polygon : L4.LatticePolygon; residual : Polynomial Fr; residualDeg : ℕ; hResidualDeg : residualDeg = residual.natDegree", "status": "proved-core", "file": "LeanUrat/PadicMeasure.lean", "line": 133, "footprint": null, "deps": ["LatticePolygon"], "layer": "PadicMeasure", "note": "Fixes the BB3inf A0 caricature: degree fields tied to real polynomials/extension degrees (natCard_Fr is a PROVED lemma, not an axiom)."}, {"id": "OMCell", "label": "PadicMeasure.OMCell / OMCell.Child (structures)", "kind": "structure", "human": "A GMN order-$r$ cell: a Newton-polygon face, the ACTUAL residual stratum $S\\mid T.\\mathrm{residual}$ (hStratumDvd), its degree ($=S.\\mathrm{natDegree}$), and a multi-child list. Each child carries IN ITS DATA the repeated factor $P^\\mu\\mid T.\\mathrm{residual}$ ($\\mu\\geq2$) and child size $=\\mu$ (GMN-III).", "lean": "structure OMCell (T : OMShape) where polygon : L4.LatticePolygon; stratum : Polynomial T.Fr; hStratumDvd : stratum ∣ T.residual; residualDeg : ℕ; hResidualDeg : residualDeg = stratum.natDegree; children : List (OMCell.Child T)", "status": "proved-core", "file": "LeanUrat/PadicMeasure.lean", "line": 213, "footprint": null, "deps": ["OMShape", "LatticePolygon"], "layer": "PadicMeasure", "note": "Faithful eq-(4.2) cell data; pins the partition to the real residual factorization (cell_stratum_of_residual, descend_children_of_factors)."}, {"id": "cell_stratum_of_residual", "label": "PadicMeasure.cell_stratum_of_residual (proved, inert)", "kind": "lemma", "human": "omCells-pinning: every cell's residual stratum $c.\\mathrm{stratum}\\mid T.\\mathrm{residual}$ — the partition is pinned to the real residual factorization. PROVED by projection (OMCell.hStratumDvd field).", "lean": "theorem cell_stratum_of_residual : ∀ (T : OMShape), ∀ c ∈ omCells T, c.stratum ∣ T.residual", "status": "proved-core", "file": "LeanUrat/PadicMeasure.lean", "line": 309, "footprint": "Lean core only", "deps": ["omCells", "OMCell"], "layer": "PadicMeasure", "note": "FAITHFULNESS flag: DEFINITIONAL invariant, INERT on rationality path (pins interface DATA, not footprint)."}, {"id": "IsRationalFn", "label": "RatFn.IsRationalFn + closure lemmas", "kind": "def", "human": "$\\mathrm{IsRationalFn}\\,f$: one $\\mathrm{num}/\\mathrm{den}\\in\\mathbb{Q}(t)$ (denominator nonvanishing at every $q>1$) representing $f$ there. Closed under constants, q-powers, +, ×, finite list sum/product, and division by a pole-free rational function (all sorry-free, Lean core only).", "lean": "def IsRationalFn (f : ℕ → ℚ) : Prop := ∃ num den : Polynomial ℚ, den ≠ 0 ∧ ∀ q : ℕ, 1 < q → den.eval (q:ℚ) ≠ 0 ∧ f q = num.eval (q:ℚ)/den.eval (q:ℚ)", "status": "proved-core", "file": "LeanUrat/RatFn.lean", "line": 32, "footprint": "Lean core only", "deps": [], "layer": "RatFn", "note": "Includes isRationalFn_qpow (line 49, numerator X^k), isRationalFn_listSum/listProd/div — the closure machinery for the OM induction."}, {"id": "isRationalFn_listProd", "label": "RatFn.isRationalFn_listProd / listSum / div / qpow", "kind": "lemma", "human": "RatFn closure lemmas: finite list-product, list-sum, quotient (pole-free), and q-power $q\\mapsto q^k$ ($\\mathrm{num}=X^k$) of uniform rational functions are uniform rational functions.", "lean": "theorem isRationalFn_listProd (L : List (ℕ → ℚ)) (h : ∀ f ∈ L, IsRationalFn f) : IsRationalFn (fun q => (L.map (fun f => f q)).prod)", "status": "proved-core", "file": "LeanUrat/RatFn.lean", "line": 90, "footprint": "Lean core only", "deps": ["IsRationalFn"], "layer": "RatFn", "note": "Used by clusterVol_isRational to close each induction step. isRationalFn_div at line 103, isRationalFn_qpow at line 49."}, {"id": "bb1Value", "label": "L4.bb1Value / cellVolume_eq", "kind": "theorem", "human": "L4 cell volume: $\\mathrm{cellVol}(\\Pi,Q)=(1-Q^{-1})^V Q^{-A}=\\mathrm{bb1Value}$, PROVED sorry-free FROM the box/shell product hypothesis hfactor (= AX_columnMeasure). The product of per-column box/shell measures collapses to the closed form ($V$ = vertex count, $A$ = newton exponent).", "lean": "theorem cellVolume_eq (cellVol : LatticePolygon → ℕ → ℚ) (pg : LatticePolygon) (Q : ℕ) (hQ : 1 ≤ Q) (hfactor : cellVol pg Q = ∏ i : Fin pg.width, columnMeasure pg Q i) : cellVol pg Q = bb1Value pg Q", "status": "proved-mod-cite", "file": "LeanUrat/L4.lean", "line": 103, "footprint": "Lean core (hfactor is a hypothesis; the value AX_columnMeasure supplies)", "deps": ["LatticePolygon"], "layer": "L4-cell", "note": "T-BB1's volume value; the analytic boundary (AX_columnMeasure) supplies hfactor, asserting strictly LESS than the cell volume."}, {"id": "LatticePolygon", "label": "L4.LatticePolygon (structure)", "kind": "structure", "human": "A lattice Newton polygon (GMN fact II): width, per-column ceiling heights, and a vertex predicate. Carries the integer-lattice combinatorial data (V = vertex count, A = Newton exponent) feeding the BB1 box volume.", "lean": "structure LatticePolygon where width : ℕ; ceilHeights : Fin width → ℕ; isVertex : Fin width → Bool", "status": "proved-core", "file": "LeanUrat/L4.lean", "line": 59, "footprint": null, "deps": [], "layer": "L4-cell", "note": "Reused by OMShape/OMCell as the order-r polygon."}, {"id": "L5fix_selfLoop_geometric", "label": "L5fix.selfLoop_geometric + selfLoopExponent", "kind": "lemma", "human": "Self-loop pivot positivity: for $e\\geq2$, $q\\geq2$, the pivot $1-q^{-(e(e+1)/2-1)}>0$, so the geometric self-loop resummation $1/(1-q^{-w})$ converges (no real pole at $q\\geq2$). $w(e)=e(e+1)/2-1$ (= $2,5,9,14$ for $e=2,3,4,5$).", "lean": "theorem selfLoop_geometric (e q : ℕ) (he : 2 ≤ e) (hq : 2 ≤ q) : (0 : ℚ) < 1 - ((q : ℚ) ^ selfLoopExponent e)⁻¹", "status": "proved-core", "file": "LeanUrat/L5fix.lean", "line": 43, "footprint": "Lean core only", "deps": [], "layer": "L5fix", "note": "Sorry-free; the pole-freeness underwriting omPivot_ne. selfLoopExponent at line 38."}, {"id": "card_monicDegree", "label": "L3.card_monicDegree + separability core", "kind": "theorem", "human": "L3 base counts (PROVED): the number of monic degree-$m$ polynomials over $F_Q$ is $Q^m$; and over a perfect (finite) field every irreducible is separable, so non-separable $\\Leftrightarrow$ non-squarefree.", "lean": "theorem card_monicDegree (m : ℕ) : Nat.card (monicDegree F m) = Nat.card F ^ m  /  theorem separable_iff_squarefree {g : F[X]} : g.Separable ↔ Squarefree g", "status": "proved-core", "file": "LeanUrat/L3.lean", "line": 92, "footprint": "Lean core only", "deps": [], "layer": "L3-counts", "note": "The load-bearing PROVED content of L3 (separability core + monic count). The count formulas card_squarefreeMonicDegree (L3.lean:143) and gauss_necklace_count (L3.lean:163) are flagged-sorry STUBS in L3 itself."}, {"id": "L3_card_squarefreeMonicDegree_stub", "label": "L3.card_squarefreeMonicDegree (flagged-sorry stub, SUPERSEDED)", "kind": "sorry", "human": "Theorem A as STATED in L3 with a flagged sorry (missing-mathlib note): #squarefree monic deg $m$ = $Q^m-Q^{m-1}$. This stub is SUPERSEDED on the live path by the sorry-free L3Squarefree.card_squarefreeMonicDegree (which T_BB3 actually calls).", "lean": "theorem card_squarefreeMonicDegree (m : ℕ) (hm : 2 ≤ m) : Nat.card (squarefreeMonicDegree F m) = Nat.card F ^ m - Nat.card F ^ (m - 1) := by sorry", "status": "sorry", "file": "LeanUrat/L3.lean", "line": 143, "footprint": "sorryAx (NOT on the goal_theorem path)", "deps": [], "layer": "L3-counts", "note": "VACUITY/HYGIENE flag: a sorry-stub that is NOT consumed by goal_theorem (T_BB3 calls the sorry-FREE L3Squarefree version). Likewise L3.gauss_necklace_count (L3.lean:163) is sorry-superseded by L3Gauss.gauss_necklace_count."}, {"id": "L3Squarefree_card_squarefreeMonicDegree", "label": "L3Squarefree.card_squarefreeMonicDegree (PROVED)", "kind": "theorem", "human": "Theorem A (squarefree monic count), PROVED sorry-free: over a finite field with $Q$ elements, for $m\\geq2$ the number of squarefree monic degree-$m$ polynomials is $Q^m-Q^{m-1}$. Via the $A\\cdot B^2$ unique-factorization recursion (S_recursion).", "lean": "theorem card_squarefreeMonicDegree (m : ℕ) (hm : 2 ≤ m) : Nat.card (squarefreeMonicDegree F m) = Nat.card F ^ m - Nat.card F ^ (m - 1)", "status": "proved-core", "file": "LeanUrat/L3Squarefree.lean", "line": 321, "footprint": "Lean core only", "deps": [], "layer": "L3-counts", "note": "The sorry-free replacement that T_BB3 consumes (re-proved here to avoid the L3 import cycle)."}, {"id": "L3Gauss_gauss_necklace_count", "label": "L3Gauss.gauss_necklace_count (PROVED)", "kind": "theorem", "human": "Theorem B (Gauss/necklace count), PROVED sorry-free: over $F_Q$ for $d\\geq1$, $d\\cdot N_d(Q)=\\sum_{e\\mid d}\\mu(e)Q^{d/e}$ — the monic-irreducible count is a single polynomial in $Q$ independent of $p$. Via the physics identity $\\sum_{e\\mid n}e\\,N_e=Q^n$ + Mobius inversion.", "lean": "theorem gauss_necklace_count (F : Type*) [Field F] [Finite F] (d : ℕ) (hd : 1 ≤ d) : (d : ℚ) * (Nat.card (L3.monicIrreducibleDegree F d) : ℚ) = ∑ e ∈ d.divisors, ((ArithmeticFunction.moebius e : ℤ) : ℚ) * (Nat.card F : ℚ) ^ (d / e)", "status": "proved-core", "file": "LeanUrat/L3Gauss.lean", "line": 251, "footprint": "Lean core only", "deps": [], "layer": "L3-counts", "note": "Sorry-free; the multiplicity universality (L3 multiplicity is a polynomial in q) building block. Supersedes L3.gauss_necklace_count's sorry."}, {"id": "Witness_DensityFoundation_nonempty", "label": "Witness.DensityFoundation_nonempty", "kind": "theorem", "human": "GAP-2 non-vacuity: $\\mathrm{DensityFoundation}$ is inhabited (an explicit witnessFoundation over $\\mathbb{F}_2$: density $\\equiv0$, shapes $=\\emptyset$, clusterVolume = clusterMeasure minimalOMShape). So the $\\forall F$ in goal_theorem is NOT vacuous over an empty type, and the structural fields are jointly satisfiable. The separate OMBridge is also inhabited (witnessOMBridge).", "lean": "theorem DensityFoundation_nonempty : Nonempty DensityFoundation := ⟨witnessFoundation⟩", "status": "proved-mod-cite", "file": "LeanUrat/Witness.lean", "line": 116, "footprint": "{clusterMeasure} + Lean core (clusterVolume field references it)", "deps": ["DensityFoundation", "OMShape", "clusterMeasure"], "layer": "Witness", "note": "HONESTY: the witness is NOT the paper's real ρ; no constructed F.density is proven equal to the genuine p-adic Haar density (that is the un-crossed measure wall). It only refutes vacuity."}, {"id": "countingDensity_isRational", "label": "MontesData.countingDensity_isRational (count-native)", "kind": "theorem", "human": "Count-native rationality (only-Montes path): the count-native tree-sum density $g_\\sigma(q)=\\sum_T C_T(q)$ is a single uniform rational function of $q$, via coeff_isRational + finite-sum closure over the GENERIC OM engine on ClusterShape (NO measure layer, NO clusterMeasure/AX_cellRecursion).", "lean": "theorem countingDensity_isRational (σ : FactorizationType) : IsRationalFn (fun q => ∑ T ∈ D.shapesOf σ, D.coeff T q)", "status": "proved-core", "file": "LeanUrat/Decomposition.lean", "line": 185, "footprint": "Lean core only (MontesData carried as hypothesis)", "deps": ["coeff_isRational", "clusterVol_isRational"], "layer": "Decomposition-montes", "note": "The rationality half of goal_theorem_montes. Shown for the DISTINCT count-native route; carries NO measure axioms."}, {"id": "coeff_isRational", "label": "Decomposition.coeff_isRational (count-native)", "kind": "theorem", "human": "Per-shape count coefficient $C_T(q)=\\mathrm{MontesData}.C$ (recursively-defined count factorization: BB3 residual count × BB1 box count × $\\prod_{\\text{children}}$, self-loop geometric-summed) is a uniform rational function of $q$, via the GENERIC OM engine over ClusterShape.", "lean": "theorem coeff_isRational (T : ClusterShape) : IsRationalFn (D.coeff T)", "status": "proved-core", "file": "LeanUrat/Decomposition.lean", "line": 135, "footprint": "Lean core only", "deps": ["clusterVol_isRational"], "layer": "Decomposition-montes", "note": "Count-native analogue of clusterVolume_rational; reuses the same OMInduction engine without the p-adic measure axioms."}, {"id": "countingDensity_eq_sum_coeff", "label": "MontesData.countingDensity_eq_sum_coeff (decomposition thm)", "kind": "theorem", "human": "Decomposition theorem ($\\rho=\\sum_T C_T$): the genuine decided-limit counting density equals the finite OM tree-sum, $M.\\mathrm{countingDensity}\\,\\sigma=\\sum_{T\\in\\mathrm{shapesOf}\\,\\sigma}C_T(q)$. Limit-interchange proof (M1 partition + nodeMultiplicativity, uniqueness of limits). No rationality used.", "lean": "theorem countingDensity_eq_sum_coeff (σ : FactorizationType) : M.countingDensity σ = ∑ T ∈ D.shapesOf σ, D.coeff T q", "status": "proved-core", "file": "LeanUrat/Decomposition.lean", "line": 104, "footprint": "Lean core only (M1 carried as MontesData hypothesis)", "deps": ["clusterLaw_baseChange"], "layer": "Decomposition-montes", "note": "Ties the genuine count-native density to the rational tree-sum; the M1/CountingModel construction is the un-crossed counting wall (a hypothesis, not an axiom)."}, {"id": "clusterLaw_baseChange", "label": "M1.clusterLaw / baseChange / reciprocal", "kind": "def", "human": "M1 monic→projective bridge: the cluster law $L_e^{(\\delta)}(q)=\\alpha(e,\\sigma;(q^\\delta)^{-1})$, with the (definitional) base-change $L_e^{(\\delta)}(q)=L_e^{(1)}(q^\\delta)$ and reciprocal read $L_e^{(1)}(q)=\\alpha(e,\\sigma;1/q)$ (the $q\\mapsto1/q$ chart swap). projPointCount $=\\sum_{i\\leq n}q^i$.", "lean": "theorem clusterLaw_baseChange (α : ℕ → FactorizationType → ℚ → ℚ) (e δ : ℕ) (σ : FactorizationType) (q : ℚ) : clusterLaw α e δ σ q = clusterLaw α e 1 σ (q ^ δ)", "status": "proved-core", "file": "LeanUrat/M1.lean", "line": 63, "footprint": "Lean core only", "deps": [], "layer": "M1", "note": "Definitional identities (honestly so): the monic→projective reorganization underwriting palindromy weight-0. M1_bridge.md §2.1."}, {"id": "FactorizationType", "label": "Interface.FactorizationType / ClusterShape", "kind": "structure", "human": "Combinatorial indices: a factorization type $\\sigma$ is a multiset of $(e_i,f_i)$ pairs with $\\sum e_i f_i=n$; a cluster-tree shape $T$ is a decorated OM tree (count-native slot list + faithful per-node cell payload, decision 2b).", "lean": "structure FactorizationType where data : Multiset (ℕ × ℕ)  /  structure ClusterShape where tree : List (ℕ × ℕ × ℕ); cells : List ShapeCell", "status": "proved-core", "file": "LeanUrat/Interface.lean", "line": 152, "footprint": null, "deps": [], "layer": "Interface", "note": "ClusterShape (line 180) ENRICHED (2b) with genuine cell payload so the decoder is lossless. σ ≠ T: one type is realized by many shapes."}], "edges": [{"from": "AX_cellRecursion", "to": "clusterMeasure_isRational_of_AX"}, {"from": "BB3inf_T_BB3", "to": "clusterVolume_rational_of_OM"}, {"from": "BB3inf_T_BB3", "to": "residualCountFn_isRational"}, {"from": "DensityFoundation", "to": "Witness_DensityFoundation_nonempty"}, {"from": "DensityFoundation", "to": "goal_theorem"}, {"from": "DensityFoundation", "to": "tame_functionalEquation"}, {"from": "DensityFoundation_decomposition", "to": "DensityFoundation"}, {"from": "DensityFoundation_decomposition", "to": "density_rational"}, {"from": "FactorizationType", "to": "DensityFoundation"}, {"from": "FactorizationType", "to": "DensityFoundation_decomposition"}, {"from": "IsPalindromic", "to": "L7_isPalindromic_of_agree"}, {"from": "IsPalindromic", "to": "tame_functionalEquation"}, {"from": "IsRationalFn", "to": "clusterVol_isRational"}, {"from": "IsRationalFn", "to": "isRationalFn_listProd"}, {"from": "L3Gauss_gauss_necklace_count", "to": "coeff_isRational"}, {"from": "L3Squarefree_card_squarefreeMonicDegree", "to": "BB3inf_T_BB3"}, {"from": "L5fix_selfLoop_geometric", "to": "clusterVolume_rational_of_OM"}, {"from": "L5fix_selfLoop_geometric", "to": "omPivot"}, {"from": "L5fix_selfLoop_geometric", "to": "omPivot_isRational"}, {"from": "L7_eval_reflect_eq", "to": "L7_isPalindromic_of_agree"}, {"from": "L7_isPalindromic_of_agree", "to": "goal_theorem"}, {"from": "L7_isPalindromic_of_agree", "to": "goal_theorem_montes"}, {"from": "L7_ratfunc_agree_of_infinite", "to": "L7_tame_to_all_primes"}, {"from": "L7_tame_to_all_primes", "to": "goal_theorem"}, {"from": "L7_tame_to_all_primes", "to": "goal_theorem_montes"}, {"from": "LatticePolygon", "to": "OMCell"}, {"from": "LatticePolygon", "to": "OMShape"}, {"from": "LatticePolygon", "to": "bb1Value"}, {"from": "OMBridge", "to": "clusterVolume_rational"}, {"from": "OMBridge", "to": "goal_theorem"}, {"from": "OMBridge_clusterVolume_eq_measure", "to": "OMBridge"}, {"from": "OMBridge_clusterVolume_eq_measure", "to": "clusterVolume_rational"}, {"from": "OMCell", "to": "cell_stratum_of_residual"}, {"from": "OMCell", "to": "descend_size_lt"}, {"from": "OMCell", "to": "omCells"}, {"from": "OMShape", "to": "OMBridge"}, {"from": "OMShape", "to": "OMCell"}, {"from": "OMShape", "to": "Witness_DensityFoundation_nonempty"}, {"from": "Witness_DensityFoundation_nonempty", "to": "goal_theorem"}, {"from": "bb1Value", "to": "AX_cellRecursion"}, {"from": "bb1Value", "to": "bb1_isRational"}, {"from": "bb1_isRational", "to": "cellCoeff_isRational"}, {"from": "bb1_isRational", "to": "clusterVolume_rational_of_OM"}, {"from": "card_monicDegree", "to": "BB3inf_T_BB3"}, {"from": "cellCoeff_isRational", "to": "clusterMeasure_isRational"}, {"from": "cellCoeff_isRational", "to": "omContribs"}, {"from": "clusterLaw_baseChange", "to": "countingDensity_eq_sum_coeff"}, {"from": "clusterMeasure", "to": "AX_cellRecursion"}, {"from": "clusterMeasure", "to": "OMBridge"}, {"from": "clusterMeasure", "to": "Witness_DensityFoundation_nonempty"}, {"from": "clusterMeasure", "to": "clusterMeasure_isRational_of_AX"}, {"from": "clusterMeasure_isRational", "to": "clusterMeasure_isRational_of_AX"}, {"from": "clusterMeasure_isRational_of_AX", "to": "clusterVolume_rational"}, {"from": "clusterMeasure_rec", "to": "clusterMeasure_isRational"}, {"from": "clusterVol_isRational", "to": "clusterMeasure_isRational"}, {"from": "clusterVol_isRational", "to": "clusterVolume_rational_of_OM"}, {"from": "clusterVol_isRational", "to": "coeff_isRational"}, {"from": "clusterVol_isRational", "to": "countingDensity_isRational"}, {"from": "clusterVolume_rational", "to": "sum_clusterVol_rational"}, {"from": "coeff_isRational", "to": "countingDensity_isRational"}, {"from": "countingDensity_eq_sum_coeff", "to": "goal_theorem_montes"}, {"from": "countingDensity_isRational", "to": "goal_theorem_montes"}, {"from": "density_rational", "to": "goal_theorem"}, {"from": "descend_size_lt", "to": "clusterMeasureModel_rec"}, {"from": "descend_size_lt", "to": "clusterMeasure_isRational"}, {"from": "isRationalFn_listProd", "to": "clusterVol_isRational"}, {"from": "isRationalFn_listProd", "to": "residualCountFn_isRational"}, {"from": "omCells", "to": "AX_cellRecursion"}, {"from": "omCells", "to": "cell_stratum_of_residual"}, {"from": "omCells", "to": "clusterMeasureModel_rec"}, {"from": "omCells", "to": "descend_children_of_factors"}, {"from": "omCells", "to": "descend_size_lt"}, {"from": "omCells", "to": "omContribs"}, {"from": "omContribs", "to": "clusterMeasure_rec"}, {"from": "omPivot", "to": "AX_cellRecursion"}, {"from": "omPivot", "to": "omPivot_isRational"}, {"from": "omPivot_isRational", "to": "clusterMeasure_isRational"}, {"from": "residualCountFn", "to": "AX_cellRecursion"}, {"from": "residualCountFn", "to": "omContribs"}, {"from": "residualCountFn", "to": "residualCountFn_isRational"}, {"from": "residualCountFn_isRational", "to": "cellCoeff_isRational"}, {"from": "sum_clusterVol_rational", "to": "density_rational"}, {"from": "tame_functionalEquation", "to": "goal_theorem"}, {"from": "tame_functionalEquation", "to": "goal_theorem_montes"}]};
+</script>
+
+<!-- ===== Libraries via jsdelivr CDN ===== -->
+<script src="https://cdn.jsdelivr.net/npm/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dagre@0.8.5/dist/dagre.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.5.0/cytoscape-dagre.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+<script>
+"use strict";
+
+/* ----------------------------------------------------------------------- *
+ *  Status -> colour and kind -> shape maps.
+ * ----------------------------------------------------------------------- */
+const STATUS_COLORS = {
+  "proved-core":     { color: "#3fb950", label: "proved-core (fully proven, core axioms)" },
+  "proved-mod-cite": { color: "#2dd4bf", label: "proved-mod-cite (proven modulo cited results)" },
+  "cite":            { color: "#4493f8", label: "cite (cited / external result)" },
+  "tautology-flag":  { color: "#a371f7", label: "tautology-flag (flagged trivial/vacuous)" },
+  "open-bound":      { color: "#d29922", label: "open-bound (open: needs a bound)" },
+  "open-cite":       { color: "#db8b1c", label: "open-cite (open: awaiting citation)" },
+  "open-now":        { color: "#f0883e", label: "open-now (open obligation, active)" },
+  "sorry":           { color: "#f85149", label: "sorry (unproven placeholder)" },
+};
+const STATUS_FALLBACK = { color: "#8b949e", label: "(other / unknown status)" };
+
+/* axiom kind is drawn gray regardless, per legend */
+const AXIOM_COLOR = "#8b949e";
+
+const KIND_SHAPES = {
+  "theorem":   { shape: "round-rectangle", label: "theorem" },
+  "lemma":     { shape: "ellipse",         label: "lemma" },
+  "def":       { shape: "round-tag",       label: "def" },
+  "structure": { shape: "hexagon",         label: "structure" },
+  "axiom":     { shape: "diamond",         label: "axiom (gray)" },
+  "cite":      { shape: "barrel",          label: "cite" },
+  "sorry":     { shape: "octagon",         label: "sorry" },
+};
+const KIND_FALLBACK = { shape: "round-rectangle", label: "(other kind)" };
+
+const OPEN_STATUSES = new Set(["sorry", "open-now", "open-bound", "open-cite"]);
+
+function statusColor(status, kind) {
+  if (kind === "axiom") return AXIOM_COLOR;
+  return (STATUS_COLORS[status] || STATUS_FALLBACK).color;
+}
+function kindShape(kind) {
+  return (KIND_SHAPES[kind] || KIND_FALLBACK).shape;
+}
+
+/* ----------------------------------------------------------------------- *
+ *  CDN-failure detection: if cytoscape / katex did not load, show banner.
+ * ----------------------------------------------------------------------- */
+function cdnGuard() {
+  const missing = [];
+  if (typeof cytoscape === "undefined") missing.push("cytoscape");
+  if (typeof dagre === "undefined" || typeof cytoscape !== "undefined" &&
+      typeof cytoscape.prototype === "undefined") { /* dagre check below */ }
+  if (typeof katex === "undefined") missing.push("KaTeX");
+  return missing;
+}
+
+/* ----------------------------------------------------------------------- *
+ *  Build cytoscape elements from GRAPH.
+ * ----------------------------------------------------------------------- */
+function buildElements() {
+  const nodeById = {};
+  const elements = [];
+  for (const n of GRAPH.nodes) {
+    nodeById[n.id] = n;
+    elements.push({
+      data: {
+        id: n.id,
+        label: n.label || n.id,
+        kind: n.kind || "",
+        status: n.status || "",
+        layer: n.layer || "",
+        _color: statusColor(n.status, n.kind),
+        _shape: kindShape(n.kind),
+        _open: OPEN_STATUSES.has(n.status) ? 1 : 0,
+      },
+    });
+  }
+  const seen = new Set();
+  for (const e of GRAPH.edges) {
+    if (!(e.from in nodeById) || !(e.to in nodeById)) continue;
+    const id = "e_" + e.from + "__" + e.to;
+    if (seen.has(id)) continue;
+    seen.add(id);
+    elements.push({ data: { id: id, source: e.from, target: e.to } });
+  }
+  return { elements, nodeById };
+}
+
+/* ----------------------------------------------------------------------- *
+ *  Main init.
+ * ----------------------------------------------------------------------- */
+let cy = null;
+let nodeById = {};
+// reverse-dependency index: who depends on X (X -> [dependents])
+const dependents = {};
+
+function init() {
+  const warn = document.getElementById("cdnwarn");
+  const missing = [];
+  if (typeof cytoscape === "undefined") missing.push("cytoscape");
+  if (typeof dagre === "undefined") missing.push("dagre");
+  if (typeof katex === "undefined") missing.push("KaTeX");
+
+  if (typeof cytoscape === "undefined") {
+    warn.className = "show";
+    warn.innerHTML = "A required library failed to load from the CDN (" +
+      missing.join(", ") + "). The interactive graph cannot be drawn. " +
+      "Check your network connection, or open this file while online.";
+    renderEmptyDataNotice();
+    return;
+  }
+  // register dagre layout if available
+  let layoutName = "dagre";
+  if (typeof cytoscapeDagre !== "undefined") {
+    cytoscape.use(cytoscapeDagre);
+  } else if (typeof window.cytoscapeDagre !== "undefined") {
+    cytoscape.use(window.cytoscapeDagre);
+  }
+  // if dagre missing, fall back to breadthfirst so the page still works
+  if (typeof dagre === "undefined") {
+    layoutName = "breadthfirst";
+    warn.className = "show";
+    warn.innerHTML = "The dagre layout library failed to load from the CDN; " +
+      "falling back to a built-in breadth-first layout. Math (KaTeX) and the " +
+      "rest of the page are unaffected.";
+  } else if (typeof katex === "undefined") {
+    warn.className = "show";
+    warn.innerHTML = "KaTeX failed to load from the CDN; math statements will " +
+      "show as raw LaTeX source. The graph itself is unaffected.";
+  }
+
+  const { elements, nodeById: nbi } = buildElements();
+  nodeById = nbi;
+
+  // build reverse-dependency index from edges (source is prereq of target)
+  for (const n of GRAPH.nodes) dependents[n.id] = [];
+  for (const e of GRAPH.edges) {
+    if (e.from in dependents) dependents[e.from].push(e.to);
+  }
+
+  cy = cytoscape({
+    container: document.getElementById("cy"),
+    elements: elements,
+    wheelSensitivity: 0.2,
+    style: [
+      {
+        selector: "node",
+        style: {
+          "background-color": "data(_color)",
+          "shape": "data(_shape)",
+          "label": "data(label)",
+          "color": "#e6edf3",
+          "font-size": 9,
+          "text-wrap": "wrap",
+          "text-max-width": 130,
+          "text-valign": "center",
+          "text-halign": "center",
+          "text-outline-color": "#0d1218",
+          "text-outline-width": 2,
+          "width": "label",
+          "height": "label",
+          "padding": "7px",
+          "border-width": 1.2,
+          "border-color": "#0d1218",
+        },
+      },
+      {
+        selector: "edge",
+        style: {
+          "width": 1.3,
+          "line-color": "#3a4855",
+          "target-arrow-color": "#5a6b7a",
+          "target-arrow-shape": "triangle",
+          "arrow-scale": 0.85,
+          "curve-style": "bezier",
+          "opacity": 0.8,
+        },
+      },
+      { selector: "node.dim", style: { "opacity": 0.12 } },
+      { selector: "edge.dim", style: { "opacity": 0.05 } },
+      {
+        selector: "node.hl",
+        style: { "border-width": 3.5, "border-color": "#ffd33d",
+                 "z-index": 99, "font-size": 11 },
+      },
+      {
+        selector: "node.sel",
+        style: { "border-width": 4, "border-color": "#ffffff",
+                 "z-index": 100, "font-size": 11 },
+      },
+      {
+        selector: "edge.hl",
+        style: { "line-color": "#ffd33d", "target-arrow-color": "#ffd33d",
+                 "width": 2.2, "opacity": 1, "z-index": 90 },
+      },
+      {
+        selector: "node.openhl",
+        style: { "border-width": 3.5, "border-color": "#ffffff",
+                 "z-index": 95 },
+      },
+    ],
+    layout: layoutName === "dagre"
+      ? { name: "dagre", rankDir: "BT", nodeSep: 22, rankSep: 60, edgeSep: 8,
+          animate: false, fit: true, padding: 30 }
+      : { name: "breadthfirst", directed: true, padding: 30, fit: true },
+  });
+
+  // click a node -> show side panel + highlight neighbourhood
+  cy.on("tap", "node", (evt) => selectNode(evt.target.id()));
+  cy.on("tap", (evt) => { if (evt.target === cy) clearSelection(); });
+
+  buildLegend();
+  wireToolbar();
+}
+
+/* ----------------------------------------------------------------------- *
+ *  Side panel rendering.
+ * ----------------------------------------------------------------------- */
+function statusBadge(status, kind) {
+  const meta = (kind === "axiom")
+    ? { color: AXIOM_COLOR, label: "axiom" }
+    : (STATUS_COLORS[status] || STATUS_FALLBACK);
+  const text = status || (kind === "axiom" ? "axiom" : "unknown");
+  return `<span class="badge" style="background:${meta.color}">${escapeHtml(text)}</span>`;
+}
+
+function depLink(id) {
+  const n = nodeById[id];
+  const lbl = n ? (n.label || id) : id;
+  if (!n) return `<span title="not in this graph">${escapeHtml(lbl)}</span>`;
+  return `<a class="deplink" data-id="${escapeAttr(id)}">${escapeHtml(lbl)}</a>`;
+}
+
+function selectNode(id) {
+  const n = nodeById[id];
+  if (!n) return;
+
+  // highlight node + neighbourhood
+  cy.elements().removeClass("hl sel openhl");
+  const ele = cy.getElementById(id);
+  ele.addClass("sel");
+  ele.connectedEdges().addClass("hl");
+  ele.neighborhood("node").addClass("hl");
+  cy.animate({ center: { eles: ele }, zoom: Math.max(cy.zoom(), 0.9) },
+             { duration: 250 });
+
+  // populate side panel
+  const deps = (n.deps || []).filter((d) => d in nodeById);
+  const depsMissing = (n.deps || []).filter((d) => !(d in nodeById));
+  const revs = dependents[id] || [];
+
+  const html = `
+    <h2>${escapeHtml(n.label || n.id)}</h2>
+    <div class="kindline">
+      ${statusBadge(n.status, n.kind)}
+      <span>${escapeHtml(n.kind || "")}</span>
+      ${n.layer ? `&middot; layer <b>${escapeHtml(n.layer)}</b>` : ""}
+    </div>
+
+    ${n.human ? `<section><h3>Statement</h3>
+       <div class="human">${escapeHtml(n.human)}</div></section>` : ""}
+
+    ${n.lean ? `<section><h3>Lean signature</h3>
+       <pre>${escapeHtml(n.lean)}</pre></section>` : ""}
+
+    ${(n.file || n.line) ? `<section><h3>Location</h3>
+       <div class="fileline">${escapeHtml(n.file || "?")}${n.line ? ":" + escapeHtml(String(n.line)) : ""}</div></section>` : ""}
+
+    ${n.footprint ? `<section><h3>Axiom footprint</h3>
+       <div class="footprint">${escapeHtml(n.footprint)}</div></section>` : ""}
+
+    ${n.note ? `<section><h3>Note</h3>
+       <div class="note">${escapeHtml(n.note)}</div></section>` : ""}
+
+    <section><h3>Depends on (prerequisites) &middot; ${deps.length}</h3>
+       <div class="deplist">${deps.length ? deps.map(depLink).join("") : '<span style="color:var(--muted)">none in this graph</span>'}</div>
+       ${depsMissing.length ? `<div style="margin-top:6px;color:var(--muted);font-size:11px">also lists (outside graph): ${depsMissing.map(escapeHtml).join(", ")}</div>` : ""}
+    </section>
+
+    <section><h3>Used by (dependents) &middot; ${revs.length}</h3>
+       <div class="revlist">${revs.length ? revs.map(depLink).join("") : '<span style="color:var(--muted)">none</span>'}</div>
+    </section>
+  `;
+
+  const body = document.getElementById("side-body");
+  body.innerHTML = html;
+  body.style.display = "block";
+  document.getElementById("side-empty").style.display = "none";
+
+  // wire dependency links
+  body.querySelectorAll("a.deplink").forEach((a) => {
+    a.addEventListener("click", () => selectNode(a.getAttribute("data-id")));
+  });
+
+  // render math
+  renderMath(body);
+}
+
+function clearSelection() {
+  if (cy) cy.elements().removeClass("hl sel openhl");
+  document.getElementById("side-body").style.display = "none";
+  document.getElementById("side-empty").style.display = "block";
+}
+
+/* render KaTeX math in a container, if KaTeX is available */
+function renderMath(el) {
+  if (typeof renderMathInElement === "undefined") return;
+  try {
+    renderMathInElement(el, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      throwOnError: false,
+      ignoredClasses: ["fileline", "footprint"],
+    });
+  } catch (e) { /* leave raw latex */ }
+}
+
+/* ----------------------------------------------------------------------- *
+ *  Legend.
+ * ----------------------------------------------------------------------- */
+function buildLegend() {
+  // only show statuses that actually appear, plus axiom
+  const present = new Set(GRAPH.nodes.map((n) => n.status));
+  const hasAxiom = GRAPH.nodes.some((n) => n.kind === "axiom");
+  const sEl = document.getElementById("legend-status");
+  let rows = "";
+  for (const key of Object.keys(STATUS_COLORS)) {
+    if (!present.has(key)) continue;
+    const m = STATUS_COLORS[key];
+    rows += `<div class="row"><span class="sw" style="background:${m.color}"></span>${escapeHtml(m.label)}</div>`;
+  }
+  if (hasAxiom) {
+    rows += `<div class="row"><span class="sw" style="background:${AXIOM_COLOR}"></span>axiom (gray)</div>`;
+  }
+  sEl.innerHTML = rows;
+
+  // kinds present
+  const kpresent = new Set(GRAPH.nodes.map((n) => n.kind));
+  const kEl = document.getElementById("legend-kind");
+  let krows = "";
+  const shapeGlyph = {
+    "round-rectangle": "▭", "ellipse": "⬭", "round-tag": "⬓",
+    "hexagon": "⬡", "diamond": "◇", "barrel": "▢", "octagon": "⯃",
+  };
+  for (const key of Object.keys(KIND_SHAPES)) {
+    if (!kpresent.has(key)) continue;
+    const m = KIND_SHAPES[key];
+    krows += `<div class="row"><span class="shp">${shapeGlyph[m.shape] || "▭"}</span>${escapeHtml(m.label)}</div>`;
+  }
+  kEl.innerHTML = krows;
+
+  const tog = document.getElementById("legtoggle");
+  tog.addEventListener("click", () => {
+    const hidden = sEl.style.display === "none";
+    sEl.style.display = kEl.style.display = hidden ? "" : "none";
+    document.querySelectorAll("#legend .divider, #legend h4, #legend small")
+      .forEach((e) => e.style.display = hidden ? "" : "none");
+    tog.textContent = hidden ? "[hide]" : "[show]";
+  });
+}
+
+/* ----------------------------------------------------------------------- *
+ *  Toolbar: search, fit, layer filter, open-obligation highlight, reset.
+ * ----------------------------------------------------------------------- */
+let openMode = false;
+
+function wireToolbar() {
+  document.getElementById("btn-fit").addEventListener("click", () => cy.fit(undefined, 30));
+
+  document.getElementById("btn-reset").addEventListener("click", () => {
+    cy.elements().removeClass("dim hl sel openhl");
+    document.getElementById("layerSel").value = "__ALL__";
+    document.getElementById("search").value = "";
+    openMode = false;
+    document.getElementById("btn-open").classList.remove("active");
+    cy.fit(undefined, 30);
+    clearSelection();
+  });
+
+  // search: find node whose id or label contains the query (case-insensitive)
+  const search = document.getElementById("search");
+  search.addEventListener("keydown", (e) => { if (e.key === "Enter") doSearch(search.value); });
+  search.addEventListener("input", () => { if (!search.value) cy.elements().removeClass("hl"); });
+
+  // layer filter: dim everything outside the chosen layer
+  document.getElementById("layerSel").addEventListener("change", (e) => {
+    const v = e.target.value;
+    cy.elements().removeClass("dim");
+    if (v === "__ALL__") return;
+    cy.nodes().forEach((n) => {
+      if (n.data("layer") !== v) n.addClass("dim");
+    });
+    cy.edges().forEach((ed) => {
+      if (ed.source().hasClass("dim") || ed.target().hasClass("dim")) ed.addClass("dim");
+    });
+  });
+
+  // highlight open obligations
+  document.getElementById("btn-open").addEventListener("click", () => {
+    openMode = !openMode;
+    const btn = document.getElementById("btn-open");
+    cy.elements().removeClass("dim openhl");
+    if (openMode) {
+      btn.classList.add("active");
+      const open = cy.nodes().filter((n) => n.data("_open") === 1);
+      if (open.length === 0) return;
+      cy.elements().addClass("dim");
+      open.removeClass("dim").addClass("openhl");
+      // keep edges among / into open nodes visible
+      open.connectedEdges().removeClass("dim");
+      open.connectedEdges().connectedNodes().removeClass("dim");
+      cy.animate({ fit: { eles: open, padding: 60 } }, { duration: 350 });
+    } else {
+      btn.classList.remove("active");
+    }
+  });
+}
+
+function doSearch(q) {
+  q = (q || "").trim().toLowerCase();
+  cy.elements().removeClass("hl");
+  if (!q) return;
+  const matches = cy.nodes().filter((n) =>
+    n.id().toLowerCase().includes(q) ||
+    String(n.data("label") || "").toLowerCase().includes(q));
+  if (matches.length === 0) return;
+  matches.addClass("hl");
+  cy.animate({ fit: { eles: matches, padding: 80 } }, { duration: 300 });
+  if (matches.length === 1) selectNode(matches[0].id());
+}
+
+/* ----------------------------------------------------------------------- *
+ *  Helpers.
+ * ----------------------------------------------------------------------- */
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function escapeAttr(s) {
+  return escapeHtml(s).replace(/"/g, "&quot;");
+}
+function renderEmptyDataNotice() {
+  const body = document.getElementById("side-body");
+  body.style.display = "block";
+  document.getElementById("side-empty").style.display = "none";
+  body.innerHTML = "<div class='note'>The graph could not be rendered.</div>";
+}
+
+window.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>
