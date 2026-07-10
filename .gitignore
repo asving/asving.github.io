@@ -10,3 +10,4 @@ wordpress exports/
 # Python cache and run artifacts
 __pycache__/
 *.out
+.claude/
