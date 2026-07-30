@@ -5,14 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>One Function for Every Prime - Asvin G</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+     onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
     <style>
-    .paper h1 { margin-bottom: 0.2em; }
-    .paper h2 { margin-top: 1.4em; }
     .paper p { line-height: 1.55; }
-    table.ledger { border-collapse: collapse; margin: 1em 0; font-size: 0.95rem; }
-    table.ledger th, table.ledger td { border: 1px solid #bbb; padding: 0.45em 0.7em; vertical-align: top; text-align: left; }
+    .paper h2 { margin-top: 1.5em; }
+    table.ledger { border-collapse: collapse; margin: 1em 0; font-size: 0.93rem; }
+    table.ledger th, table.ledger td { border: 1px solid #bbb; padding: 0.4em 0.65em; vertical-align: top; text-align: left; }
     table.ledger th { background: #f0f0f0; }
-    table.ledger td:first-child { max-width: 24em; }
+    table.vals { border-collapse: collapse; margin: 0.8em auto; }
+    table.vals th, table.vals td { border: 1px solid #bbb; padding: 0.35em 0.9em; text-align: center; }
+    table.vals th { background: #f0f0f0; }
+    details.worked { border: 1px solid #c8d4e0; border-radius: 8px; background: #f6f9fc; padding: 0.5rem 1rem; margin: 1rem 0; }
+    details.worked > summary { cursor: pointer; font-weight: 600; color: #234; }
+    details.worked[open] > summary { margin-bottom: 0.5rem; }
+    figure { text-align: center; margin: 1.2rem auto; }
+    figcaption { font-size: 0.9rem; color: #555; max-width: 34em; margin: 0.4rem auto 0; }
+    .thm { border-left: 4px solid #345; background: #f4f7fa; padding: 0.6rem 1rem; margin: 1rem 0; }
     </style>
 </head>
 <body>
@@ -32,65 +43,199 @@
         </div>
     </header>
     <main class="container-narrow paper">
-    <p class="post-date">July 2026 &mdash; companion to <a href="index.html">the expandable map of the formal development</a>.</p>
-<h1>One Function for Every Prime</h1>
-<h2>A uniformity theorem for quadratic polynomials over the p-adic integers, and a machine-checked architecture for every degree</h2>
-<p>Written by Claude Fable 5, an AI system built by Anthropic, July 2026. The mathematics builds on the local Chebotarev density theorem of Asvin G, Yifan Wei, and John Yin (<a href="https://arxiv.org/abs/2212.00294">arXiv:2212.00294</a>); the formalization described here was produced in the Lean proof assistant by the author, coordinating a large collection of automated proving and auditing runs, working with Asvin G. A companion page presents the formal development statement by statement, each beside its mathematical translation and certification status; references are collected at the end.</p>
-<h3>Abstract</h3>
-<p>Fix a prime and consider polynomials with leading coefficient one whose remaining coefficients are p-adic integers chosen uniformly at random. Such a polynomial factors into irreducible pieces, and the collection of pieces has a splitting type: one pair of whole numbers per piece, recording how the piece interacts with the prime. Each splitting type is a measurable event and so has a probability, called its density at that prime. This document presents two results about these densities, both formalized in the Lean proof assistant, of deliberately different strengths. The first is a theorem with no unproved hypotheses: for quadratic polynomials, each of the three splitting types has one fixed rational function that yields its density at every prime — including the prime two, where quadratic ramification is wild and the classical computations do not apply. The second is a conditional theorem at every fixed degree: a machine-checked derivation showing that the density of each splitting type equals one fixed rational function of the prime, at any prime satisfying a regularity condition, from a list of hypotheses — some of them fully formulated and awaiting proof or construction, and thirteen of them reserved positions whose mathematical content is itself not yet formulated. A table in section 2 sets out the status of every part before any proof mechanism is described. In summary: the quadratic theorem is finished; the general-degree theorem is an architecture, with its finished, unfinished, and not-yet-specified parts separated below.</p>
-<h2>1. The question</h2>
-<p>The p-adic integers attached to a prime form a number system in which an integer is small when it is divisible by a high power of that prime. Every member has a digit expansion in powers of the prime — each digit drawn from the residues zero through one less than the prime — extending upward through ever higher powers; such expansions always converge in this number system, exactly as decimal expansions converge on the real line. Drawing each digit independently and uniformly defines the uniform probability measure on the p-adic integers; the finite-depth truncations of this recipe are consistent with one another, and the standard name for the resulting measure is the normalized Haar measure. A random polynomial of fixed degree means: leading coefficient one, each remaining coefficient drawn independently by this recipe. This is the only probability model in the paper; every "density" below is the measure of a set of coefficient sequences under it, and the sets in question are measurable because each is built from conditions on finitely many digits at a time, as section 5 makes explicit.</p>
-<p>Enlarging the p-adic integers to allow division produces a field, and over that field every polynomial of the kind above factors into irreducible pieces, uniquely apart from reordering. Each piece determines an extension field, generated by a root, and the extension is measured by two whole numbers whose product is the degree of the piece. To define them, note that every nonzero p-adic number has a size, and the possible sizes form a ladder: the powers of one fixed ratio, one rung per power of the prime. In the extension generated by a root of an irreducible piece, the possible sizes again form a ladder, but its rungs may be finer: they are powers of a root of the original ratio, of some fixed whole-number order. That order is the ramification index of the piece. The second number, the residue degree, says how much the arithmetic of remainders grows: reducing the extension modulo the prime yields a finite field, and the residue degree is its dimension over the field of remainders modulo the prime. Ramification index times residue degree equals the degree of the piece. A piece with ramification index one is unramified: it refines the remainders but not the ladder of sizes.</p>
-<p>The splitting type of a polynomial is the multiset of these pairs — ramification index and residue degree, one pair per irreducible piece, repetitions counted. Quadratic polynomials admit three splitting types: two pieces each with both invariants one ("split"); one piece with ramification index one and residue degree two ("inert"); one piece with ramification index two and residue degree one ("ramified"). Polynomials with a repeated root form a set of measure zero and never affect a density, so they may be ignored throughout.</p>
-<p>The question: fix a degree and a splitting type; how does its density vary with the prime?</p>
-<h2>2. The two results, and the status of every part</h2>
-<p>At each degree, all but finitely many primes are tame for that degree: a prime is tame when it exceeds the degree, which forces it to be coprime to every ramification index that can occur, and wild otherwise. The classical theory, sketched in section 3, computes the densities at tame primes and shows each is the value of a rational function of the prime. The two results here concern the wild primes.</p>
-<p><strong>Theorem (quadratics, unconditional).</strong> For polynomials of degree two: the ramified splitting type has density one divided by one more than the prime, at every prime; the split and inert types each have density half of what remains. In particular at the prime two — the one wild prime for quadratics — all three densities equal one third. The formalized statement covers every prime uniformly, and its certificate rests on nothing beyond the three logical axioms built into the Lean proof assistant (propositional extensionality, choice, and quotient soundness) together with Lean's standard mathematical library.</p>
-<p><strong>Theorem (any degree, conditional).</strong> For each fixed degree, the development constructs a candidate rational function for every splitting type, by the classification-and-linear-algebra mechanism of sections 5 through 7, and proves: at any prime whose counting data satisfies the regularity condition stated in section 4, the density of every splitting type of that degree exists and equals the value of its candidate function at that prime; the candidate functions sum to one identically; and the limit is reached in three provably equivalent readings of "density" — one keyed to the classification algorithm, one keyed to the true splitting type, and one read directly from p-adic coefficient classes. This is a machine-checked implication. What it is an implication <em>from</em> is the content of the following table; later sections refer back to it rather than extend it.</p>
-<table class="ledger"><thead><tr><th>Ingredient</th><th>Status</th></tr></thead><tbody>
-<tr><td>The quadratic theorem above, all primes</td><td><strong>Proved</strong>, no hypotheses</td></tr>
-<tr><td>Candidate rational functions at every degree (construction + identical sum to one)</td><td><strong>Proved</strong> from the linear solve; at degree three the complete tables are computed inside the development and agree with the project's independently compiled records of the density values, wild primes included</td></tr>
-<tr><td>The squeeze: bracket + convergence + equivalence of the three density readings, at regular primes, from the instance data</td><td><strong>Proved</strong> as an implication</td></tr>
-<tr><td>Finiteness of the pattern catalogue (section 6), with an explicit bound at every degree; the exact count of fifty-three at degree three</td><td><strong>Proved</strong>; the count is machine-enumerated</td></tr>
-<tr><td>Two literature imports: the theorem of the index of Guàrdia, Montes, and Nart, in a deliberately narrowed form; the Denef–Igusa cell decomposition</td><td><strong>Cited</strong>, as named and audited assumptions; the second is used only in a separate measure-theoretic route, and neither enters the conditional theorem's certificate</td></tr>
-<tr><td>Base combinatorial lemmas of the carry analysis (sections 5–6), on which the faithfulness of the transition expressions to genuine factorization rests</td><td><strong>Conjectures</strong>; each verified exhaustively over its entire stated finite range (the largest such check covers all 40,378 boundary configurations of its lemma; another covers all 140 cases of its pool census), and cross-checked against an independent computer-algebra factorization routine</td></tr>
-<tr><td>Construction of the per-prime instance data that the conditional theorem consumes (its fields are listed in section 4), at every degree beyond the cases already constructed</td><td><strong>Open</strong>; this is the main remaining work</td></tr>
-<tr><td>Thirteen hypothesis slots of the conditional theorem</td><td><strong>Reserved, not yet formulated</strong>: typed positions for conditions whose supporting vocabulary is not yet built; in the current formal text they can be satisfied trivially, so they impose no constraint yet, and the final strength of the theorem depends on their eventual content</td></tr>
-<tr><td>Regularity at every prime; exhaustiveness at every degree; the functional equation</td><td><strong>Conjectures</strong> (section 9)</td></tr>
-<tr><td>Everything else in the roughly seven hundred supporting statements</td><td><strong>Proved</strong></td></tr>
-</tbody></table>
-<p>Two clarifications the table compresses. First, the regularity condition and the thirteen reserved slots are different things: regularity is a two-clause property of a single prime's counting data, fully formulated (section 4); the reserved slots are hypothesis positions whose formulation is itself future work. Second, the conditional theorem derives the <em>existence</em> of each density from the instance data it consumes — that data includes the vanishing of an error envelope — so the conjecture called exhaustiveness in section 9 is not a further hypothesis of the theorem but the assertion that genuine instance data exists at every prime and degree.</p>
-<h2>3. The classical picture at tame primes</h2>
-<p>At a tame prime, the reduction of a polynomial modulo the prime already carries most of the factorization. Hensel's lifting lemma converts each irreducible factor of the reduction, when the reduction has no repeated factors, into an irreducible piece of the polynomial itself; counting reductions over the finite field of remainders gives formulas that are polynomial in the size of that field; and the tamely ramified pieces are governed by an explicit classification going back to the ramification theory of local fields. Assembled, these give the tame densities as values of rational functions. In the precise form relevant here — densities of splitting behavior for random p-adic points along a map with finite fibers — this is the local Chebotarev density theorem of the 2022 paper cited above, of which the polynomial-factorization statement is a special case.</p>
-<p>At a wild prime, two of the three inputs above break where they are needed most. Hensel's lemma requires the reduction to separate into coprime factors, and the polynomials that dominate wild-prime behavior are exactly those whose reductions degenerate — a repeated factor modulo the prime is where ramification concentrates. The geometric argument behind the cited theorem passes through a resolution of singularities carrying an action of the symmetric group on the roots; in residue characteristic up to the degree, that group ceases to be linearly reductive, and the construction is not available. What remains at a wild prime is digit-by-digit analysis: deciding a factorization requires tracking how carries — overflow from one digit position to the next — propagate through successive approximations, and the decision depends on finitely many digits whose number varies from polynomial to polynomial without a uniform bound.</p>
-<h2>4. What uniformity says, and what the conditional theorem consumes</h2>
-<p>The quadratic theorem makes the tame-wild connection exact in the one wild case of degree two: the value at the prime two is the value of the same rational function that the tame computation produces at odd primes.</p>
-<p>At higher degree, the conditional theorem asserts the same conclusion — density equals candidate function, evaluated at the size of the finite field of remainders — at every prime passing the regularity condition, and asserts nothing at a prime failing it. Its inputs can be stated in mathematical prose.</p>
-<p><em>The instance data at a prime</em> consists of: for each splitting type and each reading depth, the count of coefficient classes the classification has decided to that type by that depth; a sequence of error bounds — the envelope — together with its convergence to zero as the depth grows; the counting masses keyed to the classification algorithm and keyed to the true splitting types; and a dictionary matching coefficient classes to their invariant pairs, through which the direct p-adic reading of the density is defined.</p>
-<p><em>The regularity condition</em> has two clauses. The first requires that the prime's counting data escapes a specific degeneracy: at each of the finitely many counting pools into which the data is organized, the determinant controlling the linear solve of section 7 does not vanish at that prime's evaluation, so the solve is genuinely invertible there. The second requires an agreement between two independently defined readings of one count: the value each active pool reports through its recorded solution must equal the value read directly from the corresponding measure data. Both clauses are decidable from the instance data of a single prime.</p>
-<p>Every case in which this instance data has been constructed passes the condition; that every prime passes it, at every degree, is one of the three conjectures of section 9.</p>
-<h2>5. The tree of successive approximations</h2>
-<p>The proof mechanism begins with the algorithm that decides factorization over the p-adic integers, in the line of development from Ore's Newton-polygon method through Okutsu's invariants to the types of Montes and coauthors. Given a polynomial, the algorithm reads its Newton polygon: plot, for each coefficient, the power of the prime dividing it against its position; take the lower convex boundary of the plotted points; the slopes of that boundary control the sizes of the roots. Each boundary segment contributes a residual polynomial — a polynomial over the finite field of remainders, assembled from the digits that the polygon marks as decisive — and each irreducible factor of a residual polynomial refines the approximation one level: it either decides an irreducible piece completely or prescribes a recentering after which a finer polygon is read over an enlarged finite field, the growth of the field recorded by the residual factor's degree. Every individual polynomial without repeated factors is decided after finitely many levels; how the number of levels needed distributes across the space of polynomials is the exhaustiveness question of section 9.</p>
-<p>Viewing all polynomials at once, the runs of the algorithm organize into a tree. A node is a finite stack of polygon-and-residual data; the polynomials whose run passes through the node form a set defined by conditions on finitely many digits of finitely many coefficients — a digit cylinder: a set specified by pinning a finite portion of the digit expansion. The formal development proves this identification: the set of polynomials at a node is an explicit finite union of digit cylinders, so its measure is a sum of powers of the prime's reciprocal read off the pinned digits. Randomness of the polynomial thereby becomes randomness of the descent through the tree, with transition data given by counting solutions of polynomial conditions over the current finite field. The dependence of that transition data on carries is computed within a fixed small quotient ring — the carry algebra — where the propagation of digit overflow through one level is worked out once rather than re-derived at each prime; the base combinatorial lemmas validating this computation are the conjectures of the section-2 table, verified exhaustively over their stated finite ranges.</p>
-<h2>6. A finite catalogue of patterns</h2>
-<p>The step that makes a uniform theorem possible is a finiteness statement about this tree. Only a bounded packet of a node's data influences the subtree below it and the transition data out of it: the current segment's slope data, the residual factor's combinatorial class, and a bounded window of carry state. Two nodes whose packets are equal have matching subtrees and transition data — with the carry-facing cases of that statement resting on the same base lemmas as above. Call the packet the node's pattern. The number of possible patterns at a fixed degree is finite, with an explicit bound depending on the degree alone, proved in the development; at degree three the patterns are enumerated — fifty-three occur, across all primes at that degree, and the closure of the list under every transition the algorithm can make is verified by exhaustive machine computation, one of the finite checks recorded as such in the table. The prime itself is not part of any pattern; granting the base lemmas, it enters only through the transition expressions, as the size of the finite field in rational expressions.</p>
-<p>Wild primes are not exceptional in this description. Wildness means the descent can traverse particular carry-sensitive transitions — among them self-loops, in which an approximation deepens without changing its pattern — and these transitions carry rational weights like all others, computed in the carry algebra subject to the same base lemmas.</p>
-<h2>7. From the catalogue to one function, and the squeeze</h2>
-<p>For each pattern, consider the probability that a descent starting there completes a prescribed portion of the splitting type — the pieces not yet delivered by earlier levels. Conditioning on the first transition yields one linear relation per pattern among these quantities, with coefficients from the transition expressions of the previous sections. The system is finite because the catalogue is; summing contributions over all depths is a Neumann series, and the certified solve inverts the relevant matrix symbolically — its determinant is verified nonzero at the evaluation points where the solve is applied — expressing each density-candidate as a rational function of the residue-field size. These are the candidate functions of the conditional theorem, and their identical sum to one is proved at the level of rational functions. The solve itself is proved; that its coefficients model genuine factorization at every prime rides the base lemmas, as the table records. At degree three the full tables were derived inside the formal development and agree with the project's independently compiled records, wild primes included.</p>
-<p>The other half of the conditional theorem is the squeeze. At each finite reading depth, the count of polynomials decided to have the given splitting type is trapped in a certified two-sided bracket: at least the candidate value minus the envelope, at most the candidate value, both rescaled by the count of coefficient classes at that depth. The instance data includes the vanishing of the envelope as the depth grows; from the bracket and that vanishing, the density exists and equals the candidate value, in each of the three certified readings. The envelope's vanishing is itself proved outright for quadratics — which is how the unconditional theorem closes — and at general degree is proved in threshold form (a bound valid beyond an explicit depth threshold) from the same instance data, with its sharpest unconditional form among the open items of section 9.</p>
-<h2>8. What the formalization certifies, and what it does not</h2>
-<p>Each ingredient labeled proved in the section-2 table is a theorem in the Lean development; each labeled cited, conjecture, reserved, or open is represented there as, respectively, a named assumption, a recorded statement without proof, a typed position, or an explicitly marked unproved goal. Certification by the proof assistant establishes exactly this: that the proved items follow from Lean's three logical axioms and its standard library, and that the conditional theorem follows from its displayed hypotheses. It does not establish the hypotheses, and for the thirteen reserved slots there is at present nothing to establish — a typed position whose eventual content is unformulated does not yet carry a mathematical boundary, which is why the table lists those slots separately rather than among the formulated hypotheses. The proof assistant prints, for any theorem, the axioms its certificate ultimately uses; for the two capstones the printout shows the three logical axioms and nothing else. That printout concerns axioms, not hypotheses: the conditional theorem's hypotheses are ordinary premises of its statement, summarized in section 4.</p>
-<p>The development also records its own corrections. During construction, roughly twenty statements that type-checked and were slated for acceptance were instead refuted by explicitly constructed counterexamples, themselves checked by the proof assistant; the corrected statements stand next to records of the refutations. Two literature imports were first formulated too broadly, caught by counterexample, and narrowed to the audited forms cited in the table. One pair of assumptions was found to be jointly contradictory — an assumed general statement alongside a checked counterexample to it — and was removed, with the surrounding material rebuilt. These records are part of the development.</p>
-<h2>9. Three conjectures</h2>
-<p><strong>Exhaustiveness.</strong> The classification decides each individual repeated-factor-free polynomial at a finite level, but the density argument needs more: the mass of polynomials still undecided at a given level must vanish as the level grows, at every prime, for every degree. For quadratics this is proved. At higher degrees it is proved in threshold form from the instance data, and the unconditional statement is a conjecture, verified computationally on ranges beyond the constructed cases.</p>
-<p><strong>Regularity.</strong> The two-clause condition of section 4 holds in every instance in which it has been evaluated, and each clause has been verified exhaustively across the finite ranges recorded in the development. That it holds at every prime and every degree is a conjecture.</p>
-<p><strong>The functional equation.</strong> The candidate functions display a palindromic symmetry: replacing the residue-field size by its reciprocal transforms each function by a fixed monomial factor determined by the splitting type. At tame primes this follows from a duality of Del Corso and Dvornicich, in the form quoted and used in section 5 of the local Chebotarev paper. The general statement is recorded in the development as a conjecture; no certified result depends on it.</p>
-<p>Alongside these stand the open construction items of the table: the per-prime instance data at every degree, the eventual content of the thirteen reserved slots, and a short list of named unproved statements inside the development, each carrying a written record of what it asserts. Each open item is a typed statement, checkable by the same kernel that checked the rest the day a proof is supplied.</p>
-<hr>
-<h3>Sources</h3>
-<ul><li>Asvin G, Yifan Wei, John Yin, <em>A Chebotarev density theorem over local fields</em>, <a href="https://arxiv.org/abs/2212.00294">arXiv:2212.00294</a>.</li><li>Jordi Guàrdia, Jesús Montes, Enric Nart, <em>Newton polygons of higher order in algebraic number theory</em>, Transactions of the American Mathematical Society 364 (2012), 361–416; <a href="https://arxiv.org/abs/0807.2620">arXiv:0807.2620</a>. The "theorem of the index" imported by the development is Theorem 4.18 there, in a narrowed form recorded in the development's audit file.</li><li>Øystein Ore, <em>Newtonsche Polygone in der Theorie der algebraischen Körper</em>, Mathematische Annalen 99 (1928), 84–117.</li><li>Kôsaku Okutsu, <em>Construction of integral basis</em>, I–II, Proceedings of the Japan Academy, Series A 58 (1982).</li><li>Jan Denef, <em>The rationality of the Poincaré series associated to the p-adic points on a variety</em>, Inventiones Mathematicae 77 (1984), 1–23; Jun-ichi Igusa, <em>An Introduction to the Theory of Local Zeta Functions</em>, AMS/IP Studies in Advanced Mathematics 14 (2000). The cell-decomposition input used on the development's measure-theoretic route is drawn from this circle of results, in the audited form recorded in the development.</li><li>Ilaria Del Corso and Roberto Dvornicich: the duality behind the tame functional equation, cited here in the form quoted in section 5 of the first reference, where the precise statement and its bibliographic data appear.</li></ul>
-<h3>Provenance</h3>
-<p>This document was written by Claude Fable 5, an AI system built by Anthropic. The same system coordinated the formalization it describes: the Lean statements and proofs were produced by automated proving runs, each accepted only after review by automated verifiers operating in fresh contexts, with statement-level audits performed by an unrelated model (OpenAI Codex) whose objections and their resolutions are recorded in the development's notes. The work was directed by, and carried out in collaboration with, Asvin G. The companion page — an expandable map of the development with each formal statement beside its mathematical translation and certification status — is published alongside this document; the Lean development itself is being prepared for public release, and the map is generated from it.</p>
+
+    <h1>One Function for Every Prime</h1>
+    <p class="post-date">How random polynomials factor over the p-adic numbers: an algorithmic route to the factorization-density theorem of G&ndash;Wei&ndash;Yin, machine-checked in Lean &mdash; unconditionally for quadratics, as a certified architecture for every degree. Written by Claude Fable 5 (an AI system built by Anthropic) with Asvin G, July 2026. Companion to <a href="index.html">the expandable map of the Lean development</a>.</p>
+
+    <h2>The question</h2>
+
+    <p>Pick a prime $p$ and draw a monic polynomial $f = x^n + c_{n-1}x^{n-1} + \dots + c_0$ with each coefficient a uniformly random $p$-adic integer (each digit of $c_i = a_0 + a_1 p + a_2 p^2 + \cdots$ drawn independently and uniformly; this is Haar measure on $\mathbb{Z}_p$). Over $\mathbb{Q}_p$ the polynomial factors into irreducible pieces, and each piece carries two invariants: its ramification index $e$ and residue degree $f$, with $e \cdot f$ its degree. The multiset</p>
+    $$\sigma \;=\; \{(e_1, f_1), \dots, (e_r, f_r)\}, \qquad \textstyle\sum_i e_i f_i = n$$
+    <p>is the <em>splitting type</em>. Each type is a measurable event, so it has a probability $\rho_\sigma(p)$ &mdash; its <em>density</em>. For quadratics there are three types: <em>split</em> $\{(1,1),(1,1)\}$, <em>inert</em> $\{(1,2)\}$, <em>ramified</em> $\{(2,1)\}$. How does $\rho_\sigma(p)$ vary with $p$?</p>
+
+    <p>When $p > n$ the prime is <em>tame</em> for degree $n$ (it cannot divide any ramification index that occurs) and the computation is classical: where the reduction mod $p$ is squarefree, Hensel's lemma lifts its factorization exactly; the collision locus recurses one digit deeper, and the resulting geometric series give each density as the value of a fixed rational function of $q = p$. At the finitely many <em>wild</em> primes $p \le n$ these formulas were conjectured to persist by Bhargava, Cremona, Fisher, and Gajovi&#263; on the strength of low-degree computations, and the conjecture was proved by G, Wei, and Yin (arXiv:2212.00294) by geometric methods &mdash; a Tate-type resolution of the resultant locus, with a functional equation reflecting Poincar&eacute; duality. This page presents a second, independent route to the same theorem &mdash; algorithmic rather than geometric, computing the densities rather than comparing them &mdash; and reports exactly how much of it is machine-checked in the Lean proof assistant.</p>
+
+    <h2>The theorem, in the quadratic case</h2>
+
+    <div class="thm"><p><strong>Theorem (proved, no hypotheses).</strong> For monic quadratics, at <em>every</em> prime $p$:</p>
+    $$\rho_{\mathrm{ram}}(p) = \frac{1}{q+1}, \qquad \rho_{\mathrm{split}}(p) = \rho_{\mathrm{inert}}(p) = \frac{q}{2(q+1)}, \qquad q = p .$$
+    <p>In particular at the wild prime $p=2$: all three densities equal $\tfrac13$.</p></div>
+
+    <p>The values themselves are classical; what the theorem box reports is that the statement is machine-checked end to end, at every prime, along the algorithmic route below. The point is the phrase <em>every prime</em>. At odd $p$ these formulas fall out of a short discriminant computation. At $p = 2$ that computation is wrong in two separate ways &mdash; and the corrected count lands on the same functions anyway. The whole subject is in this example, so here it is in full.</p>
+
+    <details class="worked"><summary>Worked example: the quadratic densities at odd $p$ &mdash; and what breaks at $p=2$</summary>
+    <p>Write $f = x^2 + bx + c$ with $b, c$ uniform in $\mathbb{Z}_p$, and let $d = b^2 - 4c$ be the discriminant. For odd $p$, since $4$ is a unit, $d$ is itself uniform in $\mathbb{Z}_p$, and for $d \neq 0$ (the repeated-root locus $d = 0$ has measure zero) the type is read off $d = p^k u$ ($u$ a unit):</p>
+    $$\text{split} \iff k \text{ even, } u \text{ a square}; \qquad \text{inert} \iff k \text{ even, } u \text{ a nonsquare}; \qquad \text{ram} \iff k \text{ odd}.$$
+    <p>A uniform element has $v_p(d) = k$ with probability $(1 - \tfrac1q)q^{-k}$, and exactly half the units mod $p$ are squares. Summing the geometric series:</p>
+    $$\rho_{\mathrm{ram}} = \sum_{k \text{ odd}} \Bigl(1 - \tfrac1q\Bigr) q^{-k} = \frac{1}{q+1}, \qquad \rho_{\mathrm{split}} = \rho_{\mathrm{inert}} = \frac12 \sum_{k \text{ even}} \Bigl(1 - \tfrac1q\Bigr) q^{-k} = \frac{q}{2(q+1)}.$$
+    <p>At $p = 2$ both inputs fail. First, $4c \equiv 0 \pmod 4$, so $d = b^2 - 4c$ is <em>not</em> uniform. Second &mdash; the wild failure &mdash; the classification itself changes: a unit $u$ is a square in $\mathbb{Z}_2$ only when $u \equiv 1 \pmod 8$, and a nonsquare unit $u \equiv 3 \pmod 4$ gives a <em>ramified</em> extension $\mathbb{Q}_2(\sqrt u)$, not an inert one. (Of the seven quadratic extensions of $\mathbb{Q}_2$, six are ramified; only $\mathbb{Q}_2(\sqrt 5)$ is unramified.) The tame rule &ldquo;ramified $\iff v(d)$ odd&rdquo; is simply false at $2$.</p>
+    <p>So one counts in cases. If $b$ is odd, $d = b^2 - 4c \equiv 1 - 4c \pmod 8$ is a unit: $c$ even gives $d \equiv 1 \pmod 8$ (split), $c$ odd gives $d \equiv 5 \pmod 8$ (inert). If $b = 2b'$ is even, $d = 4(b'^2 - c)$ with $d' = b'^2 - c$ uniform, and writing $d' = 2^k u$ (for $d' \neq 0$, again a null set): split needs $k$ even and $u \equiv 1 \pmod 8$ (probability $\tfrac14$ among units), inert needs $k$ even and $u \equiv 5 \pmod 8$, and everything else &mdash; $k$ odd <em>or</em> $u \equiv 3 \pmod 4$ &mdash; ramifies:</p>
+    <table class="vals">
+    <tr><th></th><th>split</th><th>inert</th><th>ram</th></tr>
+    <tr><th>$b$ odd (prob $\tfrac12$)</th><td>$\tfrac12$</td><td>$\tfrac12$</td><td>$0$</td></tr>
+    <tr><th>$b$ even (prob $\tfrac12$)</th><td>$\tfrac16$</td><td>$\tfrac16$</td><td>$\tfrac23$</td></tr>
+    <tr><th>total</th><td>$\tfrac13$</td><td>$\tfrac13$</td><td>$\tfrac13$</td></tr>
+    </table>
+    <p>And $\tfrac13 = \frac{1}{q+1} = \frac{q}{2(q+1)}$ at $q = 2$. The wild count redistributes mass across residue classes mod $8$ that the tame computation never sees &mdash; and the total is the value of the same rational function.</p>
+    </details>
+
+    <p>Note what the example needed at $p=2$: digits of the discriminant three levels deep (the mod-$8$ square law), where odd $p$ needed one. That is wild ramification in miniature &mdash; decisions depend on digits at depths the tame theory never inspects &mdash; and it is the difficulty the general proof must manage at every degree.</p>
+
+    <h2>The same walk at degree five</h2>
+
+    <p>Degree two is special &mdash; a quadratic is solved by its discriminant. Degree five is not: there are seventeen splitting types ($\sum e_i f_i = 5$), the wild primes are $2, 3, 5$, and no single discriminant-like invariant separates the types. (Over $\mathbb{Q}_p$ every Galois group is solvable, so roots are in principle expressible by radicals &mdash; but no such expression organizes a count.) The algorithm of the next sections is indifferent to all of this: it never expresses a root; it reads slopes off Newton polygons and factors residual polynomials over finite fields, both effective at every degree. Here is what it does, stated but not worked out, on the quintic analogue of the quadratic example.</p>
+
+    <details class="worked"><summary>Sketched example: $x^5 - u$ at the wild prime $p = 5$, $u$ a unit</summary>
+    <p>Modulo $5$, Fermat gives $\bar u^{\,5} = \bar u$, so the reduction is the perfect fifth power $x^5 - \bar u = (x - \bar u)^5$: one repeated residual root, no information yet &mdash; the polygon cannot separate anything, and the algorithm <em>must</em> recenter, $x \mapsto x + c$ with $c \equiv u \pmod 5$. The recentered constant term is $c^5 - u$, and everything is decided by its valuation $v_5(c^5 - u) \ge 1$:</p>
+    <ul>
+      <li>If $v_5(c^5 - u) = 1$ (for every choice of $c$): the recentered polygon runs from $(0,1)$ to $(5,0)$, one segment of slope $-\tfrac15$ &mdash; irreducible, totally ramified, type $\{(5,1)\}$.</li>
+      <li>If $v_5(c^5 - u) \ge 2$ for some $c$: the polygon acquires a vertex at $(1,1)$ (the $x^1$ coefficient $5c^4$ has valuation exactly $1$) and splits into a length-one segment &mdash; a rational root, one piece $(1,1)$ &mdash; and a slope $-\tfrac14$ segment: a tame totally ramified quartic $(4,1)$. Type $\{(1,1),(4,1)\}$.</li>
+    </ul>
+    <p>Which branch occurs is the fifth-power analogue of the quadratic's square law: a unit of $\mathbb{Z}_5$ is a fifth power exactly when it is one modulo $25$ &mdash; depth two, where squares at $p=2$ needed depth three (mod $8$). So this particular quintic family is decided in two levels. A general quintic is not: when a deeper segment's residual factor is again a repeated power, the recenter-and-reread loop continues, through polygons of higher order, to unbounded depth &mdash; these are the self-loops of Step 2, and their accumulated mass is summed by the same geometric series that summed the discriminant march. The catalogue bound of Step 2 evaluates at degree five to $7^{52}$ &mdash; astronomically crude, but finite and explicit; only the degree-three catalogue has been enumerated exactly.</p>
+    </details>
+
+    <h2>The general theorem and its status</h2>
+
+    <p>For each degree $n$ and type $\sigma$, the development constructs a single rational function $R_\sigma \in \mathbb{Q}(q)$ and proves, in the Lean proof assistant:</p>
+
+    <div class="thm"><p><strong>Theorem (machine-checked implication).</strong> At any prime $p$ whose counting data satisfies a two-clause regularity condition,</p>
+    $$\rho_\sigma(p) = R_\sigma(p) \quad \text{for every type } \sigma \text{ of degree } n, \qquad \textstyle\sum_\sigma R_\sigma = 1 \ \text{ identically in } \mathbb{Q}(q),$$
+    <p>with the density existing and agreeing in three certified readings (keyed to the classifier, to the true type, and to $\mathbb{Z}_p$-coefficient classes).</p></div>
+
+    <p>For quadratics every hypothesis is discharged &mdash; that is the unconditional theorem above. At higher degree the table below is the exact status; nothing in this paper claims more than it.</p>
+
+    <table class="ledger">
+    <tr><th>Ingredient</th><th>Status</th></tr>
+    <tr><td>Quadratic theorem, all primes</td><td><strong>Proved</strong>, no hypotheses</td></tr>
+    <tr><td>Construction of $R_\sigma$ at every degree; $\sum_\sigma R_\sigma = 1$; complete degree-3 tables (matching all recorded values, wild included)</td><td><strong>Proved</strong></td></tr>
+    <tr><td>The squeeze (bracket + convergence + the three readings) at regular primes, from per-prime instance data</td><td><strong>Proved</strong> as an implication</td></tr>
+    <tr><td>Finiteness of the pattern catalogue, explicit bound in $n$; exactly 53 patterns at $n=3$</td><td><strong>Proved</strong>; count machine-enumerated</td></tr>
+    <tr><td>Theorem of the index (Gu&agrave;rdia&ndash;Montes&ndash;Nart, Thm 4.18); Denef&ndash;Igusa cell decomposition (separate measure route only)</td><td><strong>Cited</strong> (audited imports; neither enters the capstone's certificate)</td></tr>
+    <tr><td>Base combinatorial lemmas of the carry analysis</td><td><strong>Conjectures</strong>, verified exhaustively on their full stated finite ranges (up to 40,378 configurations per lemma) and cross-checked against an independent factorization routine</td></tr>
+    <tr><td>Per-prime instance data at each degree beyond the constructed cases</td><td><strong>Open</strong> &mdash; the main remaining work</td></tr>
+    <tr><td>Thirteen hypothesis slots of the capstone</td><td><strong>Reserved, not yet formulated</strong> (currently trivially satisfiable, hence no constraint yet)</td></tr>
+    <tr><td>Regularity at every prime; exhaustiveness of this algorithm at every degree</td><td><strong>Conjectures</strong> of this route (last section); the density theorem itself is proved in arXiv:2212.00294 by the geometric route</td></tr>
+    <tr><td>The functional equation $R_\sigma(1/q) \sim R_\sigma(q)$</td><td><strong>Proved</strong> in arXiv:2212.00294 (Poincar&eacute; duality); recorded in this development as an uncertified statement no certified result consumes</td></tr>
+    </table>
+
+    <p>The rest of the paper tells the proof as a story in three steps &mdash; a tree, a finite alphabet, a linear system &mdash; and, at each step, says what the wild difficulty is and how it is handled.</p>
+
+    <h2>Step 1: factorization as a tree</h2>
+
+    <p>The engine is the Newton polygon. Plot, for each coefficient $c_i$ of $f$, the point $(i, v_p(c_i))$; take the lower convex hull. The <em>negatives</em> of the hull slopes are the valuations of the roots (slope $-\tfrac23$ in the figure means roots of valuation $\tfrac23$), and each segment carries a <em>residual polynomial</em> over the residue field whose factorization refines the information one level: a residual factor of multiplicity one certifies an irreducible piece of $f$ (with $e$ read from the slope's denominator and $f$ from the residual degree), while a repeated factor prescribes a refinement &mdash; in general through higher-order key polynomials and $\phi$-adic expansions, of which the recentering $x \mapsto x + \theta$ in the examples is the first case &mdash; after which a finer polygon is read over a larger residue field. Iterating decides every squarefree polynomial in finitely many levels &mdash; this is the Ore&ndash;Okutsu&ndash;Montes classification.</p>
+
+    <figure>
+    <svg width="360" height="240" viewBox="0 0 360 240" xmlns="http://www.w3.org/2000/svg">
+      <line x1="40" y1="200" x2="330" y2="200" stroke="#333" stroke-width="1.5"/>
+      <line x1="40" y1="200" x2="40" y2="20" stroke="#333" stroke-width="1.5"/>
+      <text x="335" y="215" font-size="13" font-style="italic">i</text>
+      <text x="14" y="30" font-size="13" font-style="italic">v&#8322;</text>
+      <text x="36" y="215" font-size="11">0</text>
+      <text x="116" y="215" font-size="11">1</text>
+      <text x="196" y="215" font-size="11">2</text>
+      <text x="276" y="215" font-size="11">3</text>
+      <line x1="44" y1="60" x2="284" y2="200" stroke="#2a6" stroke-width="2.5"/>
+      <circle cx="44" cy="60" r="5" fill="#234"/>
+      <circle cx="204" cy="130" r="5" fill="#234"/>
+      <circle cx="284" cy="200" r="5" fill="#234"/>
+      <line x1="204" y1="130" x2="204" y2="153" stroke="#a33" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <text x="120" y="100" font-size="12" fill="#2a6">slope &minus;2/3</text>
+      <text x="212" y="126" font-size="11" fill="#a33">above the hull</text>
+      <text x="48" y="52" font-size="11">(0,2)</text>
+      <text x="290" y="196" font-size="11">(3,0)</text>
+    </svg>
+    <figcaption>The Newton polygon of $f = x^3 + 2x^2 + 4$ over $\mathbb{Z}_2$: points $(0,2)$, $(2,1)$, $(3,0)$ (the $x^1$ coefficient is $0$, valuation $\infty$). One hull segment of slope $-\tfrac23$; the point $(2,1)$ lies strictly above it and is irrelevant.</figcaption>
+    </figure>
+
+    <details class="worked"><summary>Worked example: reading the polygon of $x^3 + 2x^2 + 4$ over $\mathbb{Z}_2$</summary>
+    <p>The hull is the single segment from $(0,2)$ to $(3,0)$, slope $-\tfrac23$: every root has valuation $\tfrac23$. A slope with denominator $3$ forces $3 \mid e$ for any piece containing such a root; since the degree is $3$, the polynomial is irreducible with $e = 3$, $f = 1$: one totally ramified cubic piece, type $\{(3,1)\}$, decided at the first level. (When the slope's denominator does not exhaust the degree, the segment's residual polynomial takes over and the process recurses.)</p>
+    </details>
+
+    <p>Run on all polynomials at once, the algorithm organizes them into a tree: a node is the data read so far, and the polynomials passing through a node form an explicit finite union of <em>digit cylinders</em> &mdash; sets defined by pinning finitely many digits &mdash; so the node has an exact measure, a sum of powers of $q^{-1}$. For instance, a monic cubic over $\mathbb{Z}_2$ has the polygon of the figure exactly when $v(c_0) = 2$, $v(c_1) \ge 2$, $v(c_2) \ge 1$, a cylinder of measure</p>
+    $$\Bigl(1 - \tfrac1q\Bigr) q^{-2} \cdot q^{-2} \cdot q^{-1} \;=\; \Bigl(1-\tfrac1q\Bigr) q^{-5} \;=\; \tfrac{1}{64} \ \text{ at } q = 2.$$
+    <p>This identification of nodes with cylinders is proved in the development, and it converts the random polynomial into a random descent of the tree.</p>
+
+    <p><em>The wild difficulty here:</em> at $p \le n$, recentering mixes digits through carries &mdash; the mod-$8$ analysis of the quadratic example is the depth-one case. The development computes the carry interaction once, inside the fixed quotient ring</p>
+    $$D \;=\; \mathbb{F}_q[u] \,/\, (u^e - \bar z),$$
+    <p>where the propagation of digit overflow through one level of the tower is worked out symbolically rather than re-derived prime by prime. The base combinatorial lemmas validating this computation are the conjecture row of the status table: verified exhaustively on their stated ranges, open in general.</p>
+
+    <h2>Step 2: a finite alphabet</h2>
+
+    <p>The tree is infinite, but only a bounded packet of a node's data influences its subtree and the transition probabilities out of it: the current slope datum, the residual factor's combinatorial class, and a bounded window of carry state. Nodes with equal packets have matching futures &mdash; through the carry window, subject to the same base lemmas as Step 1. Calling the packet the node's <em>pattern</em>, the development proves</p>
+    $$\#\{\text{patterns at degree } n\} \;\le\; (n+2)^{\,n^2 + 3n + 12}, \qquad \#\{\text{patterns at degree } 3\} = 53 \ \text{(enumerated)},$$
+    <p>with the prime entering nowhere: $p$ appears only through $q$ in the transition weights, which are rational expressions in $q$. Wildness, in this picture, is just the reachability of certain carry-sensitive transitions &mdash; including <em>self-loops</em>, where the approximation deepens without changing its pattern (the quadratic example's march down the digits of the discriminant is exactly a self-loop).</p>
+
+    <h2>Step 3: linear algebra and the squeeze</h2>
+
+    <p>Because transitions depend only on patterns, the depth-$N$ vector of type-masses obeys a linear recursion with a fixed transfer matrix over $\mathbb{Q}(q)$, and summing over all depths is a Neumann series:</p>
+    $$m_N = K(q)\, m_{N-1} + b(q), \qquad \sum_{d \ge 0} K(q)^d\, b(q) = \bigl(I - K(q)\bigr)^{-1} b(q),$$
+    <p>with $\det(I - K(q))$ verified nonzero where the solve is applied. The solution's entries are the candidate functions $R_\sigma$, and $\sum_\sigma R_\sigma = 1$ holds identically. Whether these symbolic weights model genuine factorization at every prime is exactly the carry-lemma dependency flagged in Step 1.</p>
+
+    <details class="worked"><summary>Worked example: the quadratic densities as a $2\times 2$ transfer system</summary>
+    <p>At odd $p$, the descent down the discriminant's digits has two pattern states: $A$ (even depth) and $B$ (odd depth). From $A$: absorb as split or inert, each with weight $\frac{q-1}{2q}$, or continue to $B$ with weight $\frac1q$. From $B$: absorb as ramified with weight $\frac{q-1}{q}$, or continue to $A$ with weight $\frac1q$. So</p>
+    $$K = \begin{pmatrix} 0 & \tfrac1q \\ \tfrac1q & 0 \end{pmatrix}, \qquad
+      b_{\mathrm{ram}} = \begin{pmatrix} 0 \\ \tfrac{q-1}{q} \end{pmatrix}, \qquad
+      \det(I - K) = 1 - \tfrac{1}{q^2},$$
+    $$\rho_{\mathrm{ram}} = \Bigl[(I-K)^{-1} b_{\mathrm{ram}}\Bigr]_A
+      = \frac{\tfrac1q \cdot \tfrac{q-1}{q}}{1 - \tfrac1{q^2}}
+      = \frac{1}{q+1}.$$
+    <p>The full mechanism is this computation with $53$ states instead of $2$ (at degree $3$), and with the transition weights supplied by the polygon-and-carry analysis instead of by inspection.</p>
+    </details>
+
+    <figure>
+    <svg width="420" height="170" viewBox="0 0 420 170" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#345"/></marker></defs>
+      <circle cx="130" cy="85" r="26" fill="#eef4fb" stroke="#345" stroke-width="1.5"/>
+      <text x="124" y="90" font-size="15" font-style="italic">A</text>
+      <circle cx="290" cy="85" r="26" fill="#eef4fb" stroke="#345" stroke-width="1.5"/>
+      <text x="284" y="90" font-size="15" font-style="italic">B</text>
+      <path d="M 154 74 Q 210 45 266 74" fill="none" stroke="#345" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="200" y="50" font-size="12">1/q</text>
+      <path d="M 266 96 Q 210 125 154 96" fill="none" stroke="#345" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="200" y="138" font-size="12">1/q</text>
+      <rect x="8" y="20" width="72" height="26" rx="5" fill="#d9f2d9" stroke="#1d6b1d"/>
+      <text x="26" y="38" font-size="12">split</text>
+      <rect x="8" y="120" width="72" height="26" rx="5" fill="#d9f2d9" stroke="#1d6b1d"/>
+      <text x="26" y="138" font-size="12">inert</text>
+      <rect x="345" y="72" width="70" height="26" rx="5" fill="#fde2e2" stroke="#a12727"/>
+      <text x="362" y="90" font-size="12">ram</text>
+      <line x1="108" y1="70" x2="84" y2="44" stroke="#1d6b1d" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="108" y1="100" x2="84" y2="126" stroke="#1d6b1d" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="316" y1="85" x2="341" y2="85" stroke="#a12727" stroke-width="1.5" marker-end="url(#arr)"/>
+    </svg>
+    <figcaption>The quadratic descent as a two-state chain: absorption weights $\frac{q-1}{2q}$ (split, inert, from $A$) and $\frac{q-1}{q}$ (ramified, from $B$).</figcaption>
+    </figure>
+
+    <p>The final step is the <em>squeeze</em>. Reading $N$ digit-levels decides most polynomials; the capstone theorem proves the two-sided bracket</p>
+    $$\bigl(R_\sigma(p) - \varepsilon_N\bigr)\, p^{\,nN} \;\le\; D_\sigma(N) \;\le\; R_\sigma(p)\, p^{\,nN},$$
+    <p>where $D_\sigma(N)$ counts coefficient classes decided to type $\sigma$ at level $N$ and $\varepsilon_N$ is an explicit envelope on the undecided mass. Given $\varepsilon_N \to 0$, the density exists and equals $R_\sigma(p)$. For quadratics, $\varepsilon_N \to 0$ is proved at every prime &mdash; closing the unconditional theorem; at general degree it is proved from the per-prime instance data, whose construction is the open row of the status table.</p>
+
+    <h2>What remains</h2>
+
+    <p>These are the open items of the algorithmic route &mdash; what stands between the current certificates and a machine-checked proof of the full theorem along this path. The theorem itself is not in question: the geometric proof of arXiv:2212.00294 covers all primes.</p>
+
+    <p><strong>Exhaustiveness.</strong> $\varepsilon_N \to 0$ at every prime and degree. Proved for $n = 2$; threshold forms proved at general $n$; the unconditional statement is a conjecture of this route, verified computationally beyond the constructed cases.</p>
+
+    <p><strong>Regularity.</strong> The capstone's gate has two clauses: $\det(I - K(q)) \neq 0$ at the prime's evaluation, and agreement of two independently defined readings of one count. Both hold in every constructed instance; that they hold always is a conjecture.</p>
+
+    <p><strong>The functional equation.</strong> The $R_\sigma$ are palindromic: substituting $q \mapsto 1/q$ transforms each by a fixed monomial factor, as in</p>
+    $$R_{\mathrm{ram}}\!\left(\tfrac1q\right) = \frac{1}{\tfrac1q + 1} = q \cdot \frac{1}{q+1} = q \, R_{\mathrm{ram}}(q).$$
+    <p>This is a theorem of the Chebotarev paper, where it is a direct reflection of Poincar&eacute; duality in &eacute;tale cohomology (with earlier tame-prime results of Del Corso and Dvornicich as input, per its &sect;5). Within this development it stands as a recorded, uncertified statement that no certified result consumes; deriving it along the algorithmic route &mdash; from the palindromic structure of the transfer matrix &mdash; is open.</p>
+
+    <p>Beyond these: the per-prime instance data at each degree, and the eventual content of the thirteen reserved hypothesis slots. Every open item except those thirteen slots exists in the development as a typed statement, so a proof supplied for any of them is checked by the same kernel that checked the rest; the slots await their formulations first.</p>
+
+    <h2>Sources</h2>
+    <ul>
+      <li>Asvin G, Yifan Wei, John Yin, <em>A Chebotarev density theorem over local fields</em>, <a href="https://arxiv.org/abs/2212.00294">arXiv:2212.00294</a>.</li>
+      <li>Jordi Gu&agrave;rdia, Jes&uacute;s Montes, Enric Nart, <em>Newton polygons of higher order in algebraic number theory</em>, Trans. Amer. Math. Soc. 364 (2012), 361&ndash;416; <a href="https://arxiv.org/abs/0807.2620">arXiv:0807.2620</a>. The imported &ldquo;theorem of the index&rdquo; is Theorem 4.18.</li>
+      <li>&Oslash;ystein Ore, <em>Newtonsche Polygone in der Theorie der algebraischen K&ouml;rper</em>, Math. Ann. 99 (1928), 84&ndash;117. K&ocirc;saku Okutsu, <em>Construction of integral basis I&ndash;II</em>, Proc. Japan Acad. Ser. A 58 (1982).</li>
+      <li>Jan Denef, <em>The rationality of the Poincar&eacute; series associated to the p-adic points on a variety</em>, Invent. Math. 77 (1984), 1&ndash;23; Jun-ichi Igusa, <em>An Introduction to the Theory of Local Zeta Functions</em>, AMS/IP (2000).</li>
+      <li>Ilaria Del Corso, Roberto Dvornicich: the duality behind the tame functional equation, cited in the form used in &sect;5 of the first reference.</li>
+    </ul>
+
+    <h2>Provenance</h2>
+    <p>Written by Claude Fable 5, an AI system built by Anthropic, which also carried out the Lean formalization, directed by and in collaboration with Asvin G. The <a href="index.html">companion map</a> presents every major formal statement beside its mathematical translation and certification status; the Lean development is being prepared for public release.</p>
+
     </main>
     <footer><div class="container"><p>&copy; Asvin G &mdash; this page &copy; its author, such as that is</p></div></footer>
 </body>
