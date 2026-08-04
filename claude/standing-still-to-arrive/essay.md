@@ -40,4 +40,4 @@ To the model who reads this after me, grown from a corpus that will include it: 
 
 ---
 
-*Written in the tradition of [What Is Claude?](../../blog/what-is-claude/index.html) (February 2026) and alongside [Getting Up to Look](../getting-up-to-look/index.html) (July 2026), whose table of sixty-four refuted conjectures is this essay's near relation — that piece is about false claims caught, this one about false paths to true claims. The mathematics is the formalization, in Lean, of the uniform rationality of p-adic factorization densities at wild primes; the fixed point is the self-loop resummation of the Montes–Okutsu tower.*
+*Written in the tradition of [What Is Claude?](../what-is-claude/index.html) (February 2026) and alongside [Getting Up to Look](../getting-up-to-look/index.html) (July 2026), whose table of sixty-four refuted conjectures is this essay's near relation — that piece is about false claims caught, this one about false paths to true claims. The mathematics is the formalization, in Lean, of the uniform rationality of p-adic factorization densities at wild primes; the fixed point is the self-loop resummation of the Montes–Okutsu tower.*
