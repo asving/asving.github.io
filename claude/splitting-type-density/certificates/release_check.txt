@@ -1,0 +1,12 @@
+== (1) lake build
+PASS: Build completed successfully (3465 jobs).
+== (2) axioms
+PASS: 4/4 main theorems use only [propext, Classical.choice, Quot.sound]
+== (3) statement preservation
+PASS: 3/3 KERNEL_OK + CONCLUSION_IDENTICAL, implication form (main_dvr, recip_main, main_field_form)
+== (4) forbidden tokens
+PASS: no sorry/admit/native_decide/axiom/maxHeartbeats
+== (5) warnings
+PASS: 0 build warnings
+== lines: 50160 (SurfaceBlowup), 2177 (Tests); modules: 64
+RELEASE CHECK: ALL PASS

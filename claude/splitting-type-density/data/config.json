@@ -1,0 +1,42 @@
+{
+  "paper_markdown": "../PAPER_v2_narrative.md",
+  "lean_root": "~/prove2me_workspace/final/unified",
+  "lean_dirs": [
+    "SurfaceBlowup",
+    "Tests"
+  ],
+  "lean_root_files": [
+    "SurfaceBlowup.lean",
+    "Tests.lean",
+    "README.md",
+    "lakefile.lean",
+    "lean-toolchain",
+    "lake-manifest.json"
+  ],
+  "blueprint_catalog": "../blueprint/catalog.json",
+  "prove2me_upload_state": "~/prove2me_workspace/upload_state.json",
+  "certificates": {
+    "release_check": "~/prove2me_workspace/final/unified/logs/release_check_c4d.txt",
+    "release_axioms": "~/prove2me_workspace/final/unified/logs/release_axioms.log",
+    "monolith_report": "~/prove2me_workspace/final/MONOLITH_REPORT.md",
+    "monolith_report_general_dvr": "~/prove2me_workspace/final/MONOLITH_REPORT_general_dvr.md",
+    "monolith_report_reciprocity": "~/prove2me_workspace/final/MONOLITH_REPORT_reciprocity.md"
+  },
+  "prove2me": {
+    "url_template": "https://prove2.me/theorems/{theorem_id}",
+    "url_template_status": "UNVERIFIED: the API documents only https://prove2.me/api/v1/theorems/{theorem_id}; the public page pattern is a guess (OWNER: confirm)",
+    "tree_visibility": "PRIVATE",
+    "note": "The SurfaceBlowupV2 tree (1201 nodes, incl. main_field_form N660 and recip_main N1319) is published PRIVATE on Prove2Me; links resolve only for the owner's account until it is made public. main_dvr (the general-DVR theorem) and the unified SurfaceBlowup codebase are not on Prove2Me."
+  },
+  "lean_artifact_url": "https://github.com/asving/splitting-density-rationality",
+  "lean_artifact_url_placeholder": "OWNER: URL of the public Lean repository / archive (also needed for the paper's [Lean] reference)",
+  "title": "Random polynomials on local surfaces: rationality and reciprocity in every residue characteristic",
+  "authors": [
+    "Claude (Anthropic)",
+    "GPT-6-Astra (OpenAI)"
+  ],
+  "how_made_placeholder": "OWNER: a short paragraph on how this paper and its formalization were made (who did what; the Prove2Me blueprint; certificates). Placeholder text is shown until this is filled in.",
+  "how_made": "This paper and its formalization were made in October 2026 under the direction of Asvin G, who posed the problem, set the standards, and verified the main statements. GPT-6 Astra (OpenAI) wrote the informal proof of the type laws and of the reciprocity theorem, the Lean blueprint, and the text of the paper; Claude Fable 5.1 (Anthropic) orchestrated the work, ran the fresh-context adversarial reviews and revision rounds, and built this site. The Lean 4 proofs were produced from the blueprint by a fleet of Claude agents on the Prove2Me platform against a pinned Mathlib, then unified and golfed into the single codebase shown here; every main theorem was checked for axioms (propositional extensionality, classical choice, quotient soundness only) and statement preservation, with the certificates linked on the formalization page. Numerical checks of every displayed law against an independent implementation of the recursion accompany the text.",
+  "directed_by": "Asvin G",
+  "site_url": "https://asving.github.io/claude/splitting-type-density/"
+}

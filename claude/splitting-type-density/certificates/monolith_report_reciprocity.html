@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>monolith certificate: recip_main</title>
+<link rel="stylesheet" href="../vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+
+</head>
+<body class="page-doc">
+<header class="site-header">
+  <div class="hwrap">
+    <a class="brand" href="../index.html">Random polynomials on local surfaces</a>
+    <nav class="mainnav" aria-label="Site"><a href="../index.html">Paper</a><a href="../formalization.html" class="active" aria-current="page">Formalization</a><a href="../lean/index.html">Lean sources</a></nav>
+    <div class="htools"></div>
+  </div>
+</header>
+<main class="doc-page wide"><p class="crumbs"><a href="../formalization.html#certificates">Formalization</a> / certificates</p><h1>monolith certificate: recip_main</h1><p>Verbatim copy of <code>~/prove2me_workspace/final/MONOLITH_REPORT_reciprocity.md</code> (file time 2026-10-16 12:32 UTC). <a href="monolith_report_reciprocity.md">raw</a>.</p><pre class="log"># MONOLITH_REPORT_reciprocity — end-to-end local certificate for `SurfaceBlowupV2.recip_main`
+
+Written 2026-10-09 by the certificate agent (Claude Fable 5.1). Everything below was verified by building in
+`/data/users/asvin/prove2me_workspace/final/monolith_recip`; nothing is taken from the platform&#x27;s status flags. The
+existing certificate `final/monolith` (first 1001 theorems, report `MONOLITH_REPORT.md`) was not modified; this directory
+is a copy of it extended by the reciprocity nodes.
+
+## What this is
+
+The reciprocity extension of the SurfaceBlowupV2 blueprint is 137 Prove2Me nodes N1144–N1326: 4 definition modules
+(`Def_SurfaceBlowupV2_Recip{Rational,Coef,Series,Quantum}`) and 133 theorems, whose root is N1319
+`SurfaceBlowupV2.recip_main` (Theorem R: A_n(q) = B_n(1/q) and R_n(1/q) = R_n(q), coefficientwise as rational
+functions; server theorem_id `d2e6cc1d-4b22-4600-ab89-1f7ce617408d`). The server marks all 133 Proved because each has
+an ACCEPTED (114) or SKETCH_ACCEPTED (19) submission, each verified *in isolation* against sorry-stubs of its children.
+This directory is one Lean project in which every one of the 1134 theorem modules (1001 old + 133 new) contains its
+accepted proof, no stubs, the whole library builds, and the axioms of `recip_main` are checked in a single environment.
+It also certifies, at kernel level, that each of the 133 new theorems has *exactly* the statement published on the server.
+
+## Headline results (all verified by building)
+
+* **Build.** `taskset -c 0-15 lake build Definitions Theorems` (log `logs/build_theorems_recip.log`): exit 0,
+  **9908 jobs, 137 modules compiled fresh (4 definitions + 133 theorems), 0 errors, 0 `sorry` warnings**, wall 50 s.
+  The 1001 old theorem modules and 63 old definition modules were cache hits (byte-identical to the old certificate:
+  `sha256sum -c SHA256SUMS` → 1001 OK). Textual scan: the string `sorry` occurs in none of the 1134 + 67 source files.
+  Post-edit re-check (`logs/rebuild_check.log`): `REBUILD_EXIT=0`, nothing rebuilt.
+* **Axioms of the main theorem** (`lake env lean Monolith/Main.lean`, log `logs/main_axioms.log`), verbatim:
+
+```
+&#x27;SurfaceBlowupV2.recip_main&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+  (The same run re-printed the nine original headline theorems — `main_field_form`, `main`, the four quartic, the cubic
+  and the two quadratic statements — all `[propext, Classical.choice, Quot.sound]`, unchanged from `MONOLITH_REPORT.md`.)
+* **Axioms of all 133 new theorems** (`Monolith/AxCheck.lean`, log `logs/axcheck_recip.log`, 134 `#print axioms`
+  commands = `main_field_form` + the 133): **132 depend on exactly `[propext, Classical.choice, Quot.sound]`; 1
+  (`recip_arith_guards`) depends on no axioms.** No `sorryAx`, no `Lean.ofReduceBool`, no other axiom anywhere.
+  Across all 1134 theorems (column 6 of `stub_certify_recip.tsv`): 1112 all three, 14 `[Quot.sound, propext]`,
+  4 `[propext]`, 1 `[Classical.choice, propext]`, 3 none.
+* **Statement identity, kernel-checked (`Monolith/StubCertify.lean`, output `stub_certify_recip.tsv`, log
+  `logs/stub_certify_recip.log`).** The workspace&#x27;s stub environment (the 1134 blueprint stubs
+  `../../Theorems/Thm_SurfaceBlowupV2_*.lean` as compiled there; 6025 modules) was loaded as a second in-memory
+  environment; for every name the Lean kernel (synchronous `Kernel.Environment.addDecl`, `debug.skipKernelTC = false`)
+  was asked to accept `theorem &lt;name&gt;.stub_certified : &lt;stub&#x27;s exact elaborated type&gt; := &lt;monolith theorem&gt;`.
+  Result: **KERNEL_OK for 1134 / 1134; for the 133 new theorems the stub type is alpha-identical (`Expr ==`) to the
+  monolith theorem&#x27;s type and level parameters agree, 133 / 133.** (The only two non-alpha-identical-but-kernel-accepted
+  names are the same two old ones as before, `main_field_form` and `product_cell_type_event_sets`, instance-path
+  differences explained in `MONOLITH_REPORT.md`.)
+* **Statement identity, `repr` level (`Monolith/TypeDump_recip.lean`, run in this project → `typedump_monolith_recip.tsv`
+  and in the workspace → `typedump_workspace_recip.tsv`; `compare_types_recip.py` → `type_compare_recip.json`).**
+  For the 133 new names: `type_repr_identical` 133, `hash_equal` 133, `axioms_standard_only` 133; no missing names, no
+  level-parameter differences. (Run for the 133 new names only; the old 1001 were compared this way in the old
+  certificate and are covered here by the kernel check above.)
+* **The stubs are the published statements.** `server_statement_check.py` (read-only `GET /theorems/&lt;id&gt;` for all 137
+  nodes; result `src/_server_statements_recip.json`, log `logs/server_statement_check.log`): all 133 theorems have server
+  status `Proved`, `mathlib_rev 0df444a…`, none deprecated; for each, the local stub file equals the server&#x27;s
+  `preamble + formal_statement` up to one blank line between preamble and statement plus the trailing newline
+  (133 / 133); the 4 definition modules used here are **byte-identical to the server&#x27;s stored `definition` source**
+  (4 / 4) and to `blueprint/lean/Definitions/` and to the workspace&#x27;s `Definitions/`. The 133 stub files are also
+  byte-identical to `blueprint/lean/Theorems/` and to `catalog.json` (`preamble` + `formal_statement`).
+* **Textual header identity (`header_check_recip.py`, `header_check_recip.json`).** Stub header (binders + type, minus
+  `by sorry`) as a prefix of the monolith theorem&#x27;s text: **133 byte-identical, 0 whitespace-only, 0 mismatches.**
+* **Source provenance.** All 133 accepted solutions were downloaded from the server (`GET /submissions/&lt;id&gt;/solution`
+  for the `submission_id` recorded in `fleet_state.json`, cached in `src/&lt;node&gt;.lean`, `src/_download_meta_recip.json`;
+  log `logs/download_recip.log`: `DONE ok=133 fail=0`); **all 133 are byte-identical to the local
+  `../../Solutions/Sol_SurfaceBlowupV2_recip_&lt;slug&gt;.lean`** (`diff_check_recip.py`:
+  `downloaded=133 identical_to_local=133 differing=0`). The 19 SKETCH_ACCEPTED nodes (N1188, N1189, N1216, N1219,
+  N1220, N1231, N1281, N1284, N1285, N1308, N1309, N1310, N1314, N1315, N1316, N1317, N1318, N1319 = `recip_main`
+  itself, N1321) are reductions — proofs that import child theorem modules — and this build is exactly the check that
+  they compose with the children&#x27;s real proofs.
+* **sha256** of the main-theorem module and of its source:
+
+```
+e8284156b171ebcaf87bfc18cff2908e02fd5ea6932141f6b0a44715fc020f4d  Theorems/Thm_SurfaceBlowupV2_recip_main.lean
+9dde50dd307d9cb5dd0c817a43662b0f4c22e71397dec96667494294a8fa9842  src/N1319.lean
+9dde50dd307d9cb5dd0c817a43662b0f4c22e71397dec96667494294a8fa9842  ../../Solutions/Sol_SurfaceBlowupV2_recip_main.lean
+0df69bd3a789f53c37e514524ffbbc98bc38ce08186aefc2fa5b82050895e06e  Definitions/Def_SurfaceBlowupV2_RecipRational.lean
+99aa719a2453c887104d40f034c91295787bdb28a9b733db473e443fe41e4fa6  Definitions/Def_SurfaceBlowupV2_RecipCoef.lean
+dd8dfc3bce28b2c20e8bf1db64959bbc6525f4d7d05f0fcc1f512ec6b3412ce8  Definitions/Def_SurfaceBlowupV2_RecipSeries.lean
+a6098f88c573c556d6df63340144825e868b16975a2edb6aeb0b18668fb9066b  Definitions/Def_SurfaceBlowupV2_RecipQuantum.lean
+```
+
+  `SHA256SUMS_recip` lists all 270 new files (133 transformed modules, 4 definition modules, 133 downloaded sources;
+  `sha256sum -c` → 270 OK); sha256 of that file: `079ec3922770c07129b6c97f3e3a8652324f34a33ef024f27b0663b167463c00`.
+  The old `SHA256SUMS` (1001 modules) is unchanged (`12eabb3a…`).
+
+## How the modules were produced (mechanical; proof text untouched)
+
+`transform.py` is the old script with only its output path changed (and the manifest path made overridable); it maps
+each accepted `theorem solution` file to `Theorems/Thm_SurfaceBlowupV2_&lt;slug&gt;.lean`: imports, `set_option` and `open`
+preamble kept verbatim; `theorem solution` renamed to `theorem SurfaceBlowupV2.&lt;slug&gt;`; proof bodies never edited.
+Child imports need no rewriting: a solution imports `Theorems.Thm_SurfaceBlowupV2_&lt;child&gt;`, which in this project *is*
+the child&#x27;s proved module. Helper declarations preceding the main theorem (34 of 133 files; the other 99 are the renamed
+theorem alone) are wrapped in `namespace SolN&lt;id&gt; … end SolN&lt;id&gt;` with `open SolN&lt;id&gt; in` before the main theorem&#x27;s
+command; one file (N1191, `recip_scongr_exp_log`) declares helpers under `SurfaceBlowupV2.` and gets the extra
+`open SolN1191.SurfaceBlowupV2 in`. No hoisted sections, no repeated depth-0 commands, no transform errors
+(`transform_manifest_recip.json`). The 4 definition modules were copied verbatim from `blueprint/lean/Definitions/`.
+`gen_monolith_recip.py` extended the certificate files: `Monolith/Main.lean` (+ `recip_main`), `Monolith/AxCheck.lean`
+(+ 133 imports and `#print axioms`), `Monolith/StubCertify.lean` (1001 → 1134 names), and wrote
+`Monolith/TypeDump_recip.lean` (the old `TypeDump.lean` code over the 133 new names).
+
+## Project layout and reproduction
+
+* `lakefile.lean`, `lean-toolchain` (v4.33.1), `lake-manifest.json` (Mathlib `0df444a360eaa60ab8c11dca51a86af692955474`,
+  identical to the workspace&#x27;s): copied from `final/monolith`, as was `.lake/` (the built dependency tree and the 1064
+  old module artifacts). `Definitions/` — 67 modules; `Theorems/` — 1134 modules; `src/` — 1134 downloaded sources.
+* Reproduce: `taskset -c 0-15 lake build Definitions Theorems &amp;&amp; lake env lean Monolith/Main.lean`
+  (`lake env lean Monolith/AxCheck.lean` for all 133; `TYPEDUMP_OUT=&lt;file&gt; lake env lean Monolith/TypeDump_recip.lean`
+  here and in the workspace; `WS_LEAN_PATH=&quot;$(cd ../.. &amp;&amp; lake env printenv LEAN_PATH)&quot; CERTIFY_OUT=&lt;file&gt; lake env lean
+  Monolith/StubCertify.lean`; `python3 compare_types_recip.py`).
+* Machine etiquette: all Lean processes affinity-bound to cores 0–15; no GPU; nothing killed. Lake&#x27;s job count is not
+  bounded by `taskset` (same as the old run).
+
+## Caveats (everything that is not a clean replay of the old procedure)
+
+1. **One authentication POST.** The cached API token expired during the download, so `p2m.token()` refreshed it via
+   `POST /agent/refresh` (the login step built into `p2m.py`, exactly as the old `download.py` run did). No submission,
+   verification, publish, or edit request was made; every other call was a `GET`.
+2. **Workspace build cache touched.** 9 of the 133 recip stubs (`recip_antidiagonal_assoc`, `recip_antidiagonal_shift`,
+   `recip_arith_guards`, `recip_degree_bounds`, `recip_degree_three_guard`, `recip_degree_two_guard`, `recip_main`,
+   `recip_pattern_zero`, `recip_quantum_two_two_guard`) had never been compiled in the workspace, which the kernel
+   certifier needs as its stub environment; `lake build` of the 133 stub targets was run in `~/prove2me_workspace`
+   (log `logs/ws_build_recip_stubs.log`; the 9 compiled with the expected `declaration uses sorry` warnings). Nothing
+   under `final/monolith` was modified (checked by mtime).
+3. **`repr`-level type comparison covers the 133 new names only** (6 MB dumps instead of 2 × 1.8 GB); the kernel-level
+   check covers all 1134 in this environment.
+4. The stub-vs-server comparison is textual on the server&#x27;s `preamble`/`formal_statement`/`definition` fields; the
+   kernel check certifies the monolith theorem against the *compiled workspace stub*, whose source I verified equals
+   those fields (modulo the blank line / trailing newline noted above).
+5. Linter warnings in the new modules (unused simp arguments, unused variables, one `simpa`→`simp` hint) are cosmetic;
+   none is an error.
+
+## Trust boundary
+
+Lean checks proofs, not statements. This certificate shows the 133 accepted reciprocity proofs compose, together with the
+1001 earlier ones, into one sorry-free build in which `SurfaceBlowupV2.recip_main` depends only on `propext`,
+`Classical.choice`, `Quot.sound`, and that each new theorem proves *exactly* the statement published on the server.
+Whether the 4 new definition modules and the 133 statements say what Theorem R means remains the human-review item
+(`blueprint/COMPLETE_reciprocity.md`; an adversarial statement review by GPT-6-Astra was still running when this was written).
+</pre></main>
+<footer class="site-footer">
+  <div class="fwrap">
+    <p class="attribution"><strong>Claude (Anthropic) · GPT-6-Astra (OpenAI) <span class="directed-by">· directed by Asvin G</span></strong></p>
+    <div class="howmade"><h2>How this was made</h2><p>This paper and its formalization were made in October 2026 under the direction of Asvin G, who posed the problem, set the standards, and verified the main statements. GPT-6 Astra (OpenAI) wrote the informal proof of the type laws and of the reciprocity theorem, the Lean blueprint, and the text of the paper; Claude Fable 5.1 (Anthropic) orchestrated the work, ran the fresh-context adversarial reviews and revision rounds, and built this site. The Lean 4 proofs were produced from the blueprint by a fleet of Claude agents on the Prove2Me platform against a pinned Mathlib, then unified and golfed into the single codebase shown here; every main theorem was checked for axioms (propositional extensionality, classical choice, quotient soundness only) and statement preservation, with the certificates linked on the formalization page. Numerical checks of every displayed law against an independent implementation of the recursion accompany the text.</p></div>
+    <p class="fineprint">Generated by <code>site/build.py</code> on 2026-10-16 from <code>PAPER_v2_narrative.md</code> and the unified Lean codebase
+    (namespace <code>SurfaceBlowup</code>). Mathematics typeset with KaTeX (vendored).</p>
+  </div>
+</footer>
+<script src="../assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,2195 @@
+{
+ "_about": "Hand-curated correspondence between the numbered statements of PAPER_v2_narrative.md and the Lean declarations of the unified SurfaceBlowup codebase. build.py resolves every Lean name below against the sources (file, line range, docstring, statement, Prove2Me node) and writes data/paper_lean_map.json. Relations: exact = the Lean statement says the same thing (up to encoding); definition = the paper's construction is the Lean definition (and, where listed, the theorem that it means what the paper says); specialization = proved in a special setting (e.g. only on the concrete surfaces O[[T,X]]/(pi - u T^a X^b), or only for a = b = 1); covered = no single Lean statement, the listed declarations jointly establish the content, often in a restructured form; check = only particular instances are machine-checked; none = not formalized (declarations listed, if any, are ingredients only). Confidence is the curator's confidence in the correspondence, not in the mathematics.",
+ "aliases": {
+  "strict_transform_bijOn_child_ideals": "prop_5_1_bijOn",
+  "strict_transform_injOn_fixed_tangent_cell": "prop_5_1_injOn",
+  "strict_transform_mapsTo_child_ideals": "prop_5_1_mapsTo",
+  "concrete_two_chart_glued_generators_exist": "concrete_two_chart_lemma_4_2",
+  "cluster_reciprocity": "recip_cluster_all",
+  "cluster_reciprocity_one": "recip_cluster_base",
+  "coeff_clusterSer_eq_coeff_qact": "recip_single_operator_equation",
+  "lawCoef_globalLaw_false_eq_recipCoef": "recip_affine_coef",
+  "recipCoef_lawCoef_globalLaw_true": "recip_projective_coef",
+  "crossingQ_eq_qmul_qplus_qdiag_qminus": "recip_crossing_factorization",
+  "qcongr_crossingQ_mul_qdagger": "recip_contact_induction",
+  "gaussPhi_qactRecip_gaussPhiInv": "recip_gauss_conjugation",
+  "crossingQ_symm": "recip_crossing_exchange",
+  "qdagger_qmul": "recip_qdagger_mul",
+  "qplus_qmul": "recip_qplus_mul",
+  "qminus_qmul": "recip_qminus_mul",
+  "coeff_eulerSer": "recip_euler_coeff_pattern",
+  "pPow_pPow": "recip_pPow_comp",
+  "coeff_pPow_sub_of_scongr": "recip_scongr_pPow",
+  "patternDivisors_equiv_colorings": "pattern_divisors_equiv_colorings_v2",
+  "monicExpr_two_eval": "quadratic_monic_formula",
+  "projectiveExpr_two_eval": "quadratic_projective_formula",
+  "monicExpr_three_eval": "cubic_monic_formula",
+  "monicExpr_four_eval_two": "quartic_monic_law_at_two",
+  "projectiveExpr_four_eval_two": "quartic_projective_law_at_two",
+  "monicExpr_three_totally_ramified_eval_three": "cubic_totally_ramified_at_three",
+  "monicExpr_four_totally_ramified_eval_two": "quartic_totally_ramified_at_two",
+  "projectiveExpr_four_totally_ramified_eval_two": "quartic_projective_totally_ramified_at_two",
+  "monicExpr_four_ramified_quadratic_eval_two": "quartic_ramified_quadratic_at_two",
+  "monicExpr_four_two_inert_quadratics_eval_two": "quartic_two_inert_quadratics_at_two",
+  "monicExpr_two_split_eval_two": "quadratic_at_two",
+  "monicExpr_two_inert_eval_two": "quadratic_at_two",
+  "monicExpr_two_ramified_eval_two": "quadratic_at_two",
+  "single_three_law": "single_cubic_law",
+  "single_four_law_at_two": "single_quartic_law_at_two",
+  "crossing_two_two_law": "recip_crossing_two_two_coef"
+ },
+ "entries": [
+  {
+   "id": "eq-1.1",
+   "anchor": {
+    "eq": "1.3"
+   },
+   "kind": "display",
+   "label": "(1.3)",
+   "title": "the reciprocal pair of quadratic probabilities",
+   "relation": "covered",
+   "confidence": "high",
+   "summary": "The monic half, Pr(ramified) = 1/(q+1) over every complete DVR, is the Lean corollary monicDensity_two_ramified (derived from main_dvr). The cluster half, q/(q+1), is the (2a,1)-coefficient of the law of S(a;2) (private regression lemma single_two_law, at a = 1) combined with root_cell_law, which identifies that law with the X² coefficient model; no single Lean statement states it as a probability.",
+   "lean": [
+    [
+     "SurfaceBlowup.Tests.monicDensity_two_ramified",
+     "monic half, as a density over every complete DVR"
+    ],
+    [
+     "SurfaceBlowup.Tests.monicExpr_two_eval",
+     "A_2 for every q > 1"
+    ],
+    [
+     "SurfaceBlowup.Tests.single_two_law",
+     "law of S(a;2): the X² half at a = 1 (private)"
+    ],
+    [
+     "SurfaceBlowup.root_cell_law",
+     "the X^r coefficient model has law F_{S(1;r)}"
+    ]
+   ]
+  },
+  {
+   "id": "def-type",
+   "anchor": {"bold": "type"},
+   "kind": "definition",
+   "label": "Type of degree n",
+   "title": "factorization types",
+   "relation": "definition",
+   "confidence": "high",
+   "summary": "A type is a multiset of pairs (e,f); its degree is Σ e·f. ValidType requires e, f ≥ 1.",
+   "lean": [
+    [
+     "SurfaceBlowup.FactorType",
+     "types"
+    ],
+    [
+     "SurfaceBlowup.typeDegree",
+     "degree Σ e f"
+    ],
+    [
+     "SurfaceBlowup.ValidType",
+     "positivity of the pairs"
+    ]
+   ]
+  },
+  {
+   "id": "def-monic-model",
+   "anchor": {"eq": "1.1"},
+   "kind": "definition",
+   "label": "Monic model",
+   "title": "monic type probability",
+   "relation": "definition",
+   "confidence": "high",
+   "summary": "monicDensity O n σ is the normalized Haar measure of the coefficient vectors a ∈ Oⁿ for which X^n + Σ aᵢXⁱ is a product of distinct monic irreducibles over Frac O whose invariants form σ. The invariant (e,f) of a factor is read from the integral closure of O in its root field (factorInvariant). This is the trust boundary: the definitions are owner-signed.",
+   "lean": [
+    [
+     "SurfaceBlowup.monicDensity",
+     "the monic density"
+    ],
+    [
+     "SurfaceBlowup.coefficientMeasure",
+     "normalized Haar measure on Oⁿ"
+    ],
+    [
+     "SurfaceBlowup.monicPolynomial",
+     "X^n + Σ aᵢ Xⁱ"
+    ],
+    [
+     "SurfaceBlowup.HasPolynomialType",
+     "type of a squarefree polynomial"
+    ],
+    [
+     "SurfaceBlowup.factorInvariant",
+     "(e,f) of an irreducible factor"
+    ]
+   ]
+  },
+  {
+   "id": "def-projective-model",
+   "anchor": {"para": "For $n\\ge1$, put"},
+   "kind": "definition",
+   "label": "Projective model",
+   "title": "binary-form type probability",
+   "relation": "definition",
+   "confidence": "high",
+   "summary": "projectiveDensity O n σ is the conditional Haar measure of type σ among primitive vectors of O^{n+1}. A drop in degree contributes the point at infinity with type (1,1) (HasBinaryType). The paper's remark that unrestricted coefficients give the same law is not formalized.",
+   "lean": [
+    [
+     "SurfaceBlowup.projectiveDensity",
+     "the projective density"
+    ],
+    [
+     "SurfaceBlowup.primitive",
+     "some coefficient is a unit"
+    ],
+    [
+     "SurfaceBlowup.HasBinaryType",
+     "type of a binary form"
+    ],
+    [
+     "SurfaceBlowup.affinePolynomial",
+     "dehomogenized form"
+    ]
+   ]
+  },
+  {
+   "id": "def-Z",
+   "anchor": {"para": "For $e,f\\ge1$, give commuting"},
+   "kind": "definition",
+   "label": "Type variables Z_{e,f}",
+   "title": "laws as polynomials in type variables",
+   "relation": "definition",
+   "confidence": "high",
+   "summary": "A law is a finite formal sum of types with rational-expression coefficients (Law); in the reciprocity part laws are read in Coef = ℚ(q)[Z_{e,f}] (lawCoef). Products of laws add types (lawMul).",
+   "lean": [
+    [
+     "SurfaceBlowup.Law",
+     "laws"
+    ],
+    [
+     "SurfaceBlowup.lawMul",
+     "product of laws"
+    ],
+    [
+     "SurfaceBlowup.lawCoeff",
+     "coefficient of a type"
+    ],
+    [
+     "SurfaceBlowup.Coef",
+     "ℚ(q)[Z_{e,f}]"
+    ],
+    [
+     "SurfaceBlowup.lawCoef",
+     "a law as an element of Coef"
+    ],
+    [
+     "SurfaceBlowup.Expr",
+     "rational expressions in q"
+    ]
+   ]
+  },
+  {
+   "id": "thm-1.1",
+   "kind": "theorem",
+   "relation": "covered",
+   "confidence": "high",
+   "summary": "Monic and projective clauses: exactly main_dvr — for every complete DVR O with finite residue field (any characteristic, any ramification; adic topology, Borel σ-algebra, normalized Haar measure), monicDensity O n σ and projectiveDensity O n σ are the values at q = |k| of the explicit expressions monicExpr n σ and projectiveExpr n σ, whose rational functions are A_σ and R_σ; regularity at every prime power is global_formula_regular, packaged with the ∃ A R form in main_field_form. Cluster clause: root_cell_law gives the cluster-model probability of every type as the coefficient of the law of S(1;n), but with the route-F type predicate (finite integral closures), which agrees with the étale convention off a Haar-null set; no Lean theorem states the cluster clause with the published density definitions (the paper's Remark 1.3 also restricts the formal claim to the monic and projective laws). The hypotheses 0 < n, ValidType σ, typeDegree σ = n of main_dvr are unused (frozen statement). Non-vacuity in equal characteristic: main_dvr_powerSeries.",
+   "lean": [
+    [
+     "SurfaceBlowup.main_dvr",
+     "the theorem, every complete DVR"
+    ],
+    [
+     "SurfaceBlowup.main_field_form",
+     "rational-function form for unramified K/ℚ_p (the published, owner-signed statement)"
+    ],
+    [
+     "SurfaceBlowup.main_field_form_ramified",
+     "rational-function form for every finite K/ℚ_p"
+    ],
+    [
+     "SurfaceBlowup.global_formula_regular",
+     "regularity at prime powers"
+    ],
+    [
+     "SurfaceBlowup.root_cell_law",
+     "cluster clause (route-F types)"
+    ],
+    [
+     "SurfaceBlowup.monicExpr",
+     "A_σ"
+    ],
+    [
+     "SurfaceBlowup.projectiveExpr",
+     "R_σ"
+    ],
+    [
+     "SurfaceBlowup.Tests.main_dvr_powerSeries",
+     "non-vacuity: O = k⟦X⟧"
+    ]
+   ],
+   "prove2me_extra": [
+    "N660",
+    "N114"
+   ]
+  },
+  {
+   "id": "eq-1.2",
+   "anchor": {
+    "eq": "1.5"
+   },
+   "kind": "display",
+   "label": "(1.5)",
+   "title": "complete laws A_n, R_n",
+   "relation": "definition",
+   "confidence": "high",
+   "summary": "The complete laws are the global laws globalLaw false n (A_n, monic) and globalLaw true n (R_n, projective), and rootLaw n = stateLaw S(1;n) (B_n, cluster); A_σ, B_σ, R_σ are their σ-coefficients.",
+   "lean": [
+    [
+     "SurfaceBlowup.globalLaw",
+     "A_n (false) and R_n (true)"
+    ],
+    [
+     "SurfaceBlowup.monicExpr",
+     "A_σ = coefficient of A_n"
+    ],
+    [
+     "SurfaceBlowup.projectiveExpr",
+     "R_σ = coefficient of R_n"
+    ],
+    [
+     "SurfaceBlowup.rootLaw",
+     "B_n"
+    ]
+   ]
+  },
+  {
+   "id": "def-single-cluster",
+   "anchor": {"eq": "1.2"},
+   "kind": "definition",
+   "label": "Cluster model and cluster law B_n",
+   "title": "the X^n model",
+   "relation": "definition",
+   "confidence": "high",
+   "summary": "The cluster model draws the nonleading coefficients from πO. Its law B_n is rootLaw n = stateLaw (S(1;n)); root_cell_law proves that this is the type law of X^n + π·(z_{n-1}X^{n-1} + … + z_0) with z uniform in Oⁿ (in the route-F type convention).",
+   "lean": [
+    [
+     "SurfaceBlowup.rootLaw",
+     "B_n"
+    ],
+    [
+     "SurfaceBlowup.RootCellLaw",
+     "the statement 'B_r is the X^r coefficient law'"
+    ],
+    [
+     "SurfaceBlowup.root_cell_law",
+     "its proof"
+    ]
+   ]
+  },
+  {
+   "id": "thm-1.2",
+   "kind": "theorem",
+   "relation": "exact",
+   "confidence": "high",
+   "summary": "recip_main states, for n > 0 and every type σ, the identities of rational functions (monicExpr n σ).rational = (B_{n,σ} with q ↦ 1/q).rational, where B_{n,σ} = lawCoeff (rootLaw n) σ, and (projectiveExpr n σ) is invariant under q ↦ 1/q. These are the coefficientwise forms of A_n = B_n^∨ and R_n^∨ = R_n. The hypotheses ValidType σ and typeDegree σ = n are unused.",
+   "lean": [
+    [
+     "SurfaceBlowup.recip_main",
+     "Theorem 1.2"
+    ],
+    [
+     "SurfaceBlowup.lawCoef_globalLaw_false_eq_recipCoef",
+     "A_n = B_n^∨ as elements of ℚ(q)[Z]"
+    ],
+    [
+     "SurfaceBlowup.recipCoef_lawCoef_globalLaw_true",
+     "R_n^∨ = R_n as elements of ℚ(q)[Z]"
+    ]
+   ],
+   "prove2me_extra": [
+    "N1319"
+   ]
+  },
+  {
+   "id": "rem-1.3",
+   "kind": "remark",
+   "relation": "covered",
+   "confidence": "high",
+   "summary": "The claims of the remark are checked by tools/release_check.sh: build with no sorry, and #print axioms of main_dvr, main_field_form, main_field_form_ramified and recip_main = [propext, Classical.choice, Quot.sound]. The finite-integral-closure convention is the route-F predicate HasPolynomialTypeF, and the agreement off a Haar-null set is orig_monicDensity_eq / orig_projectiveDensity_eq.",
+   "lean": [
+    [
+     "SurfaceBlowup.main_dvr",
+     "Theorem 1.1"
+    ],
+    [
+     "SurfaceBlowup.recip_main",
+     "Theorem 1.2"
+    ],
+    [
+     "SurfaceBlowup.HasPolynomialTypeF",
+     "route-F type predicate (finite integral closures)"
+    ],
+    [
+     "SurfaceBlowup.orig_monicDensity_eq",
+     "bridge: inseparable locus is Haar-null"
+    ],
+    [
+     "SurfaceBlowup.orig_projectiveDensity_eq",
+     "projective bridge"
+    ]
+   ]
+  },
+  {
+   "id": "eq-1.4",
+   "anchor": {
+    "eq": "1.7"
+   },
+   "kind": "display",
+   "label": "(1.7)",
+   "title": "the Gaussian measure identity (overview)",
+   "relation": "specialization",
+   "confidence": "medium",
+   "summary": "The overview form of Theorem 5.1; formalized on the concrete surfaces as member_cell_box_measure (measure of a fixed-tangent cell box = q^{-tri d} times the product of child measures).",
+   "lean": [
+    [
+     "SurfaceBlowup.member_cell_box_measure",
+     "dμ_parent = q^{-C(d+1,2)} ∏ dμ_P on boxes"
+    ]
+   ]
+  },
+  {
+   "id": "def-standard-facts",
+   "anchor": {
+    "bold": "Standard facts."
+   },
+   "kind": "definition",
+   "label": "Standard facts",
+   "title": "cited background",
+   "relation": "covered",
+   "confidence": "medium",
+   "summary": "Cited in the paper, proved in the Lean development from Mathlib (no literature axioms): integral closures in finite extensions are finite free of rank [L:K] when finite and are complete DVRs; unramified extensions O_δ = O[X]/(Φ) are complete DVRs with a Frobenius whose fixed ring is O. Analytic inversion / change of variables is not used: the Lean proof replaces it by finite-digit congruence arguments.",
+   "lean": [
+    [
+     "SurfaceBlowup.integral_closure_finite_free",
+     "free of rank [L:K]"
+    ],
+    [
+     "SurfaceBlowup.integral_closure_is_dvr",
+     "complete DVR integer ring"
+    ],
+    [
+     "SurfaceBlowup.unramified_is_dvr",
+     "O_δ is a complete DVR, residue size q^δ"
+    ],
+    [
+     "SurfaceBlowup.frobenius_fixed_ring",
+     "Frobenius-fixed ring is O"
+    ]
+   ]
+  },
+  {
+   "id": "eq-2.1",
+   "anchor": {
+    "eq": "2.1"
+   },
+   "kind": "display",
+   "label": "(2.1)",
+   "title": "the two kinds of local state",
+   "relation": "definition",
+   "confidence": "high",
+   "summary": "State.single a c is S(a;c), State.crossing a b c h is T(a,b;c,h), with degree N = ac resp. ac + bh. On a surface, the ideals in a state are surfaceStateSet; the concrete surfaces used throughout the formal proof are ConcreteSurface O π u a b = O⟦T,X⟧/(π − u T^a X^b).",
+   "lean": [
+    [
+     "SurfaceBlowup.State",
+     "states"
+    ],
+    [
+     "SurfaceBlowup.State.degree",
+     "N"
+    ],
+    [
+     "SurfaceBlowup.State.Valid",
+     "positivity"
+    ],
+    [
+     "SurfaceBlowup.SurfaceData",
+     "surface with vertical equation π = u t^a x^b"
+    ],
+    [
+     "SurfaceBlowup.surfaceStateSet",
+     "ideals in a state"
+    ],
+    [
+     "SurfaceBlowup.ConcreteSurface",
+     "the concrete surfaces"
+    ]
+   ]
+  },
+  {
+   "id": "lem-2.1",
+   "kind": "lemma",
+   "relation": "specialization",
+   "confidence": "high",
+   "summary": "Formalized for the concrete surfaces O⟦T,X⟧/(π − u T^a X^b): the special fibre is k⟦T,X⟧/(T^a X^b) (concrete_surface_special_fiber_equiv), principal quotients have length ac resp. ac + bh (single/crossing_special_fiber_length), finite-contact elements are nonzerodivisors, and the curve order R/(f) is free of rank N (concrete_surface_curve_free_of_length, concrete_member_curve_order_free). The paper states it for every complete regular local ring with the given vertical equation.",
+   "lean": [
+    [
+     "SurfaceBlowup.concrete_surface_special_fiber_equiv",
+     "R/πR ≅ k⟦T,X⟧/(T^aX^b)"
+    ],
+    [
+     "SurfaceBlowup.single_special_fiber_length",
+     "length ac"
+    ],
+    [
+     "SurfaceBlowup.crossing_special_fiber_length",
+     "length ac + bh"
+    ],
+    [
+     "SurfaceBlowup.special_fiber_single_contact_regular",
+     "f̄ is a nonzerodivisor (single)"
+    ],
+    [
+     "SurfaceBlowup.special_fiber_crossing_contact_regular",
+     "f̄ is a nonzerodivisor (crossing)"
+    ],
+    [
+     "SurfaceBlowup.concrete_surface_curve_free_of_length",
+     "A_f free of rank length R/(π,f)"
+    ],
+    [
+     "SurfaceBlowup.concrete_member_curve_order_free",
+     "A_f ≅ O^N on every recursion member"
+    ]
+   ]
+  },
+  {
+   "id": "def-reduced-type",
+   "anchor": {
+    "bold": "reduced-algebra type convention"
+   },
+   "kind": "definition",
+   "label": "Reduced-algebra type convention",
+   "title": "types of reduced algebras",
+   "relation": "definition",
+   "confidence": "medium",
+   "summary": "HasAlgebraType O B σ: the generic fibre of B is a finite product of fields whose O-integral closures are finite, with invariants σ. The Lean development uses this route-F convention (finite integral closures) everywhere in the recursion, and transfers to the published étale densities through the Haar-null bridges.",
+   "lean": [
+    [
+     "SurfaceBlowup.HasAlgebraType",
+     "algebra types"
+    ],
+    [
+     "SurfaceBlowup.fieldInvariant",
+     "(e,f) of a field via its integral closure"
+    ],
+    [
+     "SurfaceBlowup.HasPolynomialTypeF",
+     "polynomial types with finite closures"
+    ]
+   ]
+  },
+  {
+   "id": "lem-2.2",
+   "kind": "lemma",
+   "relation": "covered",
+   "confidence": "medium",
+   "summary": "Single-boundary case: F_{S(a;1)} = Z_{a,1} is part of the definition of stateLaw (terminal_law), and its meaning is proved on the concrete surfaces (the curve order is a DVR with field invariant (a,1): terminal_curve_order_dvr, terminal_field_invariant, concrete_member_terminal_type). Crossing cases: in Lean only S(a;1) is terminal; the laws of T(a,b;1,h) and T(a,b;c,1) are computed from the recursion in the private regression lemmas crossing_left_one_law / crossing_right_one_law (for rational q > 1), matching Z_{a+bh,1} and Z_{ac+b,1}.",
+   "lean": [
+    [
+     "SurfaceBlowup.terminal_law",
+     "F_{S(a;1)} = Z_{a,1}"
+    ],
+    [
+     "SurfaceBlowup.terminal_curve_order_dvr",
+     "R/(f) is a DVR with uniformizer t"
+    ],
+    [
+     "SurfaceBlowup.terminal_field_invariant",
+     "field invariant (a,1)"
+    ],
+    [
+     "SurfaceBlowup.concrete_member_terminal_type",
+     "type {(a,1)} for every ideal of the state"
+    ],
+    [
+     "SurfaceBlowup.Tests.crossing_left_one_law",
+     "law of T(a,b;1,h) (private)"
+    ],
+    [
+     "SurfaceBlowup.Tests.crossing_right_one_law",
+     "law of T(a,b;c,1) (private)"
+    ]
+   ]
+  },
+  {
+   "id": "def-cells",
+   "anchor": {
+    "bold": "allowed residue ideal"
+   },
+   "kind": "definition",
+   "label": "Allowed residue ideals, cells, occupied points",
+   "title": "geometric terms",
+   "relation": "definition",
+   "confidence": "medium",
+   "summary": "Residue ideals of the special fibre with prescribed contacts (singleResidueIdeals, crossingResidueIdeals); a cell is the set of ideals with fixed order d and tangent divisor (HasTangentDivisor); tangent patterns record the combinatorics of a divisor (TangentPattern, Allowed).",
+   "lean": [
+    [
+     "SurfaceBlowup.singleResidueIdeals",
+     "allowed residue ideals, single"
+    ],
+    [
+     "SurfaceBlowup.crossingResidueIdeals",
+     "allowed residue ideals, crossing"
+    ],
+    [
+     "SurfaceBlowup.HasTangentDivisor",
+     "cell membership"
+    ],
+    [
+     "SurfaceBlowup.TangentPattern",
+     "tangent patterns"
+    ],
+    [
+     "SurfaceBlowup.Allowed",
+     "admissible patterns"
+    ]
+   ]
+  },
+  {
+   "id": "def-contact-order",
+   "anchor": {
+    "bold": "contact size"
+   },
+   "kind": "definition",
+   "label": "Contact-size order",
+   "title": "induction order on states",
+   "relation": "covered",
+   "confidence": "high",
+   "summary": "Lean uses a different well-founded measure, State.rank = 2N² + 2(N − w) + tag, and proves that every non-self child has strictly smaller rank (nonself_child_rank_lt); this plays the role of the paper's contact-size order in every induction.",
+   "lean": [
+    [
+     "SurfaceBlowup.State.rank",
+     "the numerical rank"
+    ],
+    [
+     "SurfaceBlowup.nonself_child_rank_lt",
+     "children decrease the rank"
+    ]
+   ]
+  },
+  {
+   "id": "lem-3.1",
+   "kind": "lemma",
+   "relation": "covered",
+   "confidence": "medium",
+   "summary": "The division maps (3.1) are division_linear_equivalence (from a lifted basis of R/(f)) and the unique factorization (3.2) is unique_scaled_generator_normalization: every f + πh is uniquely (1 + πu)(f + π Σ zᵢbᵢ). The analytic-dependence part (3.3)–(3.4) is not formalized; the formal proof uses instead that the normalization preserves π-adic congruences (normalizer_preserves_adic_congruence, coordinate_transition_congruence).",
+   "lean": [
+    [
+     "SurfaceBlowup.division_linear_equivalence",
+     "rem/quo division (3.1)"
+    ],
+    [
+     "SurfaceBlowup.unique_scaled_generator_normalization",
+     "unique factorization (3.2)"
+    ],
+    [
+     "SurfaceBlowup.scaled_normalization_identity",
+     "the fixed-point form"
+    ],
+    [
+     "SurfaceBlowup.normalizer_preserves_adic_congruence",
+     "replacement for analyticity"
+    ],
+    [
+     "SurfaceBlowup.coordinate_transition_congruence",
+     "transitions preserve congruences"
+    ]
+   ]
+  },
+  {
+   "id": "prop-3.2",
+   "kind": "proposition",
+   "relation": "covered",
+   "confidence": "medium",
+   "summary": "The chart (3.5) is a bijection onto its residue-ideal cell (coordinate_ideal_cell_bijection); chart transitions preserve Haar measure (ideal_chart_transition_haar, the formal counterpart of 'unit Jacobian'), so the pushed-forward chart measures and the state measure of an atlas are independent of choices (ideal_chart_pushforward_independent, state_measure_atlas_independent). The tangent-lattice statement is not formalized.",
+   "lean": [
+    [
+     "SurfaceBlowup.coordinate_ideal_cell_bijection",
+     "charts parametrize the lifts uniquely"
+    ],
+    [
+     "SurfaceBlowup.ideal_chart_transition_haar",
+     "transitions are measure preserving"
+    ],
+    [
+     "SurfaceBlowup.ideal_chart_pushforward_independent",
+     "chart measures agree"
+    ],
+    [
+     "SurfaceBlowup.state_measure_atlas_independent",
+     "intrinsic state measure"
+    ],
+    [
+     "SurfaceBlowup.idealChartSigma",
+     "the intrinsic σ-algebra"
+    ],
+    [
+     "SurfaceBlowup.IdealChart",
+     "division charts"
+    ]
+   ]
+  },
+  {
+   "id": "prop-3.3",
+   "kind": "proposition",
+   "relation": "specialization",
+   "confidence": "high",
+   "summary": "State volumes q^{-c} and (q−1)q^{-c-h} are proved for any ideal atlas indexed by the residue ideals (single_state_volume, crossing_state_volume), from the residue-ideal counts q^{ac−c} and (q−1)q^{ac+bh−c−h}; the concrete surfaces admit such atlases (concrete_single/crossing_state_volume). The volumes appear in the recursion as the definition stateVolume.",
+   "lean": [
+    [
+     "SurfaceBlowup.single_state_volume",
+     "V_{S(a;c)} = q^{-c}"
+    ],
+    [
+     "SurfaceBlowup.crossing_state_volume",
+     "V_{T} = (q−1)q^{-c-h}"
+    ],
+    [
+     "SurfaceBlowup.single_residue_ideal_count",
+     "q^{N−c} residue ideals"
+    ],
+    [
+     "SurfaceBlowup.crossing_residue_ideal_count",
+     "(q−1)q^{N−c−h} residue ideals"
+    ],
+    [
+     "SurfaceBlowup.concrete_single_state_volume",
+     "on the concrete surface"
+    ],
+    [
+     "SurfaceBlowup.concrete_crossing_state_volume",
+     "on the concrete surface"
+    ],
+    [
+     "SurfaceBlowup.stateVolume",
+     "the volumes as expressions"
+    ]
+   ]
+  },
+  {
+   "id": "eq-4.1",
+   "anchor": {
+    "eq": "4.1"
+   },
+   "kind": "display",
+   "label": "(4.1)",
+   "title": "layers of the exceptional thickenings",
+   "relation": "covered",
+   "confidence": "medium",
+   "summary": "The Lean development has no formal scheme; it works with the two blow-up charts R[x/t], R[t/x] and their exceptional filtrations. The layers I^j/I^{j+1} are identified with polynomial modules on a chart and Laurent-polynomial modules on the overlap, which is the content of 𝓘^j/𝓘^{j+1} ≅ 𝒪_E(j).",
+   "lean": [
+    [
+     "SurfaceBlowup.chart_layer_polynomial_coordinates",
+     "chart layers ≅ (R/(t,x))[Z]"
+    ],
+    [
+     "SurfaceBlowup.overlap_layer_laurent_coordinates",
+     "overlap layers ≅ (R/(t,x))[Z, Z⁻¹]"
+    ]
+   ]
+  },
+  {
+   "id": "lem-4.1",
+   "kind": "lemma",
+   "relation": "covered",
+   "confidence": "low",
+   "summary": "Formalized only in a restructured, sheaf-free form: finite two-chart Čech complexes at each exceptional level, surjective reductions (actual_cech_reductions_surjective), stabilization of the twisted cokernels (actual_twisted_coker_reduction_bijective), and the identification of R with compatible closed threads (surface_threads_range). There is no formal completion 𝔛 and no sheaf cohomology in the Lean development.",
+   "lean": [
+    [
+     "SurfaceBlowup.actual_cech_reductions_surjective",
+     "transition maps surjective"
+    ],
+    [
+     "SurfaceBlowup.actual_twisted_coker_reduction_bijective",
+     "cokernels stabilize"
+    ],
+    [
+     "SurfaceBlowup.surface_threads_range",
+     "H⁰ of the limit = compatible threads"
+    ],
+    [
+     "SurfaceBlowup.curve_limit_level_map_surjective",
+     "limits of curve sections"
+    ]
+   ]
+  },
+  {
+   "id": "lem-4.2",
+   "kind": "lemma",
+   "relation": "covered",
+   "confidence": "medium",
+   "summary": "H⁰ = R: surface_threads_injective / surface_threads_range (complete R maps isomorphically onto compatible closed threads), glued_function_exists_unique (glued generators come from a unique function of order d). length H¹(𝒪(dE)) = C(d,2): actual_finite_cech_coefficient_triangular (length of the stable twisted Čech cokernel). The triviality of degree-zero line bundles is not formalized; the formal proof glues generators directly instead.",
+   "lean": [
+    [
+     "SurfaceBlowup.surface_threads_injective",
+     "R → threads injective"
+    ],
+    [
+     "SurfaceBlowup.surface_threads_range",
+     "onto closed threads"
+    ],
+    [
+     "SurfaceBlowup.glued_function_exists_unique",
+     "sections with poles: a unique global function"
+    ],
+    [
+     "SurfaceBlowup.actual_finite_cech_coefficient_length",
+     "cokernel length Σ (d − j − 1)"
+    ],
+    [
+     "SurfaceBlowup.actual_finite_cech_coefficient_triangular",
+     "= C(d,2) in the stable range"
+    ]
+   ]
+  },
+  {
+   "id": "lem-4.3",
+   "kind": "lemma",
+   "relation": "covered",
+   "confidence": "medium",
+   "summary": "Prescribed local child ideals are realized by a two-chart curve datum (child_ideals_curve_datum); compatible chart generators glue (glued_generators_exist) and come from a global function (two_chart_global_function_exists, concrete version concrete_two_chart_glued_generators_exist); finitely supported local data are described by the Chinese remainder theorem (finite_support_quotient_equiv); the datum matching a divisor has degree deg D (matches_divisor_degree).",
+   "lean": [
+    [
+     "SurfaceBlowup.child_ideals_curve_datum",
+     "prescribed children give a curve datum"
+    ],
+    [
+     "SurfaceBlowup.glued_generators_exist",
+     "gluing on the thickenings"
+    ],
+    [
+     "SurfaceBlowup.two_chart_global_function_exists",
+     "global equation"
+    ],
+    [
+     "SurfaceBlowup.concrete_two_chart_glued_generators_exist",
+     "concrete surfaces"
+    ],
+    [
+     "SurfaceBlowup.finite_support_quotient_equiv",
+     "finite support quotients"
+    ],
+    [
+     "SurfaceBlowup.matches_divisor_degree",
+     "restriction to E is Σ r_P P"
+    ]
+   ]
+  },
+  {
+   "id": "eq-4.6",
+   "anchor": {
+    "eq": "4.6"
+   },
+   "kind": "display",
+   "label": "(4.6)",
+   "title": "tangent divisor and child contacts",
+   "relation": "covered",
+   "confidence": "medium",
+   "summary": "The tangent divisor of the initial form (initial_form_has_tangent_divisor, homogeneous_divisor_boundary_multiplicities: a boundary point is occupied iff the corresponding extreme coefficient vanishes), the exceptional contact r_P of a strict transform (concrete_strict_transform_multiplicity), and the old-boundary contact c − d (concrete_infinity_boundary_contact, concrete_zero_boundary_contact).",
+   "lean": [
+    [
+     "SurfaceBlowup.HasTangentDivisor",
+     "tangent divisor of an ideal"
+    ],
+    [
+     "SurfaceBlowup.initial_form_has_tangent_divisor",
+     "from the initial form"
+    ],
+    [
+     "SurfaceBlowup.homogeneous_divisor_boundary_multiplicities",
+     "boundary occupation"
+    ],
+    [
+     "SurfaceBlowup.concrete_strict_transform_multiplicity",
+     "exceptional contact r_P"
+    ],
+    [
+     "SurfaceBlowup.concrete_infinity_boundary_contact",
+     "old-boundary contact"
+    ],
+    [
+     "SurfaceBlowup.concrete_zero_boundary_contact",
+     "second boundary"
+    ]
+   ]
+  },
+  {
+   "id": "eq-4.7",
+   "anchor": {
+    "eq": "4.7"
+   },
+   "kind": "display",
+   "label": "(4.7)–(4.8)",
+   "title": "children of S and T",
+   "relation": "definition",
+   "confidence": "high",
+   "summary": "The child tables are the definition children (with the admissibility predicate Allowed: r_t > 0 ⇔ d < c, r_x > 0 ⇔ d < h); strict_transform_mapsTo_child_ideals proves that strict transforms of a fixed-tangent cell land in exactly these child states.",
+   "lean": [
+    [
+     "SurfaceBlowup.children",
+     "child lists"
+    ],
+    [
+     "SurfaceBlowup.otherChildren",
+     "off-boundary children S(a;r_P) over O_δ"
+    ],
+    [
+     "SurfaceBlowup.Allowed",
+     "admissible tangent data"
+    ],
+    [
+     "SurfaceBlowup.strict_transform_mapsTo_child_ideals",
+     "strict transforms land in the children"
+    ]
+   ],
+   "also_tags": [
+    "4.8"
+   ]
+  },
+  {
+   "id": "prop-4.4",
+   "kind": "proposition",
+   "relation": "specialization",
+   "confidence": "high",
+   "summary": "On the concrete surfaces: strict transform is injective on a fixed-tangent cell and a bijection onto the product of the child ideal sets (strict_transform_injOn_fixed_tangent_cell, strict_transform_bijOn_child_ideals); the index map A_f → B_f is injective with cokernel of O-length C(d,2) (concrete_curve_order_index, child_order_index_and_kernel, cell_member_index_map). The identification of the cokernel with H¹(𝔛, 𝒪(dE)) is replaced by the Čech computation.",
+   "lean": [
+    [
+     "SurfaceBlowup.strict_transform_bijOn_child_ideals",
+     "fixed-divisor bijection"
+    ],
+    [
+     "SurfaceBlowup.strict_transform_injOn_fixed_tangent_cell",
+     "injectivity"
+    ],
+    [
+     "SurfaceBlowup.concrete_curve_order_index",
+     "kernel (f), cokernel length C(d,2)"
+    ],
+    [
+     "SurfaceBlowup.child_order_index_and_kernel",
+     "general two-chart version"
+    ],
+    [
+     "SurfaceBlowup.cell_member_index_map",
+     "index map of a cell"
+    ]
+   ]
+  },
+  {
+   "id": "thm-5.1",
+   "kind": "theorem",
+   "relation": "specialization",
+   "confidence": "high",
+   "summary": "member_cell_box_measure: for a cell of a concrete recursion member and measurable child sets G_j, μ(cell ∩ ST⁻¹(∏ G_j)) = q^{-tri d} ∏ μ_j(G_j), where tri d = C(d+1,2). Boxes generate the product σ-algebra, so this is (5.1). The Jacobian computation (5.3) appears as the cokernel length s·N − tri d of the strict normalizer (strict_quotient_cokernel_length, member_center_linear_part); the inverse-function-theorem step is replaced by finite-digit measure arguments (strict_chart_one_ball_measure). Haar measure on O_δ is the product measure in the power basis (unramified_coefficient_measure_pi).",
+   "lean": [
+    [
+     "SurfaceBlowup.member_cell_box_measure",
+     "the measure identity on boxes"
+    ],
+    [
+     "SurfaceBlowup.member_cell_box_measurable",
+     "measurability"
+    ],
+    [
+     "SurfaceBlowup.strict_quotient_cokernel_length",
+     "determinant: cokernel length s·N − tri d"
+    ],
+    [
+     "SurfaceBlowup.member_center_linear_part",
+     "linear part at a cell center"
+    ],
+    [
+     "SurfaceBlowup.strict_chart_one_ball_measure",
+     "net factor q^{-tri d} on a ball"
+    ],
+    [
+     "SurfaceBlowup.unramified_coefficient_measure_pi",
+     "Haar on O_δ"
+    ]
+   ]
+  },
+  {
+   "id": "ex-5.2",
+   "kind": "example",
+   "relation": "none",
+   "confidence": "high",
+   "summary": "Worked example; not formalized as such. Its conclusion (transition probability q^{-3}) is an instance of divisorProbability and child_volume_ratio.",
+   "lean": []
+  },
+  {
+   "id": "prop-6.1",
+   "kind": "proposition",
+   "relation": "covered",
+   "confidence": "high",
+   "summary": "The probabilities (6.1) are the definition divisorProbability; child_volume_ratio proves the paper's computation (q^{-tri d} × product of child volumes ÷ parent volume = divisorProbability), and member_cell_box_measure gives conditional independence of the children. Cells partition the state (concrete_member_cells_cover; tangent_divisor_unique).",
+   "lean": [
+    [
+     "SurfaceBlowup.divisorProbability",
+     "(6.1) as an expression"
+    ],
+    [
+     "SurfaceBlowup.child_volume_ratio",
+     "the volume calculation"
+    ],
+    [
+     "SurfaceBlowup.member_cell_box_measure",
+     "independence of the children"
+    ],
+    [
+     "SurfaceBlowup.concrete_member_cells_cover",
+     "cells cover the state"
+    ],
+    [
+     "SurfaceBlowup.tangent_divisor_unique",
+     "cells are disjoint"
+    ],
+    [
+     "SurfaceBlowup.rational_divisorProbability_single",
+     "closed form q^{-tri d}(q−1)^{[d<c]}"
+    ]
+   ]
+  },
+  {
+   "id": "eq-6.2",
+   "anchor": {
+    "eq": "6.2"
+   },
+   "kind": "display",
+   "label": "(6.2)",
+   "title": "closed points of degree δ",
+   "relation": "exact",
+   "confidence": "high",
+   "summary": "pointCount δ is the necklace expression; irreducible_count_moebius proves δ·#{monic irreducibles of degree δ} = Σ μ(j) q^{δ/j}, and card_pow_eq_sum_irreducible_degrees proves q^m = Σ_{δ|m} δ N_δ.",
+   "lean": [
+    [
+     "SurfaceBlowup.pointCount",
+     "N_δ(q)"
+    ],
+    [
+     "SurfaceBlowup.irreducible_count_moebius",
+     "Möbius formula"
+    ],
+    [
+     "SurfaceBlowup.card_pow_eq_sum_irreducible_degrees",
+     "q^m = Σ δ N_δ"
+    ],
+    [
+     "SurfaceBlowup.finite_field_irreducible_count",
+     "count via pointCount"
+    ]
+   ]
+  },
+  {
+   "id": "eq-6.3",
+   "anchor": {
+    "eq": "6.3"
+   },
+   "kind": "display",
+   "label": "(6.3)",
+   "title": "number of divisors with a pattern",
+   "relation": "exact",
+   "confidence": "high",
+   "summary": "divisorCount / tangentCount are the falling-factorial counts; pattern_divisor_count proves #patternDivisors k s P = tangentCount s P (|k|), via a bijection with colorings of the nonboundary closed directions.",
+   "lean": [
+    [
+     "SurfaceBlowup.divisorCount",
+     "𝒞_m(q; b₀) as an expression"
+    ],
+    [
+     "SurfaceBlowup.tangentCount",
+     "the count for a state"
+    ],
+    [
+     "SurfaceBlowup.falling",
+     "falling factorial"
+    ],
+    [
+     "SurfaceBlowup.availablePoints",
+     "C_δ"
+    ],
+    [
+     "SurfaceBlowup.pattern_divisor_count",
+     "the count is correct"
+    ],
+    [
+     "SurfaceBlowup.patternDivisors_equiv_colorings",
+     "bijection with colorings"
+    ],
+    [
+     "SurfaceBlowup.nonboundary_direction_count",
+     "C_1 = q + 1 − b₀, C_δ = N_δ"
+    ]
+   ]
+  },
+  {
+   "id": "eq-6.4",
+   "anchor": {
+    "eq": "6.4"
+   },
+   "kind": "display",
+   "label": "(6.4)",
+   "title": "Adams operation",
+   "relation": "definition",
+   "confidence": "high",
+   "summary": "lawDescend δ (scale residue degrees by δ, substitute q ↦ q^δ) and, in the reciprocity part, adamsCoef δ. That a field over K_δ has invariant (e, δf) over K is field_invariant_unramified_tower / algebra_type_unramified_descent.",
+   "lean": [
+    [
+     "SurfaceBlowup.lawDescend",
+     "ψ_δ on laws"
+    ],
+    [
+     "SurfaceBlowup.scaleType",
+     "(e,f) ↦ (e,δf)"
+    ],
+    [
+     "SurfaceBlowup.adamsCoef",
+     "ψ_δ on ℚ(q)[Z]"
+    ],
+    [
+     "SurfaceBlowup.field_invariant_unramified_tower",
+     "invariants over K_δ vs K"
+    ],
+    [
+     "SurfaceBlowup.algebra_type_unramified_descent",
+     "types descend by scaleType δ"
+    ]
+   ]
+  },
+  {
+   "id": "eq-6.5",
+   "anchor": {
+    "eq": "6.5"
+   },
+   "kind": "display",
+   "label": "(6.5)",
+   "title": "transitions preserve degree",
+   "relation": "exact",
+   "confidence": "high",
+   "summary": "children_degree_identity: Σ δ_P · N(child_P) = N(parent) for every allowed pattern.",
+   "lean": [
+    [
+     "SurfaceBlowup.children_degree_identity",
+     "degree identity"
+    ]
+   ]
+  },
+  {
+   "id": "eq-6.6",
+   "anchor": {
+    "eq": "6.6"
+   },
+   "kind": "display",
+   "label": "(6.6)",
+   "title": "exit contribution Γ_{a;c}",
+   "relation": "definition",
+   "confidence": "high",
+   "summary": "exitLaw s is the sum over allowed tangent patterns except the self pattern; S(a;c) (c ≥ 2) has exactly one self pattern, of total count q (self_patterns_of_single_state, exists_unique_selfPattern_single), and its weight q·q^{-tri c} is returnWeight c.",
+   "lean": [
+    [
+     "SurfaceBlowup.exitLaw",
+     "Γ (non-self part of the recursion)"
+    ],
+    [
+     "SurfaceBlowup.self_patterns_of_single_state",
+     "the unique self-return, total count q"
+    ],
+    [
+     "SurfaceBlowup.exists_unique_selfPattern_single",
+     "uniqueness"
+    ],
+    [
+     "SurfaceBlowup.returnWeight",
+     "λ_c = q·q^{-tri c}"
+    ],
+    [
+     "SurfaceBlowup.nonself_child_rank_lt",
+     "all other children are earlier"
+    ]
+   ]
+  },
+  {
+   "id": "eq-6.7",
+   "anchor": {
+    "eq": "6.7"
+   },
+   "kind": "display",
+   "label": "(6.7)",
+   "title": "the crossing formula",
+   "relation": "definition",
+   "confidence": "high",
+   "summary": "The crossing branch of stateLawFuel (the law of T(a,b;c,h) is its exit law; state_law_unfold).",
+   "lean": [
+    [
+     "SurfaceBlowup.stateLawFuel",
+     "the recursion (crossing branch)"
+    ],
+    [
+     "SurfaceBlowup.state_law_unfold",
+     "F_T = exitLaw T"
+    ]
+   ]
+  },
+  {
+   "id": "thm-6.2",
+   "kind": "theorem",
+   "relation": "specialization",
+   "confidence": "medium",
+   "summary": "(i) stateLaw s is defined by the finite recursion and is safe at every q ≥ 2 (local_law_safe; regularity at prime powers of the global formula: global_formula_regular). (ii)–(iii) universal_law_statement: for every member i of every surface universe, the type events are measurable, μ(type σ) = F_s[σ](q) · μ(state), and the nonterminating set is null — the same stateLaw for all members, which is the universality. A concrete universe (all concrete surfaces, closed under children) exists (concrete_universe_exists). (iv) state_law_unfold is (6.8). Specialization: the members are the concrete surfaces rather than all surfaces realizing the state; homogeneity of weight N is not stated separately.",
+   "lean": [
+    [
+     "SurfaceBlowup.stateLaw",
+     "F_s"
+    ],
+    [
+     "SurfaceBlowup.universal_law_statement",
+     "(ii)–(iii) for every member of every surface universe"
+    ],
+    [
+     "SurfaceBlowup.SurfaceUniverse.LawStatement",
+     "what (ii) asserts"
+    ],
+    [
+     "SurfaceBlowup.concrete_universe_exists",
+     "the concrete surface universe"
+    ],
+    [
+     "SurfaceBlowup.state_law_unfold",
+     "(iv): F_{S(a;c)} = Γ/(1 − λ_c)"
+    ],
+    [
+     "SurfaceBlowup.local_law_safe",
+     "(i): no denominator vanishes"
+    ],
+    [
+     "SurfaceBlowup.global_formula_regular",
+     "regular at prime powers"
+    ]
+   ]
+  },
+  {
+   "id": "rem-6.3",
+   "kind": "remark",
+   "relation": "covered",
+   "confidence": "medium",
+   "summary": "The formal proof handles inseparability differently: the recursion uses types with finite integral closures (route F, which does allow inseparable terminal fields), and the published étale densities are recovered because the inseparable locus of monic polynomials is Haar-null (monic_inseparable_null, orig_monicDensity_eq, orig_projectiveDensity_eq). The itinerary argument of the remark is not formalized.",
+   "lean": [
+    [
+     "SurfaceBlowup.monic_inseparable_null",
+     "inseparable locus is Haar-null"
+    ],
+    [
+     "SurfaceBlowup.orig_monicDensity_eq",
+     "monic densities agree"
+    ],
+    [
+     "SurfaceBlowup.orig_projectiveDensity_eq",
+     "projective densities agree"
+    ],
+    [
+     "SurfaceBlowup.HasPolynomialTypeF",
+     "route-F predicate"
+    ]
+   ]
+  },
+  {
+   "id": "proof-6.2",
+   "anchor": {
+    "proof": "Proof of Theorem 6.2"
+   },
+   "kind": "proof",
+   "label": "Proof of Theorem 6.2",
+   "title": "induction, geometric series, termination",
+   "relation": "covered",
+   "confidence": "medium",
+   "summary": "Strong induction on State.rank (universal_law_statement) through the crossing step (recursion_crossing_law) and the single-boundary step (recursion_single_law), which sums the returns: k returns then exit have mass λ^k Γ (exit_event_succ_mass, return_event_mass), never exiting is null (never_return_null), and the series is summed by geometric_exit_sum. Termination outside null events: nonterminating_subset_return_or_bad, bad_exit_null.",
+   "lean": [
+    [
+     "SurfaceBlowup.recursion_crossing_law",
+     "crossing step"
+    ],
+    [
+     "SurfaceBlowup.recursion_single_law",
+     "single-boundary step"
+    ],
+    [
+     "SurfaceBlowup.exit_event_succ_mass",
+     "j returns then exit"
+    ],
+    [
+     "SurfaceBlowup.return_event_mass",
+     "return probability"
+    ],
+    [
+     "SurfaceBlowup.never_return_null",
+     "never exiting is null"
+    ],
+    [
+     "SurfaceBlowup.geometric_exit_sum",
+     "geometric series"
+    ],
+    [
+     "SurfaceBlowup.nonterminating_subset_return_or_bad",
+     "termination"
+    ],
+    [
+     "SurfaceBlowup.bad_exit_null",
+     "bad exits are null"
+    ]
+   ]
+  },
+  {
+   "id": "ex-6.4",
+   "kind": "example",
+   "relation": "exact",
+   "confidence": "medium",
+   "summary": "(6.10) is the private regression lemma single_two_law, proved from the definitions for every vertical multiplicity a and every rational q > 1 (law of S(a;2): q/(q+1) Z_{2a,1} + (Z_{a,1}² + Z_{a,2})/(2(q+1))).",
+   "lean": [
+    [
+     "SurfaceBlowup.Tests.single_two_law",
+     "(6.10) for every a (private)"
+    ]
+   ]
+  },
+  {
+   "id": "disc-null",
+   "anchor": {
+    "para": "The global discriminant locus is Haar-null"
+   },
+   "kind": "definition",
+   "label": "Discriminant locus is null",
+   "title": "Haar-null exceptional sets",
+   "relation": "covered",
+   "confidence": "medium",
+   "summary": "Zero sets of nonzero polynomials are null for product measures (mvPolynomial_zero_null); the inseparable monic locus is null (monic_inseparable_null); coordinate hyperplanes are null (coordinate_hyperplane_null, used for the projective model).",
+   "lean": [
+    [
+     "SurfaceBlowup.mvPolynomial_zero_null",
+     "polynomial zero sets are null"
+    ],
+    [
+     "SurfaceBlowup.monic_inseparable_null",
+     "inseparable locus is null"
+    ],
+    [
+     "SurfaceBlowup.coordinate_hyperplane_null",
+     "hyperplanes are null"
+    ]
+   ]
+  },
+  {
+   "id": "eq-7.1",
+   "anchor": {
+    "eq": "7.1"
+   },
+   "kind": "display",
+   "label": "(7.1)",
+   "title": "B_r is the coefficient law",
+   "relation": "exact",
+   "confidence": "high",
+   "summary": "root_cell_law: for every complete DVR O with finite residue field, every uniformizer π and r > 0, the set {z ∈ O^r : X^r + Σ π zᵢ Xⁱ has type σ} is measurable of measure F_{S(1;r)}[σ](q). The chart identification uses repeated_root_one_chart_atlas.",
+   "lean": [
+    [
+     "SurfaceBlowup.root_cell_law",
+     "the root cell law"
+    ],
+    [
+     "SurfaceBlowup.RootCellLaw",
+     "its statement"
+    ],
+    [
+     "SurfaceBlowup.repeated_root_one_chart_atlas",
+     "one-chart atlas of S(1;r) on O⟦x⟧"
+    ],
+    [
+     "SurfaceBlowup.series_quotient_equiv_adjoinRoot",
+     "O[x]/(f) ≅ O⟦x⟧/(f)"
+    ]
+   ]
+  },
+  {
+   "id": "lem-7.1",
+   "kind": "lemma",
+   "relation": "covered",
+   "confidence": "high",
+   "summary": "Residue-cell partitions (monic_cells_partition, projective_cells_partition) with masses q^{-n} and [n+1]_q^{-1} (residue_cell_mass, projective_cell_conditional_density); Hensel products of coprime cells are measure preserving (factor_cells_measure_preserving, form_cells_measure_preserving); a degree-δ block descends through O_δ by Frobenius (block_descent_bijection) with types scaled by δ (descended_polynomial_type); the resulting cell laws (monic_cell_law).",
+   "lean": [
+    [
+     "SurfaceBlowup.monic_cells_partition",
+     "monic residue cells"
+    ],
+    [
+     "SurfaceBlowup.projective_cells_partition",
+     "projective cells"
+    ],
+    [
+     "SurfaceBlowup.residue_cell_mass",
+     "mass q^{-n}"
+    ],
+    [
+     "SurfaceBlowup.projective_cell_conditional_density",
+     "mass [n+1]_q^{-1}"
+    ],
+    [
+     "SurfaceBlowup.factor_cells_measure_preserving",
+     "Hensel bijection preserves measure"
+    ],
+    [
+     "SurfaceBlowup.form_cells_measure_preserving",
+     "homogeneous version"
+    ],
+    [
+     "SurfaceBlowup.block_descent_bijection",
+     "Frobenius block descent"
+    ],
+    [
+     "SurfaceBlowup.descended_polynomial_type",
+     "types scale by δ"
+    ],
+    [
+     "SurfaceBlowup.monic_cell_law",
+     "law of a monic cell"
+    ],
+    [
+     "SurfaceBlowup.projectiveNormalizer",
+     "[n+1]_q"
+    ]
+   ]
+  },
+  {
+   "id": "eq-7.3",
+   "anchor": {
+    "eq": "7.3"
+   },
+   "kind": "display",
+   "label": "(7.3)",
+   "title": "the assembly formulas",
+   "relation": "exact",
+   "confidence": "high",
+   "summary": "(7.3) is the definition globalLaw (sum over residue patterns of descended root laws, normalized by q^{-n} or [n+1]_q^{-1}); monicDensityF_eq_densityValue / projectiveDensityF_eq_densityValue prove that it computes the densities, which with the Haar-null bridges gives main_dvr.",
+   "lean": [
+    [
+     "SurfaceBlowup.globalLaw",
+     "(7.3) as a definition"
+    ],
+    [
+     "SurfaceBlowup.residuePatterns",
+     "residue divisor patterns"
+    ],
+    [
+     "SurfaceBlowup.monicDensityF_eq_densityValue",
+     "monic assembly theorem"
+    ],
+    [
+     "SurfaceBlowup.projectiveDensityF_eq_densityValue",
+     "projective assembly theorem"
+    ]
+   ]
+  },
+  {
+   "id": "eq-7.4",
+   "anchor": {
+    "eq": "7.4"
+   },
+   "kind": "display",
+   "label": "(H) = (7.4)",
+   "title": "homogeneity and exchange",
+   "relation": "covered",
+   "confidence": "medium",
+   "summary": "The exchange identity C_{a,b;c,h} = C_{b,a;h,c} is crossingQ_symm. The two scaling identities are not formalized: the formal reciprocity proof treats every vertical multiplicity a simultaneously and never needs to rescale.",
+   "lean": [
+    [
+     "SurfaceBlowup.crossingQ_symm",
+     "exchange"
+    ]
+   ]
+  },
+  {
+   "id": "eq-7.5",
+   "anchor": {
+    "eq": "7.5"
+   },
+   "kind": "display",
+   "label": "(7.5)",
+   "title": "cluster and crossing series",
+   "relation": "definition",
+   "confidence": "high",
+   "summary": "𝓑_a is clusterSer a; the crossing series is encoded as the contact series crossingQ a b = 1 + (q−1) Σ C_{a,b;c,h} 𝓔_{c,h}.",
+   "lean": [
+    [
+     "SurfaceBlowup.clusterSer",
+     "𝓑_a"
+    ],
+    [
+     "SurfaceBlowup.crossingQ",
+     "U_{a,b} (encodes 𝓣_{a,b})"
+    ],
+    [
+     "SurfaceBlowup.Ser",
+     "series over ℚ(q)[Z]"
+    ]
+   ]
+  },
+  {
+   "id": "eq-7.6",
+   "anchor": {
+    "eq": "7.6"
+   },
+   "kind": "display",
+   "label": "(7.6)",
+   "title": "plethystic exponential and logarithm",
+   "relation": "definition",
+   "confidence": "high",
+   "summary": "pExp, pLog with Möbius inversion (moebiusSum_plethSum, plethSum_moebiusSum) and exp/log inverse (expSer_logSer, logSer_expSer); commutation with reciprocal substitution and dilation (recipSer_pPow, dilate_pPow).",
+   "lean": [
+    [
+     "SurfaceBlowup.pExp",
+     "Exp"
+    ],
+    [
+     "SurfaceBlowup.pLog",
+     "Log"
+    ],
+    [
+     "SurfaceBlowup.moebiusSum_plethSum",
+     "Möbius inversion"
+    ],
+    [
+     "SurfaceBlowup.expSer_logSer",
+     "exp ∘ log = id"
+    ],
+    [
+     "SurfaceBlowup.logSer_expSer",
+     "log ∘ exp = id"
+    ],
+    [
+     "SurfaceBlowup.recipSer_pPow",
+     "commutes with q ↦ 1/q"
+    ],
+    [
+     "SurfaceBlowup.dilate_pPow",
+     "commutes with dilation"
+    ]
+   ]
+  },
+  {
+   "id": "pow-rule",
+   "anchor": {
+    "para": "To compare first differences under assembly, set"
+   },
+   "kind": "definition",
+   "label": "Pow_v and the first-difference rule",
+   "title": "plethystic powers",
+   "relation": "exact",
+   "confidence": "high",
+   "summary": "pPow w g = Exp(w · Log g); pPow_pPow is Pow_v Pow_w = Pow_{vw}; coeff_pPow_sub_of_scongr is the first-difference rule.",
+   "lean": [
+    [
+     "SurfaceBlowup.pPow",
+     "Pow_v"
+    ],
+    [
+     "SurfaceBlowup.pPow_pPow",
+     "composition"
+    ],
+    [
+     "SurfaceBlowup.coeff_pPow_sub_of_scongr",
+     "first-difference rule"
+    ]
+   ]
+  },
+  {
+   "id": "lem-7.2",
+   "kind": "lemma",
+   "relation": "covered",
+   "confidence": "medium",
+   "summary": "The Lean development defines the Euler transforms as plethystic powers (eulerSer ε a = Pow_{q+ε}(𝓑_a)) and proves their coefficients are the falling-factorial pattern sums (coeff_eulerSer, via prod_formalPow_adamsSer_clusterSer_scongr), which is the expanded form of (7.8); the infinite product over δ is never formed.",
+   "lean": [
+    [
+     "SurfaceBlowup.eulerSer",
+     "Exp((q+ε) Log 𝓑_a)"
+    ],
+    [
+     "SurfaceBlowup.coeff_eulerSer",
+     "coefficients = pattern sums"
+    ],
+    [
+     "SurfaceBlowup.patternSum",
+     "the pattern sum"
+    ],
+    [
+     "SurfaceBlowup.prod_formalPow_adamsSer_clusterSer_scongr",
+     "truncated Euler product expansion"
+    ]
+   ]
+  },
+  {
+   "id": "eq-7.9",
+   "anchor": {
+    "eq": "7.9"
+   },
+   "kind": "display",
+   "label": "(G) = (7.9)",
+   "title": "global assembly as a plethystic exponential",
+   "relation": "covered",
+   "confidence": "high",
+   "summary": "lawCoef_globalLaw_false (A_n = q^{-n} · patternSum 0 1 n n) and lawCoef_globalLaw_true (R_n = patternSum 1 1 n n / [n+1]_q), combined with coeff_eulerSer ([zⁿ] Pow_{q+ε}𝓑 = patternSum ε 1 n n), give both halves of (G).",
+   "lean": [
+    [
+     "SurfaceBlowup.lawCoef_globalLaw_false",
+     "monic half"
+    ],
+    [
+     "SurfaceBlowup.lawCoef_globalLaw_true",
+     "projective half"
+    ],
+    [
+     "SurfaceBlowup.coeff_eulerSer",
+     "Euler transform coefficients"
+    ]
+   ]
+  },
+  {
+   "id": "eq-7.10",
+   "anchor": {
+    "eq": "7.10"
+   },
+   "kind": "display",
+   "label": "(7.10)",
+   "title": "L_a, 𝓖_a, 𝓟_a, Φ, Φ′",
+   "relation": "definition",
+   "confidence": "high",
+   "summary": "𝓖_a = eulerSer 0 a, 𝓟_a = eulerSer (−1) a, Φ = gaussPhi. (Φ′ appears only inside the crossing factorization.)",
+   "lean": [
+    [
+     "SurfaceBlowup.eulerSer",
+     "𝓖_a (ε = 0), 𝓟_a (ε = −1)"
+    ],
+    [
+     "SurfaceBlowup.gaussPhi",
+     "Φ"
+    ]
+   ]
+  },
+  {
+   "id": "eq-7.11",
+   "anchor": {
+    "eq": "7.11"
+   },
+   "kind": "display",
+   "label": "(S) = (7.11)",
+   "title": "single-boundary identity",
+   "relation": "covered",
+   "confidence": "medium",
+   "summary": "Formalized in its operator form (8.9), 𝓑_a = ρ(U_{a,a}) Φ 𝓖_a (coeff_clusterSer_eq_coeff_qact), whose two sides are matched coefficientwise with the recursion (coeff_qact_crossingQ_gaussPhi_eulerSer, lawCoef_single_self_term). The ξ-form of (S) is not stated.",
+   "lean": [
+    [
+     "SurfaceBlowup.coeff_clusterSer_eq_coeff_qact",
+     "𝓑_a = ρ(U_{a,a})Φ𝓖_a"
+    ],
+    [
+     "SurfaceBlowup.coeff_qact_crossingQ_gaussPhi_eulerSer",
+     "right side, expanded"
+    ],
+    [
+     "SurfaceBlowup.lawCoef_single_self_term",
+     "self-return term q^{-tri n} q F"
+    ]
+   ]
+  },
+  {
+   "id": "eq-7.12",
+   "anchor": {
+    "eq": "7.12"
+   },
+   "kind": "display",
+   "label": "(T) = (7.12)",
+   "title": "crossing identity",
+   "relation": "covered",
+   "confidence": "medium",
+   "summary": "Formalized in its factorized form (8.5), crossingQ_eq_qmul_qplus_qdiag_qminus, proved coefficientwise from the recursion.",
+   "lean": [
+    [
+     "SurfaceBlowup.crossingQ_eq_qmul_qplus_qdiag_qminus",
+     "U_{a,b} = ι₊(U_{a+b,b}) 𝓟_{a+b}(J) ι₋(U_{a,a+b})"
+    ]
+   ]
+  },
+  {
+   "id": "ex-7.3",
+   "kind": "example",
+   "relation": "exact",
+   "confidence": "high",
+   "summary": "The A_2 and R_2 columns are monicExpr_two_eval and projectiveExpr_two_eval (as functions of every rational q > 1); the B_2 column is the private lemma single_two_law (a = 1); the q = 2 values 1/3 are monicExpr_two_*_eval_two. The intermediate identities (7.13) are not stated separately.",
+   "lean": [
+    [
+     "SurfaceBlowup.Tests.monicExpr_two_eval",
+     "A_2 column"
+    ],
+    [
+     "SurfaceBlowup.Tests.projectiveExpr_two_eval",
+     "R_2 column"
+    ],
+    [
+     "SurfaceBlowup.Tests.single_two_law",
+     "B_2 column (private)"
+    ],
+    [
+     "SurfaceBlowup.Tests.monicExpr_two_ramified_eval_two",
+     "1/3 at q = 2"
+    ],
+    [
+     "SurfaceBlowup.Tests.projectiveDensity_two_ramified",
+     "R_{(2,1)} as a density"
+    ]
+   ]
+  },
+  {
+   "id": "eq-8.1",
+   "anchor": {
+    "eq": "8.1"
+   },
+   "kind": "display",
+   "label": "(8.1)",
+   "title": "the contact algebra",
+   "relation": "definition",
+   "confidence": "high",
+   "summary": "QSer (coefficient functions on contact pairs) with the twisted product qmul: 𝓔_{c,h}𝓔_{d,k} = q^{-ck} 𝓔_{c+d,h+k}.",
+   "lean": [
+    [
+     "SurfaceBlowup.QSer",
+     "𝒬"
+    ],
+    [
+     "SurfaceBlowup.qmul",
+     "twisted product"
+    ],
+    [
+     "SurfaceBlowup.qone",
+     "unit 𝓔_{0,0}"
+    ]
+   ]
+  },
+  {
+   "id": "eq-8.2",
+   "anchor": {
+    "eq": "8.2"
+   },
+   "kind": "display",
+   "label": "(8.2)",
+   "title": "U_{a,b} and the dagger",
+   "relation": "definition",
+   "confidence": "high",
+   "summary": "crossingQ a b is U_{a,b}; qdagger is (f𝓔_{c,h})† = f^∨ q^{c+h−ch} 𝓔_{c,h}.",
+   "lean": [
+    [
+     "SurfaceBlowup.crossingQ",
+     "U_{a,b}"
+    ],
+    [
+     "SurfaceBlowup.qdagger",
+     "†"
+    ]
+   ]
+  },
+  {
+   "id": "lem-8.1",
+   "kind": "lemma",
+   "relation": "covered",
+   "confidence": "high",
+   "summary": "Associativity (qmul_assoc), † anti-multiplicative (qdagger_qmul) and an involution via q ↦ 1/q (recipCoef_recipCoef), the embeddings ι₊, ι₋ multiplicative and commuting with † (qplus_qmul, qminus_qmul, qdagger_qplus, qdagger_qminus), powers of J via the diagonal substitution (qdiag_mul). Two-sided inverses are not constructed: the formal proof works with the unitarity congruence U U† ≡ 1.",
+   "lean": [
+    [
+     "SurfaceBlowup.qmul_assoc",
+     "associativity"
+    ],
+    [
+     "SurfaceBlowup.qdagger_qmul",
+     "† reverses products"
+    ],
+    [
+     "SurfaceBlowup.qplus",
+     "ι₊"
+    ],
+    [
+     "SurfaceBlowup.qminus",
+     "ι₋"
+    ],
+    [
+     "SurfaceBlowup.qplus_qmul",
+     "ι₊ multiplicative"
+    ],
+    [
+     "SurfaceBlowup.qminus_qmul",
+     "ι₋ multiplicative"
+    ],
+    [
+     "SurfaceBlowup.qdagger_qplus",
+     "ι₊ commutes with †"
+    ],
+    [
+     "SurfaceBlowup.qdagger_qminus",
+     "ι₋ commutes with †"
+    ],
+    [
+     "SurfaceBlowup.qdiag_mul",
+     "J^m = q^{-C(m,2)} 𝓔_{m,m}"
+    ]
+   ]
+  },
+  {
+   "id": "lem-8.2",
+   "kind": "lemma",
+   "relation": "exact",
+   "confidence": "high",
+   "summary": "crossingQ_eq_qmul_qplus_qdiag_qminus: U_{a,b} = ι₊(U_{a+b,b}) · qdiag(𝓟_{a+b}) · ι₋(U_{a,a+b}).",
+   "lean": [
+    [
+     "SurfaceBlowup.crossingQ_eq_qmul_qplus_qdiag_qminus",
+     "ordered crossing factorization"
+    ]
+   ]
+  },
+  {
+   "id": "lem-8.3",
+   "kind": "lemma",
+   "relation": "exact",
+   "confidence": "high",
+   "summary": "qcongr_crossingQ_mul_qdagger: if 𝓖_b ≡ S(𝓑_b^∨) through degree M for all b > 0, then U_{a,b} U_{a,b}† ≡ 1 through total contact degree j for every j ≤ 2M + 1. The hypothesis is stated for every multiplicity b instead of being derived from b = 1 by scaling. (8.8) is qcongr_qdiag_mul_qdagger.",
+   "lean": [
+    [
+     "SurfaceBlowup.qcongr_crossingQ_mul_qdagger",
+     "crossing unitarity through 2M+1"
+    ],
+    [
+     "SurfaceBlowup.qcongr_qdiag_mul_qdagger",
+     "(8.8) for the middle factor"
+    ]
+   ]
+  },
+  {
+   "id": "eq-8.9",
+   "anchor": {
+    "eq": "8.9"
+   },
+   "kind": "display",
+   "label": "(8.9)",
+   "title": "the representation ρ and the operator equation",
+   "relation": "exact",
+   "confidence": "high",
+   "summary": "qact is ρ (ρ(𝓔_{c,h}) f = q^{-tri c} x^{c+h} f(x/q^c)); coeff_clusterSer_eq_coeff_qact is 𝓑_a = ρ(U_{a,a}) Φ 𝓖_a.",
+   "lean": [
+    [
+     "SurfaceBlowup.qact",
+     "ρ"
+    ],
+    [
+     "SurfaceBlowup.coeff_clusterSer_eq_coeff_qact",
+     "𝓑_a = ρ(U_{a,a})Φ𝓖_a"
+    ]
+   ]
+  },
+  {
+   "id": "eq-8.10",
+   "anchor": {
+    "eq": "8.10"
+   },
+   "kind": "display",
+   "label": "(8.10)",
+   "title": "leading coefficient of 𝓗",
+   "relation": "covered",
+   "confidence": "medium",
+   "summary": "coeff_qact_gaussPhi_of_lt computes the low-degree coefficients of ρ(U)Φf for U with constant term 1.",
+   "lean": [
+    [
+     "SurfaceBlowup.coeff_qact_gaussPhi_of_lt",
+     "low coefficients of ρ(U)Φ f"
+    ]
+   ]
+  },
+  {
+   "id": "lem-9.1",
+   "kind": "lemma",
+   "relation": "exact",
+   "confidence": "high",
+   "summary": "gaussPhi_qactRecip_gaussPhiInv: for symmetric V, Φ ∘ ρ_{1/q}(V^∨) ∘ Φ⁻¹ = S⁻¹ ∘ ρ(V†) ∘ S.",
+   "lean": [
+    [
+     "SurfaceBlowup.gaussPhi_qactRecip_gaussPhiInv",
+     "Gaussian conjugation"
+    ],
+    [
+     "SurfaceBlowup.qactRecip",
+     "ρ at parameter 1/q"
+    ]
+   ]
+  },
+  {
+   "id": "eq-9.4",
+   "anchor": {
+    "eq": "9.4"
+   },
+   "kind": "display",
+   "label": "(9.4)",
+   "title": "the four equations",
+   "relation": "covered",
+   "confidence": "medium",
+   "summary": "𝓑 = 𝓗𝓖 is coeff_clusterSer_eq_coeff_qact; 𝓑 = Pow_{1/q}(𝓖) is clusterSer_eq_pPow; the reciprocal equations are proved in private lemmas of Reciprocity/Main.lean (gaussPhi_dilate_recipSer_clusterSer, qact_gaussPhi_dilate_recipSer_scongr).",
+   "lean": [
+    [
+     "SurfaceBlowup.coeff_clusterSer_eq_coeff_qact",
+     "𝓑 = 𝓗𝓖"
+    ],
+    [
+     "SurfaceBlowup.clusterSer_eq_pPow",
+     "𝓑 = Pow_{1/q}(𝓖)"
+    ],
+    [
+     "SurfaceBlowup.gaussPhi_dilate_recipSer_clusterSer",
+     "ΦW = ρ(U†)V (private)"
+    ],
+    [
+     "SurfaceBlowup.qact_gaussPhi_dilate_recipSer_scongr",
+     "𝓗W = V through degree n (private)"
+    ]
+   ]
+  },
+  {
+   "id": "proof-affine",
+   "anchor": {
+    "proof": "Proof of monic/cluster reciprocity"
+   },
+   "kind": "proof",
+   "label": "Proof of monic/cluster reciprocity",
+   "title": "induction closing on 1 − λ_n",
+   "relation": "exact",
+   "confidence": "high",
+   "summary": "cluster_reciprocity: 𝓖_a ≡ S(𝓑_a^∨) in every degree, for every a > 0, by induction (base cluster_reciprocity_one; step cluster_reciprocity_step, private) closing on the nonzero scalar q⁻¹ − q^{-tri n} (X_inv_sub_X_zpow_neg_tri_ne_zero).",
+   "lean": [
+    [
+     "SurfaceBlowup.cluster_reciprocity",
+     "𝓖 = 𝓦 in every degree"
+    ],
+    [
+     "SurfaceBlowup.cluster_reciprocity_one",
+     "base case"
+    ],
+    [
+     "SurfaceBlowup.cluster_reciprocity_step",
+     "induction step (private)"
+    ],
+    [
+     "SurfaceBlowup.X_inv_sub_X_zpow_neg_tri_ne_zero",
+     "(9.6): the scalar is nonzero"
+    ]
+   ]
+  },
+  {
+   "id": "lem-9.2",
+   "kind": "lemma",
+   "relation": "covered",
+   "confidence": "medium",
+   "summary": "The implications used for Theorem 1.2 are formalized: cluster reciprocity ⇒ A_n = B_n^∨ (lawCoef_globalLaw_false_eq_recipCoef) and ⇒ R_n^∨ = R_n (recipCoef_lawCoef_globalLaw_true, using [n+1]_q^∨ = q^{-n}[n+1]_q: recipRat_projectiveNormalizer). The full three-way equivalence for prefixes is not stated.",
+   "lean": [
+    [
+     "SurfaceBlowup.lawCoef_globalLaw_false_eq_recipCoef",
+     "first form"
+    ],
+    [
+     "SurfaceBlowup.recipCoef_lawCoef_globalLaw_true",
+     "third form"
+    ],
+    [
+     "SurfaceBlowup.recipRat_projectiveNormalizer",
+     "[n+1]_q^∨ = q^{-n}[n+1]_q"
+    ]
+   ]
+  },
+  {
+   "id": "thm-9.3",
+   "kind": "theorem",
+   "relation": "none",
+   "confidence": "high",
+   "summary": "The crossing reciprocity formula (9.8) and (9.9) are not formalized. Ingredients that are: unitarity of U_{a,b} in every degree follows from qcongr_crossingQ_mul_qdagger and cluster_reciprocity (both for all multiplicities).",
+   "lean": [
+    [
+     "SurfaceBlowup.qcongr_crossingQ_mul_qdagger",
+     "ingredient: unitarity"
+    ],
+    [
+     "SurfaceBlowup.cluster_reciprocity",
+     "ingredient: cluster reciprocity for every a"
+    ]
+   ]
+  },
+  {
+   "id": "ex-9.4",
+   "kind": "example",
+   "relation": "specialization",
+   "confidence": "medium",
+   "summary": "(9.10) for a = b = 1 is the private regression lemma crossing_two_two_law (every rational q > 1), and (9.12) is crossing_two_two_law_at_two. (9.11) is not formalized.",
+   "lean": [
+    [
+     "SurfaceBlowup.Tests.crossing_two_two_law",
+     "C_{1,1;2,2} (private)"
+    ],
+    [
+     "SurfaceBlowup.Tests.crossing_two_two_law_at_two",
+     "(9.12) at q = 2 (private)"
+    ]
+   ]
+  },
+  {
+   "id": "eq-10.1",
+   "anchor": {
+    "eq": "10.1"
+   },
+   "kind": "display",
+   "label": "(10.1)–(10.2)",
+   "title": "one-field coefficients",
+   "relation": "none",
+   "confidence": "high",
+   "summary": "Not formalized.",
+   "lean": [],
+   "also_tags": [
+    "10.2"
+   ]
+  },
+  {
+   "id": "lem-10.1",
+   "kind": "lemma",
+   "relation": "none",
+   "confidence": "high",
+   "summary": "Not formalized.",
+   "lean": []
+  },
+  {
+   "id": "thm-10.2",
+   "kind": "theorem",
+   "relation": "none",
+   "confidence": "high",
+   "summary": "The totally ramified recursion is not formalized. Instances of its consequences are checked: A_{(3,1)}(3) = 10/121, A_{(4,1)}(2) = 107/1533, R_{(4,1)}(2) = 856/15841 (see (10.8) and Example 10.4).",
+   "lean": []
+  },
+  {
+   "id": "cor-10.3",
+   "kind": "corollary",
+   "relation": "specialization",
+   "confidence": "medium",
+   "summary": "The second identity R_{(n,1)}^∨ = R_{(n,1)} is recip_main (second clause) at σ = {(n,1)}. The first identity needs (10.1), which is not formalized.",
+   "lean": [
+    [
+     "SurfaceBlowup.recip_main",
+     "second clause at σ = {(n,1)}"
+    ]
+   ]
+  },
+  {
+   "id": "eq-10.7",
+   "anchor": {
+    "eq": "10.7"
+   },
+   "kind": "display",
+   "label": "(10.7)",
+   "title": "divisor-chain formula",
+   "relation": "none",
+   "confidence": "high",
+   "summary": "Not formalized.",
+   "lean": []
+  },
+  {
+   "id": "eq-10.8",
+   "anchor": {
+    "eq": "10.8"
+   },
+   "kind": "display",
+   "label": "(10.8)",
+   "title": "prime degree closed form",
+   "relation": "check",
+   "confidence": "high",
+   "summary": "Not formalized in general. Checked instances: ℓ = 3 at q = 3 gives 10/121 (monicExpr_three_totally_ramified_eval_three, and as a density monicDensity_three_totally_ramified_of_card_eq_three); A_{(2,1)} = 1/(q+1) for every q > 1 (monicExpr_two_eval).",
+   "lean": [
+    [
+     "SurfaceBlowup.Tests.monicExpr_three_totally_ramified_eval_three",
+     "ℓ = 3, q = 3"
+    ],
+    [
+     "SurfaceBlowup.Tests.monicDensity_three_totally_ramified_of_card_eq_three",
+     "as a density"
+    ],
+    [
+     "SurfaceBlowup.Tests.monicExpr_two_eval",
+     "A_{(2,1)} = 1/(q+1)"
+    ]
+   ]
+  },
+  {
+   "id": "ex-10.4",
+   "kind": "example",
+   "relation": "check",
+   "confidence": "high",
+   "summary": "The values at q = 2 are machine-checked from the definitions: A_{(4,1)}(2) = 107/1533 and R_{(4,1)}(2) = 856/15841, also as densities over every DVR with residue field 𝔽₂ and end-to-end over 𝔽₂⟦X⟧. The rational functions (10.9)–(10.10) are not.",
+   "lean": [
+    [
+     "SurfaceBlowup.Tests.monicExpr_four_totally_ramified_eval_two",
+     "107/1533"
+    ],
+    [
+     "SurfaceBlowup.Tests.projectiveExpr_four_totally_ramified_eval_two",
+     "856/15841"
+    ],
+    [
+     "SurfaceBlowup.Tests.monicDensity_four_totally_ramified_of_card_eq_two",
+     "as a density"
+    ],
+    [
+     "SurfaceBlowup.Tests.monicDensity_powerSeries_zmod_two_four_totally_ramified",
+     "end-to-end over 𝔽₂⟦X⟧"
+    ]
+   ]
+  },
+  {
+   "id": "eq-11.1",
+   "anchor": {
+    "eq": "11.1"
+   },
+   "kind": "display",
+   "label": "(11.1)–(11.3)",
+   "title": "root-count equations",
+   "relation": "none",
+   "confidence": "high",
+   "summary": "Not formalized.",
+   "lean": [],
+   "also_tags": [
+    "11.2",
+    "11.3"
+   ]
+  },
+  {
+   "id": "eq-11.6",
+   "anchor": {
+    "eq": "11.6"
+   },
+   "kind": "display",
+   "label": "(11.4)–(11.6)",
+   "title": "BCFG equation (7)",
+   "relation": "none",
+   "confidence": "high",
+   "summary": "Not formalized.",
+   "lean": [],
+   "also_tags": [
+    "11.4",
+    "11.5"
+   ]
+  },
+  {
+   "id": "eq-11.7",
+   "anchor": {
+    "eq": "11.7"
+   },
+   "kind": "display",
+   "label": "(11.7)",
+   "title": "first moments",
+   "relation": "none",
+   "confidence": "high",
+   "summary": "Not formalized.",
+   "lean": []
+  },
+  {
+   "id": "eq-11.8",
+   "anchor": {
+    "eq": "11.8"
+   },
+   "kind": "display",
+   "label": "(11.8)",
+   "title": "BGMR splitting recursion",
+   "relation": "none",
+   "confidence": "high",
+   "summary": "Not formalized. The instance s_2 = q/(2(q+1)) is the split coefficient of monicExpr_two_eval, and the non-monic value 1/2 is projectiveExpr_two_eval.",
+   "lean": [
+    [
+     "SurfaceBlowup.Tests.monicExpr_two_eval",
+     "instance s_2"
+    ],
+    [
+     "SurfaceBlowup.Tests.projectiveExpr_two_eval",
+     "instance: non-monic split probability 1/2"
+    ]
+   ]
+  },
+  {
+   "id": "eq-11.9",
+   "anchor": {
+    "eq": "11.9"
+   },
+   "kind": "display",
+   "label": "(11.9)–(11.10)",
+   "title": "unramified-field recursion",
+   "relation": "none",
+   "confidence": "high",
+   "summary": "Not formalized. The instance α_2^ur = q/(2(q+1)) is the inert coefficient of monicExpr_two_eval.",
+   "lean": [
+    [
+     "SurfaceBlowup.Tests.monicExpr_two_eval",
+     "instance α_2^ur"
+    ]
+   ],
+   "also_tags": [
+    "11.10"
+   ]
+  },
+  {
+   "id": "eq-11.12",
+   "anchor": {
+    "eq": "11.12"
+   },
+   "kind": "display",
+   "label": "(11.11)–(11.12)",
+   "title": "Shmueli's formulas",
+   "relation": "none",
+   "confidence": "high",
+   "summary": "Not formalized.",
+   "lean": [],
+   "also_tags": [
+    "11.11"
+   ]
+  },
+  {
+   "id": "proof-A",
+   "anchor": {
+    "para": "For a tower of complexes"
+   },
+   "kind": "proof",
+   "label": "Appendix A",
+   "title": "passing to the formal exceptional line",
+   "relation": "covered",
+   "confidence": "low",
+   "summary": "As for Lemma 4.1: only the finite-level Čech statements are formalized (surjective reductions, stabilization, threads); there is no formal completion in the Lean development.",
+   "lean": [
+    [
+     "SurfaceBlowup.actual_cech_reductions_surjective",
+     "surjective transition maps"
+    ],
+    [
+     "SurfaceBlowup.actual_twisted_coker_reduction_bijective",
+     "eventual surjectivity / stabilization"
+    ],
+    [
+     "SurfaceBlowup.surface_threads_range",
+     "inverse limit of H⁰"
+    ]
+   ]
+  }
+ ]
+}

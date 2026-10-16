@@ -1,0 +1,4 @@
+'SurfaceBlowup.main_dvr' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.main_field_form' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.main_field_form_ramified' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.recip_main' depends on axioms: [propext, Classical.choice, Quot.sound]

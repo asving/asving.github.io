@@ -1,0 +1,230 @@
+# Independent certificate: `SurfaceBlowupV2Gen.main_dvr` (general complete DVR, any characteristic)
+
+Certifier: Claude Fable 5.1, fresh context, 2026-10-09 23:35 UTC. Tree certified:
+`~/prove2me_workspace/final/monolith_gen/` (scratch tree built by an Opus agent; its reports
+`blueprint/GENERALIZATION_LEAN_EQUICHAR.md`, `blueprint/GENERALIZATION_LEAN.md`; its logs `monolith_gen/CHANGES.md`,
+`STATUS.md`, `logs/`). Reference: the owner-signed published tree `~/prove2me_workspace/Definitions/` and the
+published certified monolith `~/prove2me_workspace/final/monolith/` (same toolchain `leanprover/lean4:v4.33.1`, same
+Mathlib pin `0df444a360eaa60ab8c11dca51a86af692955474`). No git, no network, no published tree modified; files were
+only ADDED under `monolith_gen/Monolith/` and `monolith_gen/logs/`.
+
+## Verdict: CERTIFIED
+
+`SurfaceBlowupV2Gen.main_dvr` is a machine-checked theorem whose statement is built, at the kernel level, from exactly
+the published definitions (modulo the namespace rename `SurfaceBlowupV2Orig.` ↔ `SurfaceBlowupV2.` of four verbatim
+copies), with
+
+    'SurfaceBlowupV2Gen.main_dvr' depends on axioms: [propext, Classical.choice, Quot.sound]      (A)
+
+reproduced here independently (`Monolith/CertAxGeneralDvr.lean`, `logs/cert_axioms_general_dvr.log`), with
+`lake build Theorems` green and no `sorry`/`axiom`/`native_decide`/`admit` anywhere in `Theorems/` or
+`Definitions/`. Non-vacuity in equal characteristic is SHOWN: `CertNonVacuity.main_dvr_ZMod` (𝔽_p⟦X⟧) and
+`CertNonVacuity.main_dvr_GaloisField` (𝔽_{p^m}⟦X⟧) apply `main_dvr` and carry the same three axioms
+(`Monolith/NonVacuityExample.lean`). A ramified mixed-characteristic example was not attempted (see §3).
+
+What this certificate does NOT cover: the correctness of the published definitions themselves (owner-signed, taken as
+given), and the statements of the 80 modified / 10 new theorem files inside the proof — those are proof-level
+scaffolding, and the kernel check (A) plus the statement-level comparison below is what makes them irrelevant to trust.
+
+## 1. Statement faithfulness
+
+### 1.1 What `main_dvr` asserts (read-back)
+
+File `Theorems/Thm_Gen_MainDvr.lean`, elaborated signature (from `#check`, `logs/cert_axioms_general_dvr.log`):
+
+    main_dvr : ∀ (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+      [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [Finite (IsLocalRing.ResidueField O)]
+      [TopologicalSpace O] [IsTopologicalRing O] [CompactSpace O] [T2Space O] [SecondCountableTopology O]
+      [MeasurableSpace O] [BorelSpace O],
+      IsAdic (IsLocalRing.maximalIdeal O) →
+      ∀ (n : ℕ), 0 < n → ∀ (σ : FactorType), ValidType σ → typeDegree σ = n →
+        SurfaceBlowupV2Orig.monicDensity O n σ
+            = densityValue (monicExpr n σ) (Nat.card (IsLocalRing.ResidueField O)) ∧
+        SurfaceBlowupV2Orig.projectiveDensity O n σ
+            = densityValue (projectiveExpr n σ) (Nat.card (IsLocalRing.ResidueField O))          (†)
+
+In words: let O be any complete discrete valuation ring with finite residue field k, q = |k|, carrying a compact,
+Hausdorff, second-countable ring topology that is the maximal-ideal-adic one, with its Borel σ-algebra (the
+normalized Haar measure is built into `coefficientMeasure`). Let n ≥ 1 and let σ be a valid factorization type
+(multiset of pairs (e,f) with e,f ≥ 1) of total degree Σ e·f = n. Then (i) the Haar measure of the set of
+coefficient vectors a ∈ Oⁿ whose monic polynomial Xⁿ + Σ aᵢ Xⁱ over Frac(O) factors into distinct monic
+irreducibles with ramification/inertia invariants exactly σ equals the rational number `monicExpr n σ` evaluated
+at q (cast to ℝ≥0∞), and (ii) the conditional probability, among primitive vectors a ∈ Oⁿ⁺¹, that the binary form
+has type σ equals `projectiveExpr n σ` at q. No characteristic hypothesis, no ramification hypothesis.
+
+Comparison with the published `SurfaceBlowupV2.main` (`~/prove2me_workspace/Theorems/Thm_SurfaceBlowupV2_main.lean`):
+its conclusion is `MonicFormula n σ ∧ ProjectiveFormula n σ` (plus the rational-function clauses), where the
+published `MonicFormula` / `ProjectiveFormula` (`Def_SurfaceBlowupV2_Core.lean`) quantify over the SAME list of
+instances as (†) plus two more hypotheses: `[CharZero O]` and `(∃ p : ℕ, p.Prime ∧ Irreducible (p : O))`
+(absolutely unramified). (†) is the published conclusion with both of those hypotheses deleted and with the
+densities taken from the `SurfaceBlowupV2Orig` copies (which, by 1.2, are the published densities). The published
+`main_field_form` is the ℤ_p/unramified-K specialization and is untouched by this tree.
+
+### 1.2 The `Orig` copies versus the published `Def_SurfaceBlowupV2_Density.lean`
+
+`Definitions/Def_SurfaceBlowupV2_OrigDensity.lean` (new, namespace `SurfaceBlowupV2Orig`, `open SurfaceBlowupV2`)
+contains exactly four definitions. Text diff against the published file, definition by definition
+(`difflib`, whole `def` blocks):
+
+    HasPolynomialType   IDENTICAL TEXT
+    HasBinaryType       IDENTICAL TEXT
+    monicDensity        IDENTICAL TEXT
+    projectiveDensity   IDENTICAL TEXT
+
+The `Orig` file does not redefine `BaseField`, `factorInvariant`, `monicPolynomial`, `affinePolynomial`,
+`primitive`, `coefficientMeasure`; those names resolve to `SurfaceBlowupV2.*` in monolith_gen's own
+`Def_SurfaceBlowupV2_Density.lean`. That file's full diff against the published one is two hunks:
+
+    +import Mathlib.FieldTheory.Separable
+    (HasPolynomialType)  ... ∧ σ=(gs.map (factorInvariant O) : Multiset (ℕ × ℕ))
+    +                        ∧ ∀ g ∈ gs, Module.Finite O (integralClosure O (AdjoinRoot g))
+
+and the five helper definitions plus `BaseField` are identical text. (So the modified `SurfaceBlowupV2.HasPolynomialType`
+is the route-F predicate used INSIDE the proof; the statement uses the `Orig` one.)
+
+### 1.3 Every other statement constant, and the kernel-level check
+
+Definition modules in monolith_gen that differ from `~/prove2me_workspace/Definitions/` (all 67 published files are
+present; 68th is the new `OrigDensity`):
+
+| module | change | referenced by the statement of (†)? |
+|---|---|---|
+| `Def_SurfaceBlowupV2_Density` | import + finiteness conjunct in `HasPolynomialType` | only via the unchanged helpers (`BaseField`, `factorInvariant`, `monicPolynomial`, `affinePolynomial`, `primitive`, `coefficientMeasure`) |
+| `Def_SurfaceBlowupV2_Core` | `[CharZero O]` removed from `MonicFormula`, `ProjectiveFormula` | only via `densityValue` (unchanged text, line 14) |
+| `Def_SurfaceBlowupV2_AlgebraType` | finiteness conjunct in `HasAlgebraType` | no |
+| `Def_SurfaceBlowupV2_RootCellLaw` | `[CharZero O]` removed | no (proof only) |
+| `Def_SurfaceBlowupV2_ConcreteMembers` | `instCharZero` field removed | no |
+| `Def_SurfaceBlowupV2_MeasuredSurfaces` | `instCharZero` field removed | no |
+| `Def_SurfaceBlowupV2_OrigDensity` | new (1.2) | yes |
+
+`monicExpr`, `projectiveExpr` (`Recursion`), `FactorType`, `ValidType`, `typeDegree` (`Types`), `lawCoeff`
+(`Law`), `Expr`/`Expr.eval` (`Expressions`) and their whole import closure (`Weights`, `Patterns`, `State`,
+`ResidueIdeals`) are byte-identical to the published modules and import only byte-identical modules.
+
+Because two statement-relevant modules are textually modified, I did not stop at text. `Monolith/CertDefClosureDumpGen.lean`
+computes, in the monolith_gen environment, the transitive closure of all constants occurring in the type of
+`main_dvr` and in the types/values of those constants, restricted to constants defined in `Definitions.*`
+(Mathlib constants are recorded as leaves), and dumps for each: kind, defining module, universe parameters,
+`Expr.hash` of the type, and the full `repr` of type and value. `Monolith/CertDefClosureDumpPub.lean` does the
+same in the PUBLISHED monolith (`final/monolith`, run read-only via `lake env lean` from that directory), seeded
+with `SurfaceBlowupV2.{monicDensity, projectiveDensity, densityValue, monicExpr, projectiveExpr, FactorType,
+ValidType, typeDegree}` (the seed computed on the gen side is exactly this list with the two densities in the
+`Orig` namespace). Result (`logs/cert_defclosure_{gen,pub}.tsv`, 340 entries each):
+
+    local (Definitions.*) constants: 101 in each; Mathlib leaves: 233 in each; none only on one side
+    after renaming SurfaceBlowupV2Orig. → SurfaceBlowupV2. : 95 entries identical in every field;
+      6 entries (HasPolynomialType, HasBinaryType, HasBinaryType._proof_1/_proof_2, monicDensity,
+      projectiveDensity) differ ONLY in the module name inside hygienic binder names
+      (`inst._@.Definitions.Def_SurfaceBlowupV2_OrigDensity._hyg.N` vs `..._Density._hyg.N`);
+      after also normalizing that tag, all 101 are identical (kind, module, levels, type hash, repr type, repr value)
+    the modified SurfaceBlowupV2.HasPolynomialType does NOT occur in the gen-side closure                 (‡)
+
+(‡) is the load-bearing fact of this section: the kernel terms behind (†) are the published ones. In particular
+`densityValue`, `coefficientMeasure`, `factorInvariant` (which involves instance resolution that an extra import
+could in principle perturb) are identical as terms, not just as text.
+
+## 2. Reproduction
+
+- `taskset -c 0-15 lake build Theorems` in monolith_gen: `Build completed successfully (9917 jobs)`, exit 0
+  (`logs/cert_build_theorems.log`; a cache no-op of the Opus agent's `logs/f10.log`).
+- Axioms, my own check file `Monolith/CertAxGeneralDvr.lean` via `lake env lean` (`logs/cert_axioms_general_dvr.log`):
+  (A) above, and the same three axioms for `monic_formula_dvr`, `projective_formula_dvr`,
+  `orig_monicDensity_eq`, `orig_projectiveDensity_eq`, `SurfaceBlowupV2.root_cell_law`.
+- Grep over `Theorems/` + `Definitions/` (1143 + 68 files): `sorry` 0, `^\s*axiom` 0, `native_decide` 0,
+  `admit` 0 (the only hits for these words anywhere are inside the certificate metaprograms in `Monolith/`,
+  as string literals for the `axiomInfo` constructor).
+- `SHA256SUMS_general_dvr` (in monolith_gen): 1222 files = `Definitions/*.lean` (68) + `Theorems/*.lean` (1143)
+  + `Monolith/*.lean` (11, including the four certificate files added here); `sha256sum -c` clean. Its own digest:
+  `ebdab07c7755a000572ab00bcbad15195f5fec58ef0837bdc49ea29b1b95308c`. Key entries:
+  `Thm_Gen_MainDvr.lean 8b04dab3…`, `Def_SurfaceBlowupV2_OrigDensity.lean 40eca4a8…`,
+  `NonVacuityExample.lean d6b13694…`.
+- Tree inventory versus the pristine snapshot `monolith_gen/orig/` (which I verified byte-identical to
+  `~/prove2me_workspace/Definitions/` and to `final/monolith_recip/Theorems/`): Theorems 1053 identical,
+  80 modified, 10 new (`Thm_Gen_*`), 1 removed (`polynomial_type_monic_separable`, false in characteristic p,
+  moved to `dropped/`).
+
+## 3. Non-vacuity (equal characteristic): SHOWN
+
+`Monolith/NonVacuityExample.lean` (`logs/cert_nonvacuity.log`), ~130 lines, standard axioms:
+
+    CertNonVacuity.main_dvr_powerSeries (k) [Field k] [Finite k] [TopologicalSpace k] [DiscreteTopology k] … :
+      SurfaceBlowupV2Orig.monicDensity k⟦X⟧ n σ = densityValue (monicExpr n σ) (Nat.card k) ∧
+      SurfaceBlowupV2Orig.projectiveDensity k⟦X⟧ n σ = densityValue (projectiveExpr n σ) (Nat.card k)
+    CertNonVacuity.main_dvr_ZMod (p) [Fact p.Prime] … :  … (ZMod p)⟦X⟧ … = densityValue (…) p ∧ …
+    CertNonVacuity.main_dvr_GaloisField (p) [Fact p.Prime] (m) (hm : m ≠ 0) … :  … = densityValue (…) (p ^ m) ∧ …
+    all three: depends on axioms: [propext, Classical.choice, Quot.sound]
+
+Topology on `k⟦X⟧`: Mathlib's scoped `PowerSeries.WithPiTopology` (product topology on coefficients), with the
+discrete topology on k (Mathlib's `⊥` instance on `ZMod p`; declared `⊥` for `GaloisField p m`). Where each
+hypothesis of (†) comes from:
+
+| hypothesis | source |
+|---|---|
+| `IsDiscreteValuationRing k⟦X⟧` | Mathlib `PowerSeries/Inverse.lean` instance |
+| `IsAdicComplete (maximalIdeal k⟦X⟧) k⟦X⟧` | Mathlib `IsAdicComplete (span {X})` (`AdicCompletion/Completeness.lean`) + `maximalIdeal_eq_span_X` |
+| `Finite (ResidueField k⟦X⟧)` | Mathlib `residueFieldOfPowerSeries : ResidueField k⟦X⟧ ≃+* k` |
+| `IsTopologicalRing`, `T2Space` | Mathlib scoped instances (discrete k is a T2 topological ring) |
+| `CompactSpace`, `SecondCountableTopology` | Tychonoff / countable-product instances on `(Unit →₀ ℕ) → k`, via `inferInstanceAs` |
+| `MeasurableSpace`, `BorelSpace` | `borel _`, `⟨rfl⟩` |
+| `IsAdic (maximalIdeal k⟦X⟧)` | NOT in Mathlib (its docstring: "corresponds with the adic topology but this is not proved here"); proved here (`isAdic_maximalIdeal`, ~45 lines) via `isAdic_iff`: (X)ⁿ = {φ : coeff m φ = 0 ∀ m < n} is a finite intersection of open coefficient conditions, and every pi-neighbourhood of 0 (`nhds_pi`, `Filter.mem_pi`, finitely many discrete coordinates) contains (X)ⁿ for n above the largest constrained index |
+
+Ramified mixed characteristic: not attempted. Cheap assessment of the pinned Mathlib: it has
+`IsNonarchimedeanLocalField K` giving `IsDiscreteValuationRing 𝒪[K]`, `CompactSpace 𝒪[K]`, `Finite 𝓀[K]`,
+`IsAdicComplete 𝓂[K] 𝒪[K]` (the last only with a compatible `UniformSpace K`), but (probe compiled and
+discarded) `T2Space 𝒪[K]` and `SecondCountableTopology 𝒪[K]` are not found by instance search,
+`IsAdic 𝓂[K]` is not available, and there is NO concrete instance of `IsNonarchimedeanLocalField` for any field
+(not even `ℚ_[p]`), let alone for a ramified extension. So that example is a real project, not a 150-line file.
+The mathematics is of course clear (𝒪_K of any finite extension of ℚ_p is a compact second-countable DVR with the
+adic topology).
+
+## 4. Where the new mathematics lives (for the record)
+
+**Route F finiteness conjunct.** The published type predicates carry no finiteness information; the published
+proofs obtain "the integral closure of O in each root field is a finite O-module" from `[CharZero O]` via
+separability (`PerfectField.ofCharZero` → `IsIntegralClosure.finite`). The Opus agent first tried threading
+`Separable` (route A) and found it refuted inside the recursion at N1074 (`concrete_member_terminal_type`): for
+O = 𝔽_q⟦π⟧ the terminal curves of π = T^p have purely inseparable generic fibres. Route F instead adds
+`∀ g ∈ gs, Module.Finite O (integralClosure O (AdjoinRoot g))` to `SurfaceBlowupV2.HasPolynomialType`
+(`Def_SurfaceBlowupV2_Density.lean`) and `∀ i, Module.Finite O (integralClosure O (L i))` to `HasAlgebraType`
+(`Def_SurfaceBlowupV2_AlgebraType.lean`); the `integral_closure_*` leaves (N176–N182, N252, N514) take
+`[Module.Finite O (integralClosure O L)]` in place of `[Algebra.IsSeparable K L]`
+(`Thm_Gen_FiniteClosureLeaves.lean`: free-ness from Noetherian + torsion-free, rank by localization), and the
+conjunct is threaded through ~70 modified theorem files (list in `CHANGES.md`), with transfers along O_δ → O and
+same-field ascent in `Thm_Gen_ClosureTransfer.lean` and the replacement of the false N707 by
+`Thm_Gen_TypeDvd.lean` (`squarefree_monic_has_polynomial_type`, `polynomial_type_dvd`).
+
+**Inseparable-locus null lemma.** `Thm_Gen_PolyZeroNull.lean` (`mvPolynomial_zero_null`: the zero set of a nonzero
+polynomial over a domain is null for a product of finite atomless measures, by Fubini through `finSuccEquiv`)
+and `Thm_Gen_InseparableNull.lean`: the set of a ∈ Oⁿ with inseparable monic polynomial lies in the zero set of
+the resultant of the generic monic polynomial with its derivative (`genericMonic`, `discMonic`), which is a nonzero
+integer polynomial (witness Xⁿ − 1 or Xⁿ − X depending on whether n = 0 in K), hence Haar-null
+(`monic_insep_null`); on the separable complement the `Orig` predicate implies the route-F one
+(`closure_finite_of_separable`, `Thm_Gen_SepHelpers.lean`), giving `orig_monicDensity_eq :
+SurfaceBlowupV2Orig.monicDensity O n σ = monicDensity O n σ`.
+
+**N714 ascent via Galois K_δ/K.** The forward direction of `descended_block_type_iff`
+(`Thm_SurfaceBlowupV2_descended_block_type_iff.lean`, N714) previously used N707 (type ⇒ separable). Now
+(`Thm_Gen_UnramifiedAscent.lean`, `Thm_Gen_Ascent.lean`): the unramified fraction extension K_δ/K is finite and
+separable because it is Galois (Frobenius has fixed field K, `unramified_fraction_isSeparable`); images of
+irreducible factors under K → K_δ stay squarefree (`squarefree_map_of_isSeparable`, via formally-unramified base
+change being reduced); each root field over K_δ is separable over the corresponding root field over K
+(`rootHom_isSeparable`); and finite integral closure is stable under separable towers
+(`closure_finite_of_separable_tower`), so closure-finiteness ascends from O to O_δ
+(`closure_finite_ascent_root`, `polynomial_type_map_unramified`), and the proof closes with `polynomial_type_dvd`.
+
+**Projective bridge.** `Thm_Gen_ProjBridge.lean`: for a ∈ Oⁿ⁺¹ the bad locus {a_n = 0} ∪ {discAffine(a) = 0}
+is null (`affine_bad_null`, using `coordinate_hyperplane_null` and the affine resultant), and off it the
+normalized affine polynomial has degree n and is separable, so the `Orig` binary type implies the route-F one;
+hence `orig_projectiveDensity_eq`. `Thm_Gen_MainDvr.lean` then copies the accepted assembly proofs of N741/N755
+(`monic_formula_dvr`, `projective_formula_dvr`, without `[CharZero O]` and without the unused `∃ p` hypothesis)
+and rewrites along the two bridges to state `main_dvr` with the `Orig` densities.
+
+## 5. Certificate files added (all under `monolith_gen/`, nothing else touched)
+
+`Monolith/CertAxGeneralDvr.lean`, `Monolith/CertDefClosureDumpGen.lean`, `Monolith/CertDefClosureDumpPub.lean`,
+`Monolith/NonVacuityExample.lean`; `logs/cert_build_theorems.log`, `logs/cert_axioms_general_dvr.log`,
+`logs/cert_defclosure_gen.tsv`, `logs/cert_defclosure_pub.tsv`, `logs/cert_nonvacuity.log`;
+`SHA256SUMS_general_dvr`. Re-run everything with, from monolith_gen:
+`taskset -c 0-15 lake build Theorems && taskset -c 0-15 lake env lean Monolith/CertAxGeneralDvr.lean &&
+taskset -c 0-15 lake env lean Monolith/NonVacuityExample.lean` (and, for (‡), the two dump files followed by the
+normalization described in §1.3).
