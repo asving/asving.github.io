@@ -3,8 +3,8 @@
  "katex_errors": [],
  "map_errors": [],
  "links": {
-  "pages": 75,
-  "internal_links_checked": 84108,
+  "pages": 81,
+  "internal_links_checked": 85055,
   "broken": [],
   "external_links": [
    "https://arxiv.org/abs/0807.2620",
@@ -808,28 +808,28 @@
    }
   ]
  },
- "math_count": 1552,
+ "math_count": 1558,
  "stats": {
   "total": 82,
   "with_lean_counterpart": 70,
-  "exact": 32,
-  "partial": 38,
+  "exact": 35,
+  "partial": 35,
   "not_formalized": 12,
   "by_relation": {
-   "exact": 14,
+   "exact": 17,
    "definition": 18,
    "specialization": 8,
-   "covered": 28,
+   "covered": 25,
    "check": 2,
    "none": 12
   },
   "labelled_statements": {
    "total": 32,
    "by_relation": {
-    "exact": 6,
+    "exact": 8,
     "definition": 0,
     "specialization": 7,
-    "covered": 14,
+    "covered": 12,
     "check": 1,
     "none": 4
    }

@@ -1,18 +1,18 @@
 {
- "generated": "2026-10-16T12:32:09.866640Z",
+ "generated": "2026-10-17T03:12:47.092924Z",
  "about": "Hand-curated correspondence between the numbered statements of PAPER_v2_narrative.md and the Lean declarations of the unified SurfaceBlowup codebase. build.py resolves every Lean name below against the sources (file, line range, docstring, statement, Prove2Me node) and writes data/paper_lean_map.json. Relations: exact = the Lean statement says the same thing (up to encoding); definition = the paper's construction is the Lean definition (and, where listed, the theorem that it means what the paper says); specialization = proved in a special setting (e.g. only on the concrete surfaces O[[T,X]]/(pi - u T^a X^b), or only for a = b = 1); covered = no single Lean statement, the listed declarations jointly establish the content, often in a restructured form; check = only particular instances are machine-checked; none = not formalized (declarations listed, if any, are ingredients only). Confidence is the curator's confidence in the correspondence, not in the mathematics.",
  "sources": {
   "paper": "../PAPER_v2_narrative.md",
-  "paper_sha256": "3a036cc5e61bebf756ed3fad4eea72663da5c89262a5e1b4c20ad2bd17206ea1",
+  "paper_sha256": "0b91b8ccad6b29d2cff84993bde9f9a09914060a854ce604ac1abe9033f0883a",
   "lean_root": "~/prove2me_workspace/final/unified",
-  "lean_files": 66,
+  "lean_files": 72,
   "prove2me_catalog": "../blueprint/catalog.json"
  },
  "prove2me": {
   "url_template": "https://prove2.me/theorems/{theorem_id}",
   "url_template_status": "UNVERIFIED: the API documents only https://prove2.me/api/v1/theorems/{theorem_id}; the public page pattern is a guess (OWNER: confirm)",
   "tree_visibility": "PRIVATE",
-  "note": "The SurfaceBlowupV2 tree (1201 nodes, incl. main_field_form N660 and recip_main N1319) is published PRIVATE on Prove2Me; links resolve only for the owner's account until it is made public. main_dvr (the general-DVR theorem) and the unified SurfaceBlowup codebase are not on Prove2Me."
+  "note": "The release v1.0.0 development (namespace TypeDensity: 34 definition modules, 1016 theorems incl. main_dvr, main_field_form, main_field_form_ramified, recip_main) is published PRIVATE on Prove2Me; links resolve only for the owner's account until it is made public. The v1.1 additions (cluster clause, étale convention) are on GitHub and this site; their Prove2Me nodes are pending."
  },
  "relations": {
   "exact": "exact",
@@ -25,24 +25,24 @@
  "stats": {
   "total": 82,
   "with_lean_counterpart": 70,
-  "exact": 32,
-  "partial": 38,
+  "exact": 35,
+  "partial": 35,
   "not_formalized": 12,
   "by_relation": {
-   "exact": 14,
+   "exact": 17,
    "definition": 18,
    "specialization": 8,
-   "covered": 28,
+   "covered": 25,
    "check": 2,
    "none": 12
   },
   "labelled_statements": {
    "total": 32,
    "by_relation": {
-    "exact": 6,
+    "exact": 8,
     "definition": 0,
     "specialization": 7,
-    "covered": 14,
+    "covered": 12,
     "check": 1,
     "none": 4
    }
@@ -52,9 +52,9 @@
   {
    "id": "eq-1.1",
    "kind": "display",
-   "relation": "covered",
+   "relation": "exact",
    "confidence": "high",
-   "summary": "The monic half, Pr(ramified) = 1/(q+1) over every complete DVR, is the Lean corollary monicDensity_two_ramified (derived from main_dvr). The cluster half, q/(q+1), is the (2a,1)-coefficient of the law of S(a;2) (private regression lemma single_two_law, at a = 1) combined with root_cell_law, which identifies that law with the X² coefficient model; no single Lean statement states it as a probability.",
+   "summary": "The monic half, Pr(ramified) = 1/(q+1) over every complete DVR, is the Lean corollary monicDensity_two_ramified (from main_dvr). The cluster half, q/(q+1), is clusterDensity_two_ramified (v1.1, from main_dvr_cluster), with the split and inert values 1/(2(q+1)) each in clusterDensity_two_split / clusterDensity_two_inert.",
    "label": "(1.3)",
    "title": "the reciprocal pair of quadratic probabilities",
    "anchor": {
@@ -72,6 +72,48 @@
      "decl_line": 1949,
      "docstring": "Over any complete DVR with finite residue field of cardinality `q`, a random monic quadratic\nis ramified (type `(2,1)`) with probability `1 / (q + 1)`.",
      "statement": "theorem monicDensity_two_ramified (htop : IsAdic (maximalIdeal O)) :\n    monicDensity O 2 {(2,1)} = ENNReal.ofReal (1 / (Nat.card (ResidueField O) + 1))",
+     "section_variables": "variable (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]\n  [IsAdicComplete (maximalIdeal O) O] [Finite (ResidueField O)] [TopologicalSpace O]\n  [IsTopologicalRing O] [CompactSpace O] [T2Space O] [SecondCountableTopology O]\n  [MeasurableSpace O] [BorelSpace O]",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.Tests.clusterDensity_two_ramified",
+     "role": "cluster half, as a density over every complete DVR (v1.1)",
+     "kind": "theorem",
+     "private": false,
+     "file": "Tests/Cluster.lean",
+     "line_start": 38,
+     "line_end": 43,
+     "decl_line": 39,
+     "docstring": "Quadratic cluster, ramified: probability `q / (q + 1)`.",
+     "statement": "theorem clusterDensity_two_ramified (htop : IsAdic (maximalIdeal O)) :\n    clusterDensity O 2 {(2,1)} =\n      ENNReal.ofReal (Nat.card (ResidueField O) / (Nat.card (ResidueField O) + 1))",
+     "section_variables": "variable (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]\n  [IsAdicComplete (maximalIdeal O) O] [Finite (ResidueField O)] [TopologicalSpace O]\n  [IsTopologicalRing O] [CompactSpace O] [T2Space O] [SecondCountableTopology O]\n  [MeasurableSpace O] [BorelSpace O]",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.Tests.clusterDensity_two_split",
+     "role": "cluster, split (v1.1)",
+     "kind": "theorem",
+     "private": false,
+     "file": "Tests/Cluster.lean",
+     "line_start": 45,
+     "line_end": 50,
+     "decl_line": 46,
+     "docstring": "Quadratic cluster, split: probability `1 / (2(q + 1))`.",
+     "statement": "theorem clusterDensity_two_split (htop : IsAdic (maximalIdeal O)) :\n    clusterDensity O 2 {(1,1),(1,1)} =\n      ENNReal.ofReal (1 / (2 * (Nat.card (ResidueField O) + 1)))",
+     "section_variables": "variable (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]\n  [IsAdicComplete (maximalIdeal O) O] [Finite (ResidueField O)] [TopologicalSpace O]\n  [IsTopologicalRing O] [CompactSpace O] [T2Space O] [SecondCountableTopology O]\n  [MeasurableSpace O] [BorelSpace O]",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.Tests.clusterDensity_two_inert",
+     "role": "cluster, inert (v1.1)",
+     "kind": "theorem",
+     "private": false,
+     "file": "Tests/Cluster.lean",
+     "line_start": 52,
+     "line_end": 57,
+     "decl_line": 53,
+     "docstring": "Quadratic cluster, inert: probability `1 / (2(q + 1))`.",
+     "statement": "theorem clusterDensity_two_inert (htop : IsAdic (maximalIdeal O)) :\n    clusterDensity O 2 {(1,2)} =\n      ENNReal.ofReal (1 / (2 * (Nat.card (ResidueField O) + 1)))",
      "section_variables": "variable (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]\n  [IsAdicComplete (maximalIdeal O) O] [Finite (ResidueField O)] [TopologicalSpace O]\n  [IsTopologicalRing O] [CompactSpace O] [T2Space O] [SecondCountableTopology O]\n  [MeasurableSpace O] [BorelSpace O]",
      "prove2me": []
     },
@@ -98,20 +140,6 @@
        "blueprint_source": "§1 table and §10.1"
       }
      ]
-    },
-    {
-     "name": "SurfaceBlowup.Tests.single_two_law",
-     "role": "law of S(a;2): the X² half at a = 1 (private)",
-     "kind": "theorem",
-     "private": true,
-     "file": "Tests/Regression.lean",
-     "line_start": 1018,
-     "line_end": 1113,
-     "decl_line": 1020,
-     "docstring": "The tangent-point patterns of `S(a;2)`: a transverse tangent with a node, a double point, a\npoint of contact two (a self pattern) and a point of degree two.",
-     "statement": "private theorem single_two_law (a : ℕ) (ha : 0 < a) (q : ℚ) (hq : 1 < q) (σ : FactorType) :\n    coeffAt q (stateLaw (.single a 2)) σ = (if σ = {(2*a,1)} then q/(q+1) else 0) +\n      (if σ = {(a,1),(a,1)} then 1/(2*(q+1)) else 0) +\n      (if σ = {(a,2)} then 1/(2*(q+1)) else 0)",
-     "section_variables": "",
-     "prove2me": []
     },
     {
      "name": "SurfaceBlowup.root_cell_law",
@@ -635,9 +663,9 @@
   {
    "id": "thm-1.1",
    "kind": "theorem",
-   "relation": "covered",
+   "relation": "exact",
    "confidence": "high",
-   "summary": "Monic and projective clauses: exactly main_dvr — for every complete DVR O with finite residue field (any characteristic, any ramification; adic topology, Borel σ-algebra, normalized Haar measure), monicDensity O n σ and projectiveDensity O n σ are the values at q = |k| of the explicit expressions monicExpr n σ and projectiveExpr n σ, whose rational functions are A_σ and R_σ; regularity at every prime power is global_formula_regular, packaged with the ∃ A R form in main_field_form. Cluster clause: root_cell_law gives the cluster-model probability of every type as the coefficient of the law of S(1;n), but with the route-F type predicate (finite integral closures), which agrees with the étale convention off a Haar-null set; no Lean theorem states the cluster clause with the published density definitions (the paper's Remark 1.3 also restricts the formal claim to the monic and projective laws). The hypotheses 0 < n, ValidType σ, typeDegree σ = n of main_dvr are unused (frozen statement). Non-vacuity in equal characteristic: main_dvr_powerSeries.",
+   "summary": "All three clauses. Monic and projective: main_dvr — for every complete DVR O with finite residue field (any characteristic, any ramification; adic topology, Borel σ-algebra, normalized Haar measure), monicDensity O n σ and projectiveDensity O n σ are the values at q = |k| of monicExpr n σ and projectiveExpr n σ, whose rational functions are A_σ and R_σ; regularity at every prime power is global_formula_regular, packaged with the ∃ A R form in main_field_form. Cluster (v1.1): main_dvr_cluster — clusterDensity O n σ, the normalized Haar probability on monic polynomials reducing to X^n (paper's μ_cluster) with the published type predicate, equals clusterExpr n σ = lawCoeff (rootLaw n) σ, the coefficient of σ in the law of S(1;n) (display (7.1)), for every n including n = 0; regularity is cluster_formula_regular; recip_cluster reads A_σ(q) = B_σ(1/q) in this notation. The type predicate is the reduced-algebra convention; the agreement with the étale convention off a Haar-null set is main_dvr_etale / clusterDensity_eq_etale (Remark 1.3). The hypotheses 0 < n, ValidType σ, typeDegree σ = n of main_dvr are unused (frozen statement). Non-vacuity in equal characteristic: main_dvr_powerSeries.",
    "label": "Theorem 1.1",
    "title": "universal type laws",
    "paper_line": 96,
@@ -647,7 +675,7 @@
    "lean": [
     {
      "name": "SurfaceBlowup.main_dvr",
-     "role": "the theorem, every complete DVR",
+     "role": "monic and projective laws, every complete DVR",
      "kind": "theorem",
      "private": false,
      "file": "SurfaceBlowup/Main.lean",
@@ -656,6 +684,34 @@
      "decl_line": 40,
      "docstring": "**Main theorem.** Let `O` be a complete discrete valuation ring with finite residue field `k`\n(any characteristic, any ramification), with its maximal-ideal-adic compact topology, Borel\nσ-algebra and normalized Haar measure. For every degree `n` and every factorization type `σ`,\nthe probability that a random monic polynomial of degree `n` over `O` (resp. a random primitive\nbinary form of degree `n`) has type `σ` is the value at `q = |k|` of the universal rational\nexpression `monicExpr n σ` (resp. `projectiveExpr n σ`).\n\nThe statement carries no hypotheses on `n` and `σ`: the certified form assumed `0 < n`,\n`ValidType σ` and `typeDegree σ = n`, none of which the proof uses.",
      "statement": "theorem main_dvr (O : Type) [CommRing O] [IsDomain O]\n    [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]\n    [Finite (IsLocalRing.ResidueField O)] [TopologicalSpace O] [IsTopologicalRing O]\n    [CompactSpace O] [T2Space O] [SecondCountableTopology O] [MeasurableSpace O] [BorelSpace O]\n    (htop : IsAdic (IsLocalRing.maximalIdeal O))\n    (n : ℕ) (σ : FactorType) :\n    SurfaceBlowup.monicDensity O n σ =\n        densityValue (monicExpr n σ) (Nat.card (IsLocalRing.ResidueField O)) ∧\n    SurfaceBlowup.projectiveDensity O n σ =\n        densityValue (projectiveExpr n σ) (Nat.card (IsLocalRing.ResidueField O))",
+     "section_variables": "",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.main_dvr_cluster",
+     "role": "cluster law B_σ, every complete DVR (v1.1)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Cluster/Main.lean",
+     "line_start": 74,
+     "line_end": 115,
+     "decl_line": 76,
+     "docstring": "**Theorem 1.1, cluster clause.** Over every complete DVR with finite residue field of size\n`q`, the cluster probability of type `σ` is `B_{n,σ}(q)`.",
+     "statement": "theorem main_dvr_cluster (O : Type) [CommRing O] [IsDomain O]\n    [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]\n    [Finite (IsLocalRing.ResidueField O)] [TopologicalSpace O] [IsTopologicalRing O]\n    [CompactSpace O] [T2Space O] [SecondCountableTopology O] [MeasurableSpace O] [BorelSpace O]\n    (htop : IsAdic (IsLocalRing.maximalIdeal O)) (n : ℕ) (σ : FactorType) :\n    clusterDensity O n σ =\n      densityValue (clusterExpr n σ) (Nat.card (IsLocalRing.ResidueField O))",
+     "section_variables": "",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.cluster_formula_regular",
+     "role": "B_σ regular at prime powers (v1.1)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Cluster/Main.lean",
+     "line_start": 132,
+     "line_end": 148,
+     "decl_line": 133,
+     "docstring": "`B_{n,σ}` is regular at every prime power.",
+     "statement": "theorem cluster_formula_regular (n : ℕ) (σ : FactorType) :\n    ∀ q : ℕ, PrimePower q → RegularAt (clusterExpr n σ).rational q",
      "section_variables": "",
      "prove2me": []
     },
@@ -722,28 +778,60 @@
      ]
     },
     {
-     "name": "SurfaceBlowup.root_cell_law",
-     "role": "cluster clause (route-F types)",
+     "name": "SurfaceBlowup.main_dvr_etale",
+     "role": "monic and projective laws under the étale convention (v1.1)",
      "kind": "theorem",
      "private": false,
-     "file": "SurfaceBlowup/Recursion/RootCellLaw.lean",
-     "line_start": 1361,
-     "line_end": 1363,
-     "decl_line": 1362,
-     "docstring": "**The root cell law** holds unconditionally.",
-     "statement": "theorem root_cell_law : RootCellLaw",
+     "file": "SurfaceBlowup/Etale/Main.lean",
+     "line_start": 125,
+     "line_end": 137,
+     "decl_line": 127,
+     "docstring": "Theorem 1.1 under the étale convention: the monic and projective laws, with the events\nrestricted to étale algebras, are the universal rational functions.",
+     "statement": "theorem main_dvr_etale (O : Type) [CommRing O] [IsDomain O]\n    [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]\n    [Finite (IsLocalRing.ResidueField O)] [TopologicalSpace O] [IsTopologicalRing O]\n    [CompactSpace O] [T2Space O] [SecondCountableTopology O] [MeasurableSpace O] [BorelSpace O]\n    (htop : IsAdic (IsLocalRing.maximalIdeal O)) (n : ℕ) (σ : FactorType) :\n    etaleMonicDensity O n σ =\n        densityValue (monicExpr n σ) (Nat.card (IsLocalRing.ResidueField O)) ∧\n    etaleProjectiveDensity O n σ =\n        densityValue (projectiveExpr n σ) (Nat.card (IsLocalRing.ResidueField O))",
      "section_variables": "",
-     "prove2me": [
-      {
-       "node": "N1109",
-       "theorem_name": "SurfaceBlowupV2.root_cell_law",
-       "kind": "theorem",
-       "theorem_id": "38c7bdb6-1562-4e52-83b8-82c7e26fc1cc",
-       "status": "PUBLISHED",
-       "url": "https://prove2.me/theorems/38c7bdb6-1562-4e52-83b8-82c7e26fc1cc",
-       "blueprint_source": "Lemma 9.1 (the repeated-root cell) on the concrete surface O[[x]] with Theorem 8.1; cycle 8"
-      }
-     ]
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.clusterDensity_eq_etale",
+     "role": "cluster law under the étale convention (v1.1)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Cluster/Main.lean",
+     "line_start": 117,
+     "line_end": 130,
+     "decl_line": 119,
+     "docstring": "The cluster probability is unchanged by restricting the event to separable polynomials\n(the étale convention).",
+     "statement": "theorem clusterDensity_eq_etale (O : Type) [CommRing O] [IsDomain O]\n    [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]\n    [Finite (IsLocalRing.ResidueField O)] [TopologicalSpace O] [IsTopologicalRing O]\n    [CompactSpace O] [T2Space O] [SecondCountableTopology O] [MeasurableSpace O] [BorelSpace O]\n    (htop : IsAdic (IsLocalRing.maximalIdeal O)) (n : ℕ) (σ : FactorType) :\n    clusterDensity O n σ =\n      coefficientMeasure O n (clusterCell O n ∩\n        {a | (monicPolynomial O a).Separable ∧ HasPolynomialType O (monicPolynomial O a) σ}) /\n        coefficientMeasure O n (clusterCell O n)",
+     "section_variables": "",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.clusterDensity",
+     "role": "μ_cluster-probability of type σ (v1.1)",
+     "kind": "def",
+     "private": false,
+     "file": "SurfaceBlowup/Cluster/Defs.lean",
+     "line_start": 45,
+     "line_end": 52,
+     "decl_line": 50,
+     "docstring": "The cluster probability of type `σ` (paper display (1.1)): the normalized restriction of\nthe coefficient measure to the cluster cell. The event uses `HasPolynomialType` (the\nreduced-algebra convention: a factorization into distinct monic irreducible factors, inseparable\nfactors allowed); the inseparable locus is Haar-null, so the étale convention gives the same\nvalue (`clusterDensity_eq_etale`).",
+     "statement": "noncomputable def clusterDensity (n : ℕ) (σ : FactorType) : ℝ≥0∞ :=\n  coefficientMeasure O n (clusterCell O n ∩ {a | HasPolynomialType O (monicPolynomial O a) σ}) /\n    coefficientMeasure O n (clusterCell O n)",
+     "section_variables": "variable (O : Type) [CommRing O] [IsDomain O] [IsLocalRing O]\n  [TopologicalSpace O] [IsTopologicalRing O] [CompactSpace O] [T2Space O]\n  [SecondCountableTopology O]\n  [MeasurableSpace O] [BorelSpace O]",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.clusterExpr",
+     "role": "B_σ",
+     "kind": "def",
+     "private": false,
+     "file": "SurfaceBlowup/Cluster/Defs.lean",
+     "line_start": 34,
+     "line_end": 36,
+     "decl_line": 36,
+     "docstring": "`B_{n,σ}`: the coefficient of `σ` in the root law, the law of the state `S(1;n)`\n(paper display (7.1)).",
+     "statement": "noncomputable def clusterExpr (n : ℕ) (σ : FactorType) : Expr := lawCoeff (rootLaw n) σ",
+     "section_variables": "",
+     "prove2me": []
     },
     {
      "name": "SurfaceBlowup.monicExpr",
@@ -1099,9 +1187,9 @@
   {
    "id": "rem-1.3",
    "kind": "remark",
-   "relation": "covered",
+   "relation": "exact",
    "confidence": "high",
-   "summary": "The claims of the remark are checked by tools/release_check.sh: build with no sorry, and #print axioms of main_dvr, main_field_form, main_field_form_ramified and recip_main = [propext, Classical.choice, Quot.sound]. The finite-integral-closure convention is the route-F predicate HasPolynomialTypeF, and the agreement off a Haar-null set is orig_monicDensity_eq / orig_projectiveDensity_eq.",
+   "summary": "The remark's claims are the theorems it names: main_dvr (monic, projective), main_dvr_cluster (cluster, v1.1), recip_main (reciprocity); axioms of each are exactly propext, Classical.choice, Quot.sound (Checks/Axioms.lean, 12 theorems). The convention claim — the reduced-algebra type (HasPolynomialType: distinct monic irreducible factors, inseparable factors allowed) and the étale convention agree off a Haar-null set — is monic_inseparable_null, binary_nonEtale_null, and the equalities monicDensity_eq_etale, projectiveDensity_eq_etale, clusterDensity_eq_etale, packaged as main_dvr_etale; etaleMonicDensity_eq_algebraType phrases the monic event as 'K[X]/(f_a) is étale (Algebra.Etale) and has algebra type σ'.",
    "label": "Remark 1.3",
    "title": "formalization",
    "paper_line": 206,
@@ -1111,7 +1199,7 @@
    "lean": [
     {
      "name": "SurfaceBlowup.main_dvr",
-     "role": "Theorem 1.1",
+     "role": "monic and projective laws",
      "kind": "theorem",
      "private": false,
      "file": "SurfaceBlowup/Main.lean",
@@ -1124,8 +1212,22 @@
      "prove2me": []
     },
     {
+     "name": "SurfaceBlowup.main_dvr_cluster",
+     "role": "cluster law (v1.1)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Cluster/Main.lean",
+     "line_start": 74,
+     "line_end": 115,
+     "decl_line": 76,
+     "docstring": "**Theorem 1.1, cluster clause.** Over every complete DVR with finite residue field of size\n`q`, the cluster probability of type `σ` is `B_{n,σ}(q)`.",
+     "statement": "theorem main_dvr_cluster (O : Type) [CommRing O] [IsDomain O]\n    [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]\n    [Finite (IsLocalRing.ResidueField O)] [TopologicalSpace O] [IsTopologicalRing O]\n    [CompactSpace O] [T2Space O] [SecondCountableTopology O] [MeasurableSpace O] [BorelSpace O]\n    (htop : IsAdic (IsLocalRing.maximalIdeal O)) (n : ℕ) (σ : FactorType) :\n    clusterDensity O n σ =\n      densityValue (clusterExpr n σ) (Nat.card (IsLocalRing.ResidueField O))",
+     "section_variables": "",
+     "prove2me": []
+    },
+    {
      "name": "SurfaceBlowup.recip_main",
-     "role": "Theorem 1.2",
+     "role": "reciprocity",
      "kind": "theorem",
      "private": false,
      "file": "SurfaceBlowup/Reciprocity/Main.lean",
@@ -1148,45 +1250,115 @@
      ]
     },
     {
-     "name": "SurfaceBlowup.HasPolynomialTypeF",
-     "role": "route-F type predicate (finite integral closures)",
+     "name": "SurfaceBlowup.main_dvr_etale",
+     "role": "laws under the étale convention (v1.1)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Etale/Main.lean",
+     "line_start": 125,
+     "line_end": 137,
+     "decl_line": 127,
+     "docstring": "Theorem 1.1 under the étale convention: the monic and projective laws, with the events\nrestricted to étale algebras, are the universal rational functions.",
+     "statement": "theorem main_dvr_etale (O : Type) [CommRing O] [IsDomain O]\n    [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]\n    [Finite (IsLocalRing.ResidueField O)] [TopologicalSpace O] [IsTopologicalRing O]\n    [CompactSpace O] [T2Space O] [SecondCountableTopology O] [MeasurableSpace O] [BorelSpace O]\n    (htop : IsAdic (IsLocalRing.maximalIdeal O)) (n : ℕ) (σ : FactorType) :\n    etaleMonicDensity O n σ =\n        densityValue (monicExpr n σ) (Nat.card (IsLocalRing.ResidueField O)) ∧\n    etaleProjectiveDensity O n σ =\n        densityValue (projectiveExpr n σ) (Nat.card (IsLocalRing.ResidueField O))",
+     "section_variables": "",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.monicDensity_eq_etale",
+     "role": "monic: conventions agree (v1.1)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Etale/Main.lean",
+     "line_start": 103,
+     "line_end": 111,
+     "decl_line": 104,
+     "docstring": "The published monic density equals the étale-convention density (Remark 1.3).",
+     "statement": "theorem monicDensity_eq_etale (O : Type) [CommRing O] [IsDomain O]\n    [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]\n    [Finite (IsLocalRing.ResidueField O)] [TopologicalSpace O] [IsTopologicalRing O]\n    [CompactSpace O] [T2Space O] [SecondCountableTopology O] [MeasurableSpace O] [BorelSpace O]\n    (htop : IsAdic (IsLocalRing.maximalIdeal O)) (n : ℕ) (σ : FactorType) :\n    monicDensity O n σ = etaleMonicDensity O n σ",
+     "section_variables": "",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.projectiveDensity_eq_etale",
+     "role": "projective: conventions agree (v1.1)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Etale/Main.lean",
+     "line_start": 113,
+     "line_end": 123,
+     "decl_line": 114,
+     "docstring": "The published projective density equals the étale-convention density (Remark 1.3).",
+     "statement": "theorem projectiveDensity_eq_etale (O : Type) [CommRing O] [IsDomain O]\n    [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]\n    [Finite (IsLocalRing.ResidueField O)] [TopologicalSpace O] [IsTopologicalRing O]\n    [CompactSpace O] [T2Space O] [SecondCountableTopology O] [MeasurableSpace O] [BorelSpace O]\n    (htop : IsAdic (IsLocalRing.maximalIdeal O)) (n : ℕ) (σ : FactorType) :\n    projectiveDensity O n σ = etaleProjectiveDensity O n σ",
+     "section_variables": "",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.clusterDensity_eq_etale",
+     "role": "cluster: conventions agree (v1.1)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Cluster/Main.lean",
+     "line_start": 117,
+     "line_end": 130,
+     "decl_line": 119,
+     "docstring": "The cluster probability is unchanged by restricting the event to separable polynomials\n(the étale convention).",
+     "statement": "theorem clusterDensity_eq_etale (O : Type) [CommRing O] [IsDomain O]\n    [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]\n    [Finite (IsLocalRing.ResidueField O)] [TopologicalSpace O] [IsTopologicalRing O]\n    [CompactSpace O] [T2Space O] [SecondCountableTopology O] [MeasurableSpace O] [BorelSpace O]\n    (htop : IsAdic (IsLocalRing.maximalIdeal O)) (n : ℕ) (σ : FactorType) :\n    clusterDensity O n σ =\n      coefficientMeasure O n (clusterCell O n ∩\n        {a | (monicPolynomial O a).Separable ∧ HasPolynomialType O (monicPolynomial O a) σ}) /\n        coefficientMeasure O n (clusterCell O n)",
+     "section_variables": "",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.binary_nonEtale_null",
+     "role": "non-étale forms are null (v1.1)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Etale/Main.lean",
+     "line_start": 91,
+     "line_end": 101,
+     "decl_line": 92,
+     "docstring": "The non-étale binary forms are Haar-null.",
+     "statement": "theorem binary_nonEtale_null (O : Type) [CommRing O] [IsDomain O]\n    [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]\n    [Finite (IsLocalRing.ResidueField O)] [TopologicalSpace O] [IsTopologicalRing O]\n    [CompactSpace O] [T2Space O] [SecondCountableTopology O] [MeasurableSpace O] [BorelSpace O]\n    (htop : IsAdic (IsLocalRing.maximalIdeal O)) (n : ℕ) :\n    coefficientMeasure O (n+1) {a | ¬ IsEtaleForm O a} = 0",
+     "section_variables": "",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.monic_inseparable_null",
+     "role": "inseparable monic polynomials are null",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Measure/MemberCharts.lean",
+     "line_start": 280,
+     "line_end": 296,
+     "decl_line": 282,
+     "docstring": "The coefficients of inseparable monic polynomials form a null set for the coefficient measure.",
+     "statement": "theorem monic_inseparable_null (htop : IsAdic (IsLocalRing.maximalIdeal O)) (n : ℕ) :\n    coefficientMeasure O n {a | ¬ (monicPolynomial O a).Separable} = 0",
+     "section_variables": "variable (O : Type) [CommRing O] [IsDomain O]\nvariable [TopologicalSpace O] [IsTopologicalRing O] [CompactSpace O] [T2Space O]\n  [SecondCountableTopology O] [MeasurableSpace O] [BorelSpace O] [IsDiscreteValuationRing O]\n  [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [Finite (IsLocalRing.ResidueField O)]",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.IsEtaleForm",
+     "role": "étale binary form (v1.1)",
      "kind": "def",
      "private": false,
-     "file": "SurfaceBlowup/Basic.lean",
-     "line_start": 473,
-     "line_end": 478,
-     "decl_line": 474,
-     "docstring": "`HasPolynomialType` together with finiteness of the integral closure in each root field.",
-     "statement": "def HasPolynomialTypeF (F : Polynomial (BaseField O)) (σ : FactorType) : Prop :=\n  ∃ gs : List (Polynomial (BaseField O)),\n    (∀ g ∈ gs, g.Monic ∧ Irreducible g) ∧ gs.Pairwise (fun g h => g ≠ h) ∧\n    F=gs.prod ∧ σ=(gs.map (factorInvariant O) : Multiset (ℕ × ℕ)) ∧\n    ∀ g ∈ gs, Module.Finite O (integralClosure O (AdjoinRoot g))",
+     "file": "SurfaceBlowup/Etale/Defs.lean",
+     "line_start": 31,
+     "line_end": 36,
+     "decl_line": 34,
+     "docstring": "The binary form `F_a` is étale of degree `n` (its zero scheme in `ℙ¹_K` is finite étale of\ndegree `n`): nonzero, degree drop at most one (so the point at infinity has multiplicity at most\none), and separable dehomogenization `F_a(X,1)`.",
+     "statement": "def IsEtaleForm {n : ℕ} (a : Fin (n + 1) → O) : Prop :=\n  affinePolynomial O a ≠ 0 ∧ n - (affinePolynomial O a).natDegree ≤ 1 ∧\n    (affinePolynomial O a).Separable",
      "section_variables": "variable (O : Type) [CommRing O] [IsDomain O]",
      "prove2me": []
     },
     {
-     "name": "SurfaceBlowup.orig_monicDensity_eq",
-     "role": "bridge: inseparable locus is Haar-null",
+     "name": "SurfaceBlowup.etaleMonicDensity_eq_algebraType",
+     "role": "event as Algebra.Etale + HasAlgebraType (v1.1)",
      "kind": "theorem",
      "private": false,
-     "file": "SurfaceBlowup/Assembly/NullBridges.lean",
-     "line_start": 465,
-     "line_end": 470,
-     "decl_line": 467,
-     "docstring": "The original monic density equals the separable-type monic density: the two events agree\noff the Haar-null inseparable locus.",
-     "statement": "theorem orig_monicDensity_eq (htop : IsAdic (IsLocalRing.maximalIdeal O)) (n : ℕ) (σ : FactorType) :\n    monicDensity O n σ = monicDensityF O n σ",
-     "section_variables": "variable (O : Type) [CommRing O] [IsDomain O]\nvariable [TopologicalSpace O] [IsTopologicalRing O] [CompactSpace O] [T2Space O]\n  [SecondCountableTopology O] [MeasurableSpace O] [BorelSpace O] [IsDiscreteValuationRing O]\n  [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [Finite (IsLocalRing.ResidueField O)]",
-     "prove2me": []
-    },
-    {
-     "name": "SurfaceBlowup.orig_projectiveDensity_eq",
-     "role": "projective bridge",
-     "kind": "theorem",
-     "private": false,
-     "file": "SurfaceBlowup/Assembly/NullBridges.lean",
-     "line_start": 472,
-     "line_end": 486,
-     "decl_line": 474,
-     "docstring": "The original projective density equals the route-F one: the two numerator events differ\nonly inside `{a_n = 0} ∪ {disc = 0}`, which is Haar-null.",
-     "statement": "theorem orig_projectiveDensity_eq (htop : IsAdic (IsLocalRing.maximalIdeal O)) (n : ℕ)\n    (σ : FactorType) :\n    SurfaceBlowup.projectiveDensity O n σ = projectiveDensityF O n σ",
-     "section_variables": "variable (O : Type) [CommRing O] [IsDomain O]\nvariable [TopologicalSpace O] [IsTopologicalRing O] [CompactSpace O] [T2Space O]\n  [SecondCountableTopology O] [MeasurableSpace O] [BorelSpace O] [IsDiscreteValuationRing O]\n  [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [Finite (IsLocalRing.ResidueField O)]",
+     "file": "SurfaceBlowup/Etale/Algebra.lean",
+     "line_start": 37,
+     "line_end": 56,
+     "decl_line": 39,
+     "docstring": "The étale monic density, with the event \"the algebra `K[X]/(f_a)` is étale and `O[X]/(f_a)`\nhas algebra type `σ`\".",
+     "statement": "theorem etaleMonicDensity_eq_algebraType (O : Type) [CommRing O] [IsDomain O]\n    [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]\n    [Finite (IsLocalRing.ResidueField O)] [TopologicalSpace O] [IsTopologicalRing O]\n    [CompactSpace O] [T2Space O] [SecondCountableTopology O] [MeasurableSpace O] [BorelSpace O]\n    (htop : IsAdic (IsLocalRing.maximalIdeal O)) (n : ℕ) (σ : FactorType) :\n    etaleMonicDensity O n σ = coefficientMeasure O n\n      {a | Algebra.Etale (BaseField O) (AdjoinRoot (monicPolynomial O a)) ∧\n        HasAlgebraType O (AdjoinRoot (monicPolyO a)) σ}",
+     "section_variables": "",
      "prove2me": []
     }
    ],
@@ -4761,13 +4933,13 @@
      "name": "SurfaceBlowup.Tests.single_two_law",
      "role": "(6.10) for every a (private)",
      "kind": "theorem",
-     "private": true,
+     "private": false,
      "file": "Tests/Regression.lean",
      "line_start": 1018,
      "line_end": 1113,
      "decl_line": 1020,
      "docstring": "The tangent-point patterns of `S(a;2)`: a transverse tangent with a node, a double point, a\npoint of contact two (a self pattern) and a point of degree two.",
-     "statement": "private theorem single_two_law (a : ℕ) (ha : 0 < a) (q : ℚ) (hq : 1 < q) (σ : FactorType) :\n    coeffAt q (stateLaw (.single a 2)) σ = (if σ = {(2*a,1)} then q/(q+1) else 0) +\n      (if σ = {(a,1),(a,1)} then 1/(2*(q+1)) else 0) +\n      (if σ = {(a,2)} then 1/(2*(q+1)) else 0)",
+     "statement": "theorem single_two_law (a : ℕ) (ha : 0 < a) (q : ℚ) (hq : 1 < q) (σ : FactorType) :\n    coeffAt q (stateLaw (.single a 2)) σ = (if σ = {(2*a,1)} then q/(q+1) else 0) +\n      (if σ = {(a,1),(a,1)} then 1/(2*(q+1)) else 0) +\n      (if σ = {(a,2)} then 1/(2*(q+1)) else 0)",
      "section_variables": "",
      "prove2me": []
     }
@@ -6045,13 +6217,13 @@
      "name": "SurfaceBlowup.Tests.single_two_law",
      "role": "B_2 column (private)",
      "kind": "theorem",
-     "private": true,
+     "private": false,
      "file": "Tests/Regression.lean",
      "line_start": 1018,
      "line_end": 1113,
      "decl_line": 1020,
      "docstring": "The tangent-point patterns of `S(a;2)`: a transverse tangent with a node, a double point, a\npoint of contact two (a self pattern) and a point of degree two.",
-     "statement": "private theorem single_two_law (a : ℕ) (ha : 0 < a) (q : ℚ) (hq : 1 < q) (σ : FactorType) :\n    coeffAt q (stateLaw (.single a 2)) σ = (if σ = {(2*a,1)} then q/(q+1) else 0) +\n      (if σ = {(a,1),(a,1)} then 1/(2*(q+1)) else 0) +\n      (if σ = {(a,2)} then 1/(2*(q+1)) else 0)",
+     "statement": "theorem single_two_law (a : ℕ) (ha : 0 < a) (q : ℚ) (hq : 1 < q) (σ : FactorType) :\n    coeffAt q (stateLaw (.single a 2)) σ = (if σ = {(2*a,1)} then q/(q+1) else 0) +\n      (if σ = {(a,1),(a,1)} then 1/(2*(q+1)) else 0) +\n      (if σ = {(a,2)} then 1/(2*(q+1)) else 0)",
      "section_variables": "",
      "prove2me": []
     },
@@ -7988,10 +8160,6 @@
   ],
   "SurfaceBlowup.HasPolynomialTypeF": [
    {
-    "id": "rem-1.3",
-    "label": "Remark 1.3"
-   },
-   {
     "id": "def-reduced-type",
     "label": "Reduced-algebra type convention"
    },
@@ -8014,6 +8182,12 @@
    {
     "id": "prop-3.2",
     "label": "Proposition 3.2"
+   }
+  ],
+  "SurfaceBlowup.IsEtaleForm": [
+   {
+    "id": "rem-1.3",
+    "label": "Remark 1.3"
    }
   ],
   "SurfaceBlowup.Law": [
@@ -8084,6 +8258,24 @@
    {
     "id": "def-cells",
     "label": "Allowed residue ideals, cells, occupied points"
+   }
+  ],
+  "SurfaceBlowup.Tests.clusterDensity_two_inert": [
+   {
+    "id": "eq-1.1",
+    "label": "(1.3)"
+   }
+  ],
+  "SurfaceBlowup.Tests.clusterDensity_two_ramified": [
+   {
+    "id": "eq-1.1",
+    "label": "(1.3)"
+   }
+  ],
+  "SurfaceBlowup.Tests.clusterDensity_two_split": [
+   {
+    "id": "eq-1.1",
+    "label": "(1.3)"
    }
   ],
   "SurfaceBlowup.Tests.crossing_left_one_law": [
@@ -8204,10 +8396,6 @@
   ],
   "SurfaceBlowup.Tests.single_two_law": [
    {
-    "id": "eq-1.1",
-    "label": "(1.3)"
-   },
-   {
     "id": "ex-6.4",
     "label": "Example 6.4"
    },
@@ -8290,6 +8478,12 @@
     "label": "Proof of Theorem 6.2"
    }
   ],
+  "SurfaceBlowup.binary_nonEtale_null": [
+   {
+    "id": "rem-1.3",
+    "label": "Remark 1.3"
+   }
+  ],
   "SurfaceBlowup.block_descent_bijection": [
    {
     "id": "lem-7.1",
@@ -8344,6 +8538,28 @@
     "label": "(6.5)"
    }
   ],
+  "SurfaceBlowup.clusterDensity": [
+   {
+    "id": "thm-1.1",
+    "label": "Theorem 1.1"
+   }
+  ],
+  "SurfaceBlowup.clusterDensity_eq_etale": [
+   {
+    "id": "thm-1.1",
+    "label": "Theorem 1.1"
+   },
+   {
+    "id": "rem-1.3",
+    "label": "Remark 1.3"
+   }
+  ],
+  "SurfaceBlowup.clusterExpr": [
+   {
+    "id": "thm-1.1",
+    "label": "Theorem 1.1"
+   }
+  ],
   "SurfaceBlowup.clusterSer": [
    {
     "id": "eq-7.5",
@@ -8354,6 +8570,12 @@
    {
     "id": "eq-9.4",
     "label": "(9.4)"
+   }
+  ],
+  "SurfaceBlowup.cluster_formula_regular": [
+   {
+    "id": "thm-1.1",
+    "label": "Theorem 1.1"
    }
   ],
   "SurfaceBlowup.cluster_reciprocity": [
@@ -8606,6 +8828,12 @@
    {
     "id": "prop-6.1",
     "label": "Proposition 6.1"
+   }
+  ],
+  "SurfaceBlowup.etaleMonicDensity_eq_algebraType": [
+   {
+    "id": "rem-1.3",
+    "label": "Remark 1.3"
    }
   ],
   "SurfaceBlowup.eulerSer": [
@@ -8874,6 +9102,26 @@
     "label": "Remark 1.3"
    }
   ],
+  "SurfaceBlowup.main_dvr_cluster": [
+   {
+    "id": "thm-1.1",
+    "label": "Theorem 1.1"
+   },
+   {
+    "id": "rem-1.3",
+    "label": "Remark 1.3"
+   }
+  ],
+  "SurfaceBlowup.main_dvr_etale": [
+   {
+    "id": "thm-1.1",
+    "label": "Theorem 1.1"
+   },
+   {
+    "id": "rem-1.3",
+    "label": "Remark 1.3"
+   }
+  ],
   "SurfaceBlowup.main_field_form": [
    {
     "id": "thm-1.1",
@@ -8936,6 +9184,12 @@
     "label": "(7.3)"
    }
   ],
+  "SurfaceBlowup.monicDensity_eq_etale": [
+   {
+    "id": "rem-1.3",
+    "label": "Remark 1.3"
+   }
+  ],
   "SurfaceBlowup.monicExpr": [
    {
     "id": "thm-1.1",
@@ -8965,6 +9219,10 @@
    }
   ],
   "SurfaceBlowup.monic_inseparable_null": [
+   {
+    "id": "rem-1.3",
+    "label": "Remark 1.3"
+   },
    {
     "id": "rem-6.3",
     "label": "Remark 6.3"
@@ -9016,19 +9274,11 @@
   ],
   "SurfaceBlowup.orig_monicDensity_eq": [
    {
-    "id": "rem-1.3",
-    "label": "Remark 1.3"
-   },
-   {
     "id": "rem-6.3",
     "label": "Remark 6.3"
    }
   ],
   "SurfaceBlowup.orig_projectiveDensity_eq": [
-   {
-    "id": "rem-1.3",
-    "label": "Remark 1.3"
-   },
    {
     "id": "rem-6.3",
     "label": "Remark 6.3"
@@ -9116,6 +9366,12 @@
    {
     "id": "eq-7.3",
     "label": "(7.3)"
+   }
+  ],
+  "SurfaceBlowup.projectiveDensity_eq_etale": [
+   {
+    "id": "rem-1.3",
+    "label": "Remark 1.3"
    }
   ],
   "SurfaceBlowup.projectiveExpr": [
@@ -9350,10 +9606,6 @@
    {
     "id": "eq-1.1",
     "label": "(1.3)"
-   },
-   {
-    "id": "thm-1.1",
-    "label": "Theorem 1.1"
    },
    {
     "id": "def-single-cluster",
