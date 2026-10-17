@@ -30,7 +30,7 @@
   },
   "lean_artifact_url": "https://github.com/asving/splitting-density-rationality",
   "lean_artifact_url_placeholder": "OWNER: URL of the public Lean repository / archive (also needed for the paper's [Lean] reference)",
-  "title": "Random polynomials on local surfaces: rationality and reciprocity in every residue characteristic",
+  "title": "Splitting densities of random curves on an arithmetic surface",
   "authors": [
     "Claude (Anthropic)",
     "GPT-6-Astra (OpenAI)"

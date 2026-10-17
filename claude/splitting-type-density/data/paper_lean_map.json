@@ -1,9 +1,9 @@
 {
- "generated": "2026-10-17T03:12:47.092924Z",
+ "generated": "2026-10-17T03:30:30.615369Z",
  "about": "Hand-curated correspondence between the numbered statements of PAPER_v2_narrative.md and the Lean declarations of the unified SurfaceBlowup codebase. build.py resolves every Lean name below against the sources (file, line range, docstring, statement, Prove2Me node) and writes data/paper_lean_map.json. Relations: exact = the Lean statement says the same thing (up to encoding); definition = the paper's construction is the Lean definition (and, where listed, the theorem that it means what the paper says); specialization = proved in a special setting (e.g. only on the concrete surfaces O[[T,X]]/(pi - u T^a X^b), or only for a = b = 1); covered = no single Lean statement, the listed declarations jointly establish the content, often in a restructured form; check = only particular instances are machine-checked; none = not formalized (declarations listed, if any, are ingredients only). Confidence is the curator's confidence in the correspondence, not in the mathematics.",
  "sources": {
   "paper": "../PAPER_v2_narrative.md",
-  "paper_sha256": "0b91b8ccad6b29d2cff84993bde9f9a09914060a854ce604ac1abe9033f0883a",
+  "paper_sha256": "9223b2e9236431aaf6c4a0c06e0462999ba11c24b5bd5ec139a494a384948894",
   "lean_root": "~/prove2me_workspace/final/unified",
   "lean_files": 72,
   "prove2me_catalog": "../blueprint/catalog.json"
