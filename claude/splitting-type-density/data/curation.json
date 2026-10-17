@@ -47,21 +47,29 @@
    "kind": "display",
    "label": "(1.3)",
    "title": "the reciprocal pair of quadratic probabilities",
-   "relation": "covered",
+   "relation": "exact",
    "confidence": "high",
-   "summary": "The monic half, Pr(ramified) = 1/(q+1) over every complete DVR, is the Lean corollary monicDensity_two_ramified (derived from main_dvr). The cluster half, q/(q+1), is the (2a,1)-coefficient of the law of S(a;2) (private regression lemma single_two_law, at a = 1) combined with root_cell_law, which identifies that law with the X² coefficient model; no single Lean statement states it as a probability.",
+   "summary": "The monic half, Pr(ramified) = 1/(q+1) over every complete DVR, is the Lean corollary monicDensity_two_ramified (from main_dvr). The cluster half, q/(q+1), is clusterDensity_two_ramified (v1.1, from main_dvr_cluster), with the split and inert values 1/(2(q+1)) each in clusterDensity_two_split / clusterDensity_two_inert.",
    "lean": [
     [
      "SurfaceBlowup.Tests.monicDensity_two_ramified",
      "monic half, as a density over every complete DVR"
     ],
     [
-     "SurfaceBlowup.Tests.monicExpr_two_eval",
-     "A_2 for every q > 1"
+     "SurfaceBlowup.Tests.clusterDensity_two_ramified",
+     "cluster half, as a density over every complete DVR (v1.1)"
     ],
     [
-     "SurfaceBlowup.Tests.single_two_law",
-     "law of S(a;2): the X² half at a = 1 (private)"
+     "SurfaceBlowup.Tests.clusterDensity_two_split",
+     "cluster, split (v1.1)"
+    ],
+    [
+     "SurfaceBlowup.Tests.clusterDensity_two_inert",
+     "cluster, inert (v1.1)"
+    ],
+    [
+     "SurfaceBlowup.Tests.monicExpr_two_eval",
+     "A_2 for every q > 1"
     ],
     [
      "SurfaceBlowup.root_cell_law",
@@ -71,7 +79,9 @@
   },
   {
    "id": "def-type",
-   "anchor": {"bold": "type"},
+   "anchor": {
+    "bold": "type"
+   },
    "kind": "definition",
    "label": "Type of degree n",
    "title": "factorization types",
@@ -95,7 +105,9 @@
   },
   {
    "id": "def-monic-model",
-   "anchor": {"eq": "1.1"},
+   "anchor": {
+    "eq": "1.1"
+   },
    "kind": "definition",
    "label": "Monic model",
    "title": "monic type probability",
@@ -127,7 +139,9 @@
   },
   {
    "id": "def-projective-model",
-   "anchor": {"para": "For $n\\ge1$, put"},
+   "anchor": {
+    "para": "For $n\\ge1$, put"
+   },
    "kind": "definition",
    "label": "Projective model",
    "title": "binary-form type probability",
@@ -155,7 +169,9 @@
   },
   {
    "id": "def-Z",
-   "anchor": {"para": "For $e,f\\ge1$, give commuting"},
+   "anchor": {
+    "para": "For $e,f\\ge1$, give commuting"
+   },
    "kind": "definition",
    "label": "Type variables Z_{e,f}",
    "title": "laws as polynomials in type variables",
@@ -192,13 +208,21 @@
   {
    "id": "thm-1.1",
    "kind": "theorem",
-   "relation": "covered",
+   "relation": "exact",
    "confidence": "high",
-   "summary": "Monic and projective clauses: exactly main_dvr — for every complete DVR O with finite residue field (any characteristic, any ramification; adic topology, Borel σ-algebra, normalized Haar measure), monicDensity O n σ and projectiveDensity O n σ are the values at q = |k| of the explicit expressions monicExpr n σ and projectiveExpr n σ, whose rational functions are A_σ and R_σ; regularity at every prime power is global_formula_regular, packaged with the ∃ A R form in main_field_form. Cluster clause: root_cell_law gives the cluster-model probability of every type as the coefficient of the law of S(1;n), but with the route-F type predicate (finite integral closures), which agrees with the étale convention off a Haar-null set; no Lean theorem states the cluster clause with the published density definitions (the paper's Remark 1.3 also restricts the formal claim to the monic and projective laws). The hypotheses 0 < n, ValidType σ, typeDegree σ = n of main_dvr are unused (frozen statement). Non-vacuity in equal characteristic: main_dvr_powerSeries.",
+   "summary": "All three clauses. Monic and projective: main_dvr — for every complete DVR O with finite residue field (any characteristic, any ramification; adic topology, Borel σ-algebra, normalized Haar measure), monicDensity O n σ and projectiveDensity O n σ are the values at q = |k| of monicExpr n σ and projectiveExpr n σ, whose rational functions are A_σ and R_σ; regularity at every prime power is global_formula_regular, packaged with the ∃ A R form in main_field_form. Cluster (v1.1): main_dvr_cluster — clusterDensity O n σ, the normalized Haar probability on monic polynomials reducing to X^n (paper's μ_cluster) with the published type predicate, equals clusterExpr n σ = lawCoeff (rootLaw n) σ, the coefficient of σ in the law of S(1;n) (display (7.1)), for every n including n = 0; regularity is cluster_formula_regular; recip_cluster reads A_σ(q) = B_σ(1/q) in this notation. The type predicate is the reduced-algebra convention; the agreement with the étale convention off a Haar-null set is main_dvr_etale / clusterDensity_eq_etale (Remark 1.3). The hypotheses 0 < n, ValidType σ, typeDegree σ = n of main_dvr are unused (frozen statement). Non-vacuity in equal characteristic: main_dvr_powerSeries.",
    "lean": [
     [
      "SurfaceBlowup.main_dvr",
-     "the theorem, every complete DVR"
+     "monic and projective laws, every complete DVR"
+    ],
+    [
+     "SurfaceBlowup.main_dvr_cluster",
+     "cluster law B_σ, every complete DVR (v1.1)"
+    ],
+    [
+     "SurfaceBlowup.cluster_formula_regular",
+     "B_σ regular at prime powers (v1.1)"
     ],
     [
      "SurfaceBlowup.main_field_form",
@@ -213,8 +237,20 @@
      "regularity at prime powers"
     ],
     [
-     "SurfaceBlowup.root_cell_law",
-     "cluster clause (route-F types)"
+     "SurfaceBlowup.main_dvr_etale",
+     "monic and projective laws under the étale convention (v1.1)"
+    ],
+    [
+     "SurfaceBlowup.clusterDensity_eq_etale",
+     "cluster law under the étale convention (v1.1)"
+    ],
+    [
+     "SurfaceBlowup.clusterDensity",
+     "μ_cluster-probability of type σ (v1.1)"
+    ],
+    [
+     "SurfaceBlowup.clusterExpr",
+     "B_σ"
     ],
     [
      "SurfaceBlowup.monicExpr",
@@ -266,7 +302,9 @@
   },
   {
    "id": "def-single-cluster",
-   "anchor": {"eq": "1.2"},
+   "anchor": {
+    "eq": "1.2"
+   },
    "kind": "definition",
    "label": "Cluster model and cluster law B_n",
    "title": "the X^n model",
@@ -315,29 +353,53 @@
   {
    "id": "rem-1.3",
    "kind": "remark",
-   "relation": "covered",
+   "relation": "exact",
    "confidence": "high",
-   "summary": "The claims of the remark are checked by tools/release_check.sh: build with no sorry, and #print axioms of main_dvr, main_field_form, main_field_form_ramified and recip_main = [propext, Classical.choice, Quot.sound]. The finite-integral-closure convention is the route-F predicate HasPolynomialTypeF, and the agreement off a Haar-null set is orig_monicDensity_eq / orig_projectiveDensity_eq.",
+   "summary": "The remark's claims are the theorems it names: main_dvr (monic, projective), main_dvr_cluster (cluster, v1.1), recip_main (reciprocity); axioms of each are exactly propext, Classical.choice, Quot.sound (Checks/Axioms.lean, 12 theorems). The convention claim — the reduced-algebra type (HasPolynomialType: distinct monic irreducible factors, inseparable factors allowed) and the étale convention agree off a Haar-null set — is monic_inseparable_null, binary_nonEtale_null, and the equalities monicDensity_eq_etale, projectiveDensity_eq_etale, clusterDensity_eq_etale, packaged as main_dvr_etale; etaleMonicDensity_eq_algebraType phrases the monic event as 'K[X]/(f_a) is étale (Algebra.Etale) and has algebra type σ'.",
    "lean": [
     [
      "SurfaceBlowup.main_dvr",
-     "Theorem 1.1"
+     "monic and projective laws"
+    ],
+    [
+     "SurfaceBlowup.main_dvr_cluster",
+     "cluster law (v1.1)"
     ],
     [
      "SurfaceBlowup.recip_main",
-     "Theorem 1.2"
+     "reciprocity"
     ],
     [
-     "SurfaceBlowup.HasPolynomialTypeF",
-     "route-F type predicate (finite integral closures)"
+     "SurfaceBlowup.main_dvr_etale",
+     "laws under the étale convention (v1.1)"
     ],
     [
-     "SurfaceBlowup.orig_monicDensity_eq",
-     "bridge: inseparable locus is Haar-null"
+     "SurfaceBlowup.monicDensity_eq_etale",
+     "monic: conventions agree (v1.1)"
     ],
     [
-     "SurfaceBlowup.orig_projectiveDensity_eq",
-     "projective bridge"
+     "SurfaceBlowup.projectiveDensity_eq_etale",
+     "projective: conventions agree (v1.1)"
+    ],
+    [
+     "SurfaceBlowup.clusterDensity_eq_etale",
+     "cluster: conventions agree (v1.1)"
+    ],
+    [
+     "SurfaceBlowup.binary_nonEtale_null",
+     "non-étale forms are null (v1.1)"
+    ],
+    [
+     "SurfaceBlowup.monic_inseparable_null",
+     "inseparable monic polynomials are null"
+    ],
+    [
+     "SurfaceBlowup.IsEtaleForm",
+     "étale binary form (v1.1)"
+    ],
+    [
+     "SurfaceBlowup.etaleMonicDensity_eq_algebraType",
+     "event as Algebra.Etale + HasAlgebraType (v1.1)"
     ]
    ]
   },

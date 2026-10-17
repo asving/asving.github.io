@@ -16,7 +16,7 @@
   "blueprint_catalog": "../blueprint/catalog.json",
   "prove2me_upload_state": "~/prove2me_workspace/upload_state.json",
   "certificates": {
-    "release_check": "~/prove2me_workspace/final/unified/logs/release_check_c4d.txt",
+    "release_check": "~/prove2me_workspace/final/unified/logs/release_check_v1_1.txt",
     "release_axioms": "~/prove2me_workspace/final/unified/logs/release_axioms.log",
     "monolith_report": "~/prove2me_workspace/final/MONOLITH_REPORT.md",
     "monolith_report_general_dvr": "~/prove2me_workspace/final/MONOLITH_REPORT_general_dvr.md",
@@ -26,7 +26,7 @@
     "url_template": "https://prove2.me/theorems/{theorem_id}",
     "url_template_status": "UNVERIFIED: the API documents only https://prove2.me/api/v1/theorems/{theorem_id}; the public page pattern is a guess (OWNER: confirm)",
     "tree_visibility": "PRIVATE",
-    "note": "The SurfaceBlowupV2 tree (1201 nodes, incl. main_field_form N660 and recip_main N1319) is published PRIVATE on Prove2Me; links resolve only for the owner's account until it is made public. main_dvr (the general-DVR theorem) and the unified SurfaceBlowup codebase are not on Prove2Me."
+    "note": "The release v1.0.0 development (namespace TypeDensity: 34 definition modules, 1016 theorems incl. main_dvr, main_field_form, main_field_form_ramified, recip_main) is published PRIVATE on Prove2Me; links resolve only for the owner's account until it is made public. The v1.1 additions (cluster clause, étale convention) are on GitHub and this site; their Prove2Me nodes are pending."
   },
   "lean_artifact_url": "https://github.com/asving/splitting-density-rationality",
   "lean_artifact_url_placeholder": "OWNER: URL of the public Lean repository / archive (also needed for the paper's [Lean] reference)",
