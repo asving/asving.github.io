@@ -1,43 +1,5 @@
 {
  "_about": "Hand-curated correspondence between the numbered statements of PAPER_v2_narrative.md and the Lean declarations of the unified SurfaceBlowup codebase. build.py resolves every Lean name below against the sources (file, line range, docstring, statement, Prove2Me node) and writes data/paper_lean_map.json. Relations: exact = the Lean statement says the same thing (up to encoding); definition = the paper's construction is the Lean definition (and, where listed, the theorem that it means what the paper says); specialization = proved in a special setting (e.g. only on the concrete surfaces O[[T,X]]/(pi - u T^a X^b), or only for a = b = 1); covered = no single Lean statement, the listed declarations jointly establish the content, often in a restructured form; check = only particular instances are machine-checked; none = not formalized (declarations listed, if any, are ingredients only). Confidence is the curator's confidence in the correspondence, not in the mathematics.",
- "aliases": {
-  "strict_transform_bijOn_child_ideals": "prop_5_1_bijOn",
-  "strict_transform_injOn_fixed_tangent_cell": "prop_5_1_injOn",
-  "strict_transform_mapsTo_child_ideals": "prop_5_1_mapsTo",
-  "concrete_two_chart_glued_generators_exist": "concrete_two_chart_lemma_4_2",
-  "cluster_reciprocity": "recip_cluster_all",
-  "cluster_reciprocity_one": "recip_cluster_base",
-  "coeff_clusterSer_eq_coeff_qact": "recip_single_operator_equation",
-  "lawCoef_globalLaw_false_eq_recipCoef": "recip_affine_coef",
-  "recipCoef_lawCoef_globalLaw_true": "recip_projective_coef",
-  "crossingQ_eq_qmul_qplus_qdiag_qminus": "recip_crossing_factorization",
-  "qcongr_crossingQ_mul_qdagger": "recip_contact_induction",
-  "gaussPhi_qactRecip_gaussPhiInv": "recip_gauss_conjugation",
-  "crossingQ_symm": "recip_crossing_exchange",
-  "qdagger_qmul": "recip_qdagger_mul",
-  "qplus_qmul": "recip_qplus_mul",
-  "qminus_qmul": "recip_qminus_mul",
-  "coeff_eulerSer": "recip_euler_coeff_pattern",
-  "pPow_pPow": "recip_pPow_comp",
-  "coeff_pPow_sub_of_scongr": "recip_scongr_pPow",
-  "patternDivisors_equiv_colorings": "pattern_divisors_equiv_colorings_v2",
-  "monicExpr_two_eval": "quadratic_monic_formula",
-  "projectiveExpr_two_eval": "quadratic_projective_formula",
-  "monicExpr_three_eval": "cubic_monic_formula",
-  "monicExpr_four_eval_two": "quartic_monic_law_at_two",
-  "projectiveExpr_four_eval_two": "quartic_projective_law_at_two",
-  "monicExpr_three_totally_ramified_eval_three": "cubic_totally_ramified_at_three",
-  "monicExpr_four_totally_ramified_eval_two": "quartic_totally_ramified_at_two",
-  "projectiveExpr_four_totally_ramified_eval_two": "quartic_projective_totally_ramified_at_two",
-  "monicExpr_four_ramified_quadratic_eval_two": "quartic_ramified_quadratic_at_two",
-  "monicExpr_four_two_inert_quadratics_eval_two": "quartic_two_inert_quadratics_at_two",
-  "monicExpr_two_split_eval_two": "quadratic_at_two",
-  "monicExpr_two_inert_eval_two": "quadratic_at_two",
-  "monicExpr_two_ramified_eval_two": "quadratic_at_two",
-  "single_three_law": "single_cubic_law",
-  "single_four_law_at_two": "single_quartic_law_at_two",
-  "crossing_two_two_law": "recip_crossing_two_two_coef"
- },
  "entries": [
   {
    "id": "eq-1.1",
@@ -266,8 +228,7 @@
     ]
    ],
    "prove2me_extra": [
-    "N660",
-    "N114"
+    "N0388"
    ]
   },
   {
@@ -347,7 +308,7 @@
     ]
    ],
    "prove2me_extra": [
-    "N1319"
+    "N0553"
    ]
   },
   {
@@ -2253,5 +2214,44 @@
     ]
    ]
   }
- ]
+ ],
+ "aliases_retired_2026_10_17": {
+  "strict_transform_bijOn_child_ideals": "prop_5_1_bijOn",
+  "strict_transform_injOn_fixed_tangent_cell": "prop_5_1_injOn",
+  "strict_transform_mapsTo_child_ideals": "prop_5_1_mapsTo",
+  "concrete_two_chart_glued_generators_exist": "concrete_two_chart_lemma_4_2",
+  "cluster_reciprocity": "recip_cluster_all",
+  "cluster_reciprocity_one": "recip_cluster_base",
+  "coeff_clusterSer_eq_coeff_qact": "recip_single_operator_equation",
+  "lawCoef_globalLaw_false_eq_recipCoef": "recip_affine_coef",
+  "recipCoef_lawCoef_globalLaw_true": "recip_projective_coef",
+  "crossingQ_eq_qmul_qplus_qdiag_qminus": "recip_crossing_factorization",
+  "qcongr_crossingQ_mul_qdagger": "recip_contact_induction",
+  "gaussPhi_qactRecip_gaussPhiInv": "recip_gauss_conjugation",
+  "crossingQ_symm": "recip_crossing_exchange",
+  "qdagger_qmul": "recip_qdagger_mul",
+  "qplus_qmul": "recip_qplus_mul",
+  "qminus_qmul": "recip_qminus_mul",
+  "coeff_eulerSer": "recip_euler_coeff_pattern",
+  "pPow_pPow": "recip_pPow_comp",
+  "coeff_pPow_sub_of_scongr": "recip_scongr_pPow",
+  "patternDivisors_equiv_colorings": "pattern_divisors_equiv_colorings_v2",
+  "monicExpr_two_eval": "quadratic_monic_formula",
+  "projectiveExpr_two_eval": "quadratic_projective_formula",
+  "monicExpr_three_eval": "cubic_monic_formula",
+  "monicExpr_four_eval_two": "quartic_monic_law_at_two",
+  "projectiveExpr_four_eval_two": "quartic_projective_law_at_two",
+  "monicExpr_three_totally_ramified_eval_three": "cubic_totally_ramified_at_three",
+  "monicExpr_four_totally_ramified_eval_two": "quartic_totally_ramified_at_two",
+  "projectiveExpr_four_totally_ramified_eval_two": "quartic_projective_totally_ramified_at_two",
+  "monicExpr_four_ramified_quadratic_eval_two": "quartic_ramified_quadratic_at_two",
+  "monicExpr_four_two_inert_quadratics_eval_two": "quartic_two_inert_quadratics_at_two",
+  "monicExpr_two_split_eval_two": "quadratic_at_two",
+  "monicExpr_two_inert_eval_two": "quadratic_at_two",
+  "monicExpr_two_ramified_eval_two": "quadratic_at_two",
+  "single_three_law": "single_cubic_law",
+  "single_four_law_at_two": "single_quartic_law_at_two",
+  "crossing_two_two_law": "recip_crossing_two_two_coef"
+ },
+ "aliases": {}
 }
