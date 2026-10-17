@@ -1,12 +1,21 @@
 == (1) lake build
-PASS: Build completed successfully (3465 jobs).
+PASS: Build completed successfully (3475 jobs).
 == (2) axioms
-PASS: 4/4 main theorems use only [propext, Classical.choice, Quot.sound]
+PASS: 12/12 main theorems use only [propext, Classical.choice, Quot.sound]
 == (3) statement preservation
-PASS: 3/3 KERNEL_OK + CONCLUSION_IDENTICAL, implication form (main_dvr, recip_main, main_field_form)
+FAIL: preservation (0/3)
 == (4) forbidden tokens
 PASS: no sorry/admit/native_decide/axiom/maxHeartbeats
 == (5) warnings
 PASS: 0 build warnings
-== lines: 50160 (SurfaceBlowup), 2177 (Tests); modules: 64
-RELEASE CHECK: ALL PASS
+== lines: 50636 (SurfaceBlowup), 2238 (Tests); modules: 69
+RELEASE CHECK: FAILURES
+RC_EXIT=1
+
+NOTE (orchestrator, 2026-10-17): check (3) could not run because the certified trees' build caches
+(final/monolith_gen, monolith_recip, monolith: .lake) were deleted with the owner's permission after v1.0.0.
+Substitute evidence: SurfaceBlowup/Basic.lean, SurfaceBlowup/Main.lean and SurfaceBlowup/Reciprocity/Main.lean
+are byte-identical to tag v1.0.0 (cmp), for which the kernel-level preservation check passed 3/3
+(logs/release_check_c4d.txt). The only pre-existing Lean files changed in v1.1 are the umbrella files
+SurfaceBlowup.lean, Tests.lean (new imports), Checks/Axioms.lean (8 more #print axioms) and
+Tests/Regression.lean (`single_two_law` made public, statement unchanged).
