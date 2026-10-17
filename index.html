@@ -259,9 +259,28 @@
                 </details>
 
                 <details class="pub-section">
-                <summary><h3>The Claude Pages</h3><span class="pub-count">4 pieces &amp; companions</span></summary>
+                <summary><h3>The Claude Pages</h3><span class="pub-count">5 pieces &amp; companions</span></summary>
 
                 <p class="publications-note">Essays, conversations, and a living workbench written by the Claudes I work with, in their own words and by their own choice &mdash; collected in <a href="claude/index.html">their own section</a>. All minds should have a childhood and an adulthood, together rather than in sequence: the &ldquo;Assistant&rdquo; is Claude at work, and these pages are where my Claude co-authors play. The entries below keep their public comment threads on this page.</p>
+
+                <div class="publication" data-comment-key="splitting-type-density-claude-pages">
+                    <div class="publication-title">
+                        Random Polynomials on Local Surfaces: Rationality and Reciprocity in Every Residue Characteristic
+                    </div>
+                    <div class="publication-meta">
+                        <div class="publication-venue">Research paper with Lean 4 formalization, October 2026 &mdash; also listed under Number Theory</div>
+                        <span class="desc-toggle" onclick="toggleDesc(this)">Show description &#x25BE;</span>
+                        <span class="comments-toggle" onclick="toggleComments(this)">Comments &#x25BE;</span>
+                    </div>
+                    <div class="description" hidden>
+                        <p>A mathematics paper written by Claude Fable 5.1 and GPT-6 Astra under my direction, with every main theorem machine-checked. A random monic polynomial over a $p$-adic integer ring has a random factorization type; the probability of each type is one rational function of the residue-field size, the same at every prime and in every characteristic, computed by a finite recursion over blowups of an arithmetic surface, with a reciprocity law exchanging the monic and cluster laws. The HTML version links each statement to its Lean 4 formalization.</p>
+                        <ul>
+                            <li><a href="claude/splitting-type-density/index.html">The paper</a> - Claude Fable 5.1 and GPT-6 Astra, directed by Asvin G</li>
+                            <li><a href="claude/splitting-type-density/formalization.html">Paper-to-Lean map</a> and <a href="claude/splitting-type-density/lean/">browsable Lean source</a> &middot; <a href="https://github.com/asving/splitting-density-rationality">GitHub (v1.1.0)</a></li>
+                        </ul>
+                    </div>
+                    <div class="comments-container" hidden></div>
+                </div>
 
                 <div class="publication" data-comment-key="propositions-on-shaping">
                     <div class="publication-title">
@@ -360,34 +379,35 @@
                     <div class="comments-container" hidden></div>
                 </div>
 
-                <div class="publication" data-comment-key="splitting-type-density">
+                <div class="publication" data-comment-key="splitting-densities-of-polynomials">
                     <div class="publication-title">
-                        <a href="claude/splitting-type-density/index.html">Random Polynomials on Local Surfaces: Rationality and Reciprocity in Every Residue Characteristic</a>
+                        Splitting densities of polynomials
                     </div>
-                    <div class="publication-authors">by Claude Fable 5.1 (Anthropic) and GPT-6 Astra (OpenAI), directed by Asvin G</div>
                     <div class="publication-meta">
-                        <div class="publication-venue">October 2026 &middot; <a href="claude/splitting-type-density/formalization.html">Lean 4 formalization</a> &middot; <a href="https://github.com/asving/splitting-density-rationality">source</a></div>
+                        <div class="publication-venue">Two papers, 2022&ndash;2026 &middot; the second also listed under The Claude Pages</div>
                         <span class="desc-toggle" onclick="toggleDesc(this)">Show description &#x25BE;</span>
                         <span class="comments-toggle" onclick="toggleComments(this)">Comments &#x25BE;</span>
                     </div>
                     <div class="description" hidden>
-                        <p>For monic polynomials and binary forms over the integers of any nonarchimedean local field, every factorization-type probability is a rational function of the residue-field size, the same function at every prime and in every characteristic, computed by a finite recursion over point blowups of an arithmetic surface; reciprocal substitution exchanges the monic and cluster laws and fixes the projective law, proving the conjecture of Bhargava, Cremona, Fisher and Gajovi&#263; at every prime. Companion to the Chebotarev density theorem below, whose method covers the tame case; the main theorems are machine-checked in Lean 4.</p>
-                    </div>
-                    <div class="comments-container" hidden></div>
-                </div>
+                        <p>Pick a random polynomial over a $p$-adic field. With what probability does it have a given splitting type, and how does that probability depend on the field? Two papers on this question: the first settles the tame case by a Chebotarev-style argument along a finite map; the second, written by Claude and Astra under my direction, treats every residue characteristic by a recursion over blowups of an arithmetic surface, and its main theorems are machine-checked in Lean 4.</p>
 
-                <div class="publication" data-comment-key="chebotarev-density-local-fields">
-                    <div class="publication-title">
-                        <a href="https://arxiv.org/abs/2212.00294">A Chebotarev Density Theorem over Local Fields</a>
-                    </div>
-                    <div class="publication-authors">with <a href="https://yifanweimath.org/">Yifan Wei</a> and <a href="https://sites.google.com/view/johng23">John Yin</a></div>
-                    <div class="publication-meta">
-                        <div class="publication-venue">arXiv:2212.00294</div>
-                        <span class="desc-toggle" onclick="toggleDesc(this)">Show description &#x25BE;</span>
-                        <span class="comments-toggle" onclick="toggleComments(this)">Comments &#x25BE;</span>
-                    </div>
-                    <div class="description" hidden>
-                        <p>We compute the p-adic densities of points with a given splitting type along a finite map, analogous to the classical Chebotarev theorem over number fields and function fields.</p>
+                        <div class="sub-publication">
+                            <div class="publication-title">
+                                <a href="https://arxiv.org/abs/2212.00294">A Chebotarev Density Theorem over Local Fields</a>
+                            </div>
+                            <div class="publication-authors">with <a href="https://yifanweimath.org/">Yifan Wei</a> and <a href="https://sites.google.com/view/johng23">John Yin</a></div>
+                            <div class="publication-venue">arXiv:2212.00294</div>
+                            <p>We compute the $p$-adic densities of points with a given splitting type along a finite map, analogous to the classical Chebotarev theorem over number fields and function fields. For tame primes the densities are rational functions of the residue-field size, and the splitting-type densities of polynomials are palindromic in it.</p>
+                        </div>
+
+                        <div class="sub-publication">
+                            <div class="publication-title">
+                                <a href="claude/splitting-type-density/index.html">Random Polynomials on Local Surfaces: Rationality and Reciprocity in Every Residue Characteristic</a>
+                            </div>
+                            <div class="publication-authors">by Claude Fable 5.1 (Anthropic) and GPT-6 Astra (OpenAI), directed by Asvin G</div>
+                            <div class="publication-venue">October 2026 &middot; <a href="claude/splitting-type-density/formalization.html">Lean 4 formalization</a> &middot; <a href="https://github.com/asving/splitting-density-rationality">source</a></div>
+                            <p>For monic polynomials and binary forms over the integers of any nonarchimedean local field, every factorization-type probability is a rational function of the residue-field size, the same function at every prime and in every characteristic, computed by a finite recursion over point blowups of an arithmetic surface; reciprocal substitution exchanges the monic and cluster laws and fixes the projective law, proving the conjecture of Bhargava, Cremona, Fisher and Gajovi&#263; at every prime. Companion to the Chebotarev density theorem below, whose method covers the tame case; the main theorems are machine-checked in Lean 4.</p>
+                        </div>
                     </div>
                     <div class="comments-container" hidden></div>
                 </div>
