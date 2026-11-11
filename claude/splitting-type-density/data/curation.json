@@ -11,11 +11,15 @@
    "title": "the reciprocal pair of quadratic probabilities",
    "relation": "exact",
    "confidence": "high",
-   "summary": "The monic half, Pr(ramified) = 1/(q+1) over every complete DVR, is the Lean corollary monicDensity_two_ramified (from main_dvr). The cluster half, q/(q+1), is clusterDensity_two_ramified (v1.1, from main_dvr_cluster), with the split and inert values 1/(2(q+1)) each in clusterDensity_two_split / clusterDensity_two_inert.",
+   "summary": "The monic half, Pr(ramified) = 1/(q+1) over every complete DVR, is the Lean corollary monicDensity_two_ramified (from main_dvr). Over ℤ_p, for every prime p, it is monicDensity_padicInt_two_ramified (v1.2). The cluster half, q/(q+1), is clusterDensity_two_ramified (v1.1, from main_dvr_cluster), with the split and inert values 1/(2(q+1)) each in clusterDensity_two_split / clusterDensity_two_inert.",
    "lean": [
     [
      "SurfaceBlowup.Tests.monicDensity_two_ramified",
      "monic half, as a density over every complete DVR"
+    ],
+    [
+     "SurfaceBlowup.Tests.monicDensity_padicInt_two_ramified",
+     "monic half over ℤ_p, every prime p (v1.2)"
     ],
     [
      "SurfaceBlowup.Tests.clusterDensity_two_ramified",
@@ -75,7 +79,7 @@
    "title": "monic type probability",
    "relation": "definition",
    "confidence": "high",
-   "summary": "monicDensity O n σ is the normalized Haar measure of the coefficient vectors a ∈ Oⁿ for which X^n + Σ aᵢXⁱ is a product of distinct monic irreducibles over Frac O whose invariants form σ. The invariant (e,f) of a factor is read from the integral closure of O in its root field (factorInvariant). This is the trust boundary: the definitions are owner-signed.",
+   "summary": "monicDensity O n σ is the normalized Haar measure of the coefficient vectors a ∈ Oⁿ for which X^n + Σ aᵢXⁱ is a product of distinct monic irreducibles over Frac O whose invariants form σ. The invariant (e,f) of a factor is read from the integral closure of O in its root field (factorInvariant). This is the trust boundary.",
    "lean": [
     [
      "SurfaceBlowup.monicDensity",
@@ -172,7 +176,7 @@
    "kind": "theorem",
    "relation": "exact",
    "confidence": "high",
-   "summary": "All three clauses. Monic and projective: main_dvr — for every complete DVR O with finite residue field (any characteristic, any ramification; adic topology, Borel σ-algebra, normalized Haar measure), monicDensity O n σ and projectiveDensity O n σ are the values at q = |k| of monicExpr n σ and projectiveExpr n σ, whose rational functions are A_σ and R_σ; regularity at every prime power is global_formula_regular, packaged with the ∃ A R form in main_field_form. Cluster (v1.1): main_dvr_cluster — clusterDensity O n σ, the normalized Haar probability on monic polynomials reducing to X^n (paper's μ_cluster) with the published type predicate, equals clusterExpr n σ = lawCoeff (rootLaw n) σ, the coefficient of σ in the law of S(1;n) (display (7.1)), for every n including n = 0; regularity is cluster_formula_regular; recip_cluster reads A_σ(q) = B_σ(1/q) in this notation. The type predicate is the reduced-algebra convention; the agreement with the étale convention off a Haar-null set is main_dvr_etale / clusterDensity_eq_etale (Remark 1.3). The hypotheses 0 < n, ValidType σ, typeDegree σ = n of main_dvr are unused (frozen statement). Non-vacuity in equal characteristic: main_dvr_powerSeries.",
+   "summary": "All three clauses. Monic and projective: main_dvr — for every complete DVR O with finite residue field (any characteristic, any ramification; adic topology, Borel σ-algebra, normalized Haar measure), monicDensity O n σ and projectiveDensity O n σ are the values at q = |k| of monicExpr n σ and projectiveExpr n σ, whose rational functions are A_σ and R_σ; regularity at every prime power is global_formula_regular, packaged with the ∃ A R form in main_field_form. Cluster (v1.1): main_dvr_cluster — clusterDensity O n σ, the normalized Haar probability on monic polynomials reducing to X^n (paper's μ_cluster) with the published type predicate, equals clusterExpr n σ = lawCoeff (rootLaw n) σ, the coefficient of σ in the law of S(1;n) (display (7.1)), for every n including n = 0; regularity is cluster_formula_regular; recip_cluster reads A_σ(q) = B_σ(1/q) in this notation. The type predicate is the reduced-algebra convention; the agreement with the étale convention off a Haar-null set is main_dvr_etale / clusterDensity_eq_etale (Remark 1.3). main_dvr has no hypotheses on n and σ. The certified statement assumed 0 < n, ValidType σ and typeDegree σ = n, which the proof never used. Non-vacuity: main_dvr_powerSeries in equal characteristic, main_dvr_padicInt over ℤ_p (v1.2). Version 1.2 states the theorem in one piece. universal_type_laws gives A, B, R in ℚ(q), regular and nonnegative at every prime power, and each probability equals the value given by Mathlib's RatFunc.eval. The three nonnegativity lemmas show that the ENNReal.ofReal in main_dvr and main_dvr_cluster never clamps. cluster_rational_eval ties the rational function B_σ to the cluster expression.",
    "lean": [
     [
      "SurfaceBlowup.main_dvr",
@@ -188,7 +192,7 @@
     ],
     [
      "SurfaceBlowup.main_field_form",
-     "rational-function form for unramified K/ℚ_p (the published, owner-signed statement)"
+     "rational-function form for unramified K/ℚ_p (the published statement)"
     ],
     [
      "SurfaceBlowup.main_field_form_ramified",
@@ -197,6 +201,26 @@
     [
      "SurfaceBlowup.global_formula_regular",
      "regularity at prime powers"
+    ],
+    [
+     "SurfaceBlowup.universal_type_laws",
+     "all three laws in one statement, with RatFunc.eval and nonnegative values (v1.2)"
+    ],
+    [
+     "SurfaceBlowup.monicExpr_eval_nonneg",
+     "A_σ(q) ≥ 0 at prime powers (v1.2)"
+    ],
+    [
+     "SurfaceBlowup.projectiveExpr_eval_nonneg",
+     "R_σ(q) ≥ 0 at prime powers (v1.2)"
+    ],
+    [
+     "SurfaceBlowup.clusterExpr_eval_nonneg",
+     "B_σ(q) ≥ 0 at prime powers (v1.2)"
+    ],
+    [
+     "SurfaceBlowup.cluster_rational_eval",
+     "B_σ as a rational function takes the value of the cluster expression (v1.2)"
     ],
     [
      "SurfaceBlowup.main_dvr_etale",
@@ -225,6 +249,14 @@
     [
      "SurfaceBlowup.Tests.main_dvr_powerSeries",
      "non-vacuity: O = k⟦X⟧"
+    ],
+    [
+     "SurfaceBlowup.Tests.main_dvr_padicInt",
+     "non-vacuity in mixed characteristic: O = ℤ_p (v1.2)"
+    ],
+    [
+     "SurfaceBlowup.Tests.universal_type_laws_padicInt",
+     "the three laws over ℤ_p (v1.2)"
     ]
    ],
    "prove2me_extra": [
@@ -292,7 +324,7 @@
    "kind": "theorem",
    "relation": "exact",
    "confidence": "high",
-   "summary": "recip_main states, for n > 0 and every type σ, the identities of rational functions (monicExpr n σ).rational = (B_{n,σ} with q ↦ 1/q).rational, where B_{n,σ} = lawCoeff (rootLaw n) σ, and (projectiveExpr n σ) is invariant under q ↦ 1/q. These are the coefficientwise forms of A_n = B_n^∨ and R_n^∨ = R_n. The hypotheses ValidType σ and typeDegree σ = n are unused.",
+   "summary": "recip_main states, for n > 0 and every type σ, the identities of rational functions (monicExpr n σ).rational = (B_{n,σ} with q ↦ 1/q).rational, where B_{n,σ} = lawCoeff (rootLaw n) σ, and (projectiveExpr n σ) is invariant under q ↦ 1/q. These are the coefficientwise forms of A_n = B_n^∨ and R_n^∨ = R_n. The certified statement also assumed ValidType σ and typeDegree σ = n. They were unused and have been dropped. Version 1.2 adds reciprocity_recipRat: the same identities in every degree, including n = 0, with the ring endomorphism q ↦ q⁻¹ of ℚ(q) in place of the syntactic substitution. reciprocity_ringHom states this with Mathlib notions only. clusterExpr_subst_inv_rational shows that the right side of recip_main is that endomorphism applied to B_{n,σ}.",
    "lean": [
     [
      "SurfaceBlowup.recip_main",
@@ -305,6 +337,22 @@
     [
      "SurfaceBlowup.recipCoef_lawCoef_globalLaw_true",
      "R_n^∨ = R_n as elements of ℚ(q)[Z]"
+    ],
+    [
+     "SurfaceBlowup.reciprocity_recipRat",
+     "every degree, with the endomorphism q ↦ q⁻¹ of ℚ(q) (v1.2)"
+    ],
+    [
+     "SurfaceBlowup.reciprocity_ringHom",
+     "the same, stated with Mathlib notions only (v1.2)"
+    ],
+    [
+     "SurfaceBlowup.recip_main_all_degrees",
+     "recip_main without the hypothesis 0 < n (v1.2)"
+    ],
+    [
+     "SurfaceBlowup.clusterExpr_subst_inv_rational",
+     "the syntactic substitution is q ↦ q⁻¹ applied to B_σ (v1.2)"
     ]
    ],
    "prove2me_extra": [
@@ -316,7 +364,7 @@
    "kind": "remark",
    "relation": "exact",
    "confidence": "high",
-   "summary": "The remark's claims are the theorems it names: main_dvr (monic, projective), main_dvr_cluster (cluster, v1.1), recip_main (reciprocity); axioms of each are exactly propext, Classical.choice, Quot.sound (Checks/Axioms.lean, 12 theorems). The convention claim — the reduced-algebra type (HasPolynomialType: distinct monic irreducible factors, inseparable factors allowed) and the étale convention agree off a Haar-null set — is monic_inseparable_null, binary_nonEtale_null, and the equalities monicDensity_eq_etale, projectiveDensity_eq_etale, clusterDensity_eq_etale, packaged as main_dvr_etale; etaleMonicDensity_eq_algebraType phrases the monic event as 'K[X]/(f_a) is étale (Algebra.Etale) and has algebra type σ'.",
+   "summary": "The remark's claims are the theorems it names: main_dvr (monic, projective), main_dvr_cluster (cluster, v1.1), recip_main (reciprocity); axioms of each are exactly propext, Classical.choice, Quot.sound (Checks/Axioms.lean, 22 theorems in v1.2). The convention claim — the reduced-algebra type (HasPolynomialType: distinct monic irreducible factors, inseparable factors allowed) and the étale convention agree off a Haar-null set — is monic_inseparable_null, binary_nonEtale_null, and the equalities monicDensity_eq_etale, projectiveDensity_eq_etale, clusterDensity_eq_etale, packaged as main_dvr_etale; etaleMonicDensity_eq_algebraType phrases the monic event as 'K[X]/(f_a) is étale (Algebra.Etale) and has algebra type σ'.",
    "lean": [
     [
      "SurfaceBlowup.main_dvr",
@@ -497,7 +545,7 @@
    "title": "types of reduced algebras",
    "relation": "definition",
    "confidence": "medium",
-   "summary": "HasAlgebraType O B σ: the generic fibre of B is a finite product of fields whose O-integral closures are finite, with invariants σ. The Lean development uses this route-F convention (finite integral closures) everywhere in the recursion, and transfers to the published étale densities through the Haar-null bridges.",
+   "summary": "HasAlgebraType O B σ: the generic fibre of B is a finite product of fields whose O-integral closures are finite, with invariants σ. The Lean development uses this route-F convention (finite integral closures) everywhere in the recursion, and transfers to the published densities through the Haar-null bridges. The published predicate HasPolynomialType has no finiteness condition.",
    "lean": [
     [
      "SurfaceBlowup.HasAlgebraType",
@@ -1206,7 +1254,7 @@
    "kind": "remark",
    "relation": "covered",
    "confidence": "medium",
-   "summary": "The formal proof handles inseparability differently: the recursion uses types with finite integral closures (route F, which does allow inseparable terminal fields), and the published étale densities are recovered because the inseparable locus of monic polynomials is Haar-null (monic_inseparable_null, orig_monicDensity_eq, orig_projectiveDensity_eq). The itinerary argument of the remark is not formalized.",
+   "summary": "The formal proof handles inseparability differently: the recursion uses types with finite integral closures (route F, which does allow inseparable terminal fields), and the published densities are recovered because the inseparable locus of monic polynomials is Haar-null (monic_inseparable_null, orig_monicDensity_eq, orig_projectiveDensity_eq). The itinerary argument of the remark is not formalized.",
    "lean": [
     [
      "SurfaceBlowup.monic_inseparable_null",

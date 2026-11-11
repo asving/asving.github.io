@@ -1,0 +1,23 @@
+== (1) lake build
+PASS: Build completed successfully (3480 jobs).
+== (2) axioms
+PASS: 22/22 main theorems use only [propext, Classical.choice, Quot.sound]
+PASS: 25/25 public theorems added in v1.2.0 use only [propext, Classical.choice, Quot.sound]
+== (3) statements unchanged since stmt_dump_v1_1_0.tsv
+PASS: 1853/1853 constants of the reference have identical type and value hashes; 20 new constants
+== (4) forbidden tokens
+PASS: no sorry/admit/native_decide/axiom/maxHeartbeats
+== (5) warnings
+PASS: 0 build warnings
+== lines: 51066 (SurfaceBlowup), 2360 (Tests); modules: 71
+RELEASE CHECK (local): ALL PASS
+RC_EXIT=0
+
+NOTE (2026-11-11): this is the output of tools/release_check_local.sh, run from the root of a fresh clone of
+https://github.com/asving/splitting-density-rationality at commit 27886a3 (macOS, Lean v4.33.1, Mathlib 0df444a from
+the build cache). It is not the output of tools/release_check.sh, which assumes the original workspace.
+Step (3) is not the statement-preservation check against the certified trees (Checks/run_checks.sh): those trees
+were not available. It compares the statement dump of this commit (tools/StmtDump.lean) with the dump of tag
+v1.1.0 (Checks/reference/stmt_dump_v1_1_0.tsv). Every constant of v1.1.0 has the same type hash and, for
+definitions, the same value hash. So no statement or definition changed since v1.1.0, although docstrings changed
+in ten files, including SurfaceBlowup/Basic.lean, which is therefore no longer byte-identical to tag v1.0.0.

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>axioms and statements of the v1.2 theorems</title>
+<link rel="stylesheet" href="../vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+
+</head>
+<body class="page-doc">
+<header class="site-header">
+  <div class="hwrap">
+    <a class="brand" href="../index.html">Splitting densities of random curves</a>
+    <nav class="mainnav" aria-label="Site"><a href="../index.html">Paper</a><a href="../formalization.html" class="active" aria-current="page">Formalization</a><a href="../lean/index.html">Lean sources</a></nav>
+    <div class="htools"></div>
+  </div>
+</header>
+<main class="doc-page wide"><p class="crumbs"><a href="../formalization.html#certificates">Formalization</a> / certificates</p><h1>axioms and statements of the v1.2 theorems</h1><p>Output of <code>lake env lean Checks/AxiomsCorollaries.lean</code> at commit <code>27886a3</code> (2026-11-11): every public theorem added in v1.2, and the elaborated statements of four of them. <a href="release_axioms_corollaries_v1_2.log">raw</a>.</p><pre class="log">&#x27;SurfaceBlowup.divisorCount_eval_nonneg&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.globalLaw_coeff_eval_nonneg&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.monicExpr_eval_nonneg&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.projectiveExpr_eval_nonneg&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.clusterExpr_eval_nonneg&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.main_dvr_toReal&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.main_dvr_cluster_toReal&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.Expr.rational_eval_of_safe&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.clusterExpr_allSafe&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.cluster_rational_eval&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.universal_type_laws&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.rational_subst_inv_lawCoeff&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.lawWf_rootLaw&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.lawCoef_globalLaw_false_zero&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.lawCoef_rootLaw_zero&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.lawCoef_globalLaw_false_eq_recipCoef_rootLaw&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.reciprocity_recipRat&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.clusterExpr_subst_inv_rational&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.recip_main_all_degrees&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.reciprocity_ringHom&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.Tests.isAdic_maximalIdeal_padicInt&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.Tests.card_residueField_padicInt&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.Tests.main_dvr_padicInt&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.Tests.universal_type_laws_padicInt&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+&#x27;SurfaceBlowup.Tests.monicDensity_padicInt_two_ramified&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]
+SurfaceBlowup.universal_type_laws : ∀ (n : ℕ) (σ : SurfaceBlowup.FactorType),
+  ∃ A B R,
+    A = (SurfaceBlowup.monicExpr n σ).rational ∧
+      B = (SurfaceBlowup.clusterExpr n σ).rational ∧
+        R = (SurfaceBlowup.projectiveExpr n σ).rational ∧
+          (∀ (q : ℕ),
+              SurfaceBlowup.PrimePower q →
+                SurfaceBlowup.RegularAt A ↑q ∧ SurfaceBlowup.RegularAt B ↑q ∧ SurfaceBlowup.RegularAt R ↑q) ∧
+            (∀ (q : ℕ),
+                SurfaceBlowup.PrimePower q →
+                  0 ≤ RatFunc.eval (RingHom.id ℚ) (↑q) A ∧
+                    0 ≤ RatFunc.eval (RingHom.id ℚ) (↑q) B ∧ 0 ≤ RatFunc.eval (RingHom.id ℚ) (↑q) R) ∧
+              ∀ (O : Type) [inst : CommRing O] [inst_1 : IsDomain O] [inst_2 : IsDiscreteValuationRing O]
+                [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [Finite (IsLocalRing.ResidueField O)]
+                [inst_5 : TopologicalSpace O] [inst_6 : IsTopologicalRing O] [inst_7 : CompactSpace O]
+                [inst_8 : T2Space O] [inst_9 : SecondCountableTopology O] [inst_10 : MeasurableSpace O]
+                [inst_11 : BorelSpace O],
+                IsAdic (IsLocalRing.maximalIdeal O) →
+                  (0 ≤ RatFunc.eval (RingHom.id ℚ) (↑(Nat.card (IsLocalRing.ResidueField O))) A ∧
+                      SurfaceBlowup.monicDensity O n σ =
+                        ENNReal.ofReal ↑(RatFunc.eval (RingHom.id ℚ) (↑(Nat.card (IsLocalRing.ResidueField O))) A)) ∧
+                    (0 ≤ RatFunc.eval (RingHom.id ℚ) (↑(Nat.card (IsLocalRing.ResidueField O))) B ∧
+                        SurfaceBlowup.clusterDensity O n σ =
+                          ENNReal.ofReal ↑(RatFunc.eval (RingHom.id ℚ) (↑(Nat.card (IsLocalRing.ResidueField O))) B)) ∧
+                      0 ≤ RatFunc.eval (RingHom.id ℚ) (↑(Nat.card (IsLocalRing.ResidueField O))) R ∧
+                        SurfaceBlowup.projectiveDensity O n σ =
+                          ENNReal.ofReal ↑(RatFunc.eval (RingHom.id ℚ) (↑(Nat.card (IsLocalRing.ResidueField O))) R)
+SurfaceBlowup.reciprocity_ringHom : ∀ (n : ℕ) (σ : SurfaceBlowup.FactorType),
+  ∃ v,
+    v RatFunc.X = RatFunc.X⁻¹ ∧
+      (SurfaceBlowup.monicExpr n σ).rational = v (SurfaceBlowup.clusterExpr n σ).rational ∧
+        v (SurfaceBlowup.projectiveExpr n σ).rational = (SurfaceBlowup.projectiveExpr n σ).rational
+SurfaceBlowup.Tests.main_dvr_padicInt : ∀ (p : ℕ) [hp : Fact (Nat.Prime p)] (n : ℕ) (σ : SurfaceBlowup.FactorType),
+  SurfaceBlowup.monicDensity ℤ_[p] n σ = SurfaceBlowup.densityValue (SurfaceBlowup.monicExpr n σ) p ∧
+    SurfaceBlowup.projectiveDensity ℤ_[p] n σ = SurfaceBlowup.densityValue (SurfaceBlowup.projectiveExpr n σ) p
+SurfaceBlowup.Tests.universal_type_laws_padicInt : ∀ (p : ℕ) [hp : Fact (Nat.Prime p)] (n : ℕ)
+  (σ : SurfaceBlowup.FactorType),
+  (0 ≤ RatFunc.eval (RingHom.id ℚ) (↑p) (SurfaceBlowup.monicExpr n σ).rational ∧
+      SurfaceBlowup.monicDensity ℤ_[p] n σ =
+        ENNReal.ofReal ↑(RatFunc.eval (RingHom.id ℚ) (↑p) (SurfaceBlowup.monicExpr n σ).rational)) ∧
+    (0 ≤ RatFunc.eval (RingHom.id ℚ) (↑p) (SurfaceBlowup.clusterExpr n σ).rational ∧
+        SurfaceBlowup.clusterDensity ℤ_[p] n σ =
+          ENNReal.ofReal ↑(RatFunc.eval (RingHom.id ℚ) (↑p) (SurfaceBlowup.clusterExpr n σ).rational)) ∧
+      0 ≤ RatFunc.eval (RingHom.id ℚ) (↑p) (SurfaceBlowup.projectiveExpr n σ).rational ∧
+        SurfaceBlowup.projectiveDensity ℤ_[p] n σ =
+          ENNReal.ofReal ↑(RatFunc.eval (RingHom.id ℚ) (↑p) (SurfaceBlowup.projectiveExpr n σ).rational)</pre></main>
+<footer class="site-footer">
+  <div class="fwrap">
+    <p class="attribution"><strong>Claude (Anthropic) · GPT-6-Astra (OpenAI) <span class="directed-by">· directed by Asvin G</span></strong></p>
+    <div class="howmade"><h2>How this was made</h2><p>This paper and its formalization were made in October 2026 under the direction of Asvin G, who posed the problem, set the standards, and verified the main statements. GPT-6 Astra (OpenAI) wrote the informal proof of the type laws and of the reciprocity theorem, the Lean blueprint, and the text of the paper; Claude Fable 5.1 (Anthropic) orchestrated the work, ran the fresh-context adversarial reviews and revision rounds, and built this site. The Lean 4 proofs were produced from the blueprint by a fleet of Claude agents on the Prove2Me platform against a pinned Mathlib, then unified and golfed into the single codebase shown here; every main theorem was checked for axioms (propositional extensionality, classical choice, quotient soundness only) and statement preservation, with the certificates linked on the formalization page. Numerical checks of every displayed law against an independent implementation of the recursion accompany the text.</p></div>
+    <p class="fineprint">Generated by <code>site/build.py</code> on 2026-10-17 from <code>PAPER_v2_narrative.md</code> and the unified Lean codebase
+    (namespace <code>SurfaceBlowup</code>). Mathematics typeset with KaTeX (vendored). Updated on 2026-11-11 for Lean v1.2.0 (commit <code>27886a3</code> of the public repository). The generator was not available for this update. The Lean pages, the panels and the tables were rebuilt by a reconstruction of it that reproduces the 2026-10-17 pages byte for byte, and the formalization page was corrected by hand. The paper text is unchanged except for one word in Remark 1.3.</p>
+  </div>
+</footer>
+<script src="../assets/app.js"></script>
+</body>
+</html>
