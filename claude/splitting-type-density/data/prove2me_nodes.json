@@ -11247,6 +11247,240 @@
 "theorem_id": "5f2c4a8c-84b3-486b-9da7-bfbe65a9cf92",
 "status": "PUBLISHED",
 "defines": []
+},
+"N1035": {
+"id": "N1035",
+"theorem_name": "TypeDensity.divisorCount_eval_nonneg",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/Nonneg.lean#L93-L109",
+"theorem_id": "f3f15b4e-4bfe-43ff-811a-cf2466a55004",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1036": {
+"id": "N1036",
+"theorem_name": "TypeDensity.globalLaw_coeff_eval_nonneg",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/Nonneg.lean#L113-L136",
+"theorem_id": "0e6edf29-c668-4430-b7e6-758d7222c4a9",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1037": {
+"id": "N1037",
+"theorem_name": "TypeDensity.monicExpr_eval_nonneg",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/Nonneg.lean#L138-L142",
+"theorem_id": "a1814c69-630e-4169-b608-ebfa975d8c42",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1038": {
+"id": "N1038",
+"theorem_name": "TypeDensity.projectiveExpr_eval_nonneg",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/Nonneg.lean#L144-L148",
+"theorem_id": "0ab79220-0df5-40fe-8857-9d012a1e2586",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1039": {
+"id": "N1039",
+"theorem_name": "TypeDensity.clusterExpr_eval_nonneg",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/Nonneg.lean#L150-L158",
+"theorem_id": "30210ad4-a26a-4c1f-9028-96490e9e5609",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1040": {
+"id": "N1040",
+"theorem_name": "TypeDensity.main_dvr_toReal",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/Nonneg.lean#L162-L182",
+"theorem_id": "4e4c72ff-eb05-454e-b43f-480c19558100",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1041": {
+"id": "N1041",
+"theorem_name": "TypeDensity.main_dvr_cluster_toReal",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/Nonneg.lean#L184-L197",
+"theorem_id": "034f0087-6fb7-404d-bc84-4d56543bfcaa",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1042": {
+"id": "N1042",
+"theorem_name": "TypeDensity.Expr.rational_eval_of_safe",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/RationalForm.lean#L39-L67",
+"theorem_id": "c4985587-56a6-4576-b8f1-06de250f7cd0",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1043": {
+"id": "N1043",
+"theorem_name": "TypeDensity.clusterExpr_allSafe",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/RationalForm.lean#L71-L86",
+"theorem_id": "e8271144-d3ff-461a-bec4-4feb300d88e4",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1044": {
+"id": "N1044",
+"theorem_name": "TypeDensity.cluster_rational_eval",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/RationalForm.lean#L88-L96",
+"theorem_id": "49d9179b-3cf2-47be-9fb2-a307afece6a2",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1045": {
+"id": "N1045",
+"theorem_name": "TypeDensity.universal_type_laws",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/RationalForm.lean#L100-L150",
+"theorem_id": "b04ed4ee-9de3-43e3-8c6a-fbae1543ec0c",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1046": {
+"id": "N1046",
+"theorem_name": "TypeDensity.rational_subst_inv_lawCoeff",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/RationalForm.lean#L154-L159",
+"theorem_id": "51e2bbb2-3cf3-4a06-b8d4-d9d35376e3bf",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1047": {
+"id": "N1047",
+"theorem_name": "TypeDensity.lawWf_rootLaw",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/RationalForm.lean#L161-L170",
+"theorem_id": "7c569d9d-adcc-4f5f-9eb9-44d665c0c6dc",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1048": {
+"id": "N1048",
+"theorem_name": "TypeDensity.lawCoef_globalLaw_false_zero",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/RationalForm.lean#L172-L175",
+"theorem_id": "baa87fe9-dd89-481f-b425-9107a84c614f",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1049": {
+"id": "N1049",
+"theorem_name": "TypeDensity.lawCoef_rootLaw_zero",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/RationalForm.lean#L177-L179",
+"theorem_id": "bd0e25af-f97e-4da1-a801-8379726dc505",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1050": {
+"id": "N1050",
+"theorem_name": "TypeDensity.lawCoef_globalLaw_false_eq_recipCoef_rootLaw",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/RationalForm.lean#L181-L187",
+"theorem_id": "83b8d47d-aeb8-46b1-a88c-599c01beed7c",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1051": {
+"id": "N1051",
+"theorem_name": "TypeDensity.reciprocity_recipRat",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/RationalForm.lean#L189-L201",
+"theorem_id": "64eadfd8-b17e-4336-a09b-3b9a0e426e0d",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1052": {
+"id": "N1052",
+"theorem_name": "TypeDensity.clusterExpr_subst_inv_rational",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/RationalForm.lean#L203-L207",
+"theorem_id": "4cd3714c-e626-4d0d-b8b0-5cca894ba1b8",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1053": {
+"id": "N1053",
+"theorem_name": "TypeDensity.recip_main_all_degrees",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/RationalForm.lean#L209-L217",
+"theorem_id": "a1470f56-7de9-4b75-b7da-f4ef0c76283f",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1054": {
+"id": "N1054",
+"theorem_name": "TypeDensity.reciprocity_ringHom",
+"kind": "theorem",
+"source": "TypeDensity/Corollaries/RationalForm.lean#L219-L228",
+"theorem_id": "169ab9f3-5c09-495c-ad5e-c7db59ebb34d",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1055": {
+"id": "N1055",
+"theorem_name": "TypeDensity.Tests.isAdic_maximalIdeal_padicInt",
+"kind": "theorem",
+"source": "Tests/PadicInt.lean#L58-L77",
+"theorem_id": "0e86faa3-9d9d-4345-8183-c5a19b1b1c04",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1056": {
+"id": "N1056",
+"theorem_name": "TypeDensity.Tests.card_residueField_padicInt",
+"kind": "theorem",
+"source": "Tests/PadicInt.lean#L79-L81",
+"theorem_id": "1e640601-fa96-492d-b3cc-b85033666599",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1057": {
+"id": "N1057",
+"theorem_name": "TypeDensity.Tests.main_dvr_padicInt",
+"kind": "theorem",
+"source": "Tests/PadicInt.lean#L83-L90",
+"theorem_id": "bf0a8f26-8b74-4e6b-b8c6-8b90dec6dc4a",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1058": {
+"id": "N1058",
+"theorem_name": "TypeDensity.Tests.universal_type_laws_padicInt",
+"kind": "theorem",
+"source": "Tests/PadicInt.lean#L92-L107",
+"theorem_id": "8e04565e-a11b-44d8-a531-4f4c1f186882",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"N1059": {
+"id": "N1059",
+"theorem_name": "TypeDensity.Tests.monicDensity_padicInt_two_ramified",
+"kind": "theorem",
+"source": "Tests/PadicInt.lean#L109-L114",
+"theorem_id": "d70e8ef0-3892-42e3-9720-942b37cea1e6",
+"status": "PUBLISHED",
+"added": "2026-11-11"
+},
+"D037": {
+"id": "D037",
+"theorem_name": "TypeDensity_Tests_PadicInt",
+"kind": "definition",
+"source": "Tests/PadicInt.lean",
+"theorem_id": "93a31b5c-402e-4489-ba27-a340b38eba9f",
+"status": "PUBLISHED",
+"added": "2026-11-11"
 }
 }
 }

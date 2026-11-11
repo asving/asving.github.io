@@ -97,7 +97,17 @@
      "docstring": "A random monic quadratic over `ℤ_[p]` is ramified (type `(2,1)`) with probability\n`1 / (p + 1)`, for every prime `p`.",
      "statement": "theorem monicDensity_padicInt_two_ramified :\n    monicDensity ℤ_[p] 2 {(2,1)} = ENNReal.ofReal (1 / ((p : ℝ) + 1))",
      "section_variables": "variable (p : ℕ) [hp : Fact p.Prime]",
-     "prove2me": []
+     "prove2me": [
+      {
+       "node": "N1059",
+       "theorem_name": "TypeDensity.Tests.monicDensity_padicInt_two_ramified",
+       "kind": "theorem",
+       "theorem_id": "d70e8ef0-3892-42e3-9720-942b37cea1e6",
+       "status": "PUBLISHED",
+       "url": "https://prove2.me/theorems/d70e8ef0-3892-42e3-9720-942b37cea1e6",
+       "blueprint_source": "Tests/PadicInt.lean#L109-L114"
+      }
+     ]
     },
     {
      "name": "SurfaceBlowup.Tests.clusterDensity_two_ramified",
@@ -883,7 +893,17 @@
      "docstring": "**Theorem 1.1 (universal type laws), packaged.** For every degree `n` and every type `σ` there\nare rational functions `A, B, R ∈ ℚ(q)` — namely the rational functions of `monicExpr n σ`,\n`clusterExpr n σ`, `projectiveExpr n σ` — such that\n\n* `A`, `B`, `R` are regular at every prime power, and their values there are nonnegative;\n* over every complete discrete valuation ring `O` with finite residue field `k` (any\n  characteristic, any ramification; adic topology, Borel σ-algebra, normalized Haar measure), with\n  `q = |k|`, the values `A(q)`, `B(q)`, `R(q)` are nonnegative rational numbers and the monic,\n  cluster and projective probabilities of type `σ` are `A(q)`, `B(q)`, `R(q)`.\n\nEach probability clause has the form `0 ≤ r ∧ density = ENNReal.ofReal r`. The two parts together\ndetermine the density exactly: `ENNReal.ofReal` is injective on nonnegative reals, so no clamping\nat `0` is possible, and the density is finite. The values are those of Mathlib's `RatFunc.eval`,\nso the convention `0⁻¹ = 0` of `Expr.eval` does not enter the statement.",
      "statement": "theorem universal_type_laws (n : ℕ) (σ : FactorType) :\n    ∃ A B R : RatFunc ℚ,\n      A = (monicExpr n σ).rational ∧ B = (clusterExpr n σ).rational ∧\n      R = (projectiveExpr n σ).rational ∧\n      (∀ q : ℕ, PrimePower q → RegularAt A q ∧ RegularAt B q ∧ RegularAt R q) ∧\n      (∀ q : ℕ, PrimePower q →\n        0 ≤ RatFunc.eval (RingHom.id ℚ) (q : ℚ) A ∧ 0 ≤ RatFunc.eval (RingHom.id ℚ) (q : ℚ) B ∧\n        0 ≤ RatFunc.eval (RingHom.id ℚ) (q : ℚ) R) ∧\n      ∀ (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]\n        [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [Finite (IsLocalRing.ResidueField O)]\n        [TopologicalSpace O] [IsTopologicalRing O] [CompactSpace O] [T2Space O]\n        [SecondCountableTopology O] [MeasurableSpace O] [BorelSpace O],\n        IsAdic (IsLocalRing.maximalIdeal O) →\n          (0 ≤ RatFunc.eval (RingHom.id ℚ) ((Nat.card (IsLocalRing.ResidueField O) : ℕ) : ℚ) A ∧\n            monicDensity O n σ = ENNReal.ofReal ((RatFunc.eval (RingHom.id ℚ)\n              ((Nat.card (IsLocalRing.ResidueField O) : ℕ) : ℚ) A : ℚ) : ℝ)) ∧\n          (0 ≤ RatFunc.eval (RingHom.id ℚ) ((Nat.card (IsLocalRing.ResidueField O) : ℕ) : ℚ) B ∧\n            clusterDensity O n σ = ENNReal.ofReal ((RatFunc.eval (RingHom.id ℚ)\n              ((Nat.card (IsLocalRing.ResidueField O) : ℕ) : ℚ) B : ℚ) : ℝ)) ∧\n          (0 ≤ RatFunc.eval (RingHom.id ℚ) ((Nat.card (IsLocalRing.ResidueField O) : ℕ) : ℚ) R ∧\n            projectiveDensity O n σ = ENNReal.ofReal ((RatFunc.eval (RingHom.id ℚ)\n              ((Nat.card (IsLocalRing.ResidueField O) : ℕ) : ℚ) R : ℚ) : ℝ))",
      "section_variables": "",
-     "prove2me": []
+     "prove2me": [
+      {
+       "node": "N1045",
+       "theorem_name": "TypeDensity.universal_type_laws",
+       "kind": "theorem",
+       "theorem_id": "b04ed4ee-9de3-43e3-8c6a-fbae1543ec0c",
+       "status": "PUBLISHED",
+       "url": "https://prove2.me/theorems/b04ed4ee-9de3-43e3-8c6a-fbae1543ec0c",
+       "blueprint_source": "TypeDensity/Corollaries/RationalForm.lean#L100-L150"
+      }
+     ]
     },
     {
      "name": "SurfaceBlowup.monicExpr_eval_nonneg",
@@ -897,7 +917,17 @@
      "docstring": "**Nonnegativity of `A_{n,σ}`.** The universal monic expression takes a nonnegative value at\nevery prime power.",
      "statement": "theorem monicExpr_eval_nonneg (n : ℕ) (σ : FactorType) (Q : ℕ) (hQ : PrimePower Q) :\n    0 ≤ (monicExpr n σ).eval (Q : ℚ)",
      "section_variables": "",
-     "prove2me": []
+     "prove2me": [
+      {
+       "node": "N1037",
+       "theorem_name": "TypeDensity.monicExpr_eval_nonneg",
+       "kind": "theorem",
+       "theorem_id": "a1814c69-630e-4169-b608-ebfa975d8c42",
+       "status": "PUBLISHED",
+       "url": "https://prove2.me/theorems/a1814c69-630e-4169-b608-ebfa975d8c42",
+       "blueprint_source": "TypeDensity/Corollaries/Nonneg.lean#L138-L142"
+      }
+     ]
     },
     {
      "name": "SurfaceBlowup.projectiveExpr_eval_nonneg",
@@ -911,7 +941,17 @@
      "docstring": "**Nonnegativity of `R_{n,σ}`.** The universal projective expression takes a nonnegative value\nat every prime power.",
      "statement": "theorem projectiveExpr_eval_nonneg (n : ℕ) (σ : FactorType) (Q : ℕ) (hQ : PrimePower Q) :\n    0 ≤ (projectiveExpr n σ).eval (Q : ℚ)",
      "section_variables": "",
-     "prove2me": []
+     "prove2me": [
+      {
+       "node": "N1038",
+       "theorem_name": "TypeDensity.projectiveExpr_eval_nonneg",
+       "kind": "theorem",
+       "theorem_id": "0ab79220-0df5-40fe-8857-9d012a1e2586",
+       "status": "PUBLISHED",
+       "url": "https://prove2.me/theorems/0ab79220-0df5-40fe-8857-9d012a1e2586",
+       "blueprint_source": "TypeDensity/Corollaries/Nonneg.lean#L144-L148"
+      }
+     ]
     },
     {
      "name": "SurfaceBlowup.clusterExpr_eval_nonneg",
@@ -925,7 +965,17 @@
      "docstring": "**Nonnegativity of `B_{n,σ}`.** The universal cluster expression takes a nonnegative value at\nevery prime power.",
      "statement": "theorem clusterExpr_eval_nonneg (n : ℕ) (σ : FactorType) (Q : ℕ) (hQ : PrimePower Q) :\n    0 ≤ (clusterExpr n σ).eval (Q : ℚ)",
      "section_variables": "",
-     "prove2me": []
+     "prove2me": [
+      {
+       "node": "N1039",
+       "theorem_name": "TypeDensity.clusterExpr_eval_nonneg",
+       "kind": "theorem",
+       "theorem_id": "30210ad4-a26a-4c1f-9028-96490e9e5609",
+       "status": "PUBLISHED",
+       "url": "https://prove2.me/theorems/30210ad4-a26a-4c1f-9028-96490e9e5609",
+       "blueprint_source": "TypeDensity/Corollaries/Nonneg.lean#L150-L158"
+      }
+     ]
     },
     {
      "name": "SurfaceBlowup.cluster_rational_eval",
@@ -939,7 +989,17 @@
      "docstring": "**The cluster rational function evaluates correctly.** At every prime power `q`, the rational\nfunction `B_{n,σ} = (clusterExpr n σ).rational` takes the value of the cluster expression. Together\nwith `cluster_formula_regular` and `main_dvr_cluster` this identifies `B_{n,σ}(q)` with the cluster\nprobability.",
      "statement": "theorem cluster_rational_eval (n : ℕ) (σ : FactorType) :\n    ∀ q : ℕ, PrimePower q →\n      RatFunc.eval (RingHom.id ℚ) q (clusterExpr n σ).rational = (clusterExpr n σ).eval q",
      "section_variables": "",
-     "prove2me": []
+     "prove2me": [
+      {
+       "node": "N1044",
+       "theorem_name": "TypeDensity.cluster_rational_eval",
+       "kind": "theorem",
+       "theorem_id": "49d9179b-3cf2-47be-9fb2-a307afece6a2",
+       "status": "PUBLISHED",
+       "url": "https://prove2.me/theorems/49d9179b-3cf2-47be-9fb2-a307afece6a2",
+       "blueprint_source": "TypeDensity/Corollaries/RationalForm.lean#L88-L96"
+      }
+     ]
     },
     {
      "name": "SurfaceBlowup.main_dvr_etale",
@@ -1101,7 +1161,17 @@
      "docstring": "**`main_dvr` over `ℤ_[p]`.** With Mathlib's topology on the `p`-adic integers, its Borel\nσ-algebra and normalized Haar measure, the type densities of monic polynomials and of primitive\nbinary forms over `ℤ_[p]` are the universal expressions evaluated at `q = p`.",
      "statement": "theorem main_dvr_padicInt (n : ℕ) (σ : FactorType) :\n    monicDensity ℤ_[p] n σ = densityValue (monicExpr n σ) p ∧\n      projectiveDensity ℤ_[p] n σ = densityValue (projectiveExpr n σ) p",
      "section_variables": "variable (p : ℕ) [hp : Fact p.Prime]",
-     "prove2me": []
+     "prove2me": [
+      {
+       "node": "N1057",
+       "theorem_name": "TypeDensity.Tests.main_dvr_padicInt",
+       "kind": "theorem",
+       "theorem_id": "bf0a8f26-8b74-4e6b-b8c6-8b90dec6dc4a",
+       "status": "PUBLISHED",
+       "url": "https://prove2.me/theorems/bf0a8f26-8b74-4e6b-b8c6-8b90dec6dc4a",
+       "blueprint_source": "Tests/PadicInt.lean#L83-L90"
+      }
+     ]
     },
     {
      "name": "SurfaceBlowup.Tests.universal_type_laws_padicInt",
@@ -1115,7 +1185,17 @@
      "docstring": "**Theorem 1.1 over `ℤ_[p]`, in terms of rational functions.** The values at `p` of the\nrational functions of `monicExpr n σ`, `clusterExpr n σ`, `projectiveExpr n σ` are nonnegative, and\nthey are the monic, cluster and projective probabilities of type `σ` over `ℤ_[p]`.",
      "statement": "theorem universal_type_laws_padicInt (n : ℕ) (σ : FactorType) :\n    (0 ≤ RatFunc.eval (RingHom.id ℚ) (p : ℚ) (monicExpr n σ).rational ∧\n      monicDensity ℤ_[p] n σ = ENNReal.ofReal\n        ((RatFunc.eval (RingHom.id ℚ) (p : ℚ) (monicExpr n σ).rational : ℚ) : ℝ)) ∧\n    (0 ≤ RatFunc.eval (RingHom.id ℚ) (p : ℚ) (clusterExpr n σ).rational ∧\n      clusterDensity ℤ_[p] n σ = ENNReal.ofReal\n        ((RatFunc.eval (RingHom.id ℚ) (p : ℚ) (clusterExpr n σ).rational : ℚ) : ℝ)) ∧\n    (0 ≤ RatFunc.eval (RingHom.id ℚ) (p : ℚ) (projectiveExpr n σ).rational ∧\n      projectiveDensity ℤ_[p] n σ = ENNReal.ofReal\n        ((RatFunc.eval (RingHom.id ℚ) (p : ℚ) (projectiveExpr n σ).rational : ℚ) : ℝ))",
      "section_variables": "variable (p : ℕ) [hp : Fact p.Prime]",
-     "prove2me": []
+     "prove2me": [
+      {
+       "node": "N1058",
+       "theorem_name": "TypeDensity.Tests.universal_type_laws_padicInt",
+       "kind": "theorem",
+       "theorem_id": "8e04565e-a11b-44d8-a531-4f4c1f186882",
+       "status": "PUBLISHED",
+       "url": "https://prove2.me/theorems/8e04565e-a11b-44d8-a531-4f4c1f186882",
+       "blueprint_source": "Tests/PadicInt.lean#L92-L107"
+      }
+     ]
     }
    ],
    "prove2me_statement_nodes": []
@@ -1405,7 +1485,17 @@
      "docstring": "**Theorem 1.2 (reciprocity), in terms of the automorphism `q ↦ q⁻¹`, in every degree.** For\nevery `n` and every type `σ`, `A_{n,σ} = v(B_{n,σ})` and `v(R_{n,σ}) = R_{n,σ}` in `ℚ(q)`, where\n`v = recipRat` is the ring endomorphism of `ℚ(q)` with `v(q) = q⁻¹` (`recipRat_X`) and `A`, `B`,\n`R` are the rational functions of the monic, cluster and projective expressions. Unlike\n`recip_main`, there is no hypothesis `0 < n` and no syntactic substitution in the statement.",
      "statement": "theorem reciprocity_recipRat (n : ℕ) (σ : FactorType) :\n    (monicExpr n σ).rational = recipRat (clusterExpr n σ).rational ∧\n    recipRat (projectiveExpr n σ).rational = (projectiveExpr n σ).rational",
      "section_variables": "",
-     "prove2me": []
+     "prove2me": [
+      {
+       "node": "N1051",
+       "theorem_name": "TypeDensity.reciprocity_recipRat",
+       "kind": "theorem",
+       "theorem_id": "64eadfd8-b17e-4336-a09b-3b9a0e426e0d",
+       "status": "PUBLISHED",
+       "url": "https://prove2.me/theorems/64eadfd8-b17e-4336-a09b-3b9a0e426e0d",
+       "blueprint_source": "TypeDensity/Corollaries/RationalForm.lean#L189-L201"
+      }
+     ]
     },
     {
      "name": "SurfaceBlowup.reciprocity_ringHom",
@@ -1419,7 +1509,17 @@
      "docstring": "**Theorem 1.2 (reciprocity), stated with Mathlib notions only.** For every degree `n` and\nevery type `σ` there is a ring endomorphism `v` of `ℚ(q)` with `v(q) = q⁻¹` such that `A = v(B)`\nand `v(R) = R`, where `A`, `B`, `R` are the rational functions of `universal_type_laws`. A ring\nendomorphism of the field `ℚ(q)` is determined by the image of `q`, so `v` is the substitution\n`q ↦ 1/q`.",
      "statement": "theorem reciprocity_ringHom (n : ℕ) (σ : FactorType) :\n    ∃ v : RatFunc ℚ →+* RatFunc ℚ, v RatFunc.X = (RatFunc.X)⁻¹ ∧\n      (monicExpr n σ).rational = v (clusterExpr n σ).rational ∧\n      v (projectiveExpr n σ).rational = (projectiveExpr n σ).rational",
      "section_variables": "",
-     "prove2me": []
+     "prove2me": [
+      {
+       "node": "N1054",
+       "theorem_name": "TypeDensity.reciprocity_ringHom",
+       "kind": "theorem",
+       "theorem_id": "169ab9f3-5c09-495c-ad5e-c7db59ebb34d",
+       "status": "PUBLISHED",
+       "url": "https://prove2.me/theorems/169ab9f3-5c09-495c-ad5e-c7db59ebb34d",
+       "blueprint_source": "TypeDensity/Corollaries/RationalForm.lean#L219-L228"
+      }
+     ]
     },
     {
      "name": "SurfaceBlowup.recip_main_all_degrees",
@@ -1433,7 +1533,17 @@
      "docstring": "`recip_main` without the hypothesis `0 < n`: the syntactic form of reciprocity holds in every\ndegree.",
      "statement": "theorem recip_main_all_degrees (n : ℕ) (σ : FactorType) :\n    (monicExpr n σ).rational = ((clusterExpr n σ).subst (.inv .var)).rational ∧\n    (projectiveExpr n σ).rational = ((projectiveExpr n σ).subst (.inv .var)).rational",
      "section_variables": "",
-     "prove2me": []
+     "prove2me": [
+      {
+       "node": "N1053",
+       "theorem_name": "TypeDensity.recip_main_all_degrees",
+       "kind": "theorem",
+       "theorem_id": "a1470f56-7de9-4b75-b7da-f4ef0c76283f",
+       "status": "PUBLISHED",
+       "url": "https://prove2.me/theorems/a1470f56-7de9-4b75-b7da-f4ef0c76283f",
+       "blueprint_source": "TypeDensity/Corollaries/RationalForm.lean#L209-L217"
+      }
+     ]
     },
     {
      "name": "SurfaceBlowup.clusterExpr_subst_inv_rational",
@@ -1447,7 +1557,17 @@
      "docstring": "The syntactic right side of `recip_main` is the automorphism `q ↦ q⁻¹` applied to the cluster\nrational function: `((clusterExpr n σ).subst (.inv .var)).rational = v(B_{n,σ})`.",
      "statement": "theorem clusterExpr_subst_inv_rational (n : ℕ) (σ : FactorType) :\n    ((clusterExpr n σ).subst (.inv .var)).rational = recipRat (clusterExpr n σ).rational",
      "section_variables": "",
-     "prove2me": []
+     "prove2me": [
+      {
+       "node": "N1052",
+       "theorem_name": "TypeDensity.clusterExpr_subst_inv_rational",
+       "kind": "theorem",
+       "theorem_id": "4cd3714c-e626-4d0d-b8b0-5cca894ba1b8",
+       "status": "PUBLISHED",
+       "url": "https://prove2.me/theorems/4cd3714c-e626-4d0d-b8b0-5cca894ba1b8",
+       "blueprint_source": "TypeDensity/Corollaries/RationalForm.lean#L203-L207"
+      }
+     ]
     }
    ],
    "prove2me_statement_nodes": []

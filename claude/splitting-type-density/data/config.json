@@ -26,7 +26,7 @@
     "url_template": "https://prove2.me/theorems/{theorem_id}",
     "url_template_status": "verified 2026-10-17: the public page https://prove2.me/theorems/{theorem_id} resolves without login",
     "tree_visibility": "PUBLIC",
-    "note": "The complete development is published on Prove2Me under the namespace TypeDensity (36 definition modules and 1034 theorems, every theorem Proved on the platform, including main_dvr, main_field_form, main_field_form_ramified, recip_main and the v1.1 theorems main_dvr_cluster and main_dvr_etale); the tree was made public on 2026-10-17."
+    "note": "The complete development is published on Prove2Me under the namespace TypeDensity (37 definition modules and 1059 theorems, every theorem Proved on the platform, including main_dvr, main_field_form, main_field_form_ramified, recip_main, the v1.1 theorems main_dvr_cluster and main_dvr_etale, and the v1.2 theorems universal_type_laws and reciprocity_ringHom); the tree was made public on 2026-10-17, and the v1.2 theorems were added on 2026-11-11."
   },
   "lean_artifact_url": "https://github.com/asving/splitting-density-rationality",
   "title": "Splitting densities of random curves on an arithmetic surface",
