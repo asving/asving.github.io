@@ -3,7 +3,7 @@
 Certifier: Claude Fable 5.1, fresh context, 2026-10-09 23:35 UTC. Tree certified:
 `~/prove2me_workspace/final/monolith_gen/` (scratch tree built by an Opus agent; its reports
 `blueprint/GENERALIZATION_LEAN_EQUICHAR.md`, `blueprint/GENERALIZATION_LEAN.md`; its logs `monolith_gen/CHANGES.md`,
-`STATUS.md`, `logs/`). Reference: the owner-signed published tree `~/prove2me_workspace/Definitions/` and the
+`STATUS.md`, `logs/`). Reference: the published tree `~/prove2me_workspace/Definitions/` and the
 published certified monolith `~/prove2me_workspace/final/monolith/` (same toolchain `leanprover/lean4:v4.33.1`, same
 Mathlib pin `0df444a360eaa60ab8c11dca51a86af692955474`). No git, no network, no published tree modified; files were
 only ADDED under `monolith_gen/Monolith/` and `monolith_gen/logs/`.
@@ -22,7 +22,7 @@ reproduced here independently (`Monolith/CertAxGeneralDvr.lean`, `logs/cert_axio
 `CertNonVacuity.main_dvr_GaloisField` (𝔽_{p^m}⟦X⟧) apply `main_dvr` and carry the same three axioms
 (`Monolith/NonVacuityExample.lean`). A ramified mixed-characteristic example was not attempted (see §3).
 
-What this certificate does NOT cover: the correctness of the published definitions themselves (owner-signed, taken as
+What this certificate does NOT cover: the correctness of the published definitions themselves (taken as
 given), and the statements of the 80 modified / 10 new theorem files inside the proof — those are proof-level
 scaffolding, and the kernel check (A) plus the statement-level comparison below is what makes them irrelevant to trust.
 

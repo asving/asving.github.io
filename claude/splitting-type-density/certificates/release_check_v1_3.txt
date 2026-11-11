@@ -1,0 +1,25 @@
+== (1) lake build
+PASS: Build completed successfully (3582 jobs).
+== (2) axioms
+PASS: 22/22 main theorems use only [propext, Classical.choice, Quot.sound]
+PASS: 25/25 public theorems added in v1.2.0 use only [propext, Classical.choice, Quot.sound]
+== (3) statements
+PASS: source text vs v1.2.0: statement text identical: 2465; whitespace-only differences: 33; listed rewrites: 5; other changes: 0; removed: 0; added: 0
+PASS: kernel-term hashes vs stmt_dump_v1_3_0.tsv: 1872/1872 constants identical; 0 new constants
+== (4) forbidden tokens
+PASS: no sorry/admit/native_decide/axiom/maxHeartbeats
+== (5) warnings
+PASS: 0 build warnings
+== lines: 51088 (SurfaceBlowup), 2362 (Tests); modules: 71
+RELEASE CHECK (local): ALL PASS
+RC_EXIT=0
+
+NOTE (2026-11-11): output of tools/release_check_local.sh, run from the root of a clone of
+https://github.com/asving/splitting-density-rationality at commit 72431a3 (macOS, Lean v4.35.0, Mathlib 56a0058 from
+the build cache). Step (3) first compares statement source text with the reference recorded for v1.2.0
+(Checks/reference/stmt_text_v1_2_0.json): kernel-term hashes change with the toolchain, source text does not.
+For a theorem the statement is the signature up to the proof; for a definition, structure, inductive or
+instance it is the whole declaration. The five listed rewrites are in
+Checks/reference/stmt_text_rewrites_v1_3_0.json. The hash comparison in step (3) is against the dump of this
+same release and is only a baseline for later changes. The statement-preservation check against the certified
+trees (Checks/run_checks.sh) was not run: those trees were not available.

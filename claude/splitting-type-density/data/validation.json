@@ -1089,11 +1089,12 @@
   }
  },
  "update_2026_11_11": {
-  "note": "Lean v1.2.0 update without the generator. The fields above are the generator's checks of 2026-10-17 and were not re-run (no KaTeX or browser self-test). Re-checked for this update: internal links, and byte-for-byte reproduction of the 2026-10-17 pages from the v1.1.0 sources by the reconstructed page logic.",
-  "lean_commit": "27886a3",
+  "note": "Lean v1.3.0 update without the generator. The fields above are the generator's checks of 2026-10-17 and were not re-run (no KaTeX or browser self-test). Re-checked for this update: internal links, and byte-for-byte reproduction of the 2026-10-17 pages from the v1.1.0 sources by the reconstructed page logic.",
+  "lean_commit": "72431a3",
+  "lean_toolchain": "v4.35.0",
   "links": {
-   "pages": 87,
-   "internal_links_checked": 86036,
+   "pages": 89,
+   "internal_links_checked": 86061,
    "broken": 0,
    "external_links": 975
   },
