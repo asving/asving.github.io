@@ -1,0 +1,71 @@
+'SurfaceBlowup.divisorCount_eval_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.globalLaw_coeff_eval_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.monicExpr_eval_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.projectiveExpr_eval_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.clusterExpr_eval_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.main_dvr_toReal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.main_dvr_cluster_toReal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.Expr.rational_eval_of_safe' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.clusterExpr_allSafe' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.cluster_rational_eval' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.universal_type_laws' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.rational_subst_inv_lawCoeff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.lawWf_rootLaw' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.lawCoef_globalLaw_false_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.lawCoef_rootLaw_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.lawCoef_globalLaw_false_eq_recipCoef_rootLaw' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.reciprocity_recipRat' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.clusterExpr_subst_inv_rational' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.recip_main_all_degrees' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.reciprocity_ringHom' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.Tests.isAdic_maximalIdeal_padicInt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.Tests.card_residueField_padicInt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.Tests.main_dvr_padicInt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.Tests.universal_type_laws_padicInt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SurfaceBlowup.Tests.monicDensity_padicInt_two_ramified' depends on axioms: [propext, Classical.choice, Quot.sound]
+SurfaceBlowup.universal_type_laws : ∀ (n : ℕ) (σ : SurfaceBlowup.FactorType),
+  ∃ A B R,
+    A = (SurfaceBlowup.monicExpr n σ).rational ∧
+      B = (SurfaceBlowup.clusterExpr n σ).rational ∧
+        R = (SurfaceBlowup.projectiveExpr n σ).rational ∧
+          (∀ (q : ℕ),
+              SurfaceBlowup.PrimePower q →
+                SurfaceBlowup.RegularAt A ↑q ∧ SurfaceBlowup.RegularAt B ↑q ∧ SurfaceBlowup.RegularAt R ↑q) ∧
+            (∀ (q : ℕ),
+                SurfaceBlowup.PrimePower q →
+                  0 ≤ RatFunc.eval (RingHom.id ℚ) (↑q) A ∧
+                    0 ≤ RatFunc.eval (RingHom.id ℚ) (↑q) B ∧ 0 ≤ RatFunc.eval (RingHom.id ℚ) (↑q) R) ∧
+              ∀ (O : Type) [inst : CommRing O] [inst_1 : IsDomain O] [inst_2 : IsDiscreteValuationRing O]
+                [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [Finite (IsLocalRing.ResidueField O)]
+                [inst_5 : TopologicalSpace O] [inst_6 : IsTopologicalRing O] [inst_7 : CompactSpace O]
+                [inst_8 : T2Space O] [inst_9 : SecondCountableTopology O] [inst_10 : MeasurableSpace O]
+                [inst_11 : BorelSpace O],
+                IsAdic (IsLocalRing.maximalIdeal O) →
+                  (0 ≤ RatFunc.eval (RingHom.id ℚ) (↑(Nat.card (IsLocalRing.ResidueField O))) A ∧
+                      SurfaceBlowup.monicDensity O n σ =
+                        ENNReal.ofReal ↑(RatFunc.eval (RingHom.id ℚ) (↑(Nat.card (IsLocalRing.ResidueField O))) A)) ∧
+                    (0 ≤ RatFunc.eval (RingHom.id ℚ) (↑(Nat.card (IsLocalRing.ResidueField O))) B ∧
+                        SurfaceBlowup.clusterDensity O n σ =
+                          ENNReal.ofReal ↑(RatFunc.eval (RingHom.id ℚ) (↑(Nat.card (IsLocalRing.ResidueField O))) B)) ∧
+                      0 ≤ RatFunc.eval (RingHom.id ℚ) (↑(Nat.card (IsLocalRing.ResidueField O))) R ∧
+                        SurfaceBlowup.projectiveDensity O n σ =
+                          ENNReal.ofReal ↑(RatFunc.eval (RingHom.id ℚ) (↑(Nat.card (IsLocalRing.ResidueField O))) R)
+SurfaceBlowup.reciprocity_ringHom : ∀ (n : ℕ) (σ : SurfaceBlowup.FactorType),
+  ∃ v,
+    v RatFunc.X = RatFunc.X⁻¹ ∧
+      (SurfaceBlowup.monicExpr n σ).rational = v (SurfaceBlowup.clusterExpr n σ).rational ∧
+        v (SurfaceBlowup.projectiveExpr n σ).rational = (SurfaceBlowup.projectiveExpr n σ).rational
+SurfaceBlowup.Tests.main_dvr_padicInt : ∀ (p : ℕ) [hp : Fact (Nat.Prime p)] (n : ℕ) (σ : SurfaceBlowup.FactorType),
+  SurfaceBlowup.monicDensity ℤ_[p] n σ = SurfaceBlowup.densityValue (SurfaceBlowup.monicExpr n σ) p ∧
+    SurfaceBlowup.projectiveDensity ℤ_[p] n σ = SurfaceBlowup.densityValue (SurfaceBlowup.projectiveExpr n σ) p
+SurfaceBlowup.Tests.universal_type_laws_padicInt : ∀ (p : ℕ) [hp : Fact (Nat.Prime p)] (n : ℕ)
+  (σ : SurfaceBlowup.FactorType),
+  (0 ≤ RatFunc.eval (RingHom.id ℚ) (↑p) (SurfaceBlowup.monicExpr n σ).rational ∧
+      SurfaceBlowup.monicDensity ℤ_[p] n σ =
+        ENNReal.ofReal ↑(RatFunc.eval (RingHom.id ℚ) (↑p) (SurfaceBlowup.monicExpr n σ).rational)) ∧
+    (0 ≤ RatFunc.eval (RingHom.id ℚ) (↑p) (SurfaceBlowup.clusterExpr n σ).rational ∧
+        SurfaceBlowup.clusterDensity ℤ_[p] n σ =
+          ENNReal.ofReal ↑(RatFunc.eval (RingHom.id ℚ) (↑p) (SurfaceBlowup.clusterExpr n σ).rational)) ∧
+      0 ≤ RatFunc.eval (RingHom.id ℚ) (↑p) (SurfaceBlowup.projectiveExpr n σ).rational ∧
+        SurfaceBlowup.projectiveDensity ℤ_[p] n σ =
+          ENNReal.ofReal ↑(RatFunc.eval (RingHom.id ℚ) (↑p) (SurfaceBlowup.projectiveExpr n σ).rational)

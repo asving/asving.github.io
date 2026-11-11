@@ -1,11 +1,11 @@
 {
- "generated": "2026-10-17T05:52:01.286640Z",
+ "generated": "2026-11-11T12:00:00Z",
  "about": "Hand-curated correspondence between the numbered statements of PAPER_v2_narrative.md and the Lean declarations of the unified SurfaceBlowup codebase. build.py resolves every Lean name below against the sources (file, line range, docstring, statement, Prove2Me node) and writes data/paper_lean_map.json. Relations: exact = the Lean statement says the same thing (up to encoding); definition = the paper's construction is the Lean definition (and, where listed, the theorem that it means what the paper says); specialization = proved in a special setting (e.g. only on the concrete surfaces O[[T,X]]/(pi - u T^a X^b), or only for a = b = 1); covered = no single Lean statement, the listed declarations jointly establish the content, often in a restructured form; check = only particular instances are machine-checked; none = not formalized (declarations listed, if any, are ingredients only). Confidence is the curator's confidence in the correspondence, not in the mathematics.",
  "sources": {
   "paper": "../PAPER_v2_narrative.md",
   "paper_sha256": "b3a9eee9c62de88a2f7c0ae800750482d5d98fcedb58bd6fc514742c2fd9d028",
-  "lean_root": "~/prove2me_workspace/final/unified",
-  "lean_files": 72,
+  "lean_root": "https://github.com/asving/splitting-density-rationality (commit 27886a3)",
+  "lean_files": 75,
   "prove2me_catalog": "~/prove2me_workspace/final/export_v1_1/delta/catalog.json"
  },
  "prove2me": {
@@ -54,7 +54,7 @@
    "kind": "display",
    "relation": "exact",
    "confidence": "high",
-   "summary": "The monic half, Pr(ramified) = 1/(q+1) over every complete DVR, is the Lean corollary monicDensity_two_ramified (from main_dvr). The cluster half, q/(q+1), is clusterDensity_two_ramified (v1.1, from main_dvr_cluster), with the split and inert values 1/(2(q+1)) each in clusterDensity_two_split / clusterDensity_two_inert.",
+   "summary": "The monic half, Pr(ramified) = 1/(q+1) over every complete DVR, is the Lean corollary monicDensity_two_ramified (from main_dvr). Over ℤ_p, for every prime p, it is monicDensity_padicInt_two_ramified (v1.2). The cluster half, q/(q+1), is clusterDensity_two_ramified (v1.1, from main_dvr_cluster), with the split and inert values 1/(2(q+1)) each in clusterDensity_two_split / clusterDensity_two_inert.",
    "label": "(1.3)",
    "title": "the reciprocal pair of quadratic probabilities",
    "anchor": {
@@ -84,6 +84,20 @@
        "blueprint_source": "Tests/Regression.lean#L1942-L1948"
       }
      ]
+    },
+    {
+     "name": "SurfaceBlowup.Tests.monicDensity_padicInt_two_ramified",
+     "role": "monic half over ℤ_p, every prime p (v1.2)",
+     "kind": "theorem",
+     "private": false,
+     "file": "Tests/PadicInt.lean",
+     "line_start": 109,
+     "line_end": 114,
+     "decl_line": 111,
+     "docstring": "A random monic quadratic over `ℤ_[p]` is ramified (type `(2,1)`) with probability\n`1 / (p + 1)`, for every prime `p`.",
+     "statement": "theorem monicDensity_padicInt_two_ramified :\n    monicDensity ℤ_[p] 2 {(2,1)} = ENNReal.ofReal (1 / ((p : ℝ) + 1))",
+     "section_variables": "variable (p : ℕ) [hp : Fact p.Prime]",
+     "prove2me": []
     },
     {
      "name": "SurfaceBlowup.Tests.clusterDensity_two_ramified",
@@ -300,7 +314,7 @@
    "kind": "definition",
    "relation": "definition",
    "confidence": "high",
-   "summary": "monicDensity O n σ is the normalized Haar measure of the coefficient vectors a ∈ Oⁿ for which X^n + Σ aᵢXⁱ is a product of distinct monic irreducibles over Frac O whose invariants form σ. The invariant (e,f) of a factor is read from the integral closure of O in its root field (factorInvariant). This is the trust boundary: the definitions are owner-signed.",
+   "summary": "monicDensity O n σ is the normalized Haar measure of the coefficient vectors a ∈ Oⁿ for which X^n + Σ aᵢXⁱ is a product of distinct monic irreducibles over Frac O whose invariants form σ. The invariant (e,f) of a factor is read from the integral closure of O in its root field (factorInvariant). This is the trust boundary.",
    "label": "Monic model",
    "title": "monic type probability",
    "anchor": {
@@ -705,7 +719,7 @@
    "kind": "theorem",
    "relation": "exact",
    "confidence": "high",
-   "summary": "All three clauses. Monic and projective: main_dvr — for every complete DVR O with finite residue field (any characteristic, any ramification; adic topology, Borel σ-algebra, normalized Haar measure), monicDensity O n σ and projectiveDensity O n σ are the values at q = |k| of monicExpr n σ and projectiveExpr n σ, whose rational functions are A_σ and R_σ; regularity at every prime power is global_formula_regular, packaged with the ∃ A R form in main_field_form. Cluster (v1.1): main_dvr_cluster — clusterDensity O n σ, the normalized Haar probability on monic polynomials reducing to X^n (paper's μ_cluster) with the published type predicate, equals clusterExpr n σ = lawCoeff (rootLaw n) σ, the coefficient of σ in the law of S(1;n) (display (7.1)), for every n including n = 0; regularity is cluster_formula_regular; recip_cluster reads A_σ(q) = B_σ(1/q) in this notation. The type predicate is the reduced-algebra convention; the agreement with the étale convention off a Haar-null set is main_dvr_etale / clusterDensity_eq_etale (Remark 1.3). The hypotheses 0 < n, ValidType σ, typeDegree σ = n of main_dvr are unused (frozen statement). Non-vacuity in equal characteristic: main_dvr_powerSeries.",
+   "summary": "All three clauses. Monic and projective: main_dvr — for every complete DVR O with finite residue field (any characteristic, any ramification; adic topology, Borel σ-algebra, normalized Haar measure), monicDensity O n σ and projectiveDensity O n σ are the values at q = |k| of monicExpr n σ and projectiveExpr n σ, whose rational functions are A_σ and R_σ; regularity at every prime power is global_formula_regular, packaged with the ∃ A R form in main_field_form. Cluster (v1.1): main_dvr_cluster — clusterDensity O n σ, the normalized Haar probability on monic polynomials reducing to X^n (paper's μ_cluster) with the published type predicate, equals clusterExpr n σ = lawCoeff (rootLaw n) σ, the coefficient of σ in the law of S(1;n) (display (7.1)), for every n including n = 0; regularity is cluster_formula_regular; recip_cluster reads A_σ(q) = B_σ(1/q) in this notation. The type predicate is the reduced-algebra convention; the agreement with the étale convention off a Haar-null set is main_dvr_etale / clusterDensity_eq_etale (Remark 1.3). main_dvr has no hypotheses on n and σ. The certified statement assumed 0 < n, ValidType σ and typeDegree σ = n, which the proof never used. Non-vacuity: main_dvr_powerSeries in equal characteristic, main_dvr_padicInt over ℤ_p (v1.2). Version 1.2 states the theorem in one piece. universal_type_laws gives A, B, R in ℚ(q), regular and nonnegative at every prime power, and each probability equals the value given by Mathlib's RatFunc.eval. The three nonnegativity lemmas show that the ENNReal.ofReal in main_dvr and main_dvr_cluster never clamps. cluster_rational_eval ties the rational function B_σ to the cluster expression.",
    "label": "Theorem 1.1",
    "title": "universal type laws",
    "paper_line": 96,
@@ -787,7 +801,7 @@
     },
     {
      "name": "SurfaceBlowup.main_field_form",
-     "role": "rational-function form for unramified K/ℚ_p (the published, owner-signed statement)",
+     "role": "rational-function form for unramified K/ℚ_p (the published statement)",
      "kind": "theorem",
      "private": false,
      "file": "SurfaceBlowup/Main.lean",
@@ -819,7 +833,7 @@
      "line_end": 118,
      "decl_line": 97,
      "docstring": "**Field form, arbitrary finite `K/ℚ_p`** (ramified allowed): with the maximal-ideal-adic compact\ntopology on the ring of integers `𝒪_K = padicIntegers p K`, the monic and projective type densities\nare the values at `q = |𝒪_K/𝔪|` of the rational functions `(monicExpr n σ).rational`,\n`(projectiveExpr n σ).rational`.",
-     "statement": "theorem main_field_form_ramified (n : ℕ) (σ : FactorType) (p : ℕ) [Fact p.Prime] (K : Type)\n    [Field K] [Algebra ℚ_[p] K] [Algebra ℤ_[p] K] [IsScalarTower ℤ_[p] ℚ_[p] K]\n    [FiniteDimensional ℚ_[p] K]\n    [TopologicalSpace (padicIntegers p K)] [IsTopologicalRing (padicIntegers p K)]\n    [CompactSpace (padicIntegers p K)] [T2Space (padicIntegers p K)]\n    [SecondCountableTopology (padicIntegers p K)] [MeasurableSpace (padicIntegers p K)]\n    [BorelSpace (padicIntegers p K)]\n    (had : letI := padicIntegers_isDVR p K; IsAdic (IsLocalRing.maximalIdeal (padicIntegers p K))) :\n    letI",
+     "statement": "theorem main_field_form_ramified (n : ℕ) (σ : FactorType) (p : ℕ) [Fact p.Prime] (K : Type)\n    [Field K] [Algebra ℚ_[p] K] [Algebra ℤ_[p] K] [IsScalarTower ℤ_[p] ℚ_[p] K]\n    [FiniteDimensional ℚ_[p] K]\n    [TopologicalSpace (padicIntegers p K)] [IsTopologicalRing (padicIntegers p K)]\n    [CompactSpace (padicIntegers p K)] [T2Space (padicIntegers p K)]\n    [SecondCountableTopology (padicIntegers p K)] [MeasurableSpace (padicIntegers p K)]\n    [BorelSpace (padicIntegers p K)]\n    (had : letI := padicIntegers_isDVR p K; IsAdic (IsLocalRing.maximalIdeal (padicIntegers p K))) :\n    letI := padicIntegers_isDVR p K\n    monicDensity (padicIntegers p K) n σ = ENNReal.ofReal ((RatFunc.eval (RingHom.id ℚ)\n        (Nat.card (IsLocalRing.ResidueField (padicIntegers p K)) : ℚ) (monicExpr n σ).rational :\n          ℚ) : ℝ) ∧\n      projectiveDensity (padicIntegers p K) n σ = ENNReal.ofReal ((RatFunc.eval (RingHom.id ℚ)\n        (Nat.card (IsLocalRing.ResidueField (padicIntegers p K)) : ℚ)\n          (projectiveExpr n σ).rational : ℚ) : ℝ)",
      "section_variables": "",
      "prove2me": [
       {
@@ -856,6 +870,76 @@
        "blueprint_source": "TypeDensity/Formula/StateCombinatorics.lean#L575-L581"
       }
      ]
+    },
+    {
+     "name": "SurfaceBlowup.universal_type_laws",
+     "role": "all three laws in one statement, with RatFunc.eval and nonnegative values (v1.2)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Corollaries/RationalForm.lean",
+     "line_start": 100,
+     "line_end": 150,
+     "decl_line": 114,
+     "docstring": "**Theorem 1.1 (universal type laws), packaged.** For every degree `n` and every type `σ` there\nare rational functions `A, B, R ∈ ℚ(q)` — namely the rational functions of `monicExpr n σ`,\n`clusterExpr n σ`, `projectiveExpr n σ` — such that\n\n* `A`, `B`, `R` are regular at every prime power, and their values there are nonnegative;\n* over every complete discrete valuation ring `O` with finite residue field `k` (any\n  characteristic, any ramification; adic topology, Borel σ-algebra, normalized Haar measure), with\n  `q = |k|`, the values `A(q)`, `B(q)`, `R(q)` are nonnegative rational numbers and the monic,\n  cluster and projective probabilities of type `σ` are `A(q)`, `B(q)`, `R(q)`.\n\nEach probability clause has the form `0 ≤ r ∧ density = ENNReal.ofReal r`. The two parts together\ndetermine the density exactly: `ENNReal.ofReal` is injective on nonnegative reals, so no clamping\nat `0` is possible, and the density is finite. The values are those of Mathlib's `RatFunc.eval`,\nso the convention `0⁻¹ = 0` of `Expr.eval` does not enter the statement.",
+     "statement": "theorem universal_type_laws (n : ℕ) (σ : FactorType) :\n    ∃ A B R : RatFunc ℚ,\n      A = (monicExpr n σ).rational ∧ B = (clusterExpr n σ).rational ∧\n      R = (projectiveExpr n σ).rational ∧\n      (∀ q : ℕ, PrimePower q → RegularAt A q ∧ RegularAt B q ∧ RegularAt R q) ∧\n      (∀ q : ℕ, PrimePower q →\n        0 ≤ RatFunc.eval (RingHom.id ℚ) (q : ℚ) A ∧ 0 ≤ RatFunc.eval (RingHom.id ℚ) (q : ℚ) B ∧\n        0 ≤ RatFunc.eval (RingHom.id ℚ) (q : ℚ) R) ∧\n      ∀ (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]\n        [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [Finite (IsLocalRing.ResidueField O)]\n        [TopologicalSpace O] [IsTopologicalRing O] [CompactSpace O] [T2Space O]\n        [SecondCountableTopology O] [MeasurableSpace O] [BorelSpace O],\n        IsAdic (IsLocalRing.maximalIdeal O) →\n          (0 ≤ RatFunc.eval (RingHom.id ℚ) ((Nat.card (IsLocalRing.ResidueField O) : ℕ) : ℚ) A ∧\n            monicDensity O n σ = ENNReal.ofReal ((RatFunc.eval (RingHom.id ℚ)\n              ((Nat.card (IsLocalRing.ResidueField O) : ℕ) : ℚ) A : ℚ) : ℝ)) ∧\n          (0 ≤ RatFunc.eval (RingHom.id ℚ) ((Nat.card (IsLocalRing.ResidueField O) : ℕ) : ℚ) B ∧\n            clusterDensity O n σ = ENNReal.ofReal ((RatFunc.eval (RingHom.id ℚ)\n              ((Nat.card (IsLocalRing.ResidueField O) : ℕ) : ℚ) B : ℚ) : ℝ)) ∧\n          (0 ≤ RatFunc.eval (RingHom.id ℚ) ((Nat.card (IsLocalRing.ResidueField O) : ℕ) : ℚ) R ∧\n            projectiveDensity O n σ = ENNReal.ofReal ((RatFunc.eval (RingHom.id ℚ)\n              ((Nat.card (IsLocalRing.ResidueField O) : ℕ) : ℚ) R : ℚ) : ℝ))",
+     "section_variables": "",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.monicExpr_eval_nonneg",
+     "role": "A_σ(q) ≥ 0 at prime powers (v1.2)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Corollaries/Nonneg.lean",
+     "line_start": 138,
+     "line_end": 142,
+     "decl_line": 140,
+     "docstring": "**Nonnegativity of `A_{n,σ}`.** The universal monic expression takes a nonnegative value at\nevery prime power.",
+     "statement": "theorem monicExpr_eval_nonneg (n : ℕ) (σ : FactorType) (Q : ℕ) (hQ : PrimePower Q) :\n    0 ≤ (monicExpr n σ).eval (Q : ℚ)",
+     "section_variables": "",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.projectiveExpr_eval_nonneg",
+     "role": "R_σ(q) ≥ 0 at prime powers (v1.2)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Corollaries/Nonneg.lean",
+     "line_start": 144,
+     "line_end": 148,
+     "decl_line": 146,
+     "docstring": "**Nonnegativity of `R_{n,σ}`.** The universal projective expression takes a nonnegative value\nat every prime power.",
+     "statement": "theorem projectiveExpr_eval_nonneg (n : ℕ) (σ : FactorType) (Q : ℕ) (hQ : PrimePower Q) :\n    0 ≤ (projectiveExpr n σ).eval (Q : ℚ)",
+     "section_variables": "",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.clusterExpr_eval_nonneg",
+     "role": "B_σ(q) ≥ 0 at prime powers (v1.2)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Corollaries/Nonneg.lean",
+     "line_start": 150,
+     "line_end": 158,
+     "decl_line": 152,
+     "docstring": "**Nonnegativity of `B_{n,σ}`.** The universal cluster expression takes a nonnegative value at\nevery prime power.",
+     "statement": "theorem clusterExpr_eval_nonneg (n : ℕ) (σ : FactorType) (Q : ℕ) (hQ : PrimePower Q) :\n    0 ≤ (clusterExpr n σ).eval (Q : ℚ)",
+     "section_variables": "",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.cluster_rational_eval",
+     "role": "B_σ as a rational function takes the value of the cluster expression (v1.2)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Corollaries/RationalForm.lean",
+     "line_start": 88,
+     "line_end": 96,
+     "decl_line": 92,
+     "docstring": "**The cluster rational function evaluates correctly.** At every prime power `q`, the rational\nfunction `B_{n,σ} = (clusterExpr n σ).rational` takes the value of the cluster expression. Together\nwith `cluster_formula_regular` and `main_dvr_cluster` this identifies `B_{n,σ}(q)` with the cluster\nprobability.",
+     "statement": "theorem cluster_rational_eval (n : ℕ) (σ : FactorType) :\n    ∀ q : ℕ, PrimePower q →\n      RatFunc.eval (RingHom.id ℚ) q (clusterExpr n σ).rational = (clusterExpr n σ).eval q",
+     "section_variables": "",
+     "prove2me": []
     },
     {
      "name": "SurfaceBlowup.main_dvr_etale",
@@ -966,7 +1050,7 @@
      "line_start": 363,
      "line_end": 364,
      "decl_line": 364,
-     "docstring": "The universal projective density expression `B_n,σ(q)`.",
+     "docstring": "The universal projective density expression `R_n,σ(q)`.",
      "statement": "noncomputable def projectiveExpr (n : ℕ) (σ : FactorType) : Expr := lawCoeff (globalLaw true n) σ",
      "section_variables": "",
      "prove2me": [
@@ -1004,6 +1088,34 @@
        "blueprint_source": "Tests/NonVacuity.lean#L90-L97"
       }
      ]
+    },
+    {
+     "name": "SurfaceBlowup.Tests.main_dvr_padicInt",
+     "role": "non-vacuity in mixed characteristic: O = ℤ_p (v1.2)",
+     "kind": "theorem",
+     "private": false,
+     "file": "Tests/PadicInt.lean",
+     "line_start": 83,
+     "line_end": 90,
+     "decl_line": 86,
+     "docstring": "**`main_dvr` over `ℤ_[p]`.** With Mathlib's topology on the `p`-adic integers, its Borel\nσ-algebra and normalized Haar measure, the type densities of monic polynomials and of primitive\nbinary forms over `ℤ_[p]` are the universal expressions evaluated at `q = p`.",
+     "statement": "theorem main_dvr_padicInt (n : ℕ) (σ : FactorType) :\n    monicDensity ℤ_[p] n σ = densityValue (monicExpr n σ) p ∧\n      projectiveDensity ℤ_[p] n σ = densityValue (projectiveExpr n σ) p",
+     "section_variables": "variable (p : ℕ) [hp : Fact p.Prime]",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.Tests.universal_type_laws_padicInt",
+     "role": "the three laws over ℤ_p (v1.2)",
+     "kind": "theorem",
+     "private": false,
+     "file": "Tests/PadicInt.lean",
+     "line_start": 92,
+     "line_end": 107,
+     "decl_line": 95,
+     "docstring": "**Theorem 1.1 over `ℤ_[p]`, in terms of rational functions.** The values at `p` of the\nrational functions of `monicExpr n σ`, `clusterExpr n σ`, `projectiveExpr n σ` are nonnegative, and\nthey are the monic, cluster and projective probabilities of type `σ` over `ℤ_[p]`.",
+     "statement": "theorem universal_type_laws_padicInt (n : ℕ) (σ : FactorType) :\n    (0 ≤ RatFunc.eval (RingHom.id ℚ) (p : ℚ) (monicExpr n σ).rational ∧\n      monicDensity ℤ_[p] n σ = ENNReal.ofReal\n        ((RatFunc.eval (RingHom.id ℚ) (p : ℚ) (monicExpr n σ).rational : ℚ) : ℝ)) ∧\n    (0 ≤ RatFunc.eval (RingHom.id ℚ) (p : ℚ) (clusterExpr n σ).rational ∧\n      clusterDensity ℤ_[p] n σ = ENNReal.ofReal\n        ((RatFunc.eval (RingHom.id ℚ) (p : ℚ) (clusterExpr n σ).rational : ℚ) : ℝ)) ∧\n    (0 ≤ RatFunc.eval (RingHom.id ℚ) (p : ℚ) (projectiveExpr n σ).rational ∧\n      projectiveDensity ℤ_[p] n σ = ENNReal.ofReal\n        ((RatFunc.eval (RingHom.id ℚ) (p : ℚ) (projectiveExpr n σ).rational : ℚ) : ℝ))",
+     "section_variables": "variable (p : ℕ) [hp : Fact p.Prime]",
+     "prove2me": []
     }
    ],
    "prove2me_statement_nodes": []
@@ -1077,7 +1189,7 @@
      "line_start": 363,
      "line_end": 364,
      "decl_line": 364,
-     "docstring": "The universal projective density expression `B_n,σ(q)`.",
+     "docstring": "The universal projective density expression `R_n,σ(q)`.",
      "statement": "noncomputable def projectiveExpr (n : ℕ) (σ : FactorType) : Expr := lawCoeff (globalLaw true n) σ",
      "section_variables": "",
      "prove2me": [
@@ -1201,7 +1313,7 @@
    "kind": "theorem",
    "relation": "exact",
    "confidence": "high",
-   "summary": "recip_main states, for n > 0 and every type σ, the identities of rational functions (monicExpr n σ).rational = (B_{n,σ} with q ↦ 1/q).rational, where B_{n,σ} = lawCoeff (rootLaw n) σ, and (projectiveExpr n σ) is invariant under q ↦ 1/q. These are the coefficientwise forms of A_n = B_n^∨ and R_n^∨ = R_n. The hypotheses ValidType σ and typeDegree σ = n are unused.",
+   "summary": "recip_main states, for n > 0 and every type σ, the identities of rational functions (monicExpr n σ).rational = (B_{n,σ} with q ↦ 1/q).rational, where B_{n,σ} = lawCoeff (rootLaw n) σ, and (projectiveExpr n σ) is invariant under q ↦ 1/q. These are the coefficientwise forms of A_n = B_n^∨ and R_n^∨ = R_n. The certified statement also assumed ValidType σ and typeDegree σ = n. They were unused and have been dropped. Version 1.2 adds reciprocity_recipRat: the same identities in every degree, including n = 0, with the ring endomorphism q ↦ q⁻¹ of ℚ(q) in place of the syntactic substitution. reciprocity_ringHom states this with Mathlib notions only. clusterExpr_subst_inv_rational shows that the right side of recip_main is that endomorphism applied to B_{n,σ}.",
    "label": "Theorem 1.2",
    "title": "reciprocity",
    "paper_line": 104,
@@ -1218,7 +1330,7 @@
      "line_start": 278,
      "line_end": 299,
      "decl_line": 286,
-     "docstring": "**Theorem R (reciprocity).** For `n > 0` and every factorization type `σ`:\nthe universal monic density is the root-law coefficient with `q ↦ 1/q` substituted,\n`A_{n,σ}(q) = B_{n,σ}(1/q)` (where `B_{n,σ}` is the coefficient of `σ` in the root law\n`rootLaw n`), and the universal projective density is self-reciprocal,\n`R_{n,σ}(1/q) = R_{n,σ}(q)`; both as identities of rational functions in `q`.\n\nThe certified form also assumed `ValidType σ` and `typeDegree σ = n`, which the proof does not use.\nThe hypothesis `0 < n` is used (`rootLaw 0` is defined separately).",
+     "docstring": "**Theorem 1.2 (reciprocity).** For `n > 0` and every factorization type `σ`:\nthe universal monic density is the root-law coefficient with `q ↦ 1/q` substituted,\n`A_{n,σ}(q) = B_{n,σ}(1/q)` (where `B_{n,σ}` is the coefficient of `σ` in the root law\n`rootLaw n`), and the universal projective density is self-reciprocal,\n`R_{n,σ}(1/q) = R_{n,σ}(q)`; both as identities of rational functions in `q`.\n\nThe certified form also assumed `ValidType σ` and `typeDegree σ = n`, which the proof does not use.\nThe hypothesis `0 < n` is used (`rootLaw 0` is defined separately).",
      "statement": "theorem recip_main (n : ℕ) (hn : 0 < n) (σ : FactorType) :\n    (monicExpr n σ).rational =\n      ((lawCoeff (rootLaw n) σ).subst (.inv .var)).rational ∧\n    (projectiveExpr n σ).rational =\n      ((projectiveExpr n σ).subst (.inv .var)).rational",
      "section_variables": "",
      "prove2me": [
@@ -1280,6 +1392,62 @@
        "blueprint_source": "TypeDensity/Reciprocity/Main.lean#L236-L276"
       }
      ]
+    },
+    {
+     "name": "SurfaceBlowup.reciprocity_recipRat",
+     "role": "every degree, with the endomorphism q ↦ q⁻¹ of ℚ(q) (v1.2)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Corollaries/RationalForm.lean",
+     "line_start": 189,
+     "line_end": 201,
+     "decl_line": 194,
+     "docstring": "**Theorem 1.2 (reciprocity), in terms of the automorphism `q ↦ q⁻¹`, in every degree.** For\nevery `n` and every type `σ`, `A_{n,σ} = v(B_{n,σ})` and `v(R_{n,σ}) = R_{n,σ}` in `ℚ(q)`, where\n`v = recipRat` is the ring endomorphism of `ℚ(q)` with `v(q) = q⁻¹` (`recipRat_X`) and `A`, `B`,\n`R` are the rational functions of the monic, cluster and projective expressions. Unlike\n`recip_main`, there is no hypothesis `0 < n` and no syntactic substitution in the statement.",
+     "statement": "theorem reciprocity_recipRat (n : ℕ) (σ : FactorType) :\n    (monicExpr n σ).rational = recipRat (clusterExpr n σ).rational ∧\n    recipRat (projectiveExpr n σ).rational = (projectiveExpr n σ).rational",
+     "section_variables": "",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.reciprocity_ringHom",
+     "role": "the same, stated with Mathlib notions only (v1.2)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Corollaries/RationalForm.lean",
+     "line_start": 219,
+     "line_end": 228,
+     "decl_line": 224,
+     "docstring": "**Theorem 1.2 (reciprocity), stated with Mathlib notions only.** For every degree `n` and\nevery type `σ` there is a ring endomorphism `v` of `ℚ(q)` with `v(q) = q⁻¹` such that `A = v(B)`\nand `v(R) = R`, where `A`, `B`, `R` are the rational functions of `universal_type_laws`. A ring\nendomorphism of the field `ℚ(q)` is determined by the image of `q`, so `v` is the substitution\n`q ↦ 1/q`.",
+     "statement": "theorem reciprocity_ringHom (n : ℕ) (σ : FactorType) :\n    ∃ v : RatFunc ℚ →+* RatFunc ℚ, v RatFunc.X = (RatFunc.X)⁻¹ ∧\n      (monicExpr n σ).rational = v (clusterExpr n σ).rational ∧\n      v (projectiveExpr n σ).rational = (projectiveExpr n σ).rational",
+     "section_variables": "",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.recip_main_all_degrees",
+     "role": "recip_main without the hypothesis 0 < n (v1.2)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Corollaries/RationalForm.lean",
+     "line_start": 209,
+     "line_end": 217,
+     "decl_line": 211,
+     "docstring": "`recip_main` without the hypothesis `0 < n`: the syntactic form of reciprocity holds in every\ndegree.",
+     "statement": "theorem recip_main_all_degrees (n : ℕ) (σ : FactorType) :\n    (monicExpr n σ).rational = ((clusterExpr n σ).subst (.inv .var)).rational ∧\n    (projectiveExpr n σ).rational = ((projectiveExpr n σ).subst (.inv .var)).rational",
+     "section_variables": "",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.clusterExpr_subst_inv_rational",
+     "role": "the syntactic substitution is q ↦ q⁻¹ applied to B_σ (v1.2)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Corollaries/RationalForm.lean",
+     "line_start": 203,
+     "line_end": 207,
+     "decl_line": 205,
+     "docstring": "The syntactic right side of `recip_main` is the automorphism `q ↦ q⁻¹` applied to the cluster\nrational function: `((clusterExpr n σ).subst (.inv .var)).rational = v(B_{n,σ})`.",
+     "statement": "theorem clusterExpr_subst_inv_rational (n : ℕ) (σ : FactorType) :\n    ((clusterExpr n σ).subst (.inv .var)).rational = recipRat (clusterExpr n σ).rational",
+     "section_variables": "",
+     "prove2me": []
     }
    ],
    "prove2me_statement_nodes": []
@@ -1289,7 +1457,7 @@
    "kind": "remark",
    "relation": "exact",
    "confidence": "high",
-   "summary": "The remark's claims are the theorems it names: main_dvr (monic, projective), main_dvr_cluster (cluster, v1.1), recip_main (reciprocity); axioms of each are exactly propext, Classical.choice, Quot.sound (Checks/Axioms.lean, 12 theorems). The convention claim — the reduced-algebra type (HasPolynomialType: distinct monic irreducible factors, inseparable factors allowed) and the étale convention agree off a Haar-null set — is monic_inseparable_null, binary_nonEtale_null, and the equalities monicDensity_eq_etale, projectiveDensity_eq_etale, clusterDensity_eq_etale, packaged as main_dvr_etale; etaleMonicDensity_eq_algebraType phrases the monic event as 'K[X]/(f_a) is étale (Algebra.Etale) and has algebra type σ'.",
+   "summary": "The remark's claims are the theorems it names: main_dvr (monic, projective), main_dvr_cluster (cluster, v1.1), recip_main (reciprocity); axioms of each are exactly propext, Classical.choice, Quot.sound (Checks/Axioms.lean, 22 theorems in v1.2). The convention claim — the reduced-algebra type (HasPolynomialType: distinct monic irreducible factors, inseparable factors allowed) and the étale convention agree off a Haar-null set — is monic_inseparable_null, binary_nonEtale_null, and the equalities monicDensity_eq_etale, projectiveDensity_eq_etale, clusterDensity_eq_etale, packaged as main_dvr_etale; etaleMonicDensity_eq_algebraType phrases the monic event as 'K[X]/(f_a) is étale (Algebra.Etale) and has algebra type σ'.",
    "label": "Remark 1.3",
    "title": "formalization",
    "paper_line": 206,
@@ -1354,7 +1522,7 @@
      "line_start": 278,
      "line_end": 299,
      "decl_line": 286,
-     "docstring": "**Theorem R (reciprocity).** For `n > 0` and every factorization type `σ`:\nthe universal monic density is the root-law coefficient with `q ↦ 1/q` substituted,\n`A_{n,σ}(q) = B_{n,σ}(1/q)` (where `B_{n,σ}` is the coefficient of `σ` in the root law\n`rootLaw n`), and the universal projective density is self-reciprocal,\n`R_{n,σ}(1/q) = R_{n,σ}(q)`; both as identities of rational functions in `q`.\n\nThe certified form also assumed `ValidType σ` and `typeDegree σ = n`, which the proof does not use.\nThe hypothesis `0 < n` is used (`rootLaw 0` is defined separately).",
+     "docstring": "**Theorem 1.2 (reciprocity).** For `n > 0` and every factorization type `σ`:\nthe universal monic density is the root-law coefficient with `q ↦ 1/q` substituted,\n`A_{n,σ}(q) = B_{n,σ}(1/q)` (where `B_{n,σ}` is the coefficient of `σ` in the root law\n`rootLaw n`), and the universal projective density is self-reciprocal,\n`R_{n,σ}(1/q) = R_{n,σ}(q)`; both as identities of rational functions in `q`.\n\nThe certified form also assumed `ValidType σ` and `typeDegree σ = n`, which the proof does not use.\nThe hypothesis `0 < n` is used (`rootLaw 0` is defined separately).",
      "statement": "theorem recip_main (n : ℕ) (hn : 0 < n) (σ : FactorType) :\n    (monicExpr n σ).rational =\n      ((lawCoeff (rootLaw n) σ).subst (.inv .var)).rational ∧\n    (projectiveExpr n σ).rational =\n      ((projectiveExpr n σ).subst (.inv .var)).rational",
      "section_variables": "",
      "prove2me": [
@@ -2002,7 +2170,7 @@
    "kind": "definition",
    "relation": "definition",
    "confidence": "medium",
-   "summary": "HasAlgebraType O B σ: the generic fibre of B is a finite product of fields whose O-integral closures are finite, with invariants σ. The Lean development uses this route-F convention (finite integral closures) everywhere in the recursion, and transfers to the published étale densities through the Haar-null bridges.",
+   "summary": "HasAlgebraType O B σ: the generic fibre of B is a finite product of fields whose O-integral closures are finite, with invariants σ. The Lean development uses this route-F convention (finite integral closures) everywhere in the recursion, and transfers to the published densities through the Haar-null bridges. The published predicate HasPolynomialType has no finiteness condition.",
    "label": "Reduced-algebra type convention",
    "title": "types of reduced algebras",
    "anchor": {
@@ -2291,7 +2459,7 @@
      "line_start": 235,
      "line_end": 241,
      "decl_line": 236,
-     "docstring": "The admissible tangent patterns of a state (Proposition 5.1).",
+     "docstring": "The admissible tangent patterns of a state (the conditions of displays (4.7)–(4.8)).",
      "statement": "def Allowed (s : State) (P : TangentPattern s.degree) : Prop :=\n  0<P.d.val ∧ P.rt.val+P.rx.val+patternWeight P.other=P.d.val ∧\n  match s with\n  | .single _ c => P.d.val≤c ∧ P.rx.val=0 ∧ (0<P.rt.val ↔ P.d.val<c)\n  | .crossing _ _ c h => P.d.val≤c ∧ P.d.val≤h ∧\n      (0<P.rt.val ↔ P.d.val<c) ∧ (0<P.rx.val ↔ P.d.val<h)",
      "section_variables": "",
      "prove2me": [
@@ -3514,7 +3682,7 @@
      "line_start": 235,
      "line_end": 241,
      "decl_line": 236,
-     "docstring": "The admissible tangent patterns of a state (Proposition 5.1).",
+     "docstring": "The admissible tangent patterns of a state (the conditions of displays (4.7)–(4.8)).",
      "statement": "def Allowed (s : State) (P : TangentPattern s.degree) : Prop :=\n  0<P.d.val ∧ P.rt.val+P.rx.val+patternWeight P.other=P.d.val ∧\n  match s with\n  | .single _ c => P.d.val≤c ∧ P.rx.val=0 ∧ (0<P.rt.val ↔ P.d.val<c)\n  | .crossing _ _ c h => P.d.val≤c ∧ P.d.val≤h ∧\n      (0<P.rt.val ↔ P.d.val<c) ∧ (0<P.rx.val ↔ P.d.val<h)",
      "section_variables": "",
      "prove2me": [
@@ -3538,7 +3706,7 @@
      "line_start": 255,
      "line_end": 340,
      "decl_line": 257,
-     "docstring": "Proposition 5.1 (maps-to part): taking strict transforms at all exceptional points sends the\nfixed tangent cell of state `s` and degree `d` into the product of the child ideal sets.",
+     "docstring": "Proposition 4.4 (maps-to part): taking strict transforms at all exceptional points sends the\nfixed tangent cell of state `s` and degree `d` into the product of the child ideal sets.",
      "statement": "theorem strict_transform_mapsTo_child_ideals (O : Type) [CommRing O] [IsDomain O]\n    [IsDiscreteValuationRing O]\n    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [Finite (IsLocalRing.ResidueField O)] (pi : O)\n    (hpi : Irreducible pi) (u : (TwoSeries O)ˣ) (a b : ℕ) (ha : 0 < a)\n    [IsDomain (ConcreteSurface O pi u a b)] [IsRegularLocalRing (ConcreteSurface O pi u a b)]\n    (S : SurfaceData O (ConcreteSurface O pi u a b))\n    (hS : S.t = (surfaceT O pi u a b) ∧ S.x = (surfaceX O pi u a b) ∧ S.a = a ∧ S.b = b)\n    (e : ((BlowupChart (ConcreteSurface O pi u a b) (surfaceT O pi u a b) (surfaceX O pi u a b)) ⧸\n    chartExceptional (ConcreteSurface O pi u a b) (surfaceT O pi u a b) (surfaceX O pi u a b)) ≃+*\n    Polynomial (IsLocalRing.ResidueField (ConcreteSurface O pi u a b)))\n    (he : ∀ r : (ConcreteSurface O pi u a b), e\n    (Ideal.Quotient.mk\n    (chartExceptional (ConcreteSurface O pi u a b) (surfaceT O pi u a b) (surfaceX O pi u a b))\n    ((chartBase (ConcreteSurface O pi u a b) (surfaceT O pi u a b) (surfaceX O pi u a b)) r)) =\n    Polynomial.C (IsLocalRing.residue (ConcreteSurface O pi u a b) r))\n    (heZ : e (Ideal.Quotient.mk\n    (chartExceptional (ConcreteSurface O pi u a b) (surfaceT O pi u a b) (surfaceX O pi u a b))\n    (chartSlope (ConcreteSurface O pi u a b) (surfaceT O pi u a b) (surfaceX O pi u a b))) =\n    Polynomial.X) (Dv : ExceptionalDivisor (IsLocalRing.ResidueField (ConcreteSurface O pi u a b)))\n    (hinf : (infinityPoint (ConcreteSurface O pi u a b) (surfaceT O pi u a b)\n    (surfaceX O pi u a b)).IsPrime) (s : State) (d : ℕ) :\n    Set.MapsTo (fun J Q => divisorStrictTransform (ConcreteSurface O pi u a b) (surfaceT O pi u a b)\n      (surfaceX O pi u a b) e Dv hinf d J Q)\n      (fixedTangentCell O (ConcreteSurface O pi u a b) S s d Dv)\n      (Set.pi Set.univ\n      (childIdealSet (ConcreteSurface O pi u a b) (surfaceT O pi u a b) (surfaceX O pi u a b) e Dv\n      hinf s d))",
      "section_variables": "",
      "prove2me": [
@@ -3889,7 +4057,7 @@
      "line_start": 287,
      "line_end": 294,
      "decl_line": 288,
-     "docstring": "The probability of the tangent divisor degree `d` (equation (7.2)).",
+     "docstring": "The probability of one allowed tangent divisor of degree `d` (display (6.1)).",
      "statement": "def divisorProbability (s : State) (d : ℕ) : Expr :=\n  match s with\n  | .single _ c => .mul (.inv (.pow .var (tri d))) (.pow eminusOne (if d<c then 1 else 0))\n  | .crossing _ _ c h =>\n    let j := (if d<c then 1 else 0) + (if d<h then 1 else 0)\n    .mul (.inv (.pow .var (chooseTwo d)))\n      (if j=0 then .inv eminusOne else .pow eminusOne (j-1))",
      "section_variables": "",
      "prove2me": [
@@ -4601,7 +4769,7 @@
      "line_start": 327,
      "line_end": 340,
      "decl_line": 328,
-     "docstring": "The measured recursion of §8 with explicit fuel.",
+     "docstring": "The recursion of §6 (displays (6.6)–(6.8)) with explicit fuel.",
      "statement": "noncomputable def stateLawFuel : ℕ → State → Law\n  | 0, _ => []\n  | k+1, s =>\n    match s with\n    | .single a 1 => lawAtom a 1\n    | _ =>\n      let terms := (allowedPatterns s).toList.flatMap fun P =>\n        if SelfPattern s P then [] else\n          lawScale (.mul (tangentCount s P) (divisorProbability s P.d.val))\n            (lawProd ((children s P).map fun z => lawDescend z.1 (stateLawFuel k z.2)))\n      match s with\n      | .single _ c => lawScale (.inv (.sub (.const 1) (returnWeight c))) terms\n      | .crossing _ _ _ _ => terms",
      "section_variables": "",
      "prove2me": [
@@ -4713,7 +4881,7 @@
      "line_start": 424,
      "line_end": 432,
      "decl_line": 427,
-     "docstring": "The inductive statement of Theorem 8.1 for one member: the terminating type events are\nmeasurable, the law coefficients are nonnegative and give the measures, the terminating set is\nmeasurable and the nonterminating set is null.",
+     "docstring": "The inductive statement of Theorem 6.2 for one member: the terminating type events are\nmeasurable, the law coefficients are nonnegative and give the measures, the terminating set is\nmeasurable and the nonterminating set is null.",
      "statement": "def LawStatement (i : U.ι) : Prop :=\n  (∀ σ : FactorType, MeasurableSet (U.termTypeEvent i σ) ∧\n    0 ≤ (lawCoeff (stateLaw (U.M i).s) σ).eval ((U.M i).q : ℚ) ∧\n    (U.M i).μ (U.termTypeEvent i σ) =\n      densityValue (lawCoeff (stateLaw (U.M i).s) σ) (U.M i).q * (U.M i).μ (U.M i).stateSet) ∧\n  MeasurableSet (U.terminatingSet i) ∧ (U.M i).μ (U.nonterminatingSet i) = 0",
      "section_variables": "variable (U : SurfaceUniverse)",
      "prove2me": []
@@ -4822,7 +4990,7 @@
    "kind": "remark",
    "relation": "covered",
    "confidence": "medium",
-   "summary": "The formal proof handles inseparability differently: the recursion uses types with finite integral closures (route F, which does allow inseparable terminal fields), and the published étale densities are recovered because the inseparable locus of monic polynomials is Haar-null (monic_inseparable_null, orig_monicDensity_eq, orig_projectiveDensity_eq). The itinerary argument of the remark is not formalized.",
+   "summary": "The formal proof handles inseparability differently: the recursion uses types with finite integral closures (route F, which does allow inseparable terminal fields), and the published densities are recovered because the inseparable locus of monic polynomials is Haar-null (monic_inseparable_null, orig_monicDensity_eq, orig_projectiveDensity_eq). The itinerary argument of the remark is not formalized.",
    "label": "Remark 6.3",
    "title": "inseparable terminal fields",
    "paper_line": 626,
@@ -4863,7 +5031,7 @@
      "line_start": 465,
      "line_end": 470,
      "decl_line": 467,
-     "docstring": "The original monic density equals the separable-type monic density: the two events agree\noff the Haar-null inseparable locus.",
+     "docstring": "The original monic density equals the route-F (finite-closure) monic density: the two events\nagree off the Haar-null inseparable locus.",
      "statement": "theorem orig_monicDensity_eq (htop : IsAdic (IsLocalRing.maximalIdeal O)) (n : ℕ) (σ : FactorType) :\n    monicDensity O n σ = monicDensityF O n σ",
      "section_variables": "variable (O : Type) [CommRing O] [IsDomain O]\nvariable [TopologicalSpace O] [IsTopologicalRing O] [CompactSpace O] [T2Space O]\n  [SecondCountableTopology O] [MeasurableSpace O] [BorelSpace O] [IsDiscreteValuationRing O]\n  [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [Finite (IsLocalRing.ResidueField O)]",
      "prove2me": [
@@ -7757,7 +7925,7 @@
      "line_start": 278,
      "line_end": 299,
      "decl_line": 286,
-     "docstring": "**Theorem R (reciprocity).** For `n > 0` and every factorization type `σ`:\nthe universal monic density is the root-law coefficient with `q ↦ 1/q` substituted,\n`A_{n,σ}(q) = B_{n,σ}(1/q)` (where `B_{n,σ}` is the coefficient of `σ` in the root law\n`rootLaw n`), and the universal projective density is self-reciprocal,\n`R_{n,σ}(1/q) = R_{n,σ}(q)`; both as identities of rational functions in `q`.\n\nThe certified form also assumed `ValidType σ` and `typeDegree σ = n`, which the proof does not use.\nThe hypothesis `0 < n` is used (`rootLaw 0` is defined separately).",
+     "docstring": "**Theorem 1.2 (reciprocity).** For `n > 0` and every factorization type `σ`:\nthe universal monic density is the root-law coefficient with `q ↦ 1/q` substituted,\n`A_{n,σ}(q) = B_{n,σ}(1/q)` (where `B_{n,σ}` is the coefficient of `σ` in the root law\n`rootLaw n`), and the universal projective density is self-reciprocal,\n`R_{n,σ}(1/q) = R_{n,σ}(q)`; both as identities of rational functions in `q`.\n\nThe certified form also assumed `ValidType σ` and `typeDegree σ = n`, which the proof does not use.\nThe hypothesis `0 < n` is used (`rootLaw 0` is defined separately).",
      "statement": "theorem recip_main (n : ℕ) (hn : 0 < n) (σ : FactorType) :\n    (monicExpr n σ).rational =\n      ((lawCoeff (rootLaw n) σ).subst (.inv .var)).rational ∧\n    (projectiveExpr n σ).rational =\n      ((projectiveExpr n σ).subst (.inv .var)).rational",
      "section_variables": "",
      "prove2me": [
@@ -8772,6 +8940,12 @@
     "label": "Example 9.4"
    }
   ],
+  "SurfaceBlowup.Tests.main_dvr_padicInt": [
+   {
+    "id": "thm-1.1",
+    "label": "Theorem 1.1"
+   }
+  ],
   "SurfaceBlowup.Tests.main_dvr_powerSeries": [
    {
     "id": "thm-1.1",
@@ -8782,6 +8956,12 @@
    {
     "id": "ex-10.4",
     "label": "Example 10.4"
+   }
+  ],
+  "SurfaceBlowup.Tests.monicDensity_padicInt_two_ramified": [
+   {
+    "id": "eq-1.1",
+    "label": "(1.3)"
    }
   ],
   "SurfaceBlowup.Tests.monicDensity_powerSeries_zmod_two_four_totally_ramified": [
@@ -8872,6 +9052,12 @@
    {
     "id": "ex-7.3",
     "label": "Example 7.3"
+   }
+  ],
+  "SurfaceBlowup.Tests.universal_type_laws_padicInt": [
+   {
+    "id": "thm-1.1",
+    "label": "Theorem 1.1"
    }
   ],
   "SurfaceBlowup.ValidType": [
@@ -9030,6 +9216,18 @@
     "label": "Theorem 1.1"
    }
   ],
+  "SurfaceBlowup.clusterExpr_eval_nonneg": [
+   {
+    "id": "thm-1.1",
+    "label": "Theorem 1.1"
+   }
+  ],
+  "SurfaceBlowup.clusterExpr_subst_inv_rational": [
+   {
+    "id": "thm-1.2",
+    "label": "Theorem 1.2"
+   }
+  ],
   "SurfaceBlowup.clusterSer": [
    {
     "id": "eq-7.5",
@@ -9043,6 +9241,12 @@
    }
   ],
   "SurfaceBlowup.cluster_formula_regular": [
+   {
+    "id": "thm-1.1",
+    "label": "Theorem 1.1"
+   }
+  ],
+  "SurfaceBlowup.cluster_rational_eval": [
    {
     "id": "thm-1.1",
     "label": "Theorem 1.1"
@@ -9670,6 +9874,12 @@
     "label": "(1.5)"
    }
   ],
+  "SurfaceBlowup.monicExpr_eval_nonneg": [
+   {
+    "id": "thm-1.1",
+    "label": "Theorem 1.1"
+   }
+  ],
   "SurfaceBlowup.monicPolynomial": [
    {
     "id": "def-monic-model",
@@ -9854,6 +10064,12 @@
     "label": "(1.5)"
    }
   ],
+  "SurfaceBlowup.projectiveExpr_eval_nonneg": [
+   {
+    "id": "thm-1.1",
+    "label": "Theorem 1.1"
+   }
+  ],
   "SurfaceBlowup.projectiveNormalizer": [
    {
     "id": "lem-7.1",
@@ -10018,6 +10234,24 @@
    {
     "id": "cor-10.3",
     "label": "Corollary 10.3"
+   }
+  ],
+  "SurfaceBlowup.recip_main_all_degrees": [
+   {
+    "id": "thm-1.2",
+    "label": "Theorem 1.2"
+   }
+  ],
+  "SurfaceBlowup.reciprocity_recipRat": [
+   {
+    "id": "thm-1.2",
+    "label": "Theorem 1.2"
+   }
+  ],
+  "SurfaceBlowup.reciprocity_ringHom": [
+   {
+    "id": "thm-1.2",
+    "label": "Theorem 1.2"
    }
   ],
   "SurfaceBlowup.recursion_crossing_law": [
@@ -10288,6 +10522,12 @@
    {
     "id": "thm-6.2",
     "label": "Theorem 6.2"
+   }
+  ],
+  "SurfaceBlowup.universal_type_laws": [
+   {
+    "id": "thm-1.1",
+    "label": "Theorem 1.1"
    }
   ],
   "SurfaceBlowup.unramified_coefficient_measure_pi": [

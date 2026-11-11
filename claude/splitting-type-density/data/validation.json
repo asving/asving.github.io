@@ -1087,5 +1087,41 @@
     "none": 4
    }
   }
+ },
+ "update_2026_11_11": {
+  "note": "Lean v1.2.0 update without the generator. The fields above are the generator's checks of 2026-10-17 and were not re-run (no KaTeX or browser self-test). Re-checked for this update: internal links, and byte-for-byte reproduction of the 2026-10-17 pages from the v1.1.0 sources by the reconstructed page logic.",
+  "lean_commit": "27886a3",
+  "links": {
+   "pages": 87,
+   "internal_links_checked": 86036,
+   "broken": 0,
+   "external_links": 975
+  },
+  "stats": {
+   "total": 82,
+   "with_lean_counterpart": 70,
+   "exact": 35,
+   "partial": 35,
+   "not_formalized": 12,
+   "by_relation": {
+    "exact": 17,
+    "definition": 18,
+    "specialization": 8,
+    "covered": 25,
+    "check": 2,
+    "none": 12
+   },
+   "labelled_statements": {
+    "total": 32,
+    "by_relation": {
+     "exact": 8,
+     "definition": 0,
+     "specialization": 7,
+     "covered": 12,
+     "check": 1,
+     "none": 4
+    }
+   }
+  }
  }
 }
