@@ -1,6 +1,6 @@
 {
 "generated": "2026-10-17T05:51:58.680371Z",
-"note": "Snapshot of the Prove2Me catalog + upload state named in data/config.json",
+"note": "Snapshot of the Prove2Me catalog and upload state, taken by the original generator on 2026-10-17. Those two files no longer exist. The nodes marked \"added\" were appended on 2026-11-11.",
 "nodes": {
 "D001": {
 "id": "D001",
