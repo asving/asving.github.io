@@ -24,7 +24,7 @@ statements are, what a reader has to audit to trust them, which certificates exi
 
 <h2 id="main">1. The four main theorems</h2>
 <p>All four depend only on the axioms <code>propext</code>, <code>Classical.choice</code>, <code>Quot.sound</code>
-(<code>#print axioms</code>, re-run by <code>tools/release_check.sh</code>; log below). The codebase contains no <code>sorry</code>,
+(<code>#print axioms</code>, re-run by <code>tools/release_check_local.sh</code>; log below). The codebase contains no <code>sorry</code>,
 <code>admit</code>, <code>axiom</code> or <code>native_decide</code>.</p>
 <div class="main-thm"><p><a href="lean/SurfaceBlowup/Main.html#L31-L51"><code>main_dvr</code></a> — SurfaceBlowup/Main.lean:31–51</p><pre class="lean"><span class="kw">theorem</span> <span class="dn">main_dvr</span> (O : <span class="sort">Type</span>) [CommRing O] [IsDomain O]
     [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
@@ -144,7 +144,8 @@ together determine the density.</p>
 rational expressions <code>Expr</code>, laws, recursion states and tangent patterns, the weights, the recursion
 <code>stateLaw</code>, the universal expressions <code>monicExpr</code>/<code>projectiveExpr</code>, and the densities
 <code>monicDensity</code>/<code>projectiveDensity</code>. These are, constant for constant, the definitions published as
-Prove2Me nodes N001–N010 (namespace <code>SurfaceBlowupV2</code>), checked at kernel level by <code>Checks/run_checks.sh</code>.</li>
+Prove2Me nodes N001–N010 (namespace <code>SurfaceBlowupV2</code>). <code>Checks/run_checks.sh</code> checked this at kernel level for
+v1.0.0.</li>
 <li>The statements of the four theorems above (in <code>Main.lean</code> and <code>Reciprocity/Main.lean</code>).</li>
 </ol>
 <p>Every other file contains only proofs and auxiliary definitions that do not occur in these statements.</p>
@@ -156,8 +157,10 @@ definitions above and Mathlib's <code>RatFunc.eval</code>. <code>reciprocity_rec
 endomorphism <code>q ↦ q⁻¹</code> defined in <code>Reciprocity/Defs.lean</code>. <code>reciprocity_ringHom</code> avoids it.</p>
 <p><strong>Relation to the certified statements.</strong> The published statements of <code>main_dvr</code>,
 <code>main_field_form</code> and <code>recip_main</code> are the certified ones with their unused hypotheses on <code>n</code> and
-<code>σ</code> removed, so each implies its certified form. <code>Checks/run_checks.sh</code> checks this in implication form. The
-statements use only the definitions of <code>Basic.lean</code>.</p>
+<code>σ</code> removed, so each implies its certified form. <code>Checks/run_checks.sh</code> checked this in the kernel, in
+implication form. It passed for v1.0.0, as the note in the <a href="certificates/release_check.html">v1.1 release log</a> records. The
+certified trees no longer exist, so the check cannot be repeated. Since v1.0.0 each release is checked against the one before it.
+Section 3 lists those checks. The statements use only the definitions of <code>Basic.lean</code>.</p>
 <p><strong>How the proof differs from the paper.</strong> The formal proof follows the paper's architecture (recursion on blow-up
 states, Gaussian measure identity, Hensel assembly, contact algebra for reciprocity) but works on the concrete surfaces
 <code>O⟦T,X⟧/(π − u·T^a·X^b)</code> rather than on all regular surfaces, replaces analytic arguments (analytic normalization,
@@ -168,6 +171,11 @@ bottoms out in Mathlib.</p>
 
 <h2 id="certificates">3. Certificates</h2>
 <ul>
+<li><strong>What a reader can check today.</strong> Clone the
+<a href="https://github.com/asving/splitting-density-rationality" rel="noopener">public repository</a> and run
+<code>tools/release_check_local.sh</code>. The script builds the codebase, checks the axioms of the main theorems, and compares the
+source text of every statement with v1.2. The development is also on Prove2Me as the public tree <code>TypeDensity</code>, where the
+platform verified every theorem. Section 4 describes it. The items below record earlier checks.</li>
 <li><strong>Release check v1.1</strong> (<code>tools/release_check.sh</code>, 2026-10-17). Build: 3475 jobs, 0 warnings. Axioms:
 12 of 12 theorems use only the three axioms. Forbidden tokens: none. The statement-preservation step reports
 <code>FAIL (0/3)</code>. The certified trees' build caches had been deleted, so the step could not run. The note in the log gives the
@@ -213,7 +221,7 @@ definition the whole declaration. Of 2503 statements, 2465 are identical to v1.2
 &#x27;SurfaceBlowup.recip_main_all_degrees&#x27; depends on axioms: [propext, Classical.choice, Quot.sound]</pre>
 
 <h2 id="prove2me">4. Prove2Me</h2>
-<p>The complete development is published on Prove2Me under the namespace TypeDensity (37 definition modules and 1059 theorems, every theorem Proved on the platform, including main_dvr, main_field_form, main_field_form_ramified, recip_main, the v1.1 theorems main_dvr_cluster and main_dvr_etale, and the v1.2 theorems universal_type_laws and reciprocity_ringHom); the tree was made public on 2026-10-17. The 25 theorems added in v1.2 were published there on 2026-11-11, together with one more definition module. The tree is in the platform's environment, Lean v4.33.1 with Mathlib 0df444a, so it corresponds to tag v1.2.0 of the repository. Visibility: <strong>PUBLIC</strong>. Link pattern used on this site: <code>https://prove2.me/theorems/{theorem_id}</code>. These public pages open without a login (last checked 2026-11-11). The unified codebase was obtained from those trees by merging along the
+<p>The complete development is published on Prove2Me under the namespace TypeDensity (37 definition modules and 1059 theorems, every theorem Proved on the platform, including main_dvr, main_field_form, main_field_form_ramified, recip_main, the v1.1 theorems main_dvr_cluster and main_dvr_etale, and the v1.2 theorems universal_type_laws and reciprocity_ringHom); the tree was made public on 2026-10-17. The 25 theorems added in v1.2 were published there on 2026-11-11, together with one more definition module. The tree is in the platform's environment, Lean v4.33.1 with Mathlib 0df444a, so it corresponds to tag v1.2.0 of the repository. Visibility: <strong>PUBLIC</strong>. Link pattern used on this site: <code>https://prove2.me/theorems/{theorem_id}</code>. These public pages open without a login (last checked 2026-11-11). The platform also exports its public trees as Lean files to a repository, <a class="ext" href="https://github.com/prove2me/formalpedia" rel="noopener">github.com/prove2me/formalpedia</a>. The export is a snapshot and lags behind the platform. On 2026-11-11 it did not yet hold the v1.2 theorems. The unified codebase was obtained from those trees by merging along the
 usage DAG and three golfing cycles; declarations are matched to Prove2Me nodes by name and a curated alias table.</p>
 
 <h2 id="coverage">5. How much of the paper is formalized</h2>
@@ -242,8 +250,7 @@ paper); browsable reverse index: <a href="lean/decls.html">declaration index</a>
   <div class="fwrap">
     <p class="attribution"><strong>Claude (Anthropic) · GPT-6-Astra (OpenAI) <span class="directed-by">· directed by Asvin G</span></strong></p>
     <div class="howmade"><h2>How this was made</h2><p>This paper and its formalization were made in October 2026 under the direction of Asvin G, who posed the problem, set the standards, and verified the main statements. GPT-6 Astra (OpenAI) wrote the informal proof of the type laws and of the reciprocity theorem, the Lean blueprint, and the text of the paper; Claude Fable 5.1 (Anthropic) orchestrated the work, ran the fresh-context adversarial reviews and revision rounds, and built this site. The Lean 4 proofs were produced from the blueprint by a fleet of Claude agents on the Prove2Me platform against a pinned Mathlib, then unified and golfed into the single codebase shown here; every main theorem was checked for axioms (propositional extensionality, classical choice, quotient soundness only) and statement preservation, with the certificates linked on the formalization page. Numerical checks of every displayed law against an independent implementation of the recursion accompany the text.</p></div>
-    <p class="fineprint">Generated by <code>site/build.py</code> on 2026-10-17 from <code>PAPER_v2_narrative.md</code> and the unified Lean codebase
-    (namespace <code>SurfaceBlowup</code>). Mathematics typeset with KaTeX (vendored). Updated on 2026-11-11 for Lean v1.3.0 (commit <code>72431a3</code> of the public repository, Lean <code>v4.35.0</code>). The generator was not available for the updates since 2026-10-17. The Lean pages, the panels and the tables were rebuilt by a reconstruction of it that reproduces the 2026-10-17 pages byte for byte, and the formalization page was corrected by hand. The paper text is unchanged except for one word in Remark 1.3.</p>
+    <p class="fineprint">This site was first generated on 2026-10-17 by a generator that no longer exists. Since 2026-11-11 the scripts in the <code>site/</code> directory of the Lean repository rebuild the Lean pages, the Lean panels and the tables. They reproduce the 2026-10-17 pages byte for byte from the v1.1.0 sources. The paper text is kept in the paper page itself. The Lean sources shown are commit <code>d22e6f5</code> of the public repository, on Lean <code>v4.35.0</code>. Mathematics typeset with KaTeX (vendored).</p>
   </div>
 </footer>
 <script src="./assets/app.js"></script>
