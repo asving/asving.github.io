@@ -1127,7 +1127,7 @@
  },
  "refresh": {
   "note": "Written by site/refresh.py of the Lean repository. The records above this one are older and were not re-run: the checks of the original generator on 2026-10-17 (KaTeX, links, a browser self-test) and the record of the update of 2026-11-11. This record is the check of the internal links of the pages as they are now.",
-  "lean_commit": "d22e6f5",
+  "lean_commit": "e94ccc0",
   "lean_toolchain": "v4.35.0",
   "links": {
    "pages": 89,
