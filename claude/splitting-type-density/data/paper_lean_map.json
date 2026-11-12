@@ -1,10 +1,10 @@
 {
- "generated": "2026-11-12T10:07:11Z",
+ "generated": "2026-11-12T10:13:56Z",
  "about": "Hand-curated correspondence between the numbered statements of the paper (index.html) and the Lean declarations of the unified SurfaceBlowup codebase. site/refresh.py of the Lean repository resolves every Lean name below against the sources (file, line range, docstring, statement, Prove2Me node) and writes data/paper_lean_map.json. Relations: exact = the Lean statement says the same thing (up to encoding); definition = the paper's construction is the Lean definition (and, where listed, the theorem that it means what the paper says); specialization = proved in a special setting (e.g. only on the concrete surfaces O[[T,X]]/(pi - u T^a X^b), or only for a = b = 1); covered = no single Lean statement, the listed declarations jointly establish the content, often in a restructured form; check = only particular instances are machine-checked; none = not formalized (declarations listed, if any, are ingredients only). Confidence is the curator's confidence in the correspondence, not in the mathematics.",
  "sources": {
   "paper": "index.html. The paper text is kept in that page. Its markdown source, PAPER_v2_narrative.md, no longer exists. paper_sha256 in data/paper_lean_map.json is the hash of that source.",
   "paper_sha256": "b3a9eee9c62de88a2f7c0ae800750482d5d98fcedb58bd6fc514742c2fd9d028",
-  "lean_root": "https://github.com/asving/splitting-density-rationality (commit d22e6f5)",
+  "lean_root": "https://github.com/asving/splitting-density-rationality (commit e94ccc0)",
   "lean_files": 75,
   "prove2me_catalog": "data/prove2me_nodes.json"
  },
