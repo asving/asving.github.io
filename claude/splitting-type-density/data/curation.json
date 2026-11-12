@@ -199,6 +199,14 @@
      "rational-function form for every finite K/ℚ_p"
     ],
     [
+     "SurfaceBlowup.main_dvr_adic",
+     "main_dvr for the 𝔪-adic topology and Borel σ-algebra: no topological hypothesis (2026-11-12)"
+    ],
+    [
+     "SurfaceBlowup.main_field_form_ramified_adic",
+     "every finite K/ℚ_p, ramified or not, with no topological hypothesis (2026-11-12)"
+    ],
+    [
      "SurfaceBlowup.global_formula_regular",
      "regularity at prime powers"
     ],
@@ -257,6 +265,10 @@
     [
      "SurfaceBlowup.Tests.universal_type_laws_padicInt",
      "the three laws over ℤ_p (v1.2)"
+    ],
+    [
+     "SurfaceBlowup.Tests.main_field_form_sqrtP",
+     "instance over a ramified base: the integers of ℚ_p(√p) (2026-11-12)"
     ]
    ],
    "prove2me_extra": [

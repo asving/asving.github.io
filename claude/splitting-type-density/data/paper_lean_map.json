@@ -1,11 +1,11 @@
 {
- "generated": "2026-11-12T10:13:56Z",
+ "generated": "2026-11-12T10:56:03Z",
  "about": "Hand-curated correspondence between the numbered statements of the paper (index.html) and the Lean declarations of the unified SurfaceBlowup codebase. site/refresh.py of the Lean repository resolves every Lean name below against the sources (file, line range, docstring, statement, Prove2Me node) and writes data/paper_lean_map.json. Relations: exact = the Lean statement says the same thing (up to encoding); definition = the paper's construction is the Lean definition (and, where listed, the theorem that it means what the paper says); specialization = proved in a special setting (e.g. only on the concrete surfaces O[[T,X]]/(pi - u T^a X^b), or only for a = b = 1); covered = no single Lean statement, the listed declarations jointly establish the content, often in a restructured form; check = only particular instances are machine-checked; none = not formalized (declarations listed, if any, are ingredients only). Confidence is the curator's confidence in the correspondence, not in the mathematics.",
  "sources": {
   "paper": "index.html. The paper text is kept in that page. Its markdown source, PAPER_v2_narrative.md, no longer exists. paper_sha256 in data/paper_lean_map.json is the hash of that source.",
   "paper_sha256": "b3a9eee9c62de88a2f7c0ae800750482d5d98fcedb58bd6fc514742c2fd9d028",
-  "lean_root": "https://github.com/asving/splitting-density-rationality (commit e94ccc0)",
-  "lean_files": 75,
+  "lean_root": "https://github.com/asving/splitting-density-rationality (commit 0965019)",
+  "lean_files": 77,
   "prove2me_catalog": "data/prove2me_nodes.json"
  },
  "prove2me": {
@@ -858,6 +858,34 @@
      ]
     },
     {
+     "name": "SurfaceBlowup.main_dvr_adic",
+     "role": "main_dvr for the 𝔪-adic topology and Borel σ-algebra: no topological hypothesis (2026-11-12)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Corollaries/AdicCompact.lean",
+     "line_start": 119,
+     "line_end": 137,
+     "decl_line": 123,
+     "docstring": "**Main theorem for the `𝔪`-adic topology.** For every complete DVR `O` with finite residue\nfield, give `O` its `𝔪`-adic topology and the Borel σ-algebra. Then the monic and projective type\ndensities are the values at `q = |k|` of `monicExpr n σ` and `projectiveExpr n σ`. No topological\nhypothesis remains.",
+     "statement": "theorem main_dvr_adic (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]\n    [IsAdicComplete (maximalIdeal O) O] [Finite (ResidueField O)] (n : ℕ) (σ : FactorType) :\n    letI := (maximalIdeal O).adicTopology\n    letI : MeasurableSpace O := borel O\n    haveI : BorelSpace O := ⟨rfl⟩\n    haveI := isTopologicalRing_of_isAdic (I := maximalIdeal O) rfl\n    haveI := compactSpace_of_isAdic (O := O) rfl\n    haveI := t2Space_of_isAdic (O := O) rfl\n    haveI := secondCountableTopology_of_isAdic (O := O) rfl\n    monicDensity O n σ = densityValue (monicExpr n σ) (Nat.card (ResidueField O)) ∧\n      projectiveDensity O n σ = densityValue (projectiveExpr n σ) (Nat.card (ResidueField O))",
+     "section_variables": "",
+     "prove2me": []
+    },
+    {
+     "name": "SurfaceBlowup.main_field_form_ramified_adic",
+     "role": "every finite K/ℚ_p, ramified or not, with no topological hypothesis (2026-11-12)",
+     "kind": "theorem",
+     "private": false,
+     "file": "SurfaceBlowup/Corollaries/AdicCompact.lean",
+     "line_start": 139,
+     "line_end": 171,
+     "decl_line": 144,
+     "docstring": "**Field form for every finite `K/ℚ_p`, ramified or not, with no topological hypothesis.** Give\nthe ring of integers `𝒪_K = padicIntegers p K` its `𝔪`-adic topology and Borel σ-algebra. Then the\nmonic and projective type densities over `𝒪_K` are the values at `q = |𝒪_K/𝔪|` of the rational\nfunctions `(monicExpr n σ).rational` and `(projectiveExpr n σ).rational`. This discharges the\ntopological hypotheses of `main_field_form_ramified`.",
+     "statement": "theorem main_field_form_ramified_adic (n : ℕ) (σ : FactorType) (p : ℕ) [Fact p.Prime] (K : Type)\n    [Field K] [Algebra ℚ_[p] K] [Algebra ℤ_[p] K] [IsScalarTower ℤ_[p] ℚ_[p] K]\n    [FiniteDimensional ℚ_[p] K] :\n    letI := padicIntegers_isDVR p K\n    haveI := padicIntegers_maximal_adic_complete p K this\n    haveI := padicIntegers_residueField_finite p K (padicIntegers_isDVR p K)\n    letI := (maximalIdeal (padicIntegers p K)).adicTopology\n    letI : MeasurableSpace (padicIntegers p K) := borel _\n    haveI : BorelSpace (padicIntegers p K) := ⟨rfl⟩\n    haveI := isTopologicalRing_of_isAdic (I := maximalIdeal (padicIntegers p K)) rfl\n    haveI := compactSpace_of_isAdic (O := padicIntegers p K) rfl\n    haveI := t2Space_of_isAdic (O := padicIntegers p K) rfl\n    haveI := secondCountableTopology_of_isAdic (O := padicIntegers p K) rfl\n    monicDensity (padicIntegers p K) n σ = ENNReal.ofReal ((RatFunc.eval (RingHom.id ℚ)\n        (Nat.card (ResidueField (padicIntegers p K)) : ℚ) (monicExpr n σ).rational : ℚ) : ℝ) ∧\n      projectiveDensity (padicIntegers p K) n σ = ENNReal.ofReal ((RatFunc.eval (RingHom.id ℚ)\n        (Nat.card (ResidueField (padicIntegers p K)) : ℚ) (projectiveExpr n σ).rational : ℚ) : ℝ)",
+     "section_variables": "",
+     "prove2me": []
+    },
+    {
      "name": "SurfaceBlowup.global_formula_regular",
      "role": "regularity at prime powers",
      "kind": "theorem",
@@ -1196,6 +1224,20 @@
        "blueprint_source": "Tests/PadicInt.lean#L92-L107"
       }
      ]
+    },
+    {
+     "name": "SurfaceBlowup.Tests.main_field_form_sqrtP",
+     "role": "instance over a ramified base: the integers of ℚ_p(√p) (2026-11-12)",
+     "kind": "theorem",
+     "private": false,
+     "file": "Tests/Ramified.lean",
+     "line_start": 81,
+     "line_end": 101,
+     "decl_line": 84,
+     "docstring": "**Main theorem over `ℤ_p[√p]`.** With the `𝔪`-adic topology and Borel σ-algebra on the ring of\nintegers of the ramified field `ℚ_p(√p)`, the type densities are the values of the universal\nrational functions at the residue cardinality.",
+     "statement": "theorem main_field_form_sqrtP (n : ℕ) (σ : FactorType) :\n    letI := padicIntegers_isDVR p (QpSqrtP p)\n    haveI := padicIntegers_maximal_adic_complete p (QpSqrtP p) this\n    haveI := padicIntegers_residueField_finite p (QpSqrtP p) (padicIntegers_isDVR p (QpSqrtP p))\n    letI := (maximalIdeal (padicIntegers p (QpSqrtP p))).adicTopology\n    letI : MeasurableSpace (padicIntegers p (QpSqrtP p)) := borel _\n    haveI : BorelSpace (padicIntegers p (QpSqrtP p)) := ⟨rfl⟩\n    haveI := isTopologicalRing_of_isAdic (I := maximalIdeal (padicIntegers p (QpSqrtP p))) rfl\n    haveI := compactSpace_of_isAdic (O := padicIntegers p (QpSqrtP p)) rfl\n    haveI := t2Space_of_isAdic (O := padicIntegers p (QpSqrtP p)) rfl\n    haveI := secondCountableTopology_of_isAdic (O := padicIntegers p (QpSqrtP p)) rfl\n    monicDensity (padicIntegers p (QpSqrtP p)) n σ = ENNReal.ofReal ((RatFunc.eval (RingHom.id ℚ)\n        (Nat.card (ResidueField (padicIntegers p (QpSqrtP p))) : ℚ) (monicExpr n σ).rational :\n          ℚ) : ℝ) ∧\n      projectiveDensity (padicIntegers p (QpSqrtP p)) n σ = ENNReal.ofReal ((RatFunc.eval\n        (RingHom.id ℚ) (Nat.card (ResidueField (padicIntegers p (QpSqrtP p))) : ℚ)\n          (projectiveExpr n σ).rational : ℚ) : ℝ)",
+     "section_variables": "variable (p : ℕ) [hp : Fact p.Prime]",
+     "prove2me": []
     }
    ],
    "prove2me_statement_nodes": []
@@ -9072,6 +9114,12 @@
     "label": "Theorem 1.1"
    }
   ],
+  "SurfaceBlowup.Tests.main_field_form_sqrtP": [
+   {
+    "id": "thm-1.1",
+    "label": "Theorem 1.1"
+   }
+  ],
   "SurfaceBlowup.Tests.monicDensity_four_totally_ramified_of_card_eq_two": [
    {
     "id": "ex-10.4",
@@ -9896,6 +9944,12 @@
     "label": "Remark 1.3"
    }
   ],
+  "SurfaceBlowup.main_dvr_adic": [
+   {
+    "id": "thm-1.1",
+    "label": "Theorem 1.1"
+   }
+  ],
   "SurfaceBlowup.main_dvr_cluster": [
    {
     "id": "thm-1.1",
@@ -9923,6 +9977,12 @@
    }
   ],
   "SurfaceBlowup.main_field_form_ramified": [
+   {
+    "id": "thm-1.1",
+    "label": "Theorem 1.1"
+   }
+  ],
+  "SurfaceBlowup.main_field_form_ramified_adic": [
    {
     "id": "thm-1.1",
     "label": "Theorem 1.1"

@@ -1,7 +1,7 @@
 {
   "paper": "index.html. The paper text is kept in that page. Its markdown source, PAPER_v2_narrative.md, no longer exists. paper_sha256 in data/paper_lean_map.json is the hash of that source.",
   "lean_root": "https://github.com/asving/splitting-density-rationality",
-  "lean_commit": "e94ccc0",
+  "lean_commit": "0965019",
   "lean_dirs": [
     "SurfaceBlowup",
     "Tests"
